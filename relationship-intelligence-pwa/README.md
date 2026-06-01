@@ -1,3 +1,3 @@
-# Relationship Intelligence PWA Beta v0.2
+# Relationship Intelligence PWA Beta v0.3
 
-Adds radar chart, Peace Index, evidence vs interpretation, and AI-style interpretation.
+Adds About Me profile, personalized compatibility scoring, blind spot warnings, and user-vs-profile radar overlay.
