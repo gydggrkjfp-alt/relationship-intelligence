@@ -1,88 +1,37 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Relationship Intelligence</title>
-  <link rel="manifest" href="manifest.json">
-  <link rel="stylesheet" href="styles.css">
-  <meta name="theme-color" content="#815b33">
-</head>
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Relationship Intelligence v0.2</title>
+<link rel="manifest" href="manifest.json"><link rel="stylesheet" href="styles.css">
+<meta name="theme-color" content="#815b33"></head>
 <body>
-<header>
-  <h1>Relationship Intelligence</h1>
-  <div class="sub">Discernment, not judgment. Track peace, respect, warmth, risk, and long-term fit.</div>
-  <div id="status">Loading app…</div>
-</header>
-
+<header><h1>Relationship Intelligence <span>v0.2</span></h1>
+<div class="sub">Discernment, not judgment. Radar chart, Peace Index, and AI-style interpretation.</div>
+<div id="status">Loading app…</div></header>
 <main class="grid">
-  <aside>
-    <h2>Profiles</h2>
-    <button id="newBtn">+ New Profile</button>
-    <button id="exportBtn" class="secondary">Export Backup</button>
-    <label class="small">Import Backup</label>
-    <input type="file" id="importFile" accept="application/json">
-    <div id="profileList"></div>
-    <p class="small">Profiles save automatically in this browser. Export only for backup or moving devices.</p>
-  </aside>
-
-  <section>
-    <h2 id="profileTitle">Profile</h2>
-
-    <label>Name / nickname</label>
-    <input id="name" placeholder="Example: Lissa">
-
-    <label>Relationship type</label>
-    <select id="rtype">
-      <option>Potential romantic partner</option>
-      <option>Friend / social connection</option>
-      <option>Work or professional relationship</option>
-      <option>Family / long-term obligation</option>
-      <option>Unclear / still discerning</option>
-      <option>Do not date / boundaries needed</option>
-    </select>
-
-    <label>Where did you meet?</label>
-    <select id="met">
-      <option>Dating app</option>
-      <option>Soccer</option>
-      <option>Dog park</option>
-      <option>Friends introduced us</option>
-      <option>Church / faith group</option>
-      <option>Work</option>
-      <option>Gym / fitness</option>
-      <option>Volunteering</option>
-      <option>Neighborhood / local community</option>
-      <option>Other</option>
-    </select>
-
-    <label>First impression / context</label>
-    <textarea id="impression" placeholder="Write observations, not verdicts. Example: attractive, local, older, some chaotic signals, unsure intellectual connection."></textarea>
-
-    <div class="guide"><b>Input rule:</b> concrete observations beat verdicts. “I felt calm after talking” is more useful than “she is good.” “She unloaded heavy trauma early and I felt overwhelmed” is more useful than “she is bad.”</div>
-
-    <h3>3. Core green-flag sliders</h3>
-    <div id="greenSliders"></div>
-
-    <h3>4. Risk / caution sliders</h3>
-    <div id="riskSliders"></div>
-
-    <label>Interaction notes</label>
-    <textarea id="notes" placeholder="What happened? How did you feel before, during, and after? Did your body feel calm, excited, anxious, or depleted?"></textarea>
-
-    <h3>Score and readout</h3>
-    <div class="meter"><div id="meterFill"></div></div>
-    <div id="readout" class="readout">Start entering observations.</div>
-
-    <h3>Guidance</h3>
-    <div id="guidance"></div>
-  </section>
-</main>
-
-<footer>
-  Private local-first beta. Not therapy, diagnosis, or a command engine. It helps organize observations.
-</footer>
-
-<script src="app.js"></script>
-</body>
-</html>
+<aside><h2>Profiles</h2><button id="newBtn">+ New Profile</button><button id="exportBtn" class="secondary">Export Backup</button>
+<label class="small">Import Backup</label><input type="file" id="importFile" accept="application/json">
+<div id="profileList"></div><p class="small">Autosaves in this browser.</p></aside>
+<section>
+<h2 id="profileTitle">Profile</h2>
+<label>Name / nickname</label><input id="name" placeholder="Example: Lissa">
+<label>Relationship type</label><select id="rtype">
+<option>Romantic prospect</option><option>Active dating</option><option>Friend / social connection</option>
+<option>Work or professional relationship</option><option>Family / long-term obligation</option>
+<option>Unclear / still discerning</option><option>Do not date / boundaries needed</option></select>
+<label>Where did you meet?</label><select id="met">
+<option>Dating app</option><option>Soccer</option><option>Dog park</option><option>Friends introduced us</option>
+<option>Church / faith group</option><option>Work</option><option>Gym / fitness</option><option>Volunteering</option>
+<option>Neighborhood / local community</option><option>Other</option></select>
+<label>First impression / context</label><textarea id="impression" placeholder="Write observations, not verdicts."></textarea>
+<div class="guide"><b>Input rule:</b> concrete observations beat verdicts. Separate evidence from interpretation.</div>
+<h3>Core signal sliders</h3><div id="greenSliders"></div>
+<h3>Risk / caution sliders</h3><div id="riskSliders"></div>
+<label>Evidence observed</label><textarea id="evidence" placeholder="Facts only. Example: asked me questions; mentioned roommate drama; seemed kind to teammates."></textarea>
+<label>Interpretation / hypothesis</label><textarea id="interpretation" placeholder="Your read. Example: high attraction but peace is uncertain."></textarea>
+<label>Interaction notes</label><textarea id="notes" placeholder="What happened? How did you feel before, during, and after?"></textarea>
+<h3>Radar chart</h3><div class="chartWrap"><canvas id="radar" width="420" height="420"></canvas></div>
+<h3>Peace Index</h3><div class="bigMetric"><div><div class="metricLabel">Peace Index</div><div id="peaceIndex" class="metricNumber">0</div></div><div id="peacePhrase" class="metricText">Start entering observations.</div></div>
+<h3>Score and readout</h3><div class="meter"><div id="meterFill"></div></div><div id="readout" class="readout">Start entering observations.</div>
+<h3>AI-style interpretation</h3><div id="aiInterpretation" class="analysisBox"></div>
+<h3>Guidance</h3><div id="guidance"></div>
+</section></main><footer>Private local-first beta. Not therapy or diagnosis.</footer><script src="app.js"></script></body></html>
