@@ -1,3 +1,3 @@
-# Relationship Intelligence PWA Beta v0.5
+# Relationship Intelligence PWA Beta v0.6
 
-Fixes Peace Index/radar update issues and adds Respect Index, hesitation analysis, and Peace x Respect matrix.
+Adds radar legend labels and interaction timeline snapshots for Peace, Respect, and Personalized Compatibility.
