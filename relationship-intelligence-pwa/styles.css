@@ -24,3 +24,4 @@ button.profile.active{background:var(--accent2);border-color:var(--accent)}.smal
 .analysisBox{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px}.analysisBox p{margin:0 0 10px}.analysisBox p:last-child{margin-bottom:0}
 .warning{background:#fff3d8;border-left:4px solid #c98716;padding:10px;border-radius:10px;margin:8px 0}.dangerWarn{background:#fae5e2;border-left-color:#9e3b31}
 .hidden{display:none}footer{padding:30px 16px;color:var(--muted);font-size:12px;text-align:center}
+.scaleLabels{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:2px}.goodSide{font-weight:700}.riskSide{font-weight:700;color:#8d3d34}
