@@ -1,18 +1,46 @@
 <!doctype html><html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Relationship Intelligence v0.7</title>
+<title>Relationship Intelligence v0.8</title>
 <link rel="manifest" href="manifest.json"><link rel="stylesheet" href="styles.css">
 <meta name="theme-color" content="#815b33"></head>
 <body>
-<header><h1>Relationship Intelligence <span>v0.7</span></h1>
-<div class="sub">Human relationship discernment: understand the person, your needs, and the best interaction strategy.</div>
+<header><h1>Relationship Intelligence <span>v0.8</span></h1>
+<div class="sub">Relationship cards, quick updates, and emotional-state-aware discernment.</div>
 <div id="status">Loading app…</div></header>
-<nav class="tabs"><button id="tabPerson" class="tab active">Person Profile</button><button id="tabMe" class="tab">About Me</button></nav>
+<nav class="tabs"><button id="tabCards" class="tab active">Cards</button><button id="tabPerson" class="tab">Card Detail</button><button id="tabMe" class="tab">About Me</button></nav>
 
-<main class="grid" id="personView">
+<main id="cardsView" class="single">
+<section>
+<h2>Relationship Cards</h2>
+<div class="guide"><b>Use this screen first.</b> Cards are people/dynamics in your life. Use quick updates after emotional events; use Card Detail when you want a deeper audit.</div>
+<div class="filterRow">
+  <button class="filter active" data-filter="All">All</button>
+  <button class="filter" data-filter="Romantic">Romantic</button>
+  <button class="filter" data-filter="Friend">Friends</button>
+  <button class="filter" data-filter="Work">Work</button>
+  <button class="filter" data-filter="Family">Family</button>
+  <button class="filter" data-filter="Boundary">Boundaries</button>
+</div>
+<div id="cardsGrid" class="cardsGrid"></div>
+</section>
+</main>
+<main class="grid hidden" id="personView">
 <aside><h2>Profiles</h2><button id="newBtn">+ New Profile</button><button id="exportBtn" class="secondary">Export Backup</button>
 <label class="small">Import Backup</label><input type="file" id="importFile" accept="application/json"><div id="profileList"></div><p class="small">Autosaves in this browser.</p></aside>
 <section><h2 id="profileTitle">Profile</h2><div id="avatarCard" class="avatarCard"></div>
+<div class="quickPanel">
+<h3>Quick Update</h3>
+<div class="guide"><b>State check:</b> Are you updating this while emotionally activated? If yes, save a quick snapshot, but avoid major conclusions until you are calm.</div>
+<label>Current emotional state</label>
+<select id="emotionalState"><option>Calm / reflective</option><option>Activated / angry</option><option>Anxious / uncertain</option><option>Lonely / craving connection</option><option>Excited / idealizing</option><option>Hurt / rejected</option></select>
+<label>Quick event note</label><textarea id="quickNote" placeholder="What happened in one or two sentences?"></textarea>
+<div class="quickSliders">
+<label>Quick Peace <span id="quickPeaceVal">5</span></label><input id="quickPeace" type="range" min="0" max="10" value="5">
+<label>Quick Respect <span id="quickRespectVal">5</span></label><input id="quickRespect" type="range" min="0" max="10" value="5">
+<label>Quick Emotional Cost <span id="quickCostVal">5</span></label><input id="quickCost" type="range" min="0" max="10" value="5">
+</div>
+<button id="quickSnapshotBtn" type="button">Save Quick Update</button>
+</div>
 <label>Name / nickname</label><input id="name" placeholder="Example: Lissa">
 <label>Relationship type</label><select id="rtype"><option>Romantic prospect</option><option>Active dating</option><option>Friend / social connection</option><option>Coworker / professional peer</option><option>Boss / authority figure</option><option>Family / long-term obligation</option><option>Roommate / housemate</option><option>Team / sports / social group</option><option>Boundary-only relationship</option><option>Unclear / still discerning</option><option>Do not date / boundaries needed</option></select>
 <label>Where did you meet?</label><select id="met"><option>Dating app</option><option>Soccer</option><option>Dog park</option><option>Friends introduced us</option><option>Church / faith group</option><option>Work</option><option>Gym / fitness</option><option>Volunteering</option><option>Neighborhood / local community</option><option>Other</option></select>

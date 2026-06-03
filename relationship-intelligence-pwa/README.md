@@ -1,8 +1,8 @@
-# Relationship Intelligence PWA Beta v0.7
+# Relationship Intelligence PWA Beta v0.8
 
-Adds Interaction Strategy Engine:
-- broader relationship types
-- desired outcome selector
-- strategy recommendations
-- abstract interaction avatar/card
-- keeps dating workflow intact
+Adds:
+- Cards dashboard
+- Category filters
+- Quick Update workflow
+- Emotional state check
+- Card terminology / broader human relationship framing
