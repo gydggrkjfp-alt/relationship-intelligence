@@ -1,21 +1,22 @@
 <!doctype html><html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Relationship Intelligence v0.6</title>
+<title>Relationship Intelligence v0.7</title>
 <link rel="manifest" href="manifest.json"><link rel="stylesheet" href="styles.css">
 <meta name="theme-color" content="#815b33"></head>
 <body>
-<header><h1>Relationship Intelligence <span>v0.6</span></h1>
-<div class="sub">Peace + Respect + timeline snapshots for relationship discernment.</div>
+<header><h1>Relationship Intelligence <span>v0.7</span></h1>
+<div class="sub">Human relationship discernment: understand the person, your needs, and the best interaction strategy.</div>
 <div id="status">Loading app…</div></header>
 <nav class="tabs"><button id="tabPerson" class="tab active">Person Profile</button><button id="tabMe" class="tab">About Me</button></nav>
 
 <main class="grid" id="personView">
 <aside><h2>Profiles</h2><button id="newBtn">+ New Profile</button><button id="exportBtn" class="secondary">Export Backup</button>
 <label class="small">Import Backup</label><input type="file" id="importFile" accept="application/json"><div id="profileList"></div><p class="small">Autosaves in this browser.</p></aside>
-<section><h2 id="profileTitle">Profile</h2>
+<section><h2 id="profileTitle">Profile</h2><div id="avatarCard" class="avatarCard"></div>
 <label>Name / nickname</label><input id="name" placeholder="Example: Lissa">
-<label>Relationship type</label><select id="rtype"><option>Romantic prospect</option><option>Active dating</option><option>Friend / social connection</option><option>Work or professional relationship</option><option>Family / long-term obligation</option><option>Unclear / still discerning</option><option>Do not date / boundaries needed</option></select>
+<label>Relationship type</label><select id="rtype"><option>Romantic prospect</option><option>Active dating</option><option>Friend / social connection</option><option>Coworker / professional peer</option><option>Boss / authority figure</option><option>Family / long-term obligation</option><option>Roommate / housemate</option><option>Team / sports / social group</option><option>Boundary-only relationship</option><option>Unclear / still discerning</option><option>Do not date / boundaries needed</option></select>
 <label>Where did you meet?</label><select id="met"><option>Dating app</option><option>Soccer</option><option>Dog park</option><option>Friends introduced us</option><option>Church / faith group</option><option>Work</option><option>Gym / fitness</option><option>Volunteering</option><option>Neighborhood / local community</option><option>Other</option></select>
+<label>Desired outcome</label><select id="desiredOutcome"><option>Romance / long-term partnership</option><option>Explore slowly</option><option>Casual friendship</option><option>Deep friendship</option><option>Professional cooperation</option><option>Peaceful family coexistence</option><option>Boundary management</option><option>Reduce exposure</option><option>Repair / reconciliation</option><option>Shared activity only</option><option>Networking / community</option><option>Unsure</option></select>
 <label>Occupation / social world notes</label><textarea id="socialNotes" placeholder="Optional. What social world is she in? Who are her close friends? What does that group reward?"></textarea>
 <label>First impression / context</label><textarea id="impression" placeholder="Write observations, not verdicts."></textarea>
 <div class="guide"><b>Slider rule:</b> left is less of the label, right is more. For green signals, right is usually better. For risk signals, right is more concerning.</div>
@@ -43,6 +44,7 @@
 <button id="addSnapshotBtn" type="button">+ Add Snapshot</button>
 <div id="timelineChart" class="timelineChart"></div>
 <div id="timelineList" class="timelineList"></div>
+<h3>Interaction Strategy</h3><div id="strategyOutput" class="strategyBox"></div>
 <h3>Social environment readout</h3><div id="socialReadout" class="analysisBox"></div>
 <h3>Personalized compatibility</h3><div class="meter"><div id="meterFill"></div></div><div id="readout" class="readout">Start entering observations.</div>
 <h3>Bias / blind spot warnings</h3><div id="biasWarnings"></div>

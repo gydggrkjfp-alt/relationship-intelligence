@@ -1,3 +1,8 @@
-# Relationship Intelligence PWA Beta v0.6
+# Relationship Intelligence PWA Beta v0.7
 
-Adds radar legend labels and interaction timeline snapshots for Peace, Respect, and Personalized Compatibility.
+Adds Interaction Strategy Engine:
+- broader relationship types
+- desired outcome selector
+- strategy recommendations
+- abstract interaction avatar/card
+- keeps dating workflow intact
