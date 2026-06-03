@@ -1,8 +1,9 @@
-# Relationship Intelligence PWA Beta v0.8
+# Relationship Intelligence PWA Beta v0.9
 
 Adds:
-- Cards dashboard
-- Category filters
-- Quick Update workflow
-- Emotional state check
-- Card terminology / broader human relationship framing
+- Category-specific quality sliders
+- Evidence vs Story analysis
+- Trend intelligence
+- Relationship energy accounting
+- Archetype detection
+- Forecasting

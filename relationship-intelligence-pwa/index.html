@@ -1,11 +1,11 @@
 <!doctype html><html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Relationship Intelligence v0.8</title>
+<title>Relationship Intelligence v0.9</title>
 <link rel="manifest" href="manifest.json"><link rel="stylesheet" href="styles.css">
 <meta name="theme-color" content="#815b33"></head>
 <body>
-<header><h1>Relationship Intelligence <span>v0.8</span></h1>
-<div class="sub">Relationship cards, quick updates, and emotional-state-aware discernment.</div>
+<header><h1>Relationship Intelligence <span>v0.9</span></h1>
+<div class="sub">Category-aware cards with evidence, story, energy, archetype, and forecast intelligence.</div>
 <div id="status">Loading app…</div></header>
 <nav class="tabs"><button id="tabCards" class="tab active">Cards</button><button id="tabPerson" class="tab">Card Detail</button><button id="tabMe" class="tab">About Me</button></nav>
 
@@ -48,6 +48,10 @@
 <label>Occupation / social world notes</label><textarea id="socialNotes" placeholder="Optional. What social world is she in? Who are her close friends? What does that group reward?"></textarea>
 <label>First impression / context</label><textarea id="impression" placeholder="Write observations, not verdicts."></textarea>
 <div class="guide"><b>Slider rule:</b> left is less of the label, right is more. For green signals, right is usually better. For risk signals, right is more concerning.</div>
+<h3>Category-specific qualities</h3>
+<div class="guide"><b>Adaptive section:</b> these questions change based on card type. A romantic prospect is not evaluated the same way as a boss, friend, family member, or boundary-only person.</div>
+<div id="categorySliders"></div>
+
 
 <h3>Core signal sliders</h3><div id="greenSliders"></div>
 <h3>Risk / caution sliders</h3><div id="riskSliders"></div>
@@ -72,6 +76,10 @@
 <button id="addSnapshotBtn" type="button">+ Add Snapshot</button>
 <div id="timelineChart" class="timelineChart"></div>
 <div id="timelineList" class="timelineList"></div>
+<h3>Evidence vs Story Analysis</h3><div id="evidenceStoryOutput" class="analysisBox"></div>
+<h3>Trend Intelligence</h3><div id="trendOutput" class="analysisBox"></div>
+<h3>Energy Accounting</h3><div id="energyOutput" class="analysisBox"></div>
+<h3>Archetype & Forecast</h3><div id="archetypeOutput" class="analysisBox"></div>
 <h3>Interaction Strategy</h3><div id="strategyOutput" class="strategyBox"></div>
 <h3>Social environment readout</h3><div id="socialReadout" class="analysisBox"></div>
 <h3>Personalized compatibility</h3><div class="meter"><div id="meterFill"></div></div><div id="readout" class="readout">Start entering observations.</div>
