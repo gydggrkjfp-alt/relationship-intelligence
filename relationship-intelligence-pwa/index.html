@@ -1,13 +1,13 @@
 <!doctype html><html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Relationship Intelligence v0.9.2</title>
+<title>Relationship Intelligence v1.0</title>
 <link rel="manifest" href="manifest.json"><link rel="stylesheet" href="styles.css">
 <meta name="theme-color" content="#815b33"></head>
 <body>
-<header><h1>Relationship Intelligence <span>v0.9.2</span></h1>
-<div class="sub">v0.9.2 fixed build: category-aware cards, evidence vs story, energy, archetype, and forecast.</div>
+<header><h1>Relationship Intelligence <span>v1.0</span></h1>
+<div class="sub">Relationship ecosystem mapping with quick cards and relational nutrient analysis.</div>
 <div id="status">Loading app…</div></header>
-<nav class="tabs"><button id="tabCards" class="tab active">Cards</button><button id="tabPerson" class="tab">Card Detail</button><button id="tabMe" class="tab">About Me</button></nav>
+<nav class="tabs"><button id="tabCards" class="tab active">Cards</button><button id="tabEcosystem" class="tab">Ecosystem</button><button id="tabPerson" class="tab">Card Detail</button><button id="tabMe" class="tab">About Me</button></nav>
 
 <main id="cardsView" class="single">
 <section>
@@ -21,7 +21,40 @@
   <button class="filter" data-filter="Family">Family</button>
   <button class="filter" data-filter="Boundary">Boundaries</button>
 </div>
+
+<div class="quickAdd">
+<h3>Quick Card</h3>
+<div class="guide"><b>Fast entry:</b> use this for people who do not need a full audit yet.</div>
+<div class="quickGrid">
+<label>Name<input id="quickName" placeholder="Example: Mike"></label>
+<label>Category<select id="quickCategory"><option>Friend</option><option>Family</option><option>Romantic</option><option>Work</option><option>Mentor</option><option>Activity / teammate</option><option>Boundary</option><option>Other</option></select></label>
+<label>Warmth <span id="qcWarmthVal">5</span><input id="qcWarmth" type="range" min="0" max="10" value="5"></label>
+<label>Respect <span id="qcRespectVal">5</span><input id="qcRespect" type="range" min="0" max="10" value="5"></label>
+<label>Trust <span id="qcTrustVal">5</span><input id="qcTrust" type="range" min="0" max="10" value="5"></label>
+<label>Energy <span id="qcEnergyVal">0</span><input id="qcEnergy" type="range" min="-10" max="10" value="0"></label>
+<label>Frequency<select id="quickFrequency"><option>Daily</option><option>Weekly</option><option>Monthly</option><option>Rarely</option></select></label>
+<label>Primary nutrient<select id="quickNutrient"><option>Warmth</option><option>Respect</option><option>Appreciation</option><option>Understanding</option><option>Fun</option><option>Mentorship</option><option>Accountability</option><option>Stability</option><option>Shared activity</option><option>Challenge</option></select></label>
+</div>
+<label>Quick note</label><textarea id="quickCardNote" placeholder="Optional. What does this person add or cost?"></textarea>
+<button id="addQuickCardBtn" type="button">+ Add Quick Card</button>
+</div>
 <div id="cardsGrid" class="cardsGrid"></div>
+</section>
+</main>
+
+<main id="ecosystemView" class="single hidden">
+<section>
+<h2>Ecosystem Map</h2>
+<div class="guide"><b>Goal:</b> map whether your circle supplies enough warmth, respect, appreciation, understanding, fun, mentorship, stability, accountability, and challenge.</div>
+<div id="ecosystemSummary" class="analysisBox"></div>
+<h3>Relationship constellation</h3>
+<div class="constellationWrap"><canvas id="ecosystemCanvas" width="760" height="520"></canvas></div>
+<h3>Relational nutrients</h3>
+<div id="nutrientBars" class="nutrientBars"></div>
+<h3>Deficiencies and supplement suggestions</h3>
+<div id="deficiencyOutput" class="analysisBox"></div>
+<h3>Relationship cultivation suggestions</h3>
+<div id="cultivationOutput" class="analysisBox"></div>
 </section>
 </main>
 <main class="grid hidden" id="personView">
@@ -48,19 +81,14 @@
 <label>Occupation / social world notes</label><textarea id="socialNotes" placeholder="Optional. What social world is she in? Who are her close friends? What does that group reward?"></textarea>
 <label>First impression / context</label><textarea id="impression" placeholder="Write observations, not verdicts."></textarea>
 <div class="guide"><b>Slider rule:</b> left is less of the label, right is more. For green signals, right is usually better. For risk signals, right is more concerning.</div>
-<h3>Category-specific qualities</h3>
-<div class="guide"><b>Adaptive section:</b> these questions change based on card type. Work, family, friends, boundary, and romantic cards now use different qualities.</div>
-<div id="categorySliders"></div>
 
 <h3>Core signal sliders</h3><div id="greenSliders"></div>
 <h3>Risk / caution sliders</h3><div id="riskSliders"></div>
 <h3>Respect Assessment</h3><div id="respectSliders"></div>
 <h3>Social environment sliders</h3><div id="socialSliders"></div>
 
-<label>Evidence observed</label><textarea id="evidence" placeholder="Facts only. What objectively happened?"></textarea>
-<label>Story / interpretation</label><textarea id="story" placeholder="What are you telling yourself this means? What might be projection, fear, hope, or assumption?"></textarea>
+<label>Evidence observed</label><textarea id="evidence" placeholder="Facts only. Example: asked questions; showed up on time; dismissed my opinion; seemed kind to teammates."></textarea>
 <label>Interpretation / hypothesis</label><textarea id="interpretation" placeholder="Your read. Example: high attraction but peace is uncertain."></textarea>
-<h3>Relationship energy accounting</h3><div id="energySliders"></div>
 <label>What makes you hesitate?</label><textarea id="hesitation" placeholder="Example: I worry about intellectual mismatch, instability, unresolved trauma, or whether I feel fully relaxed around her."></textarea>
 <label>Interaction notes</label><textarea id="notes" placeholder="What happened? How did you feel before, during, and after?"></textarea>
 
@@ -77,10 +105,6 @@
 <button id="addSnapshotBtn" type="button">+ Add Snapshot</button>
 <div id="timelineChart" class="timelineChart"></div>
 <div id="timelineList" class="timelineList"></div>
-<h3>Evidence vs Story Analysis</h3><div id="evidenceStoryOutput" class="analysisBox"></div>
-<h3>Trend Intelligence</h3><div id="trendOutput" class="analysisBox"></div>
-<h3>Energy Accounting</h3><div id="energyOutput" class="analysisBox"></div>
-<h3>Archetype & Forecast</h3><div id="archetypeOutput" class="analysisBox"></div>
 <h3>Interaction Strategy</h3><div id="strategyOutput" class="strategyBox"></div>
 <h3>Social environment readout</h3><div id="socialReadout" class="analysisBox"></div>
 <h3>Personalized compatibility</h3><div class="meter"><div id="meterFill"></div></div><div id="readout" class="readout">Start entering observations.</div>

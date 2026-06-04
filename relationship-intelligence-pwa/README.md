@@ -1,13 +1,11 @@
-# Relationship Intelligence PWA Beta v0.9.2
+# Relationship Intelligence v1.0
 
-Fixed v0.9 broken build by rebuilding from v0.8 and hard-adding the missing sections.
+Adds Ecosystem Mapping:
+- Quick Cards for fast relationship entry
+- Ecosystem dashboard
+- Relationship constellation visualization
+- Relational nutrient scores
+- Deficiency detection
+- Cultivation suggestions
 
-Adds:
-- Category-specific quality sliders
-- Evidence vs Story analysis
-- Trend intelligence
-- Relationship energy accounting
-- Archetype detection
-- Forecasting
-
-Visible marker: app header should say v0.9.2.
+This release shifts the product from individual card scoring toward whole-circle relationship ecosystem intelligence.
