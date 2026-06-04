@@ -1,11 +1,11 @@
 <!doctype html><html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Relationship Intelligence v0.9</title>
+<title>Relationship Intelligence v0.9.2</title>
 <link rel="manifest" href="manifest.json"><link rel="stylesheet" href="styles.css">
 <meta name="theme-color" content="#815b33"></head>
 <body>
-<header><h1>Relationship Intelligence <span>v0.9</span></h1>
-<div class="sub">Category-aware cards with evidence, story, energy, archetype, and forecast intelligence.</div>
+<header><h1>Relationship Intelligence <span>v0.9.2</span></h1>
+<div class="sub">v0.9.2 fixed build: category-aware cards, evidence vs story, energy, archetype, and forecast.</div>
 <div id="status">Loading app…</div></header>
 <nav class="tabs"><button id="tabCards" class="tab active">Cards</button><button id="tabPerson" class="tab">Card Detail</button><button id="tabMe" class="tab">About Me</button></nav>
 
@@ -49,17 +49,18 @@
 <label>First impression / context</label><textarea id="impression" placeholder="Write observations, not verdicts."></textarea>
 <div class="guide"><b>Slider rule:</b> left is less of the label, right is more. For green signals, right is usually better. For risk signals, right is more concerning.</div>
 <h3>Category-specific qualities</h3>
-<div class="guide"><b>Adaptive section:</b> these questions change based on card type. A romantic prospect is not evaluated the same way as a boss, friend, family member, or boundary-only person.</div>
+<div class="guide"><b>Adaptive section:</b> these questions change based on card type. Work, family, friends, boundary, and romantic cards now use different qualities.</div>
 <div id="categorySliders"></div>
-
 
 <h3>Core signal sliders</h3><div id="greenSliders"></div>
 <h3>Risk / caution sliders</h3><div id="riskSliders"></div>
 <h3>Respect Assessment</h3><div id="respectSliders"></div>
 <h3>Social environment sliders</h3><div id="socialSliders"></div>
 
-<label>Evidence observed</label><textarea id="evidence" placeholder="Facts only. Example: asked questions; showed up on time; dismissed my opinion; seemed kind to teammates."></textarea>
+<label>Evidence observed</label><textarea id="evidence" placeholder="Facts only. What objectively happened?"></textarea>
+<label>Story / interpretation</label><textarea id="story" placeholder="What are you telling yourself this means? What might be projection, fear, hope, or assumption?"></textarea>
 <label>Interpretation / hypothesis</label><textarea id="interpretation" placeholder="Your read. Example: high attraction but peace is uncertain."></textarea>
+<h3>Relationship energy accounting</h3><div id="energySliders"></div>
 <label>What makes you hesitate?</label><textarea id="hesitation" placeholder="Example: I worry about intellectual mismatch, instability, unresolved trauma, or whether I feel fully relaxed around her."></textarea>
 <label>Interaction notes</label><textarea id="notes" placeholder="What happened? How did you feel before, during, and after?"></textarea>
 
