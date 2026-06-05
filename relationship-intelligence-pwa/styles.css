@@ -80,3 +80,73 @@ button.profile.active{background:var(--accent2);border-color:var(--accent)}.smal
 .checkItem{display:flex;gap:10px;align-items:flex-start;background:#faf8f3;border:1px solid var(--line);border-radius:12px;padding:10px}
 .checkItem input{margin-top:4px}
 .ecoHeader{font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:#7a7063;margin-bottom:6px}
+
+/* v1.3 relational dynamics */
+.trajectoryWrap,.loopWrap{background:#fff;border:1px solid var(--line);border-radius:16px;padding:10px;overflow:auto}
+#trajectoryCanvas,#loopCanvas{max-width:100%;height:auto}
+.dynamicGrid{display:grid;grid-template-columns:1fr;gap:10px}@media(min-width:800px){.dynamicGrid{grid-template-columns:repeat(2,1fr)}}
+.vectorScore{font-size:36px;font-weight:900;color:var(--accent);line-height:1}
+.loopBadge{display:inline-block;background:var(--accent2);border:1px solid var(--line);border-radius:999px;padding:5px 10px;margin:3px;font-size:12px;font-weight:700}
+
+/* v1.3.1 Safari checkbox layout fix */
+#deficiencyChecks,
+#tendencyChecks,
+#patternChecks {
+  display: block;
+  width: 100%;
+  clear: both;
+  margin: 10px 0 18px 0;
+}
+
+#deficiencyChecks .checkGrid,
+#tendencyChecks .checkGrid,
+#patternChecks .checkGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  width: 100%;
+  align-items: stretch;
+}
+
+@media (min-width: 820px) {
+  #deficiencyChecks .checkGrid,
+  #tendencyChecks .checkGrid,
+  #patternChecks .checkGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+#deficiencyChecks .checkItem,
+#tendencyChecks .checkItem,
+#patternChecks .checkItem {
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr);
+  align-items: start;
+  gap: 10px;
+  min-height: 44px;
+  height: auto;
+  line-height: 1.35;
+  overflow: visible;
+  white-space: normal;
+  word-break: normal;
+}
+
+#deficiencyChecks .checkItem input,
+#tendencyChecks .checkItem input,
+#patternChecks .checkItem input {
+  width: 18px;
+  height: 18px;
+  min-width: 18px;
+  margin: 2px 0 0 0;
+  padding: 0;
+  appearance: auto;
+  -webkit-appearance: checkbox;
+}
+
+#deficiencyChecks .checkItem span,
+#tendencyChecks .checkItem span,
+#patternChecks .checkItem span {
+  display: block;
+  min-width: 0;
+  overflow: visible;
+}
