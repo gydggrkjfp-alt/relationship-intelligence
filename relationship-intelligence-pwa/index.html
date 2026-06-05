@@ -1,11 +1,11 @@
 <!doctype html><html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Relationship Intelligence v1.0</title>
+<title>Relationship Intelligence v1.1</title>
 <link rel="manifest" href="manifest.json"><link rel="stylesheet" href="styles.css">
 <meta name="theme-color" content="#815b33"></head>
 <body>
-<header><h1>Relationship Intelligence <span>v1.0</span></h1>
-<div class="sub">Relationship ecosystem mapping with quick cards and relational nutrient analysis.</div>
+<header><h1>Relationship Intelligence <span>v1.1</span></h1>
+<div class="sub">Dynamic relational systems: roles, attachment stability, admiration symmetry, and ecosystem integration.</div>
 <div id="status">Loading app…</div></header>
 <nav class="tabs"><button id="tabCards" class="tab active">Cards</button><button id="tabEcosystem" class="tab">Ecosystem</button><button id="tabPerson" class="tab">Card Detail</button><button id="tabMe" class="tab">About Me</button></nav>
 
@@ -55,12 +55,13 @@
 <div id="deficiencyOutput" class="analysisBox"></div>
 <h3>Relationship cultivation suggestions</h3>
 <div id="cultivationOutput" class="analysisBox"></div>
+<h3>Role reinforcement gaps</h3><div id="roleOutput" class="analysisBox"></div>
 </section>
 </main>
 <main class="grid hidden" id="personView">
 <aside><h2>Profiles</h2><button id="newBtn">+ New Profile</button><button id="exportBtn" class="secondary">Export Backup</button>
 <label class="small">Import Backup</label><input type="file" id="importFile" accept="application/json"><div id="profileList"></div><p class="small">Autosaves in this browser.</p></aside>
-<section><h2 id="profileTitle">Profile</h2><div id="avatarCard" class="avatarCard"></div>
+<section><h2 id="profileTitle">Profile</h2><div id="avatarCard" class="avatarCard"></div><button id="deleteCardBtn" class="dangerBtn" type="button">Delete This Card</button>
 <div class="quickPanel">
 <h3>Quick Update</h3>
 <div class="guide"><b>State check:</b> Are you updating this while emotionally activated? If yes, save a quick snapshot, but avoid major conclusions until you are calm.</div>
@@ -105,6 +106,9 @@
 <button id="addSnapshotBtn" type="button">+ Add Snapshot</button>
 <div id="timelineChart" class="timelineChart"></div>
 <div id="timelineList" class="timelineList"></div>
+<h3>Attachment Stability</h3><div id="attachmentOutput" class="analysisBox"></div>
+<h3>Admiration Symmetry</h3><div id="admirationOutput" class="analysisBox"></div>
+<h3>Ecosystem Integration</h3><div id="integrationOutput" class="analysisBox"></div>
 <h3>Interaction Strategy</h3><div id="strategyOutput" class="strategyBox"></div>
 <h3>Social environment readout</h3><div id="socialReadout" class="analysisBox"></div>
 <h3>Personalized compatibility</h3><div class="meter"><div id="meterFill"></div></div><div id="readout" class="readout">Start entering observations.</div>
@@ -116,7 +120,7 @@
 <div class="guide"><b>Purpose:</b> this is not a personality test. It tells the app what you need and what mistakes you are likely to make.</div>
 <label>Your name / label</label><input id="myName" placeholder="Example: Ryan">
 <h3>What do I need to thrive?</h3><div id="needSliders"></div>
-<h3>My tendencies / blind spots</h3><div id="tendencyChecks"></div>
+<h3>Role reinforcement needs</h3><div class="guide"><b>Purpose:</b> track what roles make you feel useful, respected, admired, trusted, challenged, and autonomous.</div><div id="roleSliders"></div><h3>My tendencies / blind spots</h3><div id="tendencyChecks"></div>
 <label>My relationship philosophy</label><textarea id="myPhilosophy" placeholder="Example: I want warmth, respect, attraction, peace, reciprocity, and a partner who helps life feel grounded."></textarea>
 <h3>My risk profile</h3><div id="myReadout" class="analysisBox"></div></section></main>
 <footer>Private local-first beta. Not therapy or diagnosis.</footer><script src="app.js"></script></body></html>
