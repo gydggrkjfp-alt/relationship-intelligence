@@ -1,13 +1,13 @@
 <!doctype html><html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Relationship Intelligence v1.1.2</title>
+<title>Relationship Intelligence v1.2</title>
 <link rel="manifest" href="manifest.json"><link rel="stylesheet" href="styles.css">
 <meta name="theme-color" content="#815b33"></head>
 <body>
-<header><h1>Relationship Intelligence <span>v1.1.2</span></h1>
-<div class="sub">Adaptive risk sections, cleaner charts, and gender/context-aware romantic risk flags.</div>
+<header><h1>Relationship Intelligence <span>v1.2</span></h1>
+<div class="sub">Relational ecosystem redesign with deficiencies, blind spots, patterns, and growth targets.</div>
 <div id="status">Loading app…</div></header>
-<nav class="tabs"><button id="tabCards" class="tab active">Cards</button><button id="tabEcosystem" class="tab">Ecosystem</button><button id="tabPerson" class="tab">Card Detail</button><button id="tabMe" class="tab">About Me</button></nav>
+<nav class="tabs"><button id="tabCards" class="tab active">Cards</button><button id="tabEcosystem" class="tab">Ecosystem</button><button id="tabPerson" class="tab">Card Detail</button><button id="tabMe" class="tab">My Ecosystem</button></nav>
 
 <main id="cardsView" class="single">
 <section>
@@ -120,7 +120,7 @@
 <div class="guide"><b>Purpose:</b> this is not a personality test. It tells the app what you need and what mistakes you are likely to make.</div>
 <label>Your name / label</label><input id="myName" placeholder="Example: Ryan"><label>Primary dating lens</label><select id="myDatingLens"><option>Man evaluating women</option><option>Woman evaluating men</option><option>Neutral / varies</option></select>
 <h3>What do I need to thrive?</h3><div id="needSliders"></div>
-<h3>Role reinforcement needs</h3><div class="guide"><b>Purpose:</b> track what roles make you feel useful, respected, admired, trusted, challenged, and autonomous.</div><div id="roleSliders"></div><h3>My tendencies / blind spots</h3><div id="tendencyChecks"></div>
+<h3>Current ecosystem deficiencies</h3><div class="guide"><b>Question:</b> what is currently underfed or missing in your ecosystem?</div><div id="deficiencyChecks"></div><h3>Role reinforcement needs</h3><div class="guide"><b>Purpose:</b> track what roles make you feel useful, respected, admired, trusted, challenged, and autonomous.</div><div id="roleSliders"></div><h3>Self-sabotage & blind spots</h3><div class="guide"><b>Question:</b> what behaviors quietly destabilize your ecosystem or make relationships harder to maintain?</div><div id="tendencyChecks"></div>
 <label>My relationship philosophy</label><textarea id="myPhilosophy" placeholder="Example: I want warmth, respect, attraction, peace, reciprocity, and a partner who helps life feel grounded."></textarea>
 <h3>My risk profile</h3><div id="myReadout" class="analysisBox"></div></section></main>
 <footer>Private local-first beta. Not therapy or diagnosis.</footer><script src="app.js"></script></body></html>

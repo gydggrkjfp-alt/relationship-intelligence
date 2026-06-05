@@ -73,3 +73,10 @@ button.profile.active{background:var(--accent2);border-color:var(--accent)}.smal
 .chartWrap canvas{margin:8px 14px 18px 14px}
 .matrix{overflow:visible}.quad{font-size:13px}.quad b{line-height:1.2}
 .adaptiveNote{background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px;margin:8px 0}
+
+/* v1.2 ecosystem redesign */
+.sectionCard{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;margin:14px 0}
+.checkGrid{display:grid;grid-template-columns:1fr;gap:8px}@media(min-width:760px){.checkGrid{grid-template-columns:repeat(2,1fr)}}
+.checkItem{display:flex;gap:10px;align-items:flex-start;background:#faf8f3;border:1px solid var(--line);border-radius:12px;padding:10px}
+.checkItem input{margin-top:4px}
+.ecoHeader{font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:#7a7063;margin-bottom:6px}
