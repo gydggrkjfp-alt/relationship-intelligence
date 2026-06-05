@@ -68,3 +68,8 @@ button.profile.active{background:var(--accent2);border-color:var(--accent)}.smal
 .symmetryBars{display:grid;gap:8px}.symmetryRow{display:grid;grid-template-columns:100px 1fr 44px;gap:8px;align-items:center}
 .symTrack{height:12px;background:#eee;border:1px solid var(--line);border-radius:999px;overflow:hidden}.symFill{height:100%;background:var(--accent)}
 .roleTag{display:inline-block;background:var(--accent2);border:1px solid var(--line);border-radius:999px;padding:4px 9px;margin:3px;font-size:12px;font-weight:700}
+
+/* v1.1.2 chart readability + adaptive risks */
+.chartWrap canvas{margin:8px 14px 18px 14px}
+.matrix{overflow:visible}.quad{font-size:13px}.quad b{line-height:1.2}
+.adaptiveNote{background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px;margin:8px 0}

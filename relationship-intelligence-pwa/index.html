@@ -1,11 +1,11 @@
 <!doctype html><html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Relationship Intelligence v1.1</title>
+<title>Relationship Intelligence v1.1.2</title>
 <link rel="manifest" href="manifest.json"><link rel="stylesheet" href="styles.css">
 <meta name="theme-color" content="#815b33"></head>
 <body>
-<header><h1>Relationship Intelligence <span>v1.1</span></h1>
-<div class="sub">Dynamic relational systems: roles, attachment stability, admiration symmetry, and ecosystem integration.</div>
+<header><h1>Relationship Intelligence <span>v1.1.2</span></h1>
+<div class="sub">Adaptive risk sections, cleaner charts, and gender/context-aware romantic risk flags.</div>
 <div id="status">Loading app…</div></header>
 <nav class="tabs"><button id="tabCards" class="tab active">Cards</button><button id="tabEcosystem" class="tab">Ecosystem</button><button id="tabPerson" class="tab">Card Detail</button><button id="tabMe" class="tab">About Me</button></nav>
 
@@ -75,25 +75,25 @@
 </div>
 <button id="quickSnapshotBtn" type="button">Save Quick Update</button>
 </div>
-<label>Name / nickname</label><input id="name" placeholder="Example: Lissa">
+<label>Name / nickname</label><input id="name" placeholder="Example: Lissa"><label>Pronoun / context</label><select id="pronounContext"><option>Neutral / person</option><option>Woman / they</option><option>Man / he</option><option>They / them</option></select>
 <label>Relationship type</label><select id="rtype"><option>Romantic prospect</option><option>Active dating</option><option>Friend / social connection</option><option>Coworker / professional peer</option><option>Boss / authority figure</option><option>Family / long-term obligation</option><option>Roommate / housemate</option><option>Team / sports / social group</option><option>Boundary-only relationship</option><option>Unclear / still discerning</option><option>Do not date / boundaries needed</option></select>
 <label>Where did you meet?</label><select id="met"><option>Dating app</option><option>Soccer</option><option>Dog park</option><option>Friends introduced us</option><option>Church / faith group</option><option>Work</option><option>Gym / fitness</option><option>Volunteering</option><option>Neighborhood / local community</option><option>Other</option></select>
 <label>Desired outcome</label><select id="desiredOutcome"><option>Romance / long-term partnership</option><option>Explore slowly</option><option>Casual friendship</option><option>Deep friendship</option><option>Professional cooperation</option><option>Peaceful family coexistence</option><option>Boundary management</option><option>Reduce exposure</option><option>Repair / reconciliation</option><option>Shared activity only</option><option>Networking / community</option><option>Unsure</option></select>
-<label>Occupation / social world notes</label><textarea id="socialNotes" placeholder="Optional. What social world is she in? Who are her close friends? What does that group reward?"></textarea>
+<label>Occupation / social world notes</label><textarea id="socialNotes" placeholder="Optional. What social world are they in? Who are their close people? What does that group reward?"></textarea>
 <label>First impression / context</label><textarea id="impression" placeholder="Write observations, not verdicts."></textarea>
 <div class="guide"><b>Slider rule:</b> left is less of the label, right is more. For green signals, right is usually better. For risk signals, right is more concerning.</div>
 
 <h3>Core signal sliders</h3><div id="greenSliders"></div>
 <h3>Risk / caution sliders</h3><div id="riskSliders"></div>
 <h3>Respect Assessment</h3><div id="respectSliders"></div>
-<h3>Social environment sliders</h3><div id="socialSliders"></div>
+<h3>Adaptive risk / context sliders</h3><div class="guide"><b>Adaptive section:</b> these risk questions change based on card type and pronoun/context.</div><div id="socialSliders"></div>
 
 <label>Evidence observed</label><textarea id="evidence" placeholder="Facts only. Example: asked questions; showed up on time; dismissed my opinion; seemed kind to teammates."></textarea>
 <label>Interpretation / hypothesis</label><textarea id="interpretation" placeholder="Your read. Example: high attraction but peace is uncertain."></textarea>
 <label>What makes you hesitate?</label><textarea id="hesitation" placeholder="Example: I worry about intellectual mismatch, instability, unresolved trauma, or whether I feel fully relaxed around her."></textarea>
 <label>Interaction notes</label><textarea id="notes" placeholder="What happened? How did you feel before, during, and after?"></textarea>
 
-<h3>Radar chart</h3><div class="chartWrap"><div><canvas id="radar" width="420" height="420"></canvas><div class="legend"><span class="legendItem"><span class="legendSwatch swatchPerson"></span> This person</span><span class="legendItem"><span class="legendSwatch swatchNeed"></span> Your needs</span></div></div></div>
+<h3>Radar chart</h3><div class="chartWrap"><div><canvas id="radar" width="500" height="500"></canvas><div class="legend"><span class="legendItem"><span class="legendSwatch swatchPerson"></span> This person</span><span class="legendItem"><span class="legendSwatch swatchNeed"></span> Your needs</span></div></div></div>
 
 <div class="metricGrid">
   <div class="bigMetric"><div><div class="metricLabel">Peace Index</div><div id="peaceIndex" class="metricNumber">0</div></div><div id="peacePhrase" class="metricText">Start entering observations.</div></div>
@@ -118,7 +118,7 @@
 
 <main id="meView" class="single hidden"><section><h2>About Me: Relationship Operating System</h2>
 <div class="guide"><b>Purpose:</b> this is not a personality test. It tells the app what you need and what mistakes you are likely to make.</div>
-<label>Your name / label</label><input id="myName" placeholder="Example: Ryan">
+<label>Your name / label</label><input id="myName" placeholder="Example: Ryan"><label>Primary dating lens</label><select id="myDatingLens"><option>Man evaluating women</option><option>Woman evaluating men</option><option>Neutral / varies</option></select>
 <h3>What do I need to thrive?</h3><div id="needSliders"></div>
 <h3>Role reinforcement needs</h3><div class="guide"><b>Purpose:</b> track what roles make you feel useful, respected, admired, trusted, challenged, and autonomous.</div><div id="roleSliders"></div><h3>My tendencies / blind spots</h3><div id="tendencyChecks"></div>
 <label>My relationship philosophy</label><textarea id="myPhilosophy" placeholder="Example: I want warmth, respect, attraction, peace, reciprocity, and a partner who helps life feel grounded."></textarea>
