@@ -1,10 +1,10 @@
 <!doctype html><html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Relationship Intelligence v2.0</title>
+<title>Relationship Intelligence v2.4</title>
 <link rel="manifest" href="manifest.json"><link rel="stylesheet" href="styles.css">
 <meta name="theme-color" content="#815b33"></head>
 <body>
-<header><h1>Relationship Intelligence <span>v2.0</span></h1>
+<header><h1>Relationship Intelligence <span>v2.4</span></h1>
 <div class="sub">Relational Dynamics Engine: trajectory, repair, reciprocity, embeddedness, loops, archetypes, and vector alignment.</div>
 <div id="status">Loading app…</div></header>
 <nav class="tabs"><button id="tabSnapshot" class="tab active">Snapshot</button><button id="tabCards" class="tab">Cards</button><button id="tabEcosystem" class="tab">Ecosystem</button><button id="tabPerson" class="tab">Card Detail</button><button id="tabMe" class="tab">Self</button></nav>
@@ -13,13 +13,23 @@
 <main id="snapshotView" class="single">
 <section>
 <h2>Add Snapshot</h2>
-<div class="guide"><b>Primary workflow:</b> capture what happened first. Full card details can be filled in later; patterns become stronger across snapshots.</div>
+<div class="appIntro">
+<h3>How to use this app</h3>
+<p><b>Start with a snapshot.</b> Capture one real interaction while it is fresh. Over time, snapshots build the card’s trajectory, repair patterns, attachment loops, and ecosystem impact.</p>
+<ol>
+<li><b>Choose or create a card</b> for the person, pet, child, boss, friend, partner, or family member.</li>
+<li><b>Write what happened</b> using facts first, then separate the story you are telling yourself.</li>
+<li><b>Move the sliders</b> based on this interaction only, not your entire history with the person.</li>
+<li><b>Save the snapshot</b>. Later you can open Card Detail for deeper sliders, graphs, and strategy modes.</li>
+</ol>
+<p class="small"><b>Goal:</b> avoid one-time emotional verdicts. The app is designed to detect patterns across repeated interactions.</p>
+</div>
 <div class="snapshotEntry">
 <label>Which card?</label><select id="snapshotCardSelect"></select>
 <button id="snapshotNewCardBtn" type="button" class="secondary">+ New quick card</button>
 <div id="snapshotNewCardFields" class="hidden">
 <label>New card name</label><input id="snapshotNewName" placeholder="Example: Boss, Sarah, Dad, Max">
-<label>Category</label><select id="snapshotNewCategory"><option>Romantic</option><option>Friend</option><option>Work</option><option>Family</option><option>Mentor</option><option>Activity / teammate</option><option>Boundary</option><option>Child</option><option>Pet</option><option>Other</option></select>
+<label>Category</label><select id="snapshotNewCategory"><option>Romantic</option><option>Situationship</option><option>Dating relationship</option><option>Long-term partner</option><option>Fiancé / Fiancée</option><option>Husband</option><option>Wife</option><option>Co-parent</option><option>Ex-partner</option><option>Friend</option><option>Work</option><option>Family</option><option>Mentor</option><option>Activity / teammate</option><option>Boundary</option><option>Child</option><option>Pet</option><option>Other</option></select>
 </div>
 <label>What happened?</label><textarea id="snapshotEvent" placeholder="Facts first. Example: He submitted a grant proposal and we had never discussed it as a partnership."></textarea>
 <label>What story am I telling myself?</label><textarea id="snapshotStory" placeholder="Interpretation. Example: Maybe we are not actually communicating deeply or operating as partners."></textarea>
@@ -30,14 +40,14 @@
 <label>Domain<select id="snapshotDomain"><option>Communication / being on same page</option><option>Tasks / chores</option><option>Planning / logistics</option><option>Commitment</option><option>Appreciation / usefulness</option><option>Criticism / correction</option><option>Work / mission bandwidth</option><option>Affection / reassurance</option><option>Money / provision</option><option>Family / roles</option><option>Other</option></select></label>
 </div>
 <div class="quickGrid">
-<label>Peace <span id="snapPeaceVal">5</span><input id="snapPeace" type="range" min="0" max="10" value="5"></label>
-<label>Respect <span id="snapRespectVal">5</span><input id="snapRespect" type="range" min="0" max="10" value="5"></label>
-<label>Closeness / intimacy <span id="snapClosenessVal">5</span><input id="snapCloseness" type="range" min="0" max="10" value="5"></label>
-<label>Repair quality <span id="snapRepairVal">5</span><input id="snapRepair" type="range" min="0" max="10" value="5"></label>
-<label>Emotional cost <span id="snapCostVal">5</span><input id="snapCost" type="range" min="0" max="10" value="5"></label>
-<label>Communication clarity <span id="snapClarityVal">5</span><input id="snapClarity" type="range" min="0" max="10" value="5"></label>
+<label>Peace <button class="helpBtn" type="button" data-help="peace">?</button> <span id="snapPeaceVal">5</span><span class="scaleEnds"><b>Low calm</b><b>High calm</b></span><input id="snapPeace" type="range" min="0" max="10" value="5"></label>
+<label>Respect <button class="helpBtn" type="button" data-help="respect">?</button> <span id="snapRespectVal">5</span><span class="scaleEnds"><b>Felt dismissed</b><b>Felt respected</b></span><input id="snapRespect" type="range" min="0" max="10" value="5"></label>
+<label>Closeness / intimacy <button class="helpBtn" type="button" data-help="closeness">?</button> <span id="snapClosenessVal">5</span><span class="scaleEnds"><b>Distant</b><b>Connected</b></span><input id="snapCloseness" type="range" min="0" max="10" value="5"></label>
+<label>Repair quality <button class="helpBtn" type="button" data-help="repair">?</button> <span id="snapRepairVal">5</span><span class="scaleEnds"><b>No repair</b><b>Good repair</b></span><input id="snapRepair" type="range" min="0" max="10" value="5"></label>
+<label>Emotional cost <button class="helpBtn" type="button" data-help="cost">?</button> <span id="snapCostVal">5</span><span class="scaleEnds"><b>Low cost</b><b>High cost</b></span><input id="snapCost" type="range" min="0" max="10" value="5"></label>
+<label>Communication clarity <button class="helpBtn" type="button" data-help="clarity">?</button> <span id="snapClarityVal">5</span><span class="scaleEnds"><b>Confusing</b><b>Clear</b></span><input id="snapClarity" type="range" min="0" max="10" value="5"></label>
 </div>
-<button id="saveSnapshotPrimaryBtn" type="button">Save Snapshot</button>
+<div id="snapshotHelpPanel" class="helpPanel"><b>Slider help:</b> tap a ? button to learn what each category means.</div><button id="saveSnapshotPrimaryBtn" type="button">Save Snapshot</button>
 </div>
 <h3>Snapshot interpretation</h3><div id="snapshotInterpretation" class="analysisBox">Add a note to generate tags and likely dynamics.</div>
 </section>
@@ -61,7 +71,7 @@
 <div class="guide"><b>Fast entry:</b> use this for people who do not need a full audit yet.</div>
 <div class="quickGrid">
 <label>Name<input id="quickName" placeholder="Example: Mike"></label>
-<label>Category<select id="quickCategory"><option>Friend</option><option>Family</option><option>Romantic</option><option>Work</option><option>Mentor</option><option>Activity / teammate</option><option>Boundary</option><option>Other</option><option>Child</option><option>Pet</option></select></label>
+<label>Category<select id="quickCategory"><option>Romantic</option><option>Situationship</option><option>Dating relationship</option><option>Long-term partner</option><option>Fiancé / Fiancée</option><option>Husband</option><option>Wife</option><option>Co-parent</option><option>Ex-partner</option><option>Friend</option><option>Work</option><option>Family</option><option>Mentor</option><option>Activity / teammate</option><option>Boundary</option><option>Child</option><option>Pet</option><option>Other</option></select></label>
 <label>Warmth <span id="qcWarmthVal">5</span><input id="qcWarmth" type="range" min="0" max="10" value="5"></label>
 <label>Respect <span id="qcRespectVal">5</span><input id="qcRespect" type="range" min="0" max="10" value="5"></label>
 <label>Trust <span id="qcTrustVal">5</span><input id="qcTrust" type="range" min="0" max="10" value="5"></label>
@@ -110,9 +120,9 @@
 <button id="quickSnapshotBtn" type="button">Save Quick Update</button>
 </div>
 <label>Name / nickname</label><input id="name" placeholder="Example: Lissa"><label>Pronoun / context</label><select id="pronounContext"><option>Neutral / person</option><option>Woman / they</option><option>Man / he</option><option>They / them</option></select>
-<label>Relationship type</label><select id="rtype"><option>Romantic prospect</option><option>Active dating</option><option>Friend / social connection</option><option>Coworker / professional peer</option><option>Boss / authority figure</option><option>Family / long-term obligation</option><option>Roommate / housemate</option><option>Team / sports / social group</option><option>Boundary-only relationship</option><option>Unclear / still discerning</option><option>Do not date / boundaries needed</option><option>Child</option><option>Pet</option><option>Boundary (limited / managed contact)</option></select>
+<label>Relationship type</label><select id="rtype"><option>Romantic prospect</option><option>Situationship / ambiguous romance</option><option>Dating relationship</option><option>Long-term partner</option><option>Fiancé / Fiancée</option><option>Husband</option><option>Wife</option><option>Co-parent</option><option>Ex-partner</option><option>Active dating</option><option>Friend / social connection</option><option>Coworker / professional peer</option><option>Boss / authority figure</option><option>Family / long-term obligation</option><option>Roommate / housemate</option><option>Team / sports / social group</option><option>Mentor</option><option>Boundary (limited / managed contact)</option><option>Child</option><option>Pet</option><option>Unclear / still discerning</option><option>Do not date / boundaries needed</option></select>
 <label>Where did you meet?</label><select id="met"><option>Dating app</option><option>Soccer</option><option>Dog park</option><option>Friends introduced us</option><option>Church / faith group</option><option>Work</option><option>Gym / fitness</option><option>Volunteering</option><option>Neighborhood / local community</option><option>Other</option></select>
-<label>Desired outcome</label><select id="desiredOutcome"><option>Romance / long-term partnership</option><option>Explore slowly</option><option>Casual friendship</option><option>Deep friendship</option><option>Professional cooperation</option><option>Peaceful family coexistence</option><option>Boundary management</option><option>Reduce exposure</option><option>Repair / reconciliation</option><option>Shared activity only</option><option>Networking / community</option><option>Unsure</option></select>
+<label>Desired outcome</label><select id="desiredOutcome"><option>Explore slowly</option><option>Clarify ambiguity</option><option>Grow relationship</option><option>Maintain / deepen partnership</option><option>Prepare for marriage</option><option>Marriage repair / growth</option><option>Stable co-parenting</option><option>Boundary management</option><option>Reduce exposure</option><option>Repair / reconciliation</option><option>Professional cooperation</option><option>Peaceful family coexistence</option><option>Care / nurture / family bond</option><option>Companionship / care / comfort</option><option>Casual friendship</option><option>Deep friendship</option><option>Shared activity only</option><option>Networking / community</option><option>Unsure</option></select>
 <label>Occupation / social world notes</label><textarea id="socialNotes" placeholder="Optional. What social world are they in? Who are their close people? What does that group reward?"></textarea>
 <label>First impression / context</label><textarea id="impression" placeholder="Write observations, not verdicts."></textarea>
 <div class="guide"><b>Slider rule:</b> left is less of the label, right is more. For green signals, right is usually better. For risk signals, right is more concerning.</div>
@@ -143,10 +153,10 @@
 <h3>Attachment Stability</h3><div id="attachmentOutput" class="analysisBox"></div>
 <h3>Admiration Symmetry</h3><div id="admirationOutput" class="analysisBox"></div>
 <h3>Ecosystem Integration</h3><div id="integrationOutput" class="analysisBox"></div>
+<h3>Marriage / long-term system readout</h3><div id="marriageSystemOutput" class="analysisBox"></div>
 <h3>Relational Translation Engine</h3>
-<div id="translationOutput" class="analysisBox"></div>
-<h3>Meaning translation diagram</h3>
-<div class="translationCanvasWrap"><canvas id="translationCanvas" width="760" height="360"></canvas></div>
+<div id="translationOutput" class="analysisBox"></div><h3>What this is based on</h3><div id="translationSourcesOutput" class="analysisBox"></div>
+<h3>Meaning translation map</h3><div id="translationMapOutput" class="translationMap"></div><div class="translationCanvasWrap hidden"><canvas id="translationCanvas" width="760" height="360"></canvas></div>
 <h3>Friction heatmap</h3><div id="frictionHeatmap" class="heatmap"></div>
 <h3>Repair language suggestions</h3><div id="repairLanguageOutput" class="analysisBox"></div>
 <h3>Accuracy & repair check</h3><div id="accuracyOutput" class="analysisBox"></div><h3>Repair-first problem solving</h3><div id="repairPlanOutput" class="analysisBox"></div><h3>Adaptive response mode</h3><div id="responseModeOutput" class="analysisBox"></div><h3>Interaction Strategy</h3><div id="strategyOutput" class="strategyBox"></div>
@@ -158,7 +168,7 @@
 
 <main id="meView" class="single hidden"><section><h2>About Me: Relationship Operating System</h2>
 <div class="guide"><b>Purpose:</b> this is not a personality test. It tells the app what you need and what mistakes you are likely to make.</div>
-<label>Your name / label</label><input id="myName" placeholder="Example: Ryan"><label>Primary dating lens</label><select id="myDatingLens"><option>Man evaluating women</option><option>Woman evaluating men</option><option>Neutral / varies</option></select>
+<label>Your name / label</label><input id="myName" placeholder="Example: Ryan"><div id="selfLensNote" class="adaptiveNote"></div><label>Primary dating lens</label><select id="myDatingLens"><option>Man evaluating women</option><option>Woman evaluating men</option><option>Neutral / varies</option></select>
 <h3>What do I need to thrive?</h3><div id="needSliders"></div>
 <h3>Social standards & peer influence</h3><div class="guide"><b>Purpose:</b> track how peer group, comparison environment, and intrasexual competition may shape standards and romantic interpretation.</div><div id="socialStandardsSliders"></div><h3>Current ecosystem deficiencies</h3><div class="guide"><b>Question:</b> what is currently underfed or missing in your ecosystem?</div><div id="deficiencyChecks"></div><h3>Role reinforcement needs</h3><div class="guide"><b>Purpose:</b> track what roles make you feel useful, respected, admired, trusted, challenged, and autonomous.</div><div id="roleSliders"></div><h3>Self-sabotage & blind spots</h3><div class="guide"><b>Question:</b> what behaviors quietly destabilize your ecosystem or make relationships harder to maintain?</div><div id="tendencyChecks"></div>
 <label>My relationship philosophy</label><textarea id="myPhilosophy" placeholder="Example: I want warmth, respect, attraction, peace, reciprocity, and a partner who helps life feel grounded."></textarea>

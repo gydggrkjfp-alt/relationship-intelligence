@@ -176,3 +176,38 @@ button.profile.active{background:var(--accent2);border-color:var(--accent)}.smal
 .snapshotEntry{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;margin:12px 0}
 #snapshotNewCardFields{background:#fbf7ef;border:1px solid var(--line);border-radius:12px;padding:10px;margin:8px 0}
 .tagPill{display:inline-block;background:var(--accent2);border:1px solid var(--line);border-radius:999px;padding:4px 9px;margin:3px;font-size:12px;font-weight:700}
+
+/* v2.1 bespoke self architectures */
+.lensBadge{display:inline-block;background:var(--accent2);border:1px solid var(--line);border-radius:999px;padding:4px 9px;margin:3px;font-size:12px;font-weight:700}
+.adaptiveNote{background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px;margin:8px 0}
+.selfModeHeader{font-weight:800;margin:8px 0;color:var(--accent)}
+
+/* v2.2 onboarding and snapshot help */
+.appIntro{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;margin:12px 0}
+.appIntro h3{margin-top:0}.appIntro ol{padding-left:20px}.appIntro li{margin:6px 0}
+.helpBtn{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:999px;padding:0;margin-left:4px;font-size:12px;background:var(--accent2);color:#25221d;border:1px solid var(--line)}
+.scaleEnds{display:flex;justify-content:space-between;gap:8px;font-size:11px;color:var(--muted);font-weight:500;margin:3px 0 2px 0}
+.scaleEnds b{font-weight:600}
+.helpPanel{background:#fbf7ef;border-left:4px solid var(--accent);padding:10px;border-radius:10px;margin:10px 0;line-height:1.35}
+.snapshotEntry label{position:relative}
+
+/* v2.3 marriage and long-term relationship systems */
+.marriageGrid{display:grid;grid-template-columns:1fr;gap:8px}
+@media(min-width:760px){.marriageGrid{grid-template-columns:repeat(2,1fr)}}
+.marriageItem{background:#fbf7ef;border:1px solid var(--line);border-radius:12px;padding:10px}
+.marriageItem b{display:block;margin-bottom:4px}
+.stageBadge{display:inline-block;background:var(--accent2);border:1px solid var(--line);border-radius:999px;padding:4px 9px;margin:3px;font-size:12px;font-weight:700}
+
+/* v2.4 clearer meaning translation map */
+.translationMap{display:grid;gap:10px;margin:10px 0}
+.flowCard{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px}
+.flowCard b{display:block;margin-bottom:4px}
+.flowArrow{text-align:center;color:var(--muted);font-weight:800}
+.sourceList{display:grid;gap:8px}
+.sourceItem{background:#fbf7ef;border:1px solid var(--line);border-radius:12px;padding:10px}
+.sourceItem b{display:block;margin-bottom:4px}
+.confidenceLow{border-left:4px solid #c98716}
+.confidenceOk{border-left:4px solid var(--accent)}
+.inputTable{width:100%;border-collapse:collapse;font-size:13px}
+.inputTable td{border-bottom:1px solid var(--line);padding:6px;vertical-align:top}
+.inputTable td:first-child{font-weight:700;width:38%}

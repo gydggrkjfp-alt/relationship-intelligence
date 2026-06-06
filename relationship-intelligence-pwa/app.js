@@ -1,4 +1,4 @@
-const STORAGE_KEY='relationship_intelligence_pwa_v20';
+const STORAGE_KEY='relationship_intelligence_pwa_v24';
 const greenDefs=[['warmth','Warmth','Emotional warmth, ease, affection.'],['kindness','Kindness','Basic goodness toward you and others.'],['respect','Baseline respect','General respect signal from the core profile.'],['reciprocity','Reciprocity','Interest and effort move both directions.'],['curiosity','Curiosity','They actually want to know you.'],['stability','Emotional stability','Grounded enough to build with.'],['peace','Peace after contact','Afterward you feel peaceful, not anxious or humiliated.'],['attraction','Attraction','Physical / romantic pull.']];
 const riskDefs=[['chaos','Chaos / drama','Volatility, crisis, or confusing energy.'],['trauma','Early trauma dumping','Heavy disclosure before trust exists.'],['entitlement','Entitlement','Expects without appreciating.'],['family','Family disrespect','Contempt toward family/parents.'],['social','Social-media validation','Attention-seeking or comparison energy.'],['inconsistent','Inconsistent communication','Words and effort fluctuate in a destabilizing way.']];
 const respectDefs=[['opinion','Values your opinions','Does this person take your perspective seriously?'],['appreciation','Expresses appreciation','Does this person notice and value your effort?'],['commitments','Keeps commitments','Does they follow through reliably?'],['proud','Proud to be associated','Would this person speak well of you to others?'],['time','Respects your time','Is this person considerate with scheduling and effort?'],['boundaries','Respects boundaries','Does this person honor limits without punishment?']];
@@ -75,6 +75,115 @@ const socialStandardsDefs=[
  ['femaleCompetitionAwareness','Intrasexual competition awareness','I notice competition among women shaping standards or partner evaluation.']
 ];
 
+
+const maleRoleDefs=[
+ ['needed','Being needed','Feeling useful and meaningfully relied upon.'],
+ ['admired','Being admired','Feeling admired or looked up to.'],
+ ['respectedRole','Being respected','Feeling treated as competent and worthy.'],
+ ['appreciatedRole','Being appreciated','Having effort noticed and valued.'],
+ ['trustedRole','Being trusted','Being given responsibility or confidence.'],
+ ['challenged','Being challenged','Having people who push you toward growth.'],
+ ['protective','Being protective','Having appropriate opportunities to protect or provide.'],
+ ['autonomy','Autonomy','Feeling free rather than controlled.']
+];
+const femaleRoleDefs=[
+ ['safe','Feeling safe','Feeling emotionally and physically safe.'],
+ ['chosen','Feeling chosen','Feeling intentionally selected and prioritized.'],
+ ['understood','Feeling understood','Having inner experience understood without overexplaining.'],
+ ['cherished','Feeling cherished','Feeling treasured, cared for, and emotionally valued.'],
+ ['included','Being included','Being included in life decisions and shared reality.'],
+ ['reassured','Being reassured','Receiving consistent signs of commitment and care.'],
+ ['supported','Being supported','Having practical and emotional support.'],
+ ['secureFuture','Future security','Feeling the relationship has direction and reliability.']
+];
+const maleDeficiencyDefs=[
+ ['isolation','Isolation / low recurring social contact'],
+ ['mentorDeficit','Mentorship deficit'],
+ ['brotherhoodDeficit','Weak male friendship / brotherhood'],
+ ['admirationDeficit','Low admiration / recognition'],
+ ['purposeDeficit','Low mission / purpose'],
+ ['weakAccountability','Weak accountability structures'],
+ ['supportDeficit','Low emotional support'],
+ ['challengeDeficit','Low challenge / growth pressure'],
+ ['statusPathDeficit','Unclear status / competence pathway'],
+ ['romanticOverreliance','Romantic overdependence for validation']
+];
+const femaleDeficiencyDefs=[
+ ['emotionalSafetyDeficit','Low emotional safety'],
+ ['attunementDeficit','Low emotional attunement'],
+ ['reassuranceDeficit','Low reassurance / consistency'],
+ ['sharedRealityDeficit','Weak shared reality with partner'],
+ ['qualityMentorshipDeficit','Lack of wise female mentorship'],
+ ['destabilizingFriendGroup','Destabilizing or comparison-heavy friend group'],
+ ['validationDependence','Validation dependence'],
+ ['socialMediaDistortion','Social media expectation distortion'],
+ ['commitmentSecurityDeficit','Low commitment security'],
+ ['supportDeficit','Low emotional support']
+];
+const maleBlindSpotDefs=[
+ ['poorCommunication','Poor communication habits'],
+ ['insecurity','Insecurity / self-consciousness'],
+ ['conflictAvoidance','Conflict avoidance'],
+ ['unreliability','Unreliability / inconsistency'],
+ ['socialWithdrawal','Isolation habits / withdrawal'],
+ ['peoplePleaser','People pleasing'],
+ ['pedestalization','Pedestalization'],
+ ['shameWithdrawal','Shame withdrawal after feeling criticized'],
+ ['workObsession','Excessive work or mission imbalance'],
+ ['dopamineHabits','Dopamine addiction / overstimulation'],
+ ['lowConfidence','Low confidence'],
+ ['poorPresentation','Poor hygiene / presentation']
+];
+const femaleBlindSpotDefs=[
+ ['comparisonLoop','Comparison loops with friends/social media'],
+ ['expectationInflation','Expectation inflation / fear of settling'],
+ ['defensiveMenFrame','Defensive or adversarial framing toward men'],
+ ['negativeAttributionBias','Assuming bad intent too quickly'],
+ ['indirectCommunication','Indirect communication / expecting mind-reading'],
+ ['reassuranceTesting','Testing for reassurance rather than asking directly'],
+ ['friendGroupAmplification','Letting friends amplify resentment'],
+ ['romanticIdealization','Romantic idealization from media/social comparison'],
+ ['statusFiltering','Overweighting status signals over peace/repair'],
+ ['resentmentAccumulation','Letting resentment accumulate without repair']
+];
+const malePatternDefs=[
+ ['overPursuit','Overpursuit after attraction'],
+ ['withdrawal','Withdrawal after disappointment'],
+ ['chaosAttraction','Attraction to chaos or uncertainty'],
+ ['validationSeeking','Validation seeking'],
+ ['overInvestment','Overinvesting too early'],
+ ['conflictSuppression','Suppressing conflict too long'],
+ ['rescuer','Rescuing / fixing tendencies'],
+ ['fearOfLoss','Fear of abandonment / loss'],
+ ['noveltyDependence','Novelty dependence'],
+ ['intermittentHook','Intermittent reinforcement sensitivity']
+];
+const femalePatternDefs=[
+ ['overReading','Over-reading ambiguous signals'],
+ ['securitySeeking','Security seeking through indirect tests'],
+ ['socialBenchmarking','Benchmarking relationship against peers'],
+ ['partnerPotentialProjection','Dating potential rather than observed behavior'],
+ ['resentmentStoryBuilding','Building a resentment story before clarification'],
+ ['parallelLivesAlarm','High sensitivity to parallel-lives / lack of shared reality'],
+ ['commitmentAnxiety','Commitment uncertainty anxiety'],
+ ['emotionalInvisibility','Feeling emotionally invisible when not updated/included'],
+ ['comparisonDissatisfaction','Comparison-driven dissatisfaction'],
+ ['repairAvoidance','Avoiding direct repair because it feels vulnerable']
+];
+function isWomanLens(){return (state.me?.datingLens||'').includes('Woman evaluating men')}
+function activeRoleDefs(){return isWomanLens()?femaleRoleDefs:maleRoleDefs}
+function activeDeficiencyDefs(){return isWomanLens()?femaleDeficiencyDefs:maleDeficiencyDefs}
+function activeBlindSpotDefs(){return isWomanLens()?femaleBlindSpotDefs:maleBlindSpotDefs}
+function activePatternDefs(){return isWomanLens()?femalePatternDefs:malePatternDefs}
+function updateSelfLensNote(){
+  if(!$('selfLensNote'))return;
+  if(isWomanLens()){
+    $('selfLensNote').innerHTML='<b>Woman evaluating men lens</b><br><span class="small">Emphasizes safety, attunement, shared reality, reassurance, social comparison, peer influence, and expectation distortion.</span>';
+  }else{
+    $('selfLensNote').innerHTML='<b>Man evaluating women lens</b><br><span class="small">Emphasizes usefulness, admiration, respect, mission, mentorship, brotherhood, competence identity, and romantic overdependence risk.</span>';
+  }
+}
+
 const deficiencyDefs=[
  ['isolation','Isolation / low recurring social contact'],
  ['mentorDeficit','Mentorship deficit'],
@@ -121,33 +230,33 @@ const patternDefs=[
 const roleDefs=[['needed','Being needed','Feeling useful and meaningfully relied upon.'],['admired','Being admired','Feeling admired or looked up to.'],['respectedRole','Being respected','Feeling treated as competent and worthy.'],['appreciatedRole','Being appreciated','Having effort noticed and valued.'],['trustedRole','Being trusted','Being given responsibility or confidence.'],['challenged','Being challenged','Having people who push you toward growth.'],['protective','Being protective','Having appropriate opportunities to protect or provide.'],['autonomy','Autonomy','Feeling free rather than controlled.']];
 const tendencyDefs=[['movesFast','Move too quickly','You may escalate before enough evidence exists.'],['scarcity','Scarcity mindset','You may overvalue attention because opportunities feel rare.'],['peoplePleaser','People pleasing','You may avoid speaking up or tolerate too much.'],['rescuer','Rescuer pattern','You may mistake being needed for being loved.'],['idealizer','Over-romanticize potential','You may fall for possibility instead of evidence.'],['conflictAvoidant','Conflict avoidant','You may avoid hard conversations.'],['attractionOverride','Attraction override','You may let attraction outrank peace.'],['fearRejection','Fear rejection','You may accept poor fit to avoid losing connection.']];
 let state=loadState();let currentFilter='All';function $(id){return document.getElementById(id)}
-function defaultMe(){let needs={};needDefs.forEach(([k])=>needs[k]=5);let roles={};roleDefs.forEach(([k])=>roles[k]=5);return{name:'',datingLens:'Man evaluating women',needs,roles,socialStandards:{},deficiencies:{},blindSpots:{},patterns:{},tendencies:{},philosophy:''}}
+function defaultMe(){let needs={};needDefs.forEach(([k])=>needs[k]=5);let roles={};maleRoleDefs.concat(femaleRoleDefs).forEach(([k])=>roles[k]=5);return{name:'',datingLens:'Man evaluating women',needs,roles,socialStandards:{},deficiencies:{},blindSpots:{},patterns:{},tendencies:{},philosophy:''}}
 function loadState(){try{let raw=localStorage.getItem(STORAGE_KEY);if(raw)return JSON.parse(raw);for(let key of ['relationship_intelligence_pwa_v15','relationship_intelligence_pwa_v14','relationship_intelligence_pwa_v13','relationship_intelligence_pwa_v12','relationship_intelligence_pwa_v11_2','relationship_intelligence_pwa_v11','relationship_intelligence_pwa_v10','relationship_intelligence_pwa_v8','relationship_intelligence_pwa_v7','relationship_intelligence_pwa_v6','relationship_intelligence_pwa_v5','relationship_intelligence_pwa_v4','relationship_intelligence_pwa_v3','relationship_intelligence_pwa_v2','relationship_intelligence_pwa_v1']){let old=localStorage.getItem(key);if(old)return migrate(JSON.parse(old));}}catch(e){}return{currentId:null,profiles:[],me:defaultMe()}}
-function migrate(s){s.me=s.me||defaultMe();s.me.roles=s.me.roles||{};roleDefs.forEach(([k])=>{if(s.me.roles[k]===undefined)s.me.roles[k]=5});s.me.socialStandards=s.me.socialStandards||{};if(typeof socialStandardsDefs!=='undefined')socialStandardsDefs.forEach(([k])=>{if(s.me.socialStandards[k]===undefined)s.me.socialStandards[k]=5});s.me.deficiencies=s.me.deficiencies||{};s.me.blindSpots=s.me.blindSpots||{};s.me.patterns=s.me.patterns||{};s.profiles=(s.profiles||[]).map(p=>{p={...p,evidence:p.evidence||'',interpretation:p.interpretation||'',hesitation:p.hesitation||'',socialNotes:p.socialNotes||'',pronounContext:p.pronounContext||'Neutral / person',desiredOutcome:p.desiredOutcome||'Explore slowly',rtype:p.rtype==='Potential romantic partner'?'Romantic prospect':(p.rtype||'Romantic prospect')};p.social=p.social||{};p.respect=p.respect||{};Object.values(adaptiveRiskDefs).flat().forEach(([k,,,,good])=>{if(p.social[k]===undefined)p.social[k]=good?5:3});respectDefs.forEach(([k])=>{if(p.respect[k]===undefined)p.respect[k]=5});p.snapshots=p.snapshots||[];p.quick=p.quick||{};return p});return s}
+function migrate(s){s.me=s.me||defaultMe();s.me.roles=s.me.roles||{};maleRoleDefs.concat(femaleRoleDefs).forEach(([k])=>{if(s.me.roles[k]===undefined)s.me.roles[k]=5});s.me.socialStandards=s.me.socialStandards||{};if(typeof socialStandardsDefs!=='undefined')socialStandardsDefs.forEach(([k])=>{if(s.me.socialStandards[k]===undefined)s.me.socialStandards[k]=5});s.me.deficiencies=s.me.deficiencies||{};s.me.blindSpots=s.me.blindSpots||{};s.me.patterns=s.me.patterns||{};s.profiles=(s.profiles||[]).map(p=>{p={...p,evidence:p.evidence||'',interpretation:p.interpretation||'',hesitation:p.hesitation||'',socialNotes:p.socialNotes||'',pronounContext:p.pronounContext||'Neutral / person',desiredOutcome:p.desiredOutcome||'Explore slowly',rtype:p.rtype==='Potential romantic partner'?'Romantic prospect':(p.rtype||'Romantic prospect')};p.social=p.social||{};p.respect=p.respect||{};Object.values(adaptiveRiskDefs).flat().forEach(([k,,,,good])=>{if(p.social[k]===undefined)p.social[k]=good?5:3});respectDefs.forEach(([k])=>{if(p.respect[k]===undefined)p.respect[k]=5});p.snapshots=p.snapshots||[];p.quick=p.quick||{};return p});return s}
 function saveState(){localStorage.setItem(STORAGE_KEY,JSON.stringify(state));$('status').textContent='Autosaved locally'}
 function uid(){return'p_'+Date.now()+'_'+Math.random().toString(16).slice(2)}
 function blankProfile(){let p={id:uid(),name:'',pronounContext:'Neutral / person',rtype:'Romantic prospect',met:'Soccer',desiredOutcome:'Explore slowly',socialNotes:'',impression:'',evidence:'',interpretation:'',hesitation:'',notes:'',green:{},risk:{},respect:{},social:{},snapshots:[],quick:{}};greenDefs.forEach(([k])=>p.green[k]=5);riskDefs.forEach(([k])=>p.risk[k]=3);respectDefs.forEach(([k])=>p.respect[k]=5);Object.values(adaptiveRiskDefs).flat().forEach(([k,,,,good])=>{if(p.social[k]===undefined)p.social[k]=good?5:3});return p}
 function currentProfile(){if(!state.profiles.length){let p=blankProfile();state.profiles.push(p);state.currentId=p.id}return state.profiles.find(p=>p.id===state.currentId)||state.profiles[0]}
-function renderSliders(){$('greenSliders').innerHTML=greenDefs.map(([k,l,h])=>sliderHTML('green',k,l,h,5,'Low','High',true)).join('');$('riskSliders').innerHTML=riskDefs.map(([k,l,h])=>sliderHTML('risk',k,l,h,3,'Low concern','High concern',false)).join('');$('respectSliders').innerHTML=respectDefs.map(([k,l,h])=>sliderHTML('respect',k,l,h,5,'Low','High',true)).join('');renderAdaptiveRiskSliders();$('needSliders').innerHTML=needDefs.map(([k,l,h])=>sliderHTML('need',k,l,h,5,'Low need','High need',true)).join('');if($('roleSliders'))$('roleSliders').innerHTML=roleDefs.map(([k,l,h])=>sliderHTML('role',k,l,h,5,'Low','High',true)).join('');
+function renderSliders(){$('greenSliders').innerHTML=greenDefs.map(([k,l,h])=>sliderHTML('green',k,l,h,5,'Low','High',true)).join('');$('riskSliders').innerHTML=riskDefs.map(([k,l,h])=>sliderHTML('risk',k,l,h,3,'Low concern','High concern',false)).join('');$('respectSliders').innerHTML=respectDefs.map(([k,l,h])=>sliderHTML('respect',k,l,h,5,'Low','High',true)).join('');renderAdaptiveRiskSliders();$('needSliders').innerHTML=needDefs.map(([k,l,h])=>sliderHTML('need',k,l,h,5,'Low need','High need',true)).join('');if($('roleSliders'))$('roleSliders').innerHTML=activeRoleDefs().map(([k,l,h])=>sliderHTML('role',k,l,h,5,'Low','High',true)).join('');
 if($('socialStandardsSliders'))$('socialStandardsSliders').innerHTML=socialStandardsDefs.map(([k,l,h])=>sliderHTML('socialStandard',k,l,h,5,'Low','High',true)).join('');
-if($('deficiencyChecks'))$('deficiencyChecks').innerHTML='<div class="checkGrid">'+deficiencyDefs.map(([k,l])=>`<div class="checkItem"><input type="checkbox" id="def_${k}"><span>${l}</span></div>`).join('')+'</div>';
-if($('patternChecks'))$('patternChecks').innerHTML='<div class="checkGrid">'+patternDefs.map(([k,l])=>`<div class="checkItem"><input type="checkbox" id="pattern_${k}"><span>${l}</span></div>`).join('')+'</div>';
-if($('tendencyChecks'))$('tendencyChecks').innerHTML='<div class="checkGrid">'+blindSpotDefs.map(([k,l])=>`<div class="checkItem"><input type="checkbox" id="blind_${k}"><span>${l}</span></div>`).join('')+'</div>';
+if($('deficiencyChecks'))$('deficiencyChecks').innerHTML='<div class="checkGrid">'+activeDeficiencyDefs().map(([k,l])=>`<div class="checkItem"><input type="checkbox" id="def_${k}"><span>${l}</span></div>`).join('')+'</div>';
+if($('patternChecks'))$('patternChecks').innerHTML='<div class="checkGrid">'+activePatternDefs().map(([k,l])=>`<div class="checkItem"><input type="checkbox" id="pattern_${k}"><span>${l}</span></div>`).join('')+'</div>';
+if($('tendencyChecks'))$('tendencyChecks').innerHTML='<div class="checkGrid">'+activeBlindSpotDefs().map(([k,l])=>`<div class="checkItem"><input type="checkbox" id="blind_${k}"><span>${l}</span></div>`).join('')+'</div>';
 $('tendencyChecks').innerHTML=tendencyDefs.map(([k,l,h])=>`<label class='check'><input type='checkbox' id='t_${k}'><span><b>${l}</b><span class='small'>${h}</span></span></label>`).join('')}
 function sliderHTML(g,k,l,h,d,left,right,good){return`<div class='slider'><div class='sliderTop'><b>${l}</b><span class='bubble' id='${g}_${k}_value'>${d}</span></div><div class='small'>${h}</div><input type='range' min='0' max='10' value='${d}' id='${g}_${k}'><div class='scaleLabels'><span>${left}</span><span class='${good?'goodSide':'riskSide'}'>${right}</span></div></div>`}
 function fillForm(){let p=currentProfile();$('profileTitle').textContent='Profile: '+(p.name||'Untitled');['name','pronounContext','rtype','met','desiredOutcome','socialNotes','impression','evidence','interpretation','hesitation','notes'].forEach(id=>$(id).value=p[id]||'');if(!p.rtype)$('rtype').value='Romantic prospect';if(!p.met)$('met').value='Soccer';greenDefs.forEach(([k])=>{let v=p.green?.[k]??5;$(`green_${k}`).value=v;$(`green_${k}_value`).textContent=v});riskDefs.forEach(([k])=>{let v=p.risk?.[k]??3;$(`risk_${k}`).value=v;$(`risk_${k}_value`).textContent=v});respectDefs.forEach(([k])=>{let v=p.respect?.[k]??5;$(`respect_${k}`).value=v;$(`respect_${k}_value`).textContent=v});renderAdaptiveRiskSliders();bindAdaptiveRiskInputs()}
-function fillMe(){let me=state.me||defaultMe();$('myName').value=me.name||'';if($('myDatingLens'))$('myDatingLens').value=me.datingLens||'Man evaluating women';$('myPhilosophy').value=me.philosophy||'';needDefs.forEach(([k])=>{let v=me.needs?.[k]??5;$(`need_${k}`).value=v;$(`need_${k}_value`).textContent=v});roleDefs.forEach(([k])=>{let el=$(`role_${k}`);if(el){let v=me.roles?.[k]??5;el.value=v;$(`role_${k}_value`).textContent=v}});
+function fillMe(){let me=state.me||defaultMe();$('myName').value=me.name||'';if($('myDatingLens'))$('myDatingLens').value=me.datingLens||'Man evaluating women';$('myPhilosophy').value=me.philosophy||'';needDefs.forEach(([k])=>{let v=me.needs?.[k]??5;$(`need_${k}`).value=v;$(`need_${k}_value`).textContent=v});activeRoleDefs().forEach(([k])=>{let el=$(`role_${k}`);if(el){let v=me.roles?.[k]??5;el.value=v;$(`role_${k}_value`).textContent=v}});
 if(typeof socialStandardsDefs!=='undefined')socialStandardsDefs.forEach(([k])=>{let el=$(`socialStandard_${k}`);if(el){let v=me.socialStandards?.[k]??5;el.value=v;$(`socialStandard_${k}_value`).textContent=v}});
-deficiencyDefs.forEach(([k])=>{let el=$(`def_${k}`);if(el)el.checked=!!me.deficiencies?.[k]});
-blindSpotDefs.forEach(([k])=>{let el=$(`blind_${k}`);if(el)el.checked=!!me.blindSpots?.[k]});
-patternDefs.forEach(([k])=>{let el=$(`pattern_${k}`);if(el)el.checked=!!me.patterns?.[k]});
+activeDeficiencyDefs().forEach(([k])=>{let el=$(`def_${k}`);if(el)el.checked=!!me.deficiencies?.[k]});
+activeBlindSpotDefs().forEach(([k])=>{let el=$(`blind_${k}`);if(el)el.checked=!!me.blindSpots?.[k]});
+activePatternDefs().forEach(([k])=>{let el=$(`pattern_${k}`);if(el)el.checked=!!me.patterns?.[k]});
 tendencyDefs.forEach(([k])=>$(`t_${k}`).checked=!!me.tendencies?.[k]);updateMyReadout()}
 function collectForm(){let p=currentProfile();['name','pronounContext','rtype','met','desiredOutcome','socialNotes','impression','evidence','interpretation','hesitation','notes'].forEach(id=>p[id]=$(id).value);greenDefs.forEach(([k])=>p.green[k]=Number($(`green_${k}`).value));riskDefs.forEach(([k])=>p.risk[k]=Number($(`risk_${k}`).value));respectDefs.forEach(([k])=>p.respect[k]=Number($(`respect_${k}`).value));socialDefs.forEach(([k])=>p.social[k]=Number($(`social_${k}`).value))}
-function collectMe(){let me=state.me||defaultMe();me.name=$('myName').value;if($('myDatingLens'))me.datingLens=$('myDatingLens').value;me.philosophy=$('myPhilosophy').value;needDefs.forEach(([k])=>me.needs[k]=Number($(`need_${k}`).value));me.roles=me.roles||{};roleDefs.forEach(([k])=>{let el=$(`role_${k}`);if(el)me.roles[k]=Number(el.value)});
+function collectMe(){let me=state.me||defaultMe();me.name=$('myName').value;if($('myDatingLens'))me.datingLens=$('myDatingLens').value;me.philosophy=$('myPhilosophy').value;needDefs.forEach(([k])=>me.needs[k]=Number($(`need_${k}`).value));me.roles=me.roles||{};activeRoleDefs().forEach(([k])=>{let el=$(`role_${k}`);if(el)me.roles[k]=Number(el.value)});
 me.socialStandards=me.socialStandards||{};if(typeof socialStandardsDefs!=='undefined')socialStandardsDefs.forEach(([k])=>{let el=$(`socialStandard_${k}`);if(el)me.socialStandards[k]=Number(el.value)});
-me.deficiencies=me.deficiencies||{};deficiencyDefs.forEach(([k])=>{let el=$(`def_${k}`);if(el)me.deficiencies[k]=el.checked});
-me.blindSpots=me.blindSpots||{};blindSpotDefs.forEach(([k])=>{let el=$(`blind_${k}`);if(el)me.blindSpots[k]=el.checked});
-me.patterns=me.patterns||{};patternDefs.forEach(([k])=>{let el=$(`pattern_${k}`);if(el)me.patterns[k]=el.checked});
+me.deficiencies=me.deficiencies||{};activeDeficiencyDefs().forEach(([k])=>{let el=$(`def_${k}`);if(el)me.deficiencies[k]=el.checked});
+me.blindSpots=me.blindSpots||{};activeBlindSpotDefs().forEach(([k])=>{let el=$(`blind_${k}`);if(el)me.blindSpots[k]=el.checked});
+me.patterns=me.patterns||{};activePatternDefs().forEach(([k])=>{let el=$(`pattern_${k}`);if(el)me.patterns[k]=el.checked});
 tendencyDefs.forEach(([k])=>me.tendencies[k]=$(`t_${k}`).checked);state.me=me}
 function avg(obj,defs){return defs.reduce((s,[k])=>s+Number(obj?.[k]||0),0)/defs.length}
 function need(k){return Number((state.me?.needs||{})[k]??5)}function tendency(k){return !!(state.me?.tendencies||{})[k]}
@@ -202,7 +311,7 @@ function dynamicArchetype(p,m){
 
 function metrics(p){let g=avg(p.green,greenDefs),r=avg(p.risk,riskDefs),respect=respectIndex(p);let base=Math.max(0,Math.min(100,g*10-r*4));let personalized=base;personalized+=(respect-50)*.22;personalized+=(p.green.warmth-5)*(need('needWarmth')-5)*.7;personalized+=(p.green.respect-5)*(need('needRespect')-5)*.9;personalized+=(p.green.reciprocity-5)*(need('needAppreciation')-5)*.55;personalized+=(p.green.stability-5)*(need('needStability')-5)*.8;personalized+=(p.green.curiosity-5)*(need('needIntellect')-5)*.55;personalized-=p.risk.chaos*(need('needStability')/10)*2.2;personalized-=p.risk.family*(need('needFamily')/10)*1.4;personalized+=(socialHealth(p)-50)*.22;if(tendency('scarcity')&&p.green.attraction>=7)personalized-=6;if(tendency('attractionOverride')&&p.green.attraction>=8&&p.green.peace<=5)personalized-=10;if(tendency('rescuer')&&p.risk.trauma>=7)personalized-=9;if(tendency('peoplePleaser')&&(p.risk.entitlement>=6||respect<55))personalized-=8;if(tendency('movesFast')&&p.green.attraction>=7&&p.risk.chaos>=6)personalized-=8;personalized=Math.round(Math.max(0,Math.min(100,personalized)));let peaceIndex=Math.round(Math.max(0,Math.min(100,p.green.peace*3.5+p.green.respect*1.2+p.green.warmth*1.3+p.green.reciprocity*1.4+p.green.stability*1.4+respect*.012-p.risk.chaos*1.5-p.risk.inconsistent-p.risk.trauma*.8)));return{greenAvg:g,riskAvg:r,base:Math.round(base),personalized,peaceIndex,respectIndex:respect,social:socialHealth(p)}}
 function safeUpdate(){try{updateReadout()}catch(e){$('status').textContent='Calculation error: '+e.message;console.error(e)}}
-function updateReadout(){let p=currentProfile(),m=metrics(p);$('meterFill').style.width=m.personalized+'%';$('peaceIndex').textContent=m.peaceIndex;$('respectIndex').textContent=m.respectIndex;$('peacePhrase').textContent=m.peaceIndex>=75?'Calming, respectful, emotionally low-cost.':m.peaceIndex>=55?'Worth exploring, but watch whether calm increases.':m.peaceIndex>=35?'Exciting but not yet peaceful. Slow down.':'Low peace signal. Attraction may be masking emotional cost.';$('respectPhrase').textContent=m.respectIndex>=80?'Strong respect signal: appreciation, reliability, and boundaries look healthy.':m.respectIndex>=60?'Moderate respect signal. Watch consistency over time.':m.respectIndex>=40?'Respect is uncertain. Do not let warmth or attraction compensate too much.':'Low respect signal. This is a major long-term risk.';updateMatrix(m);updateSocialReadout(p,m);updateAttachmentOutput(p,m);updateAdmirationOutput(p,m);updateIntegrationOutput(p,m);updateTranslationEngine(p,m);updateAccuracyOutput(p,m);updateRepairPlanOutput(p,m);updateResponseMode(p,m);updateStrategy(p,m);updateAvatar(p,m);let title='Proceed carefully',cls='',text='Keep learning without outrunning the evidence.';if(m.personalized>=70&&m.peaceIndex>=65&&m.respectIndex>=65){title='Worth continuing to explore';cls='good';text='For your profile, this currently aligns with peace, respect, and low emotional cost.'}else if(m.personalized<=40||m.peaceIndex<40||m.respectIndex<40){title='Likely mismatch or boundaries needed';cls='bad';text='For your profile, this may cost too much peace or respect.'}if((p.rtype||'').includes('Do not date')){title='Boundaries-first relationship';cls='';text='This is not for romance escalation. Organize around clarity and boundaries.'}$('readout').className='readout '+cls;$('readout').innerHTML=`<b>${title}</b><br>Personalized Score: <b>${m.personalized}/100</b><br><span class='small'>General: ${m.base}/100 · Repair: ${m.repair}/100 · Reciprocity: ${m.reciprocityDyn}/100 · Grounding: ${m.embedded}/100 · Alignment: ${m.alignment}/100</span><br>${text}`;updateBiasWarnings(p,m);updateGuidance(p,m);updateAI(p,m);drawRadar(p,m);renderTimeline(p);renderCards();$('status').textContent='App loaded. Autosave active.'}
+function updateReadout(){let p=currentProfile(),m=metrics(p);$('meterFill').style.width=m.personalized+'%';$('peaceIndex').textContent=m.peaceIndex;$('respectIndex').textContent=m.respectIndex;$('peacePhrase').textContent=m.peaceIndex>=75?'Calming, respectful, emotionally low-cost.':m.peaceIndex>=55?'Worth exploring, but watch whether calm increases.':m.peaceIndex>=35?'Exciting but not yet peaceful. Slow down.':'Low peace signal. Attraction may be masking emotional cost.';$('respectPhrase').textContent=m.respectIndex>=80?'Strong respect signal: appreciation, reliability, and boundaries look healthy.':m.respectIndex>=60?'Moderate respect signal. Watch consistency over time.':m.respectIndex>=40?'Respect is uncertain. Do not let warmth or attraction compensate too much.':'Low respect signal. This is a major long-term risk.';updateMatrix(m);updateSocialReadout(p,m);updateAttachmentOutput(p,m);updateAdmirationOutput(p,m);updateIntegrationOutput(p,m);updateMarriageSystemOutput(p,m);updateTranslationEngine(p,m);updateAccuracyOutput(p,m);updateRepairPlanOutput(p,m);updateResponseMode(p,m);updateStrategy(p,m);updateAvatar(p,m);let title='Proceed carefully',cls='',text='Keep learning without outrunning the evidence.';if(m.personalized>=70&&m.peaceIndex>=65&&m.respectIndex>=65){title='Worth continuing to explore';cls='good';text='For your profile, this currently aligns with peace, respect, and low emotional cost.'}else if(m.personalized<=40||m.peaceIndex<40||m.respectIndex<40){title='Likely mismatch or boundaries needed';cls='bad';text='For your profile, this may cost too much peace or respect.'}if((p.rtype||'').includes('Do not date')){title='Boundaries-first relationship';cls='';text='This is not for romance escalation. Organize around clarity and boundaries.'}$('readout').className='readout '+cls;$('readout').innerHTML=`<b>${title}</b><br>Personalized Score: <b>${m.personalized}/100</b><br><span class='small'>General: ${m.base}/100 · Repair: ${m.repair}/100 · Reciprocity: ${m.reciprocityDyn}/100 · Grounding: ${m.embedded}/100 · Alignment: ${m.alignment}/100</span><br>${text}`;updateBiasWarnings(p,m);updateGuidance(p,m);updateAI(p,m);drawRadar(p,m);renderTimeline(p);renderCards();$('status').textContent='App loaded. Autosave active.'}
 function updateMatrix(m){let hiP=m.peaceIndex>=60,hiR=m.respectIndex>=60;let active=hiP&&hiR?'exceptional':hiP&&!hiR?'comfort':!hiP&&hiR?'work':'risk';$('matrix').innerHTML=`<div class='quad ${active==='comfort'?'active':''}'><b>High Peace / Low Respect</b><span class='small'>Comfort without full partnership.</span></div><div class='quad ${active==='exceptional'?'active':''}'><b>High Peace / High Respect</b><span class='small'>Long-term potential.</span></div><div class='quad ${active==='risk'?'active':''}'><b>Low Peace / Low Respect</b><span class='small'>Proceed carefully.</span></div><div class='quad ${active==='work'?'active':''}'><b>Low Peace / High Respect</b><span class='small'>Foundation exists, but emotional cost is high.</span></div>`}
 function updateSocialReadout(p,m){let line=m.social>=75?'The surrounding social environment looks supportive.':m.social>=55?'The social environment is mixed; observe her friends and norms.':m.social>=35?'The social environment may create pressure, comparison, or instability.':'High social-environment risk: contempt, status pressure, or peer policing may affect compatibility.';$('socialReadout').innerHTML=`<p><b>Social Environment Score:</b> ${m.social}/100</p><p>${line}</p><p class='small'>This tracks whether her close social world seems to reward respect, commitment, and stable partnership versus comparison, contempt, and status games.</p>`}
 function updateBiasWarnings(p,m){let w=[];if(tendency('scarcity')&&p.green.attraction>=7)w.push(['Scarcity warning','Interest is meaningful, but not evidence they is good for you.']);if(tendency('attractionOverride')&&p.green.attraction>=8&&m.peaceIndex<=55)w.push(['Attraction override','Attraction is outrunning peace/respect.']);if(tendency('rescuer')&&p.risk.trauma>=7)w.push(['Rescuer warning','Do not confuse being needed with being loved.']);if(tendency('peoplePleaser')&&m.respectIndex<60)w.push(['People-pleasing warning','Low respect requires earlier boundary-setting.']);if(p.social.statusPressure>=7)w.push(['Status-pressure warning','Status comparison may affect expectations.']);if(p.hesitation&&p.hesitation.trim().length>20)w.push(['Hesitation note present','Your written hesitation may contain signal that sliders miss. Re-read it before escalating.']);if(!w.length)w.push(['No major blind spot triggered','Current inputs do not strongly trigger selected warnings.']);$('biasWarnings').innerHTML=w.map(([a,b],i)=>`<div class='warning ${i===0&&w.length>1?'dangerWarn':''}'><b>${a}:</b> ${b}</div>`).join('')}
@@ -225,8 +334,8 @@ function addQuickCard(){
   let category=$('quickCategory').value;
   let p=blankProfile();
   p.name=name;
-  p.rtype=category==='Romantic'?'Romantic prospect':category==='Work'?'Coworker / professional peer':category==='Family'?'Family / long-term obligation':category==='Boundary'?'Boundary (limited / managed contact)':category==='Child'?'Child':category==='Pet'?'Pet':category==='Friend'?'Friend / social connection':'Team / sports / social group';
-  p.desiredOutcome=category==='Boundary'?'Boundary management':category==='Work'?'Professional cooperation':category==='Family'?'Peaceful family coexistence':category==='Child'?'Care / nurture / family bond':category==='Pet'?'Companionship / care / comfort':category==='Romantic'?'Explore slowly':'Casual friendship';
+  p.rtype=typeFromQuickCategory(category);
+  p.desiredOutcome=outcomeFromQuickCategory(category);
   p.quick={category:category,frequency:$('quickFrequency').value,nutrient:$('quickNutrient').value,warmth:quickVal('qcWarmth'),respect:quickVal('qcRespect'),trust:quickVal('qcTrust'),energy:quickVal('qcEnergy'),note:$('quickCardNote').value||''};
   p.green.warmth=p.quick.warmth;p.green.respect=p.quick.respect;p.green.peace=Math.max(0,Math.min(10,5+p.quick.energy/2));
   p.respect.opinion=p.quick.respect;p.respect.boundaries=p.quick.respect;p.respect.commitments=p.quick.trust;
@@ -305,22 +414,101 @@ function drawEcosystemCanvas(){
 }
 
 
+
+const snapshotHelpText={
+  peace:'Peace means how calm, settled, and non-chaotic you felt after the interaction. Low = agitated, anxious, dysregulated, or tense. High = grounded, relaxed, and emotionally safe.',
+  respect:'Respect means whether the interaction made you feel regarded as a person with valid needs, time, effort, and perspective. Low = dismissed, belittled, ignored, or humiliated. High = treated with consideration.',
+  closeness:'Closeness/intimacy means whether the interaction increased the sense of being connected, included, emotionally near, or on the same team. Low = distant or siloed. High = bonded or mutually aware.',
+  repair:'Repair quality means what happened after friction, misunderstanding, hurt, or tension. Low = no accountability, defensiveness, stonewalling, punishment, or unresolved residue. High = clarification, apology, reconnection, changed behavior, or mutual understanding.',
+  cost:'Emotional cost means how much energy the interaction consumed. Low = little drain. High = rumination, stress, lost sleep, anxiety, or feeling depleted.',
+  clarity:'Communication clarity means whether you understood what was meant, expected, or agreed on. Low = confusing, ambiguous, indirect, or misaligned. High = explicit, shared understanding.'
+};
+function showSnapshotHelp(key){
+  let panel=$('snapshotHelpPanel');
+  if(panel)panel.innerHTML='<b>'+key[0].toUpperCase()+key.slice(1)+':</b> '+(snapshotHelpText[key]||'No help text yet.');
+}
+function bindSnapshotHelp(){
+  document.querySelectorAll('.helpBtn[data-help]').forEach(btn=>{
+    if(btn.dataset.bound==='1')return;
+    btn.dataset.bound='1';
+    btn.addEventListener('click',()=>showSnapshotHelp(btn.dataset.help));
+  });
+}
+
 const snapshotKeywords=[['corrected','competence threat'],['wrong','competence threat'],['criticized','criticism/correction'],['gift','gift/effort'],['submitted','parallel lives / siloing'],['proposal','work/mission bandwidth'],['didn’t discuss','communication intimacy gap'],['never discussed','communication intimacy gap'],['not on the same page','communication clarity gap'],['chores','tasks/chores'],['forgot','follow-through'],['work','mission priority'],['busy','bandwidth'],['appreciate','appreciation'],['ignored','felt unseen'],['commit','commitment'],['marriage','commitment'],['friend','peer influence']];
 function updateSnapshotCardSelect(){if(!$('snapshotCardSelect'))return;$('snapshotCardSelect').innerHTML=(state.profiles||[]).map(p=>`<option value="${p.id}">${escapeHTML(p.name||'Untitled')} — ${escapeHTML(p.rtype||'Card')}</option>`).join('')||'<option value="">Create new card below</option>'}
 function snapshotTags(text){let s=String(text||'').toLowerCase(),tags=[];snapshotKeywords.forEach(([kw,tag])=>{if(s.includes(kw)&&!tags.includes(tag))tags.push(tag)});return tags}
 function inferSnapshotDynamics(){let text=(($('snapshotEvent')?.value||'')+' '+($('snapshotStory')?.value||''));let tags=snapshotTags(text),d=$('snapshotDomain')?.value||'';if(d.includes('Communication'))tags.push('communication intimacy gap');if(d.includes('Tasks'))tags.push('task/competence translation');if(d.includes('Commitment'))tags.push('commitment uncertainty');if(d.includes('Appreciation'))tags.push('usefulness/appreciation dynamic');return [...new Set(tags)]}
 function updateSnapshotInterpretation(){if(!$('snapshotInterpretation'))return;let tags=inferSnapshotDynamics(),conf=$('snapshotConfidence')?.value||'',chk=$('snapshotChecked')?.value||'';let msg=tags.length?`Possible dynamics: ${tags.map(t=>`<span class="tagPill">${t}</span>`).join('')}`:'No clear tags yet. Add concrete facts to improve interpretation.';let caution=(conf.includes('Low')||chk==='No')?'<div class="biasWarning"><b>Caution:</b> hypothesis only. Low confidence or unchecked interpretation.</div>':'';$('snapshotInterpretation').innerHTML=msg+caution}
-function createSnapshotCardIfNeeded(){let name=($('snapshotNewName')?.value||'').trim()||'New card',category=$('snapshotNewCategory')?.value||'Other';let p=blankProfile();p.name=name;p.rtype=category==='Romantic'?'Romantic prospect':category==='Work'?'Coworker / professional peer':category==='Family'?'Family / long-term obligation':category==='Boundary'?'Boundary (limited / managed contact)':category==='Child'?'Child':category==='Pet'?'Pet':category==='Friend'?'Friend / social connection':'Team / sports / social group';p.quick={category,nutrient:category==='Pet'?'Comfort':category==='Child'?'Purpose':'Warmth',frequency:'Weekly',warmth:5,respect:5,trust:5,energy:0,note:''};state.profiles.push(p);return p.id}
+function createSnapshotCardIfNeeded(){let name=($('snapshotNewName')?.value||'').trim()||'New card',category=$('snapshotNewCategory')?.value||'Other';let p=blankProfile();p.name=name;p.rtype=typeFromQuickCategory(category);p.quick={category,nutrient:category==='Pet'?'Comfort':category==='Child'?'Purpose':'Warmth',frequency:'Weekly',warmth:5,respect:5,trust:5,energy:0,note:''};state.profiles.push(p);return p.id}
 function savePrimarySnapshot(){let cardId=$('snapshotCardSelect')?.value;if(!cardId)cardId=createSnapshotCardIfNeeded();state.currentId=cardId;let p=currentProfile();let event=$('snapshotEvent')?.value||'',story=$('snapshotStory')?.value||'',tags=inferSnapshotDynamics();let peace=Number($('snapPeace')?.value||5),respect=Number($('snapRespect')?.value||5),close=Number($('snapCloseness')?.value||5),repair=Number($('snapRepair')?.value||5),cost=Number($('snapCost')?.value||5),clar=Number($('snapClarity')?.value||5);p.green.peace=peace;p.green.respect=respect;p.respect.opinion=respect;p.repair=p.repair||{};p.repair.repairAbility=repair;p.repair.recoverySpeed=repair;p.energy=p.energy||{};p.energy.drain=cost;p.energy.grounding=Math.max(0,10-cost);p.translation=p.translation||{};p.translation.emotionalTranslation=clar;p.translation.reassuranceNeed=10-close;p.evidence=(p.evidence?p.evidence+'\n':'')+event;p.story=(p.story?p.story+'\n':'')+story;let m=metrics(p);p.snapshots=p.snapshots||[];p.snapshots.push({id:uid(),label:new Date().toLocaleDateString()+' snapshot',created:new Date().toISOString(),peace:m.peaceIndex,respect:m.respectIndex,compat:m.personalized,repair:m.repair,reciprocity:m.reciprocityDyn,embedded:m.embedded,alignment:m.alignment,energy:m.energy,note:event,story,tags,domain:$('snapshotDomain')?.value||'',emotion:$('snapshotEmotion')?.value||'',evidenceConfidence:$('snapshotConfidence')?.value||'',interpretationChecked:$('snapshotChecked')?.value||'',primary:true});saveState();renderProfiles();renderCards();renderEcosystem();updateSnapshotCardSelect();updateSnapshotInterpretation();fillForm();safeUpdate();$('status').textContent='Snapshot saved.';['snapshotEvent','snapshotStory'].forEach(id=>{if($(id))$(id).value=''})}
-function bindSnapshotInputs(){['snapshotEvent','snapshotStory','snapshotDomain','snapshotConfidence','snapshotChecked'].forEach(id=>{let el=$(id);if(el){el.addEventListener('input',updateSnapshotInterpretation);el.addEventListener('change',updateSnapshotInterpretation)}});['snapPeace','snapRespect','snapCloseness','snapRepair','snapCost','snapClarity'].forEach(id=>{let el=$(id);if(el)el.addEventListener('input',()=>{let lab=$(id+'Val');if(lab)lab.textContent=el.value;updateSnapshotInterpretation()})});if($('saveSnapshotPrimaryBtn'))$('saveSnapshotPrimaryBtn').onclick=savePrimarySnapshot;if($('snapshotNewCardBtn'))$('snapshotNewCardBtn').onclick=()=>{$('snapshotNewCardFields').classList.toggle('hidden');if($('snapshotCardSelect'))$('snapshotCardSelect').value=''}}
+function bindSnapshotInputs(){bindSnapshotHelp();['snapshotEvent','snapshotStory','snapshotDomain','snapshotConfidence','snapshotChecked'].forEach(id=>{let el=$(id);if(el){el.addEventListener('input',updateSnapshotInterpretation);el.addEventListener('change',updateSnapshotInterpretation)}});['snapPeace','snapRespect','snapCloseness','snapRepair','snapCost','snapClarity'].forEach(id=>{let el=$(id);if(el)el.addEventListener('input',()=>{let lab=$(id+'Val');if(lab)lab.textContent=el.value;updateSnapshotInterpretation()})});if($('saveSnapshotPrimaryBtn'))$('saveSnapshotPrimaryBtn').onclick=savePrimarySnapshot;if($('snapshotNewCardBtn'))$('snapshotNewCardBtn').onclick=()=>{$('snapshotNewCardFields').classList.toggle('hidden');if($('snapshotCardSelect'))$('snapshotCardSelect').value=''}}
+
+
+function typeFromQuickCategory(category){
+  const map={
+    'Romantic':'Romantic prospect',
+    'Situationship':'Situationship / ambiguous romance',
+    'Dating relationship':'Dating relationship',
+    'Long-term partner':'Long-term partner',
+    'Fiancé / Fiancée':'Fiancé / Fiancée',
+    'Husband':'Husband',
+    'Wife':'Wife',
+    'Co-parent':'Co-parent',
+    'Ex-partner':'Ex-partner',
+    'Work':'Coworker / professional peer',
+    'Family':'Family / long-term obligation',
+    'Boundary':'Boundary (limited / managed contact)',
+    'Child':'Child',
+    'Pet':'Pet',
+    'Friend':'Friend / social connection',
+    'Mentor':'Mentor',
+    'Activity / teammate':'Team / sports / social group'
+  };
+  return map[category]||'Team / sports / social group';
+}
+function outcomeFromQuickCategory(category){
+  const map={
+    'Romantic':'Explore slowly',
+    'Situationship':'Clarify ambiguity',
+    'Dating relationship':'Grow relationship',
+    'Long-term partner':'Maintain / deepen partnership',
+    'Fiancé / Fiancée':'Prepare for marriage',
+    'Husband':'Marriage repair / growth',
+    'Wife':'Marriage repair / growth',
+    'Co-parent':'Stable co-parenting',
+    'Ex-partner':'Boundary management',
+    'Work':'Professional cooperation',
+    'Family':'Peaceful family coexistence',
+    'Child':'Care / nurture / family bond',
+    'Pet':'Companionship / care / comfort',
+    'Boundary':'Boundary management'
+  };
+  return map[category]||'Casual friendship';
+}
+function isMarriageStage(p){
+  let c=profileCategory(p);
+  return ['Husband','Wife','Long-term partner','Fiancé / Fiancée','Co-parent'].includes(c);
+}
 
 function profileCategory(p){
   let t=p.rtype||'';
+  if(t.includes('Husband'))return 'Husband';
+  if(t.includes('Wife'))return 'Wife';
+  if(t.includes('Co-parent'))return 'Co-parent';
+  if(t.includes('Ex-partner'))return 'Ex-partner';
+  if(t.includes('Fiancé')||t.includes('Fiance'))return 'Fiancé / Fiancée';
+  if(t.includes('Long-term partner'))return 'Long-term partner';
+  if(t.includes('Dating relationship'))return 'Dating relationship';
+  if(t.includes('Situationship'))return 'Situationship';
   if(t.includes('Romantic')||t.includes('dating'))return 'Romantic';
   if(t.includes('Friend'))return 'Friend';
   if(t.includes('Coworker')||t.includes('Boss')||t.includes('professional'))return 'Work';
   if(t.includes('Family'))return 'Family';
-  if(t.includes('Boundary')||t.includes('Do not date'))return 'Boundary';if(t.includes('Child'))return 'Child';if(t.includes('Pet'))return 'Pet';
+  if(t.includes('Boundary')||t.includes('Do not date'))return 'Boundary';
+  if(t.includes('Child'))return 'Child';
+  if(t.includes('Pet'))return 'Pet';
+  if(t.includes('Mentor'))return 'Mentor';
   return 'Other';
 }
 function cardGlyphFor(p,m){
@@ -512,79 +700,153 @@ function mainFrictionDomain(p){
   };
   return Object.entries(scores).sort((a,b)=>b[1]-a[1])[0][0];
 }
+
+function updateMarriageSystemOutput(p,m){
+  if(!$('marriageSystemOutput'))return;
+  if(!isMarriageStage(p)){
+    $('marriageSystemOutput').innerHTML='<p class="small">Marriage/long-term system analysis appears for Husband, Wife, Long-term Partner, Fiancé/Fiancée, and Co-parent cards.</p>';
+    return;
+  }
+  let cat=profileCategory(p);
+  let t=p.translation||{}, r=p.repair||{}, e=p.energy||{};
+  let sharedReality=Math.round(((t.emotionalTranslation||5)+(10-(t.reassuranceNeed||5))+(m.embedded||50)/10)/3*10);
+  let householdLoad=Math.round(((t.invisibleLaborSensitivity||5)+(e.drain||5)+(10-(r.repairAbility||5)))/3*10);
+  let admirationRisk=cat==='Husband'?Math.round(((t.competenceThreat||5)+(10-(p.respect?.appreciation||5))+(e.drain||5))/3*10):Math.round(((t.invisibleLaborSensitivity||5)+(t.reassuranceNeed||5)+(10-(t.emotionalTranslation||5)))/3*10);
+  let intimacyDrift=Math.round(((10-(p.green?.warmth||5))+(10-(p.green?.reciprocity||5))+(10-(t.emotionalTranslation||5)))/3*10);
+  let primary = sharedReality<50?'Shared Reality Rebuild':householdLoad>65?'Household Load / Burnout':admirationRisk>65?'Admiration or Emotional Visibility Repair':intimacyDrift>65?'Intimacy Drift Repair':'Maintenance / Growth';
+  $('marriageSystemOutput').innerHTML=
+    `<p><span class="stageBadge">${cat}</span><span class="stageBadge">${primary}</span></p>
+    <div class="marriageGrid">
+      <div class="marriageItem"><b>Shared reality</b>${sharedReality}/100<br><span class="small">How much life is being narrated, processed, and planned together.</span></div>
+      <div class="marriageItem"><b>Household / structural load</b>${householdLoad}/100<br><span class="small">Stress from tasks, logistics, sleep, finances, or invisible management.</span></div>
+      <div class="marriageItem"><b>Admiration / visibility risk</b>${admirationRisk}/100<br><span class="small">Risk of feeling unseen, unappreciated, criticized, or emotionally invisible.</span></div>
+      <div class="marriageItem"><b>Intimacy drift</b>${intimacyDrift}/100<br><span class="small">Risk of parallel lives, reduced warmth, or low emotional/sexual closeness.</span></div>
+    </div>
+    <p><b>Suggested exercise:</b> 20-minute weekly shared-reality check-in: what changed this week, what decisions are pending, what stress each person is carrying, and one thing each person appreciated.</p>`;
+}
+
+
+function latestSnapshot(p){
+  let snaps=p.snapshots||[];
+  return snaps.length?snaps[snaps.length-1]:null;
+}
+function hasTranslationEvidence(p){
+  let snap=latestSnapshot(p);
+  let text=((p.evidence||'')+' '+(p.story||'')+' '+(snap?.note||'')+' '+(snap?.story||'')).trim();
+  return text.length>20 || !!snap;
+}
+function translationInputsUsed(p){
+  let t=p.translation||{}, snap=latestSnapshot(p);
+  let items=[
+    ['Latest snapshot/event', snap?.note || 'No snapshot event saved yet'],
+    ['User story/interpretation', snap?.story || p.story || 'No story/interpretation entered yet'],
+    ['Snapshot tags', snap?.tags?.length ? snap.tags.join(', ') : 'No tags detected yet'],
+    ['Domain', snap?.domain || 'No domain selected yet'],
+    ['Evidence confidence', snap?.evidenceConfidence || 'Not set'],
+    ['Interpretation checked', snap?.interpretationChecked || 'Not set'],
+    ['Competence-threat sensitivity', (t.competenceThreat??5)+'/10 — from Translation dynamics slider'],
+    ['Invisible labor sensitivity', (t.invisibleLaborSensitivity??5)+'/10 — from Translation dynamics slider'],
+    ['Emotional translation ability', (t.emotionalTranslation??5)+'/10 — from Translation dynamics slider or snapshot clarity'],
+    ['Reassurance need', (t.reassuranceNeed??5)+'/10 — from Translation dynamics slider or snapshot closeness'],
+    ['Mission/work priority', (t.missionPriority??5)+'/10 — from Translation dynamics slider']
+  ];
+  return items;
+}
+function translationConfidence(p){
+  let snap=latestSnapshot(p), score=0;
+  if(snap?.note && snap.note.length>20)score+=25;
+  if(snap?.tags?.length)score+=20;
+  if(snap?.evidenceConfidence?.includes('High'))score+=25;
+  else if(snap?.evidenceConfidence?.includes('Medium'))score+=15;
+  if(snap?.interpretationChecked?.includes('Yes'))score+=20;
+  else if(snap?.interpretationChecked?.includes('Partially'))score+=10;
+  if((p.snapshots||[]).length>=3)score+=20;
+  return Math.max(0,Math.min(100,score));
+}
+function meaningTranslationMap(p){
+  let snap=latestSnapshot(p), t=p.translation||{};
+  let domain=snap?.domain || mainFrictionDomain(p);
+  let event=snap?.note || p.evidence || '';
+  if(!hasTranslationEvidence(p)){
+    return {
+      ready:false,
+      event:'No event yet',
+      intended:'No intended meaning can be inferred yet.',
+      received:'No received meaning can be inferred yet.',
+      loop:'No loop detected yet.',
+      repair:'Save a snapshot first. Then the app can map facts → interpretation → emotional effect → repair path.'
+    };
+  }
+  let intended='The other person may have been expressing a need, preference, stress point, or bid for coordination.';
+  let received='The behavior may have been received as criticism, distance, disrespect, invisibility, or lack of care.';
+  let loop='If unclarified, both people may react to the meaning they received rather than the meaning intended.';
+  let repair='Clarify the meaning before judging intent. Ask one direct question and make one concrete request.';
+  let tags=(snap?.tags||[]).join(' ');
+  if(domain.includes('Communication') || tags.includes('communication intimacy gap')){
+    intended='A need for shared reality: being included, updated, and treated like a partner in decisions.';
+    received='Possible received meaning: “We are living parallel lives” or “I am not included in your inner world.”';
+    loop='Distance → private processing → surprise/discovery → hurt → more distance.';
+    repair='Use a shared-reality check-in: what changed, what decisions are pending, what stress are we each carrying?';
+  } else if(domain.includes('Tasks') || domain.includes('Criticism') || tags.includes('competence')){
+    intended=(t.invisibleLaborSensitivity||5)>=7?'A request for relief from invisible load, comfort, or being supported.':'A preference, correction, or request about how something should be done.';
+    received=(t.competenceThreat||5)>=7?'Possible received meaning: “I failed / I am not useful / why did I try?”':'Possible received meaning: “This needs to be improved.”';
+    loop='Correction → competence threat → withdrawal/reduced initiative → more frustration/correction.';
+    repair=(t.playfulRepair||5)>=7?'Use playful redirection or self-aware framing, not a fake praise sandwich. Preserve dignity while explaining the comfort gained.':'Explain the comfort or outcome gained, not merely what was wrong.';
+  } else if(domain.includes('Commitment')){
+    intended='A need for direction, clarity, security, or future integration.';
+    received='Possible received meaning: pressure, loss of autonomy, or being evaluated.';
+    loop='Ambiguity → anxiety/testing → withdrawal/defensiveness → more ambiguity.';
+    repair='Clarify desired direction without cornering: “I want to understand what we are building toward.”';
+  } else if(domain.includes('Appreciation')){
+    intended='A need to feel effort is seen and valued.';
+    received='Possible received meaning: “Nothing I do counts” or “I am failing the scoreboard.”';
+    loop='Low appreciation → reduced initiative → more disappointment → less appreciation.';
+    repair='Name what is working repeatedly and specifically; handle course-corrections separately from recognition.';
+  }
+  return {ready:true,event:event||snap?.note||'Event from latest snapshot',intended,received,loop,repair};
+}
+function updateTranslationSources(p){
+  if(!$('translationSourcesOutput'))return;
+  let conf=translationConfidence(p);
+  let cls=conf<45?'confidenceLow':'confidenceOk';
+  let rows=translationInputsUsed(p).map(([k,v])=>`<tr><td>${escapeHTML(k)}</td><td>${escapeHTML(String(v))}</td></tr>`).join('');
+  $('translationSourcesOutput').innerHTML=`<div class="sourceItem ${cls}"><b>Interpretation confidence: ${conf}/100</b>${conf<45?'This is mostly a hypothesis. Add snapshots, notes, and checked interpretations before trusting it.':'This has some grounding from snapshot/card inputs.'}</div><table class="inputTable">${rows}</table>`;
+}
+function updateTranslationMap(p){
+  if(!$('translationMapOutput'))return;
+  let m=meaningTranslationMap(p);
+  if(!m.ready){
+    $('translationMapOutput').innerHTML=`<div class="flowCard confidenceLow"><b>No meaningful event selected yet</b>${m.repair}</div>`;
+    return;
+  }
+  $('translationMapOutput').innerHTML=`
+    <div class="flowCard"><b>1. Event being interpreted</b>${escapeHTML(String(m.event).slice(0,500))}</div>
+    <div class="flowArrow">↓</div>
+    <div class="flowCard"><b>2. Possible intended meaning</b>${escapeHTML(m.intended)}</div>
+    <div class="flowArrow">↓</div>
+    <div class="flowCard"><b>3. Possible received meaning</b>${escapeHTML(m.received)}</div>
+    <div class="flowArrow">↓</div>
+    <div class="flowCard"><b>4. Likely loop if unclarified</b>${escapeHTML(m.loop)}</div>
+    <div class="flowArrow">↓</div>
+    <div class="flowCard"><b>5. Repair path</b>${escapeHTML(m.repair)}</div>`;
+}
 function updateTranslationOutput(p,m){
   if(!$('translationOutput'))return;
-  let score=translationScore(p), domain=mainFrictionDomain(p);
-  let t=p.translation||{};
+  let score=translationScore(p), domain=latestSnapshot(p)?.domain || mainFrictionDomain(p);
+  let conf=translationConfidence(p);
   let likely = score>=65 ? 'High meaning-mismatch risk' : score>=40 ? 'Moderate meaning-mismatch risk' : 'Lower meaning-mismatch risk';
-  let interpretation = 'This conflict may be less about bad intent and more about how behavior is being translated.';
-  if((t.competenceThreat||0)>=7)interpretation='Correction may be landing as competence threat, not simple preference feedback.';
-  if((t.invisibleLaborSensitivity||0)>=7)interpretation='The other side may experience the issue as invisible labor or emotional invisibility.';
-  if((t.missionPriority||0)>=7)interpretation='Mission/work bandwidth may be competing with relational maintenance.';
-  $('translationOutput').innerHTML=`<p><span class="translationBadge">${likely}</span><span class="translationBadge">Main domain: ${domain}</span></p><p>${interpretation}</p>`;
+  let caveat = conf<45 ? ' This is low-confidence until you add snapshots or concrete notes.' : '';
+  $('translationOutput').innerHTML=`<p><span class="translationBadge">${likely}</span><span class="translationBadge">Domain: ${escapeHTML(domain)}</span><span class="translationBadge">Confidence: ${conf}/100</span></p><p>This section maps how an event may move from behavior → intended meaning → received meaning → loop → repair path.${caveat}</p>`;
 }
-function drawTranslationCanvas(p){
-  let c=$('translationCanvas'); if(!c)return;
-  let ctx=c.getContext('2d'),w=c.width,h=c.height;
-  ctx.clearRect(0,0,w,h);ctx.fillStyle='#fff';ctx.fillRect(0,0,w,h);
-  let domain=mainFrictionDomain(p), t=p.translation||{};
-  let boxes=[
-    ['Observed behavior', domain==='chores'?'Task not done / task corrected':'Friction event'],
-    ['Intended meaning', (t.invisibleLaborSensitivity||0)>=7?'Need for comfort, help, or being seen':'Preference, request, or stress signal'],
-    ['Received meaning', (t.competenceThreat||0)>=7?'Failure / not useful / lost points':'Possible criticism or lack of appreciation'],
-    ['Repair path', (t.playfulRepair||0)>=7?'Playful redirection + preserve dignity':'Clarify meaning without blame']
-  ];
-  ctx.font='13px -apple-system,BlinkMacSystemFont,Segoe UI,Arial';ctx.textAlign='center';ctx.textBaseline='middle';
-  boxes.forEach((b,i)=>{
-    let x=95+i*185,y=120;
-    ctx.fillStyle='#fbf7ef';ctx.strokeStyle='#ded6c9';ctx.lineWidth=1;
-    roundRect(ctx,x-70,y-45,140,90,14,true,true);
-    ctx.fillStyle='#25221d';ctx.font='12px -apple-system,BlinkMacSystemFont,Segoe UI,Arial';ctx.fillText(b[0],x,y-18);
-    ctx.fillStyle='#6e675d';wrapText(ctx,b[1],x,y+10,120,15);
-    if(i<boxes.length-1){ctx.strokeStyle='#815b33';ctx.beginPath();ctx.moveTo(x+75,y);ctx.lineTo(x+110,y);ctx.stroke();ctx.fillText('→',x+92,y-10);}
-  });
-  ctx.fillStyle='#815b33';ctx.font='15px -apple-system,BlinkMacSystemFont,Segoe UI,Arial';ctx.fillText('Meaning Translation Flow',w/2,30);
-}
-function roundRect(ctx,x,y,w,h,r,fill,stroke){ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath();if(fill)ctx.fill();if(stroke)ctx.stroke();}
-function wrapText(ctx,text,x,y,maxWidth,lineHeight){let words=String(text).split(' '),line='';for(let n=0;n<words.length;n++){let test=line+words[n]+' ';if(ctx.measureText(test).width>maxWidth&&n>0){ctx.fillText(line,x,y);line=words[n]+' ';y+=lineHeight}else line=test}ctx.fillText(line,x,y)}
-function updateFrictionHeatmap(p){
-  if(!$('frictionHeatmap'))return;
-  let t=p.translation||{};
-  let vals={
-    'Chores / tasks':Math.min(100,((t.utilityIdentity||5)+(t.taskLove||5)+(t.competenceThreat||5)+(t.invisibleLaborSensitivity||5))*2.5),
-    'Planning / logistics':Math.min(100,((t.missionPriority||5)+(t.invisibleLaborSensitivity||5)+(10-(t.emotionalTranslation||5)))*3.3),
-    'Correction / criticism':Math.min(100,((t.competenceThreat||5)+(t.appreciationNeed||5))*5),
-    'Work / mission':Math.min(100,((t.missionPriority||5)+(t.reassuranceNeed||5))*5),
-    'Affection / reassurance':Math.min(100,((t.reassuranceNeed||5)+(10-(t.emotionalTranslation||5)))*5),
-    'Sex / desire':Math.min(100,((t.reassuranceNeed||5)+(t.competenceThreat||5))*5),
-    'Money / provision':Math.min(100,((t.utilityIdentity||5)+(t.missionPriority||5))*5),
-    'Family / roles':Math.min(100,((t.invisibleLaborSensitivity||5)+(t.reassuranceNeed||5))*5)
-  };
-  $('frictionHeatmap').innerHTML=Object.entries(vals).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`<div class="heatCell"><div class="heatTop"><span>${k}</span><span>${Math.round(v)}</span></div><div class="heatTrack"><div class="heatFill" style="width:${Math.round(v)}%"></div></div></div>`).join('');
-}
-function updateRepairLanguage(p){
-  if(!$('repairLanguageOutput'))return;
-  let t=p.translation||{}, domain=mainFrictionDomain(p);
-  let options=[];
-  if((t.competenceThreat||0)>=7){
-    options.push(['Avoid fake praise sandwich','Do not make appreciation feel like a setup for correction. Focus on the larger pattern of what is working before bringing up preferences.']);
-    options.push(['Playful redirection','Use humor/self-awareness to keep closeness: “I know I’m weirdly specific about this, but this version makes my brain relax.”']);
-    options.push(['Meaning explanation','Explain the comfort gained rather than the defect: “When this is handled, I feel calmer and more taken care of.”']);
-  }
-  if((t.invisibleLaborSensitivity||0)>=7){
-    options.push(['Make invisible load visible','Translate the task into emotional load: “When I keep tracking this alone, I start feeling like the manager instead of a partner.”']);
-  }
-  if((t.missionPriority||0)>=7){
-    options.push(['Respect bandwidth, increase salience','Tie the request to priority and timing: “Can we pick exactly when this gets handled so I can stop carrying it mentally?”']);
-  }
-  if(!options.length){
-    options.push(['Clarify before judging','Ask one non-accusatory question and state the impact clearly.']);
-  }
-  $('repairLanguageOutput').innerHTML=options.map(([h,b])=>`<div class="languageOption"><b>${h}</b><br>${b}</div>`).join('');
-}
+function drawTranslationCanvas(p){return}
 function updateTranslationEngine(p,m){
-  updateTranslationOutput(p,m);drawTranslationCanvas(p);updateFrictionHeatmap(p);updateRepairLanguage(p);
+  updateTranslationOutput(p,m);
+  updateTranslationSources(p);
+  updateTranslationMap(p);
+  updateFrictionHeatmap(p);
+  updateRepairLanguage(p);
 }
+
 
 function updateAccuracyOutput(p,m){
   if(!$('accuracyOutput'))return;
@@ -642,9 +904,11 @@ function updateRepairPlanOutput(p,m){
 
 function responseMode(p,m){
   let cat=profileCategory(p);
-  let constraint=(cat==='Work'||cat==='Family'||cat==='Child')?'high':(cat==='Friend'?'medium':'low');
+  let constraint=(cat==='Work'||cat==='Family'||cat==='Child'||cat==='Husband'||cat==='Wife'||cat==='Co-parent')?'high':(cat==='Friend'||cat==='Long-term partner'||cat==='Fiancé / Fiancée'?'medium':'low');
   let repair=m.repair||50,peace=m.peaceIndex||50,respect=m.respectIndex||50,recip=m.reciprocityDyn||50;
   let chaos=p.risk?.chaos||0;
+
+  if(isMarriageStage(p) && repair>=35){return {mode:'Marriage Repair Mode',tag:'Long-term system relationship',actions:['Prioritize shared-reality check-ins','Separate logistics conflict from affection and respect','Track repair attempts over several snapshots','Rebuild admiration/visibility intentionally','Address household load and intimacy drift as system problems, not character flaws']};}
 
   if(constraint==='high' && (respect<35 || peace<35) && repair<45){
     return {
@@ -842,23 +1106,48 @@ function roleReinforcementScores(){
   return gaps;
 }
 
+
 function ecosystemGrowthTargets(){
   let me=state.me||{}, out=[];
   let d=me.deficiencies||{}, b=me.blindSpots||{}, p=me.patterns||{};
-  if(d.mentorDeficit)out.push('Cultivate one mentor or respected older peer through recurring activity or direct advice-seeking.');
-  if(d.brotherhoodDeficit)out.push('Increase recurring male social contact through sports, projects, church, volunteering, or team environments.');
-  if(d.romanticOverreliance)out.push('Reduce romantic emotional load by strengthening friendship, mentorship, and community structures.');
-  if(d.isolation)out.push('Add recurring in-person social exposure rather than waiting for high-intensity events.');
-  if(b.poorCommunication)out.push('Practice clearer, lower-friction communication and follow-through.');
-  if(b.lowConfidence)out.push('Build confidence through competence, health, grooming, and repeated exposure rather than reassurance-seeking.');
-  if(b.dopamineHabits)out.push('Reduce overstimulation/social media overload to improve emotional regulation and relationship clarity.');
-  if(p.chaosAttraction)out.push('Learn to distinguish excitement and uncertainty from peace and compatibility.');
-  if(p.overInvestment)out.push('Slow emotional investment and gather more longitudinal evidence before idealizing.');
-  if(!out.length)out.push('Your ecosystem currently appears relatively balanced. Continue strengthening recurring, stabilizing relationships.');
+  if(isWomanLens()){
+    if(d.emotionalSafetyDeficit)out.push('Prioritize relationships that create consistent emotional safety rather than only excitement or status.');
+    if(d.sharedRealityDeficit)out.push('Use a weekly shared-reality check-in: decisions, stresses, upcoming plans, and what each person has been carrying mentally.');
+    if(d.destabilizingFriendGroup||b.friendGroupAmplification)out.push('Notice whether confidants increase clarity and repair or amplify resentment and comparison.');
+    if(d.socialMediaDistortion||b.comparisonLoop)out.push('Reduce comparison inputs before evaluating partner quality; compare against peace, repair, and consistency instead.');
+    if(b.defensiveMenFrame)out.push('Before concluding bad intent, test for misunderstanding, bandwidth, or communication-style mismatch.');
+    if(p.parallelLivesAlarm||d.sharedRealityDeficit)out.push('Ask for inclusion in major decisions and narrate why it creates partnership/security rather than control.');
+    if(p.securitySeeking||b.reassuranceTesting)out.push('Replace indirect tests with one clear request for reassurance or clarity.');
+  }else{
+    if(d.mentorDeficit)out.push('Cultivate one mentor or respected older peer through recurring activity or direct advice-seeking.');
+    if(d.brotherhoodDeficit)out.push('Increase recurring male social contact through sports, projects, church, volunteering, or team environments.');
+    if(d.romanticOverreliance)out.push('Reduce romantic emotional load by strengthening friendship, mentorship, and community structures.');
+    if(d.isolation)out.push('Add recurring in-person social exposure rather than waiting for high-intensity events.');
+    if(b.poorCommunication)out.push('Practice clearer, lower-friction communication and follow-through.');
+    if(b.lowConfidence)out.push('Build confidence through competence, health, grooming, and repeated exposure rather than reassurance-seeking.');
+    if(b.dopamineHabits)out.push('Reduce overstimulation/social media overload to improve emotional regulation and relationship clarity.');
+    if(p.chaosAttraction)out.push('Learn to distinguish excitement and uncertainty from peace and compatibility.');
+    if(p.overInvestment)out.push('Slow emotional investment and gather more longitudinal evidence before idealizing.');
+  }
+  if(!out.length)out.push('Your self profile currently appears relatively balanced. Continue using snapshots to detect recurring patterns.');
   return out;
 }
+function updateSelfPressureOutput(){
+  if(!$('selfPressureOutput'))return;
+  let me=state.me||{};
+  if(isWomanLens()){
+    let s=me.socialStandards||{};
+    let pressure=((s.comparisonPressure||5)+(s.socialApprovalNeed||5)+(s.statusSignalSensitivity||5)+(s.friendGroupPolicing||5)+(s.romanticExpectationInflation||5))/5;
+    $('selfPressureOutput').innerHTML=`<p><b>Social pressure load:</b> ${Math.round(pressure*10)}/100</p><p>${pressure>=7?'Peer comparison and status pressure may be strongly shaping romantic interpretation.':'Peer/social pressure is present but not dominant based on current inputs.'}</p>`;
+  }else{
+    let roles=me.roles||{};
+    let load=((roles.needed||5)+(roles.admired||5)+(roles.respectedRole||5)+(roles.trustedRole||5))/4;
+    $('selfPressureOutput').innerHTML=`<p><b>Role reinforcement need:</b> ${Math.round(load*10)}/100</p><p>${load>=7?'Usefulness, respect, and admiration are likely important regulators of confidence and romantic interpretation.':'Role reinforcement matters but does not appear extreme based on current inputs.'}</p>`;
+  }
+}
+
 function renderGrowthTargets(){
-  if(!$('growthOutput'))return;
+  updateSelfPressureOutput();if(!$('growthOutput'))return;
   $('growthOutput').innerHTML='<ul>'+ecosystemGrowthTargets().map(x=>`<li>${x}</li>`).join('')+'</ul>';
 }
 
@@ -872,12 +1161,12 @@ function renderRoleOutput(){
 function renderProfiles(){let list=$('profileList');list.innerHTML='<h3>Saved profiles</h3>';state.profiles.forEach(p=>{let b=document.createElement('button');b.className='profile'+(p.id===state.currentId?' active':'');b.innerHTML=`<b>${p.name||'Untitled'}</b><br><span class='small'>${p.rtype||''} · ${p.met||''}</span>`;b.onclick=()=>{collectForm();state.currentId=p.id;saveState();fillForm();renderProfiles();safeUpdate()};list.appendChild(b)})}
 function updateMyReadout(){let me=state.me||defaultMe();let checked=tendencyDefs.filter(([k])=>me.tendencies?.[k]).map(([_,l])=>l);let high=needDefs.filter(([k])=>(me.needs?.[k]??5)>=8).map(([_,l])=>l);$('myReadout').innerHTML=`<p><b>High-importance needs:</b> ${high.length?high.join(', '):'none marked 8+ yet.'}</p><p><b>Selected blind spots:</b> ${checked.length?checked.join(', '):'none selected yet.'}</p><p><b>How this changes scoring:</b> profiles are penalized more when they conflict with your high-importance needs or trigger selected tendencies.</p>`}
 function onAnyChange(){collectForm();saveState();renderProfiles();safeUpdate()}function onMeChange(){collectMe();saveState();updateMyReadout();safeUpdate()}
-function bindEvents(){['name','pronounContext','rtype','met','desiredOutcome','socialNotes','impression','evidence','interpretation','hesitation','notes'].forEach(id=>{$(id).addEventListener('input',onAnyChange);$(id).addEventListener('change',onAnyChange)});greenDefs.forEach(([k])=>$(`green_${k}`).addEventListener('input',()=>{$(`green_${k}_value`).textContent=$(`green_${k}`).value;onAnyChange()}));riskDefs.forEach(([k])=>$(`risk_${k}`).addEventListener('input',()=>{$(`risk_${k}_value`).textContent=$(`risk_${k}`).value;onAnyChange()}));respectDefs.forEach(([k])=>$(`respect_${k}`).addEventListener('input',()=>{$(`respect_${k}_value`).textContent=$(`respect_${k}`).value;onAnyChange()}));bindAdaptiveRiskInputs();needDefs.forEach(([k])=>$(`need_${k}`).addEventListener('input',()=>{$(`need_${k}_value`).textContent=$(`need_${k}`).value;onMeChange()}));roleDefs.forEach(([k])=>{let el=$(`role_${k}`);if(el)el.addEventListener('input',()=>{$(`role_${k}_value`).textContent=el.value;onMeChange()})});
+function bindEvents(){['name','pronounContext','rtype','met','desiredOutcome','socialNotes','impression','evidence','interpretation','hesitation','notes'].forEach(id=>{$(id).addEventListener('input',onAnyChange);$(id).addEventListener('change',onAnyChange)});greenDefs.forEach(([k])=>$(`green_${k}`).addEventListener('input',()=>{$(`green_${k}_value`).textContent=$(`green_${k}`).value;onAnyChange()}));riskDefs.forEach(([k])=>$(`risk_${k}`).addEventListener('input',()=>{$(`risk_${k}_value`).textContent=$(`risk_${k}`).value;onAnyChange()}));respectDefs.forEach(([k])=>$(`respect_${k}`).addEventListener('input',()=>{$(`respect_${k}_value`).textContent=$(`respect_${k}`).value;onAnyChange()}));bindAdaptiveRiskInputs();needDefs.forEach(([k])=>$(`need_${k}`).addEventListener('input',()=>{$(`need_${k}_value`).textContent=$(`need_${k}`).value;onMeChange()}));activeRoleDefs().forEach(([k])=>{let el=$(`role_${k}`);if(el)el.addEventListener('input',()=>{$(`role_${k}_value`).textContent=el.value;onMeChange()})});
 if(typeof socialStandardsDefs!=='undefined')socialStandardsDefs.forEach(([k])=>{let el=$(`socialStandard_${k}`);if(el)el.addEventListener('input',()=>{$(`socialStandard_${k}_value`).textContent=el.value;onMeChange()})});
-deficiencyDefs.forEach(([k])=>{let el=$(`def_${k}`);if(el)el.addEventListener('change',onMeChange)});
-blindSpotDefs.forEach(([k])=>{let el=$(`blind_${k}`);if(el)el.addEventListener('change',onMeChange)});
-patternDefs.forEach(([k])=>{let el=$(`pattern_${k}`);if(el)el.addEventListener('change',onMeChange)});
-tendencyDefs.forEach(([k])=>$(`t_${k}`).addEventListener('change',onMeChange));['myName','myPhilosophy','myDatingLens'].forEach(id=>{let el=$(id);if(el){el.addEventListener('input',onMeChange);el.addEventListener('change',onMeChange)}});$('tabSnapshot').onclick=()=>showTab('snapshot');$('tabCards').onclick=()=>showTab('cards');$('tabEcosystem').onclick=()=>showTab('ecosystem');$('tabPerson').onclick=()=>showTab('person');$('tabMe').onclick=()=>showTab('me');document.querySelectorAll('.filter').forEach(b=>b.onclick=()=>{document.querySelectorAll('.filter').forEach(x=>x.classList.remove('active'));b.classList.add('active');currentFilter=b.dataset.filter;renderCards();});['quickPeace','quickRespect','quickCost'].forEach(id=>$(id).addEventListener('input',updateQuickLabels));$('quickSnapshotBtn').onclick=quickUpdate;['qcWarmth','qcRespect','qcTrust','qcEnergy'].forEach(id=>{if($(id))$(id).addEventListener('input',updateQuickCardLabels)});if($('addQuickCardBtn'))$('addQuickCardBtn').onclick=addQuickCard;if($('saveCardBtn'))$('saveCardBtn').onclick=saveCurrentCard;if($('deleteCardBtn'))$('deleteCardBtn').onclick=deleteCurrentCard;$('newBtn').onclick=()=>{collectForm();let p=blankProfile();state.profiles.push(p);state.currentId=p.id;saveState();fillForm();renderProfiles();safeUpdate()};$('addSnapshotBtn').onclick=addSnapshot;$('exportBtn').onclick=()=>{collectForm();collectMe();saveState();let blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='relationship-intelligence-backup.json';a.click()};$('importFile').onchange=e=>{let file=e.target.files[0];if(!file)return;let reader=new FileReader();reader.onload=()=>{try{let imported=JSON.parse(reader.result);if(!Array.isArray(imported.profiles))throw new Error();state=migrate(imported);if(!state.currentId&&state.profiles[0])state.currentId=state.profiles[0].id;saveState();fillForm();fillMe();renderProfiles();safeUpdate()}catch(err){alert('Could not import that backup file.')}};reader.readAsText(file)}}
+activeDeficiencyDefs().forEach(([k])=>{let el=$(`def_${k}`);if(el)el.addEventListener('change',onMeChange)});
+activeBlindSpotDefs().forEach(([k])=>{let el=$(`blind_${k}`);if(el)el.addEventListener('change',onMeChange)});
+activePatternDefs().forEach(([k])=>{let el=$(`pattern_${k}`);if(el)el.addEventListener('change',onMeChange)});
+tendencyDefs.forEach(([k])=>$(`t_${k}`).addEventListener('change',onMeChange));['myName','myPhilosophy','myDatingLens'].forEach(id=>{let el=$(id);if(el){el.addEventListener('input',onMeChange);el.addEventListener('change',()=>{onMeChange();renderSliders();fillMe();updateSelfLensNote();renderGrowthTargets();})}});$('tabSnapshot').onclick=()=>showTab('snapshot');$('tabCards').onclick=()=>showTab('cards');$('tabEcosystem').onclick=()=>showTab('ecosystem');$('tabPerson').onclick=()=>showTab('person');$('tabMe').onclick=()=>showTab('me');document.querySelectorAll('.filter').forEach(b=>b.onclick=()=>{document.querySelectorAll('.filter').forEach(x=>x.classList.remove('active'));b.classList.add('active');currentFilter=b.dataset.filter;renderCards();});['quickPeace','quickRespect','quickCost'].forEach(id=>$(id).addEventListener('input',updateQuickLabels));$('quickSnapshotBtn').onclick=quickUpdate;['qcWarmth','qcRespect','qcTrust','qcEnergy'].forEach(id=>{if($(id))$(id).addEventListener('input',updateQuickCardLabels)});if($('addQuickCardBtn'))$('addQuickCardBtn').onclick=addQuickCard;if($('saveCardBtn'))$('saveCardBtn').onclick=saveCurrentCard;if($('deleteCardBtn'))$('deleteCardBtn').onclick=deleteCurrentCard;$('newBtn').onclick=()=>{collectForm();let p=blankProfile();state.profiles.push(p);state.currentId=p.id;saveState();fillForm();renderProfiles();safeUpdate()};$('addSnapshotBtn').onclick=addSnapshot;$('exportBtn').onclick=()=>{collectForm();collectMe();saveState();let blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='relationship-intelligence-backup.json';a.click()};$('importFile').onchange=e=>{let file=e.target.files[0];if(!file)return;let reader=new FileReader();reader.onload=()=>{try{let imported=JSON.parse(reader.result);if(!Array.isArray(imported.profiles))throw new Error();state=migrate(imported);if(!state.currentId&&state.profiles[0])state.currentId=state.profiles[0].id;saveState();fillForm();fillMe();renderProfiles();safeUpdate()}catch(err){alert('Could not import that backup file.')}};reader.readAsText(file)}}
 function showTab(t){$('snapshotView').classList.toggle('hidden',t!=='snapshot');$('cardsView').classList.toggle('hidden',t!=='cards');$('ecosystemView').classList.toggle('hidden',t!=='ecosystem');$('personView').classList.toggle('hidden',t!=='person');$('meView').classList.toggle('hidden',t!=='me');$('tabSnapshot').classList.toggle('active',t==='snapshot');$('tabCards').classList.toggle('active',t==='cards');$('tabEcosystem').classList.toggle('active',t==='ecosystem');$('tabPerson').classList.toggle('active',t==='person');$('tabMe').classList.toggle('active',t==='me');if(t==='snapshot'){updateSnapshotCardSelect();updateSnapshotInterpretation();}if(t==='cards')renderCards();if(t==='ecosystem')renderEcosystem();}
 function escapeHTML(s){return String(s).replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[ch]))}
 function init(){try{renderSliders();currentProfile();bindEvents();fillForm();fillMe();renderProfiles();updateQuickLabels();updateQuickCardLabels();safeUpdate();renderCards();renderEcosystem();renderGrowthTargets();bindSnapshotInputs();updateSnapshotCardSelect();updateSnapshotInterpretation();saveState();$('status').textContent='App loaded. Autosave active.'}catch(e){$('status').textContent='Startup error: '+e.message;console.error(e)}}
