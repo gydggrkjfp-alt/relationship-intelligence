@@ -1,9 +1,7 @@
-# Relationship Intelligence v1.5
+# Relationship Intelligence v1.6.1
 
-Adds Repair-First / Accuracy Check:
-- Accuracy risk score for emotionally charged updates
-- Evidence confidence field
-- Interpretation checked field
-- Repair-first problem-solving plans
-- Work relationship clarification protocol
-- Response mode now avoids rushing into containment unless respect/peace/repair are severely low
+Patch release:
+- Fixes card tiles not opening Card Detail
+- Fixes incorrect tab routing from card clicks
+- Adds explicit Save Current Card button
+- Adds safer Safari-compatible card click binding

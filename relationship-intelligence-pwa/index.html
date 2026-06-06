@@ -1,10 +1,10 @@
 <!doctype html><html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Relationship Intelligence v1.5</title>
+<title>Relationship Intelligence v1.6.1</title>
 <link rel="manifest" href="manifest.json"><link rel="stylesheet" href="styles.css">
 <meta name="theme-color" content="#815b33"></head>
 <body>
-<header><h1>Relationship Intelligence <span>v1.5</span></h1>
+<header><h1>Relationship Intelligence <span>v1.6.1</span></h1>
 <div class="sub">Relational Dynamics Engine: trajectory, repair, reciprocity, embeddedness, loops, archetypes, and vector alignment.</div>
 <div id="status">Loading app…</div></header>
 <nav class="tabs"><button id="tabCards" class="tab active">Cards</button><button id="tabEcosystem" class="tab">Ecosystem</button><button id="tabPerson" class="tab">Card Detail</button><button id="tabMe" class="tab">Self</button></nav>
@@ -61,7 +61,7 @@
 <main class="grid hidden" id="personView">
 <aside><h2>Profiles</h2><button id="newBtn">+ New Profile</button><button id="exportBtn" class="secondary">Export Backup</button>
 <label class="small">Import Backup</label><input type="file" id="importFile" accept="application/json"><div id="profileList"></div><p class="small">Autosaves in this browser.</p></aside>
-<section><h2 id="profileTitle">Profile</h2><div id="avatarCard" class="avatarCard"></div><button id="deleteCardBtn" class="dangerBtn" type="button">Delete This Card</button>
+<section><h2 id="profileTitle">Profile</h2><div id="avatarCard" class="avatarCard"></div><button id="saveCardBtn" class="secondary" type="button">Save Current Card</button><button id="deleteCardBtn" class="dangerBtn" type="button">Delete This Card</button>
 <div class="quickPanel">
 <h3>Quick Update</h3>
 <div class="guide"><b>State check:</b> Are you updating this while emotionally activated? If yes, save a quick snapshot, but avoid major conclusions until you are calm.</div>
@@ -109,6 +109,12 @@
 <h3>Attachment Stability</h3><div id="attachmentOutput" class="analysisBox"></div>
 <h3>Admiration Symmetry</h3><div id="admirationOutput" class="analysisBox"></div>
 <h3>Ecosystem Integration</h3><div id="integrationOutput" class="analysisBox"></div>
+<h3>Relational Translation Engine</h3>
+<div id="translationOutput" class="analysisBox"></div>
+<h3>Meaning translation diagram</h3>
+<div class="translationCanvasWrap"><canvas id="translationCanvas" width="760" height="360"></canvas></div>
+<h3>Friction heatmap</h3><div id="frictionHeatmap" class="heatmap"></div>
+<h3>Repair language suggestions</h3><div id="repairLanguageOutput" class="analysisBox"></div>
 <h3>Accuracy & repair check</h3><div id="accuracyOutput" class="analysisBox"></div><h3>Repair-first problem solving</h3><div id="repairPlanOutput" class="analysisBox"></div><h3>Adaptive response mode</h3><div id="responseModeOutput" class="analysisBox"></div><h3>Interaction Strategy</h3><div id="strategyOutput" class="strategyBox"></div>
 <h3>Social environment readout</h3><div id="socialReadout" class="analysisBox"></div>
 <h3>Personalized compatibility</h3><div class="meter"><div id="meterFill"></div></div><div id="readout" class="readout">Start entering observations.</div>

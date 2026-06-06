@@ -159,3 +159,15 @@ button.profile.active{background:var(--accent2);border-color:var(--accent)}.smal
 .accuracyBox{border-left:4px solid var(--accent);padding:10px;border-radius:10px;background:#fbf7ef;margin:8px 0}
 .repairSteps{margin:8px 0 0 18px}.repairSteps li{margin:6px 0}
 .biasWarning{background:#fff3d8;border-left:4px solid #c98716;padding:10px;border-radius:10px;margin:8px 0}
+
+/* v1.6 relational translation engine */
+.translationCanvasWrap{background:#fff;border:1px solid var(--line);border-radius:16px;padding:10px;overflow:auto}
+#translationCanvas{max-width:100%;height:auto}
+.heatmap{display:grid;grid-template-columns:1fr;gap:8px}
+@media(min-width:760px){.heatmap{grid-template-columns:repeat(2,1fr)}}
+.heatCell{background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px}
+.heatTop{display:flex;justify-content:space-between;gap:8px;font-size:13px;font-weight:800}
+.heatTrack{height:10px;background:#eee;border:1px solid var(--line);border-radius:999px;overflow:hidden;margin-top:6px}
+.heatFill{height:100%;background:var(--accent)}
+.translationBadge{display:inline-block;background:var(--accent2);border:1px solid var(--line);border-radius:999px;padding:4px 9px;margin:3px;font-size:12px;font-weight:700}
+.languageOption{background:#fbf7ef;border-left:4px solid var(--accent);padding:10px;border-radius:10px;margin:8px 0}
