@@ -1,15 +1,49 @@
 <!doctype html><html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Relationship Intelligence v1.6.2</title>
+<title>Relationship Intelligence v2.0</title>
 <link rel="manifest" href="manifest.json"><link rel="stylesheet" href="styles.css">
 <meta name="theme-color" content="#815b33"></head>
 <body>
-<header><h1>Relationship Intelligence <span>v1.6.2</span></h1>
+<header><h1>Relationship Intelligence <span>v2.0</span></h1>
 <div class="sub">Relational Dynamics Engine: trajectory, repair, reciprocity, embeddedness, loops, archetypes, and vector alignment.</div>
 <div id="status">Loading app…</div></header>
-<nav class="tabs"><button id="tabCards" class="tab active">Cards</button><button id="tabEcosystem" class="tab">Ecosystem</button><button id="tabPerson" class="tab">Card Detail</button><button id="tabMe" class="tab">Self</button></nav>
+<nav class="tabs"><button id="tabSnapshot" class="tab active">Snapshot</button><button id="tabCards" class="tab">Cards</button><button id="tabEcosystem" class="tab">Ecosystem</button><button id="tabPerson" class="tab">Card Detail</button><button id="tabMe" class="tab">Self</button></nav>
 
-<main id="cardsView" class="single">
+
+<main id="snapshotView" class="single">
+<section>
+<h2>Add Snapshot</h2>
+<div class="guide"><b>Primary workflow:</b> capture what happened first. Full card details can be filled in later; patterns become stronger across snapshots.</div>
+<div class="snapshotEntry">
+<label>Which card?</label><select id="snapshotCardSelect"></select>
+<button id="snapshotNewCardBtn" type="button" class="secondary">+ New quick card</button>
+<div id="snapshotNewCardFields" class="hidden">
+<label>New card name</label><input id="snapshotNewName" placeholder="Example: Boss, Sarah, Dad, Max">
+<label>Category</label><select id="snapshotNewCategory"><option>Romantic</option><option>Friend</option><option>Work</option><option>Family</option><option>Mentor</option><option>Activity / teammate</option><option>Boundary</option><option>Child</option><option>Pet</option><option>Other</option></select>
+</div>
+<label>What happened?</label><textarea id="snapshotEvent" placeholder="Facts first. Example: He submitted a grant proposal and we had never discussed it as a partnership."></textarea>
+<label>What story am I telling myself?</label><textarea id="snapshotStory" placeholder="Interpretation. Example: Maybe we are not actually communicating deeply or operating as partners."></textarea>
+<div class="quickGrid">
+<label>Emotional state<select id="snapshotEmotion"><option>Calm / reflective</option><option>Activated / angry</option><option>Anxious / uncertain</option><option>Lonely / craving connection</option><option>Excited / idealizing</option><option>Hurt / rejected</option></select></label>
+<label>Evidence confidence<select id="snapshotConfidence"><option>Low — mostly feeling/interpretation</option><option>Medium — some observable evidence</option><option>High — repeated observable pattern</option></select></label>
+<label>Interpretation checked?<select id="snapshotChecked"><option>No</option><option>Partially</option><option>Yes — I asked/clarified</option></select></label>
+<label>Domain<select id="snapshotDomain"><option>Communication / being on same page</option><option>Tasks / chores</option><option>Planning / logistics</option><option>Commitment</option><option>Appreciation / usefulness</option><option>Criticism / correction</option><option>Work / mission bandwidth</option><option>Affection / reassurance</option><option>Money / provision</option><option>Family / roles</option><option>Other</option></select></label>
+</div>
+<div class="quickGrid">
+<label>Peace <span id="snapPeaceVal">5</span><input id="snapPeace" type="range" min="0" max="10" value="5"></label>
+<label>Respect <span id="snapRespectVal">5</span><input id="snapRespect" type="range" min="0" max="10" value="5"></label>
+<label>Closeness / intimacy <span id="snapClosenessVal">5</span><input id="snapCloseness" type="range" min="0" max="10" value="5"></label>
+<label>Repair quality <span id="snapRepairVal">5</span><input id="snapRepair" type="range" min="0" max="10" value="5"></label>
+<label>Emotional cost <span id="snapCostVal">5</span><input id="snapCost" type="range" min="0" max="10" value="5"></label>
+<label>Communication clarity <span id="snapClarityVal">5</span><input id="snapClarity" type="range" min="0" max="10" value="5"></label>
+</div>
+<button id="saveSnapshotPrimaryBtn" type="button">Save Snapshot</button>
+</div>
+<h3>Snapshot interpretation</h3><div id="snapshotInterpretation" class="analysisBox">Add a note to generate tags and likely dynamics.</div>
+</section>
+</main>
+
+<main id="cardsView" class="single hidden">
 <section>
 <h2>Relationship Cards</h2>
 <div class="guide"><b>Use this screen first.</b> Cards are people/dynamics in your life. Use quick updates after emotional events; use Card Detail when you want a deeper audit.</div>
@@ -126,7 +160,7 @@
 <div class="guide"><b>Purpose:</b> this is not a personality test. It tells the app what you need and what mistakes you are likely to make.</div>
 <label>Your name / label</label><input id="myName" placeholder="Example: Ryan"><label>Primary dating lens</label><select id="myDatingLens"><option>Man evaluating women</option><option>Woman evaluating men</option><option>Neutral / varies</option></select>
 <h3>What do I need to thrive?</h3><div id="needSliders"></div>
-<h3>Current ecosystem deficiencies</h3><div class="guide"><b>Question:</b> what is currently underfed or missing in your ecosystem?</div><div id="deficiencyChecks"></div><h3>Role reinforcement needs</h3><div class="guide"><b>Purpose:</b> track what roles make you feel useful, respected, admired, trusted, challenged, and autonomous.</div><div id="roleSliders"></div><h3>Self-sabotage & blind spots</h3><div class="guide"><b>Question:</b> what behaviors quietly destabilize your ecosystem or make relationships harder to maintain?</div><div id="tendencyChecks"></div>
+<h3>Social standards & peer influence</h3><div class="guide"><b>Purpose:</b> track how peer group, comparison environment, and intrasexual competition may shape standards and romantic interpretation.</div><div id="socialStandardsSliders"></div><h3>Current ecosystem deficiencies</h3><div class="guide"><b>Question:</b> what is currently underfed or missing in your ecosystem?</div><div id="deficiencyChecks"></div><h3>Role reinforcement needs</h3><div class="guide"><b>Purpose:</b> track what roles make you feel useful, respected, admired, trusted, challenged, and autonomous.</div><div id="roleSliders"></div><h3>Self-sabotage & blind spots</h3><div class="guide"><b>Question:</b> what behaviors quietly destabilize your ecosystem or make relationships harder to maintain?</div><div id="tendencyChecks"></div>
 <label>My relationship philosophy</label><textarea id="myPhilosophy" placeholder="Example: I want warmth, respect, attraction, peace, reciprocity, and a partner who helps life feel grounded."></textarea>
 <h3>My risk profile</h3><div id="myReadout" class="analysisBox"></div></section></main>
 <footer>Private local-first beta. Not therapy or diagnosis.</footer><script src="app.js"></script></body></html>

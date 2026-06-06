@@ -1,7 +1,10 @@
-# Relationship Intelligence v1.6.2
+# Relationship Intelligence v2.0
 
-Patch release:
-- Explicitly adds Child and Pet to Quick Card categories
-- Explicitly adds Child and Pet to Card Detail relationship types
-- Clarifies Boundary as limited/managed contact
-- Adds child/pet ecosystem nutrient and cost modeling
+Major snapshot-first redesign:
+- Primary Snapshot tab becomes first workflow
+- Snapshots can create cards or attach to existing cards
+- Lightweight keyword/tag extraction from notes
+- Evidence confidence and interpretation checking
+- Communication intimacy / siloing domain
+- Social standards and peer influence sliders in Self
+- Profiles become summaries built from repeated interactions
