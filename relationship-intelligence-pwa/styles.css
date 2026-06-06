@@ -150,3 +150,12 @@ button.profile.active{background:var(--accent2);border-color:var(--accent)}.smal
   min-width: 0;
   overflow: visible;
 }
+
+.modeCard{background:#faf8f3;border:1px solid var(--line);border-radius:14px;padding:12px;margin:10px 0}
+.modeTitle{font-weight:800;font-size:15px;margin-bottom:6px}
+.modeTag{display:inline-block;padding:4px 10px;border-radius:999px;background:var(--accent2);border:1px solid var(--line);font-size:12px;font-weight:700;margin-bottom:8px}
+
+/* v1.5 accuracy and repair-first */
+.accuracyBox{border-left:4px solid var(--accent);padding:10px;border-radius:10px;background:#fbf7ef;margin:8px 0}
+.repairSteps{margin:8px 0 0 18px}.repairSteps li{margin:6px 0}
+.biasWarning{background:#fff3d8;border-left:4px solid #c98716;padding:10px;border-radius:10px;margin:8px 0}

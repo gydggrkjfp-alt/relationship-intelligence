@@ -1,6 +1,9 @@
-# Relationship Intelligence v1.3.1
+# Relationship Intelligence v1.5
 
-Small patch:
-- Fixes Self/My Ecosystem checkbox layout in Safari
-- Prevents checkbox labels from overlapping other content
-- Makes deficiency, blind spot, and pattern checkboxes visible and clickable
+Adds Repair-First / Accuracy Check:
+- Accuracy risk score for emotionally charged updates
+- Evidence confidence field
+- Interpretation checked field
+- Repair-first problem-solving plans
+- Work relationship clarification protocol
+- Response mode now avoids rushing into containment unless respect/peace/repair are severely low

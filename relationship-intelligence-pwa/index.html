@@ -1,10 +1,10 @@
 <!doctype html><html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Relationship Intelligence v1.3.1</title>
+<title>Relationship Intelligence v1.5</title>
 <link rel="manifest" href="manifest.json"><link rel="stylesheet" href="styles.css">
 <meta name="theme-color" content="#815b33"></head>
 <body>
-<header><h1>Relationship Intelligence <span>v1.3.1</span></h1>
+<header><h1>Relationship Intelligence <span>v1.5</span></h1>
 <div class="sub">Relational Dynamics Engine: trajectory, repair, reciprocity, embeddedness, loops, archetypes, and vector alignment.</div>
 <div id="status">Loading app…</div></header>
 <nav class="tabs"><button id="tabCards" class="tab active">Cards</button><button id="tabEcosystem" class="tab">Ecosystem</button><button id="tabPerson" class="tab">Card Detail</button><button id="tabMe" class="tab">Self</button></nav>
@@ -67,7 +67,7 @@
 <div class="guide"><b>State check:</b> Are you updating this while emotionally activated? If yes, save a quick snapshot, but avoid major conclusions until you are calm.</div>
 <label>Current emotional state</label>
 <select id="emotionalState"><option>Calm / reflective</option><option>Activated / angry</option><option>Anxious / uncertain</option><option>Lonely / craving connection</option><option>Excited / idealizing</option><option>Hurt / rejected</option></select>
-<label>Quick event note</label><textarea id="quickNote" placeholder="What happened in one or two sentences?"></textarea>
+<label>Quick event note</label><textarea id="quickNote" placeholder="What happened in one or two sentences?"></textarea><label>Evidence confidence</label><select id="evidenceConfidence"><option>Low — mostly feeling/interpretation</option><option>Medium — some observable evidence</option><option>High — repeated observable pattern</option></select><label>Did I check my interpretation?</label><select id="interpretationChecked"><option>No</option><option>Partially</option><option>Yes — I asked/clarified</option></select>
 <div class="quickSliders">
 <label>Quick Peace <span id="quickPeaceVal">5</span></label><input id="quickPeace" type="range" min="0" max="10" value="5">
 <label>Quick Respect <span id="quickRespectVal">5</span></label><input id="quickRespect" type="range" min="0" max="10" value="5">
@@ -109,7 +109,7 @@
 <h3>Attachment Stability</h3><div id="attachmentOutput" class="analysisBox"></div>
 <h3>Admiration Symmetry</h3><div id="admirationOutput" class="analysisBox"></div>
 <h3>Ecosystem Integration</h3><div id="integrationOutput" class="analysisBox"></div>
-<h3>Interaction Strategy</h3><div id="strategyOutput" class="strategyBox"></div>
+<h3>Accuracy & repair check</h3><div id="accuracyOutput" class="analysisBox"></div><h3>Repair-first problem solving</h3><div id="repairPlanOutput" class="analysisBox"></div><h3>Adaptive response mode</h3><div id="responseModeOutput" class="analysisBox"></div><h3>Interaction Strategy</h3><div id="strategyOutput" class="strategyBox"></div>
 <h3>Social environment readout</h3><div id="socialReadout" class="analysisBox"></div>
 <h3>Personalized compatibility</h3><div class="meter"><div id="meterFill"></div></div><div id="readout" class="readout">Start entering observations.</div>
 <h3>Bias / blind spot warnings</h3><div id="biasWarnings"></div>

@@ -1,4 +1,4 @@
-const STORAGE_KEY='relationship_intelligence_pwa_v13';
+const STORAGE_KEY='relationship_intelligence_pwa_v15';
 const greenDefs=[['warmth','Warmth','Emotional warmth, ease, affection.'],['kindness','Kindness','Basic goodness toward you and others.'],['respect','Baseline respect','General respect signal from the core profile.'],['reciprocity','Reciprocity','Interest and effort move both directions.'],['curiosity','Curiosity','They actually want to know you.'],['stability','Emotional stability','Grounded enough to build with.'],['peace','Peace after contact','Afterward you feel peaceful, not anxious or humiliated.'],['attraction','Attraction','Physical / romantic pull.']];
 const riskDefs=[['chaos','Chaos / drama','Volatility, crisis, or confusing energy.'],['trauma','Early trauma dumping','Heavy disclosure before trust exists.'],['entitlement','Entitlement','Expects without appreciating.'],['family','Family disrespect','Contempt toward family/parents.'],['social','Social-media validation','Attention-seeking or comparison energy.'],['inconsistent','Inconsistent communication','Words and effort fluctuate in a destabilizing way.']];
 const respectDefs=[['opinion','Values your opinions','Does this person take your perspective seriously?'],['appreciation','Expresses appreciation','Does this person notice and value your effort?'],['commitments','Keeps commitments','Does they follow through reliably?'],['proud','Proud to be associated','Would this person speak well of you to others?'],['time','Respects your time','Is this person considerate with scheduling and effort?'],['boundaries','Respects boundaries','Does this person honor limits without punishment?']];
@@ -111,7 +111,7 @@ const roleDefs=[['needed','Being needed','Feeling useful and meaningfully relied
 const tendencyDefs=[['movesFast','Move too quickly','You may escalate before enough evidence exists.'],['scarcity','Scarcity mindset','You may overvalue attention because opportunities feel rare.'],['peoplePleaser','People pleasing','You may avoid speaking up or tolerate too much.'],['rescuer','Rescuer pattern','You may mistake being needed for being loved.'],['idealizer','Over-romanticize potential','You may fall for possibility instead of evidence.'],['conflictAvoidant','Conflict avoidant','You may avoid hard conversations.'],['attractionOverride','Attraction override','You may let attraction outrank peace.'],['fearRejection','Fear rejection','You may accept poor fit to avoid losing connection.']];
 let state=loadState();let currentFilter='All';function $(id){return document.getElementById(id)}
 function defaultMe(){let needs={};needDefs.forEach(([k])=>needs[k]=5);let roles={};roleDefs.forEach(([k])=>roles[k]=5);return{name:'',datingLens:'Man evaluating women',needs,roles,deficiencies:{},blindSpots:{},patterns:{},tendencies:{},philosophy:''}}
-function loadState(){try{let raw=localStorage.getItem(STORAGE_KEY);if(raw)return JSON.parse(raw);for(let key of ['relationship_intelligence_pwa_v12','relationship_intelligence_pwa_v11_2','relationship_intelligence_pwa_v11','relationship_intelligence_pwa_v10','relationship_intelligence_pwa_v8','relationship_intelligence_pwa_v7','relationship_intelligence_pwa_v6','relationship_intelligence_pwa_v5','relationship_intelligence_pwa_v4','relationship_intelligence_pwa_v3','relationship_intelligence_pwa_v2','relationship_intelligence_pwa_v1']){let old=localStorage.getItem(key);if(old)return migrate(JSON.parse(old));}}catch(e){}return{currentId:null,profiles:[],me:defaultMe()}}
+function loadState(){try{let raw=localStorage.getItem(STORAGE_KEY);if(raw)return JSON.parse(raw);for(let key of ['relationship_intelligence_pwa_v14','relationship_intelligence_pwa_v13','relationship_intelligence_pwa_v12','relationship_intelligence_pwa_v11_2','relationship_intelligence_pwa_v11','relationship_intelligence_pwa_v10','relationship_intelligence_pwa_v8','relationship_intelligence_pwa_v7','relationship_intelligence_pwa_v6','relationship_intelligence_pwa_v5','relationship_intelligence_pwa_v4','relationship_intelligence_pwa_v3','relationship_intelligence_pwa_v2','relationship_intelligence_pwa_v1']){let old=localStorage.getItem(key);if(old)return migrate(JSON.parse(old));}}catch(e){}return{currentId:null,profiles:[],me:defaultMe()}}
 function migrate(s){s.me=s.me||defaultMe();s.me.roles=s.me.roles||{};roleDefs.forEach(([k])=>{if(s.me.roles[k]===undefined)s.me.roles[k]=5});s.me.deficiencies=s.me.deficiencies||{};s.me.blindSpots=s.me.blindSpots||{};s.me.patterns=s.me.patterns||{};s.profiles=(s.profiles||[]).map(p=>{p={...p,evidence:p.evidence||'',interpretation:p.interpretation||'',hesitation:p.hesitation||'',socialNotes:p.socialNotes||'',pronounContext:p.pronounContext||'Neutral / person',desiredOutcome:p.desiredOutcome||'Explore slowly',rtype:p.rtype==='Potential romantic partner'?'Romantic prospect':(p.rtype||'Romantic prospect')};p.social=p.social||{};p.respect=p.respect||{};Object.values(adaptiveRiskDefs).flat().forEach(([k,,,,good])=>{if(p.social[k]===undefined)p.social[k]=good?5:3});respectDefs.forEach(([k])=>{if(p.respect[k]===undefined)p.respect[k]=5});p.snapshots=p.snapshots||[];p.quick=p.quick||{};return p});return s}
 function saveState(){localStorage.setItem(STORAGE_KEY,JSON.stringify(state));$('status').textContent='Autosaved locally'}
 function uid(){return'p_'+Date.now()+'_'+Math.random().toString(16).slice(2)}
@@ -188,7 +188,7 @@ function dynamicArchetype(p,m){
 
 function metrics(p){let g=avg(p.green,greenDefs),r=avg(p.risk,riskDefs),respect=respectIndex(p);let base=Math.max(0,Math.min(100,g*10-r*4));let personalized=base;personalized+=(respect-50)*.22;personalized+=(p.green.warmth-5)*(need('needWarmth')-5)*.7;personalized+=(p.green.respect-5)*(need('needRespect')-5)*.9;personalized+=(p.green.reciprocity-5)*(need('needAppreciation')-5)*.55;personalized+=(p.green.stability-5)*(need('needStability')-5)*.8;personalized+=(p.green.curiosity-5)*(need('needIntellect')-5)*.55;personalized-=p.risk.chaos*(need('needStability')/10)*2.2;personalized-=p.risk.family*(need('needFamily')/10)*1.4;personalized+=(socialHealth(p)-50)*.22;if(tendency('scarcity')&&p.green.attraction>=7)personalized-=6;if(tendency('attractionOverride')&&p.green.attraction>=8&&p.green.peace<=5)personalized-=10;if(tendency('rescuer')&&p.risk.trauma>=7)personalized-=9;if(tendency('peoplePleaser')&&(p.risk.entitlement>=6||respect<55))personalized-=8;if(tendency('movesFast')&&p.green.attraction>=7&&p.risk.chaos>=6)personalized-=8;personalized=Math.round(Math.max(0,Math.min(100,personalized)));let peaceIndex=Math.round(Math.max(0,Math.min(100,p.green.peace*3.5+p.green.respect*1.2+p.green.warmth*1.3+p.green.reciprocity*1.4+p.green.stability*1.4+respect*.012-p.risk.chaos*1.5-p.risk.inconsistent-p.risk.trauma*.8)));return{greenAvg:g,riskAvg:r,base:Math.round(base),personalized,peaceIndex,respectIndex:respect,social:socialHealth(p)}}
 function safeUpdate(){try{updateReadout()}catch(e){$('status').textContent='Calculation error: '+e.message;console.error(e)}}
-function updateReadout(){let p=currentProfile(),m=metrics(p);$('meterFill').style.width=m.personalized+'%';$('peaceIndex').textContent=m.peaceIndex;$('respectIndex').textContent=m.respectIndex;$('peacePhrase').textContent=m.peaceIndex>=75?'Calming, respectful, emotionally low-cost.':m.peaceIndex>=55?'Worth exploring, but watch whether calm increases.':m.peaceIndex>=35?'Exciting but not yet peaceful. Slow down.':'Low peace signal. Attraction may be masking emotional cost.';$('respectPhrase').textContent=m.respectIndex>=80?'Strong respect signal: appreciation, reliability, and boundaries look healthy.':m.respectIndex>=60?'Moderate respect signal. Watch consistency over time.':m.respectIndex>=40?'Respect is uncertain. Do not let warmth or attraction compensate too much.':'Low respect signal. This is a major long-term risk.';updateMatrix(m);updateSocialReadout(p,m);updateAttachmentOutput(p,m);updateAdmirationOutput(p,m);updateIntegrationOutput(p,m);updateStrategy(p,m);updateAvatar(p,m);let title='Proceed carefully',cls='',text='Keep learning without outrunning the evidence.';if(m.personalized>=70&&m.peaceIndex>=65&&m.respectIndex>=65){title='Worth continuing to explore';cls='good';text='For your profile, this currently aligns with peace, respect, and low emotional cost.'}else if(m.personalized<=40||m.peaceIndex<40||m.respectIndex<40){title='Likely mismatch or boundaries needed';cls='bad';text='For your profile, this may cost too much peace or respect.'}if((p.rtype||'').includes('Do not date')){title='Boundaries-first relationship';cls='';text='This is not for romance escalation. Organize around clarity and boundaries.'}$('readout').className='readout '+cls;$('readout').innerHTML=`<b>${title}</b><br>Personalized Score: <b>${m.personalized}/100</b><br><span class='small'>General: ${m.base}/100 · Repair: ${m.repair}/100 · Reciprocity: ${m.reciprocityDyn}/100 · Grounding: ${m.embedded}/100 · Alignment: ${m.alignment}/100</span><br>${text}`;updateBiasWarnings(p,m);updateGuidance(p,m);updateAI(p,m);drawRadar(p,m);renderTimeline(p);renderCards();$('status').textContent='App loaded. Autosave active.'}
+function updateReadout(){let p=currentProfile(),m=metrics(p);$('meterFill').style.width=m.personalized+'%';$('peaceIndex').textContent=m.peaceIndex;$('respectIndex').textContent=m.respectIndex;$('peacePhrase').textContent=m.peaceIndex>=75?'Calming, respectful, emotionally low-cost.':m.peaceIndex>=55?'Worth exploring, but watch whether calm increases.':m.peaceIndex>=35?'Exciting but not yet peaceful. Slow down.':'Low peace signal. Attraction may be masking emotional cost.';$('respectPhrase').textContent=m.respectIndex>=80?'Strong respect signal: appreciation, reliability, and boundaries look healthy.':m.respectIndex>=60?'Moderate respect signal. Watch consistency over time.':m.respectIndex>=40?'Respect is uncertain. Do not let warmth or attraction compensate too much.':'Low respect signal. This is a major long-term risk.';updateMatrix(m);updateSocialReadout(p,m);updateAttachmentOutput(p,m);updateAdmirationOutput(p,m);updateIntegrationOutput(p,m);updateAccuracyOutput(p,m);updateRepairPlanOutput(p,m);updateResponseMode(p,m);updateStrategy(p,m);updateAvatar(p,m);let title='Proceed carefully',cls='',text='Keep learning without outrunning the evidence.';if(m.personalized>=70&&m.peaceIndex>=65&&m.respectIndex>=65){title='Worth continuing to explore';cls='good';text='For your profile, this currently aligns with peace, respect, and low emotional cost.'}else if(m.personalized<=40||m.peaceIndex<40||m.respectIndex<40){title='Likely mismatch or boundaries needed';cls='bad';text='For your profile, this may cost too much peace or respect.'}if((p.rtype||'').includes('Do not date')){title='Boundaries-first relationship';cls='';text='This is not for romance escalation. Organize around clarity and boundaries.'}$('readout').className='readout '+cls;$('readout').innerHTML=`<b>${title}</b><br>Personalized Score: <b>${m.personalized}/100</b><br><span class='small'>General: ${m.base}/100 · Repair: ${m.repair}/100 · Reciprocity: ${m.reciprocityDyn}/100 · Grounding: ${m.embedded}/100 · Alignment: ${m.alignment}/100</span><br>${text}`;updateBiasWarnings(p,m);updateGuidance(p,m);updateAI(p,m);drawRadar(p,m);renderTimeline(p);renderCards();$('status').textContent='App loaded. Autosave active.'}
 function updateMatrix(m){let hiP=m.peaceIndex>=60,hiR=m.respectIndex>=60;let active=hiP&&hiR?'exceptional':hiP&&!hiR?'comfort':!hiP&&hiR?'work':'risk';$('matrix').innerHTML=`<div class='quad ${active==='comfort'?'active':''}'><b>High Peace / Low Respect</b><span class='small'>Comfort without full partnership.</span></div><div class='quad ${active==='exceptional'?'active':''}'><b>High Peace / High Respect</b><span class='small'>Long-term potential.</span></div><div class='quad ${active==='risk'?'active':''}'><b>Low Peace / Low Respect</b><span class='small'>Proceed carefully.</span></div><div class='quad ${active==='work'?'active':''}'><b>Low Peace / High Respect</b><span class='small'>Foundation exists, but emotional cost is high.</span></div>`}
 function updateSocialReadout(p,m){let line=m.social>=75?'The surrounding social environment looks supportive.':m.social>=55?'The social environment is mixed; observe her friends and norms.':m.social>=35?'The social environment may create pressure, comparison, or instability.':'High social-environment risk: contempt, status pressure, or peer policing may affect compatibility.';$('socialReadout').innerHTML=`<p><b>Social Environment Score:</b> ${m.social}/100</p><p>${line}</p><p class='small'>This tracks whether her close social world seems to reward respect, commitment, and stable partnership versus comparison, contempt, and status games.</p>`}
 function updateBiasWarnings(p,m){let w=[];if(tendency('scarcity')&&p.green.attraction>=7)w.push(['Scarcity warning','Interest is meaningful, but not evidence they is good for you.']);if(tendency('attractionOverride')&&p.green.attraction>=8&&m.peaceIndex<=55)w.push(['Attraction override','Attraction is outrunning peace/respect.']);if(tendency('rescuer')&&p.risk.trauma>=7)w.push(['Rescuer warning','Do not confuse being needed with being loved.']);if(tendency('peoplePleaser')&&m.respectIndex<60)w.push(['People-pleasing warning','Low respect requires earlier boundary-setting.']);if(p.social.statusPressure>=7)w.push(['Status-pressure warning','Status comparison may affect expectations.']);if(p.hesitation&&p.hesitation.trim().length>20)w.push(['Hesitation note present','Your written hesitation may contain signal that sliders miss. Re-read it before escalating.']);if(!w.length)w.push(['No major blind spot triggered','Current inputs do not strongly trigger selected warnings.']);$('biasWarnings').innerHTML=w.map(([a,b],i)=>`<div class='warning ${i===0&&w.length>1?'dangerWarn':''}'><b>${a}:</b> ${b}</div>`).join('')}
@@ -339,7 +339,7 @@ function quickUpdate(){
   p.risk.chaos=Math.max(0,Math.min(10,cost));
   let m=metrics(p);
   p.snapshots=p.snapshots||[];
-  p.snapshots.push({id:uid(),label:new Date().toLocaleDateString()+' quick update',created:new Date().toISOString(),peace:m.peaceIndex,respect:m.respectIndex,compat:m.personalized,repair:m.repair,reciprocity:m.reciprocityDyn,embedded:m.embedded,alignment:m.alignment,energy:m.energy,note:note,hesitation:p.hesitation||'',emotion:emotion,quick:true});
+  p.snapshots.push({id:uid(),label:new Date().toLocaleDateString()+' quick update',created:new Date().toISOString(),peace:m.peaceIndex,respect:m.respectIndex,compat:m.personalized,repair:m.repair,reciprocity:m.reciprocityDyn,embedded:m.embedded,alignment:m.alignment,energy:m.energy,note:note,hesitation:p.hesitation||'',emotion:emotion,evidenceConfidence:($('evidenceConfidence')?$('evidenceConfidence').value:''),interpretationChecked:($('interpretationChecked')?$('interpretationChecked').value:''),quick:true});
   saveState();fillForm();renderCards();renderProfiles();safeUpdate();
   if(emotion!=='Calm / reflective')$('status').textContent='Quick update saved. Re-evaluate when calm.';
   else $('status').textContent='Quick update saved.';
@@ -440,6 +440,157 @@ function strategyEngine(p,m){
   if(!actions.length) actions.push('Have one more grounded interaction and create a snapshot afterward.');
   return {badges:[...new Set(badges)],actions:[...new Set(actions)]};
 }
+
+
+function latestEmotionState(p){
+  let snaps=p.snapshots||[];
+  let last=snaps[snaps.length-1]||{};
+  return last.emotion || ($('emotionalState')?$('emotionalState').value:'Calm / reflective');
+}
+function accuracyRisk(p,m){
+  let emotion=latestEmotionState(p);
+  let evidence=($('evidenceConfidence')?$('evidenceConfidence').value:'') || (p.snapshots?.slice(-1)[0]?.evidenceConfidence||'');
+  let checked=($('interpretationChecked')?$('interpretationChecked').value:'') || (p.snapshots?.slice(-1)[0]?.interpretationChecked||'');
+  let risk=0;
+  if(emotion && !emotion.includes('Calm'))risk+=30;
+  if(String(evidence).includes('Low'))risk+=30;
+  if(String(evidence).includes('Medium'))risk+=15;
+  if(String(checked).includes('No'))risk+=25;
+  if((p.evidence||'').trim().length<20 && (p.interpretation||p.story||'').trim().length>30)risk+=20;
+  return Math.max(0,Math.min(100,risk));
+}
+function updateAccuracyOutput(p,m){
+  if(!$('accuracyOutput'))return;
+  let risk=accuracyRisk(p,m);
+  let msg=risk>=65?'High distortion risk: slow down before drawing a conclusion. Convert the concern into observable facts and clarify once if safe.':risk>=35?'Moderate distortion risk: your read may be partly correct, but needs more evidence or clarification.':'Lower distortion risk: assessment appears more grounded in observable evidence.';
+  $('accuracyOutput').innerHTML=`<div class="accuracyBox"><b>Assessment accuracy risk:</b> ${risk}/100<br>${msg}</div>`;
+}
+function repairFirstPlan(p,m){
+  let cat=profileCategory(p);
+  let repair=m.repair||50, respect=m.respectIndex||50, peace=m.peaceIndex||50;
+  let steps=[];
+  let mode='Clarify First';
+  if(cat==='Work'){
+    mode='Workplace Clarification';
+    steps=[
+      'Write down the observable behavior without interpretation.',
+      'Identify the work impact: deadline, role clarity, priority, respect, or communication.',
+      'Ask one neutral clarification question: “Can you clarify what you want prioritized?”',
+      'Reflect back expectations in writing after the conversation.',
+      'If hostility persists after clarification, then shift toward containment and documentation.'
+    ];
+  } else if(cat==='Family'){
+    mode='Boundary + Repair';
+    steps=[
+      'Separate the old family pattern from the current event.',
+      'Name one specific behavior and one specific request.',
+      'Use a short boundary rather than a long debate.',
+      'Watch whether they respect the limit without punishment.'
+    ];
+  } else if(cat==='Romantic'){
+    mode='Repair Attempt';
+    steps=[
+      'State the feeling without accusation.',
+      'Ask for their interpretation before assuming motive.',
+      'Make one concrete request.',
+      'Watch for accountability, warmth, and repair behavior.'
+    ];
+  } else {
+    mode='Low-Drama Clarification';
+    steps=[
+      'Assume miscommunication first if there is no repeated pattern.',
+      'Ask one direct but non-accusatory question.',
+      'Watch behavior after the clarification.',
+      'Escalate to boundaries only if the pattern repeats.'
+    ];
+  }
+  if(repair<40||respect<35)steps.push('If repair attempts repeatedly fail, stop over-explaining and shift to containment.');
+  return {mode,steps};
+}
+function updateRepairPlanOutput(p,m){
+  if(!$('repairPlanOutput'))return;
+  let plan=repairFirstPlan(p,m);
+  $('repairPlanOutput').innerHTML=`<div class="modeCard"><div class="modeTag">Repair-first protocol</div><div class="modeTitle">${plan.mode}</div><ol class="repairSteps">${plan.steps.map(s=>`<li>${s}</li>`).join('')}</ol></div>`;
+}
+
+function responseMode(p,m){
+  let cat=profileCategory(p);
+  let constraint=(cat==='Work'||cat==='Family'||cat==='Child')?'high':(cat==='Friend'?'medium':'low');
+  let repair=m.repair||50,peace=m.peaceIndex||50,respect=m.respectIndex||50,recip=m.reciprocityDyn||50;
+  let chaos=p.risk?.chaos||0;
+
+  if(constraint==='high' && (respect<35 || peace<35) && repair<45){
+    return {
+      mode:'Containment Mode',
+      tag:'High-constraint relationship',
+      actions:[
+        'Reduce unnecessary emotional exposure',
+        'Use procedural communication',
+        'Increase predictability and documentation',
+        'Strengthen support elsewhere in your ecosystem',
+        'Avoid reactive escalation'
+      ]
+    };
+  }
+
+  if(repair>60 && peace<65){
+    return {
+      mode:'Repair Mode',
+      tag:'Potentially improvable',
+      actions:[
+        'Increase direct communication',
+        'Test accountability and repair',
+        'Address recurring friction earlier'
+      ]
+    };
+  }
+
+  if(recip<45){
+    return {
+      mode:'Detachment Mode',
+      tag:'Asymmetry detected',
+      actions:[
+        'Reduce overinvestment',
+        'Diversify emotional supports',
+        'Track behavior over time'
+      ]
+    };
+  }
+
+  if(chaos>=7){
+    return {
+      mode:'Observation Mode',
+      tag:'Volatility present',
+      actions:[
+        'Slow emotional investment',
+        'Gather more longitudinal evidence',
+        'Watch consistency over intensity'
+      ]
+    };
+  }
+
+  return {
+    mode:'Growth Mode',
+    tag:'Generally constructive',
+    actions:[
+      'Continue healthy investment',
+      'Maintain reciprocity and boundaries',
+      'Strengthen recurring real-world interaction'
+    ]
+  };
+}
+
+function updateResponseMode(p,m){
+  if(!$('responseModeOutput'))return;
+  let r=responseMode(p,m);
+  $('responseModeOutput').innerHTML=
+  `<div class="modeCard">
+    <div class="modeTag">${r.tag}</div>
+    <div class="modeTitle">${r.mode}</div>
+    <ul>${r.actions.map(x=>`<li>${x}</li>`).join('')}</ul>
+  </div>`;
+}
+
 function updateStrategy(p,m){
   if(!$('strategyOutput'))return;
   let s=strategyEngine(p,m);
@@ -510,11 +661,31 @@ function updateAdmirationOutput(p,m){
   let text=gap<15?'Admiration looks fairly balanced.':youToThem>themToYou?'You may be admiring/investing more than you are receiving.':'They may be showing more investment than you currently feel.';
   $('admirationOutput').innerHTML=`<div class="symmetryBars"><div class="symmetryRow"><div>You → Them</div><div class="symTrack"><div class="symFill" style="width:${youToThem}%"></div></div><div>${youToThem}</div></div><div class="symmetryRow"><div>Them → You</div><div class="symTrack"><div class="symFill" style="width:${themToYou}%"></div></div><div>${themToYou}</div></div></div><p class="small">${text}</p>`;
 }
+
+function specialRelationshipContext(p){
+  let cat=profileCategory(p);
+  if(cat==='Child'){
+    return {
+      nutrients:['purpose','warmth','love','meaning','bonding'],
+      costs:['sleep disruption','financial pressure','stress'],
+      note:'Children often provide very high meaning, warmth, attachment, and purpose while also increasing structural load.'
+    };
+  }
+  if(cat==='Pet'){
+    return {
+      nutrients:['comfort','companionship','routine','touch','stability'],
+      costs:['expense','care burden','schedule restriction'],
+      note:'Pets can significantly improve warmth, grounding, and emotional stability.'
+    };
+  }
+  return null;
+}
+
 function updateIntegrationOutput(p,m){
   if(!$('integrationOutput'))return;
   let cat=quickCategory(p), energy=cardEnergy(p), nutrient=cardNutrient(p);
   let text=energy>=4?'This card appears to add positive energy to the ecosystem.':energy<0?'This card may drain the ecosystem; compensate with stabilizing people or reduce exposure.':'This card is neutral or mixed in the ecosystem.';
-  $('integrationOutput').innerHTML=`<p><b>Ecosystem role:</b> ${cat} · ${nutrient}</p><p>${text}</p>`;
+  let special=specialRelationshipContext(p);$('integrationOutput').innerHTML=`<p><b>Ecosystem role:</b> ${cat} · ${nutrient}</p><p>${text}</p>${special?`<p><b>Typical nutrients:</b> ${special.nutrients.join(', ')}<br><b>Typical costs:</b> ${special.costs.join(', ')}<br>${special.note}</p>`:''}`;
 }
 function roleReinforcementScores(){
   let roles=state.me?.roles||{}, profiles=state.profiles||[], supply={};
