@@ -1,7 +1,7 @@
-# Relationship Intelligence v1.6.1
+# Relationship Intelligence v1.6.2
 
 Patch release:
-- Fixes card tiles not opening Card Detail
-- Fixes incorrect tab routing from card clicks
-- Adds explicit Save Current Card button
-- Adds safer Safari-compatible card click binding
+- Explicitly adds Child and Pet to Quick Card categories
+- Explicitly adds Child and Pet to Card Detail relationship types
+- Clarifies Boundary as limited/managed contact
+- Adds child/pet ecosystem nutrient and cost modeling

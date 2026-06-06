@@ -1,10 +1,10 @@
 <!doctype html><html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Relationship Intelligence v1.6.1</title>
+<title>Relationship Intelligence v1.6.2</title>
 <link rel="manifest" href="manifest.json"><link rel="stylesheet" href="styles.css">
 <meta name="theme-color" content="#815b33"></head>
 <body>
-<header><h1>Relationship Intelligence <span>v1.6.1</span></h1>
+<header><h1>Relationship Intelligence <span>v1.6.2</span></h1>
 <div class="sub">Relational Dynamics Engine: trajectory, repair, reciprocity, embeddedness, loops, archetypes, and vector alignment.</div>
 <div id="status">Loading app…</div></header>
 <nav class="tabs"><button id="tabCards" class="tab active">Cards</button><button id="tabEcosystem" class="tab">Ecosystem</button><button id="tabPerson" class="tab">Card Detail</button><button id="tabMe" class="tab">Self</button></nav>
@@ -27,7 +27,7 @@
 <div class="guide"><b>Fast entry:</b> use this for people who do not need a full audit yet.</div>
 <div class="quickGrid">
 <label>Name<input id="quickName" placeholder="Example: Mike"></label>
-<label>Category<select id="quickCategory"><option>Friend</option><option>Family</option><option>Romantic</option><option>Work</option><option>Mentor</option><option>Activity / teammate</option><option>Boundary</option><option>Other</option></select></label>
+<label>Category<select id="quickCategory"><option>Friend</option><option>Family</option><option>Romantic</option><option>Work</option><option>Mentor</option><option>Activity / teammate</option><option>Boundary</option><option>Other</option><option>Child</option><option>Pet</option></select></label>
 <label>Warmth <span id="qcWarmthVal">5</span><input id="qcWarmth" type="range" min="0" max="10" value="5"></label>
 <label>Respect <span id="qcRespectVal">5</span><input id="qcRespect" type="range" min="0" max="10" value="5"></label>
 <label>Trust <span id="qcTrustVal">5</span><input id="qcTrust" type="range" min="0" max="10" value="5"></label>
@@ -76,7 +76,7 @@
 <button id="quickSnapshotBtn" type="button">Save Quick Update</button>
 </div>
 <label>Name / nickname</label><input id="name" placeholder="Example: Lissa"><label>Pronoun / context</label><select id="pronounContext"><option>Neutral / person</option><option>Woman / they</option><option>Man / he</option><option>They / them</option></select>
-<label>Relationship type</label><select id="rtype"><option>Romantic prospect</option><option>Active dating</option><option>Friend / social connection</option><option>Coworker / professional peer</option><option>Boss / authority figure</option><option>Family / long-term obligation</option><option>Roommate / housemate</option><option>Team / sports / social group</option><option>Boundary-only relationship</option><option>Unclear / still discerning</option><option>Do not date / boundaries needed</option></select>
+<label>Relationship type</label><select id="rtype"><option>Romantic prospect</option><option>Active dating</option><option>Friend / social connection</option><option>Coworker / professional peer</option><option>Boss / authority figure</option><option>Family / long-term obligation</option><option>Roommate / housemate</option><option>Team / sports / social group</option><option>Boundary-only relationship</option><option>Unclear / still discerning</option><option>Do not date / boundaries needed</option><option>Child</option><option>Pet</option><option>Boundary (limited / managed contact)</option></select>
 <label>Where did you meet?</label><select id="met"><option>Dating app</option><option>Soccer</option><option>Dog park</option><option>Friends introduced us</option><option>Church / faith group</option><option>Work</option><option>Gym / fitness</option><option>Volunteering</option><option>Neighborhood / local community</option><option>Other</option></select>
 <label>Desired outcome</label><select id="desiredOutcome"><option>Romance / long-term partnership</option><option>Explore slowly</option><option>Casual friendship</option><option>Deep friendship</option><option>Professional cooperation</option><option>Peaceful family coexistence</option><option>Boundary management</option><option>Reduce exposure</option><option>Repair / reconciliation</option><option>Shared activity only</option><option>Networking / community</option><option>Unsure</option></select>
 <label>Occupation / social world notes</label><textarea id="socialNotes" placeholder="Optional. What social world are they in? Who are their close people? What does that group reward?"></textarea>

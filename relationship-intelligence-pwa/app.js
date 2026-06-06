@@ -211,8 +211,8 @@ function addQuickCard(){
   let category=$('quickCategory').value;
   let p=blankProfile();
   p.name=name;
-  p.rtype=category==='Romantic'?'Romantic prospect':category==='Work'?'Coworker / professional peer':category==='Family'?'Family / long-term obligation':category==='Boundary'?'Boundary-only relationship':category==='Friend'?'Friend / social connection':'Team / sports / social group';
-  p.desiredOutcome=category==='Boundary'?'Boundary management':category==='Work'?'Professional cooperation':category==='Family'?'Peaceful family coexistence':category==='Romantic'?'Explore slowly':'Casual friendship';
+  p.rtype=category==='Romantic'?'Romantic prospect':category==='Work'?'Coworker / professional peer':category==='Family'?'Family / long-term obligation':category==='Boundary'?'Boundary (limited / managed contact)':category==='Child'?'Child':category==='Pet'?'Pet':category==='Friend'?'Friend / social connection':'Team / sports / social group';
+  p.desiredOutcome=category==='Boundary'?'Boundary management':category==='Work'?'Professional cooperation':category==='Family'?'Peaceful family coexistence':category==='Child'?'Care / nurture / family bond':category==='Pet'?'Companionship / care / comfort':category==='Romantic'?'Explore slowly':'Casual friendship';
   p.quick={category:category,frequency:$('quickFrequency').value,nutrient:$('quickNutrient').value,warmth:quickVal('qcWarmth'),respect:quickVal('qcRespect'),trust:quickVal('qcTrust'),energy:quickVal('qcEnergy'),note:$('quickCardNote').value||''};
   p.green.warmth=p.quick.warmth;p.green.respect=p.quick.respect;p.green.peace=Math.max(0,Math.min(10,5+p.quick.energy/2));
   p.respect.opinion=p.quick.respect;p.respect.boundaries=p.quick.respect;p.respect.commitments=p.quick.trust;
@@ -224,7 +224,7 @@ function addQuickCard(){
 function quickCategory(p){
   if(p.quick?.category)return p.quick.category;
   let c=profileCategory(p);
-  if(c==='Romantic')return 'Romantic'; if(c==='Friend')return 'Friend'; if(c==='Work')return 'Work'; if(c==='Family')return 'Family'; if(c==='Boundary')return 'Boundary';
+  if(c==='Romantic')return 'Romantic'; if(c==='Friend')return 'Friend'; if(c==='Work')return 'Work'; if(c==='Family')return 'Family'; if(c==='Boundary')return 'Boundary'; if(c==='Child')return 'Child'; if(c==='Pet')return 'Pet';
   return 'Other';
 }
 function cardNutrient(p){return p.quick?.nutrient || (quickCategory(p)==='Work'?'Accountability':quickCategory(p)==='Family'?'Stability':quickCategory(p)==='Romantic'?'Warmth':'Fun')}
@@ -296,7 +296,7 @@ function profileCategory(p){
   if(t.includes('Friend'))return 'Friend';
   if(t.includes('Coworker')||t.includes('Boss')||t.includes('professional'))return 'Work';
   if(t.includes('Family'))return 'Family';
-  if(t.includes('Boundary')||t.includes('Do not date'))return 'Boundary';
+  if(t.includes('Boundary')||t.includes('Do not date'))return 'Boundary';if(t.includes('Child'))return 'Child';if(t.includes('Pet'))return 'Pet';
   return 'Other';
 }
 function cardGlyphFor(p,m){
