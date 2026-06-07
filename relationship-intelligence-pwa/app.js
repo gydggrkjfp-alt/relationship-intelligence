@@ -1,4 +1,4 @@
-const STORAGE_KEY='relationship_intelligence_pwa_v26_1';
+const STORAGE_KEY='relationship_intelligence_pwa_v26_2';
 const greenDefs=[['warmth','Warmth','Emotional warmth, ease, affection.'],['kindness','Kindness','Basic goodness toward you and others.'],['respect','Baseline respect','General respect signal from the core profile.'],['reciprocity','Reciprocity','Interest and effort move both directions.'],['curiosity','Curiosity','They actually want to know you.'],['stability','Emotional stability','Grounded enough to build with.'],['peace','Peace after contact','Afterward you feel peaceful, not anxious or humiliated.'],['attraction','Attraction','Physical / romantic pull.']];
 const riskDefs=[['chaos','Chaos / drama','Volatility, crisis, or confusing energy.'],['trauma','Early trauma dumping','Heavy disclosure before trust exists.'],['entitlement','Entitlement','Expects without appreciating.'],['family','Family disrespect','Contempt toward family/parents.'],['social','Social-media validation','Attention-seeking or comparison energy.'],['inconsistent','Inconsistent communication','Words and effort fluctuate in a destabilizing way.']];
 const respectDefs=[['opinion','Values your opinions','Does this person take your perspective seriously?'],['appreciation','Expresses appreciation','Does this person notice and value your effort?'],['commitments','Keeps commitments','Does they follow through reliably?'],['proud','Proud to be associated','Would this person speak well of you to others?'],['time','Respects your time','Is this person considerate with scheduling and effort?'],['boundaries','Respects boundaries','Does this person honor limits without punishment?']];
@@ -1367,3 +1367,149 @@ if(typeof drawRadar==='function' && !window.__radarSafe){
   }
  }
 }
+
+
+/* v2.6.2 demo cards + output stabilization */
+function fillDemoProfileData(p, kind){
+  p.isDemo=true;
+  p.social=p.social||{}; p.category=p.category||{}; p.green=p.green||{}; p.risk=p.risk||{}; p.respect=p.respect||{};
+  p.translation=p.translation||{}; p.repair=p.repair||{}; p.reciprocityDyn=p.reciprocityDyn||{}; p.embedded=p.embedded||{}; p.energy=p.energy||{};
+  const ctxKeys=['contextFit','trust','cost','clarityGeneral','reciprocalGeneral','boundariesGeneral','commitmentInterest','respectWomen','followThrough','sexualImpulsivity','motivation','emotionalRegulation','reliabilityRisk','politicsRisk','clarity','fairness','competenceFit','boundaryRespectWork','mutuality','confidentiality','dramaRisk','supportiveness','funEase','valuesFitFriend'];
+  ctxKeys.forEach(k=>{if(p.social[k]===undefined)p.social[k]=7});
+  if(kind==='work'){['reliabilityRisk','politicsRisk','cost','dramaRisk'].forEach(k=>p.social[k]=6);['clarity','fairness','competenceFit','boundaryRespectWork'].forEach(k=>p.social[k]=4)}
+  if(kind==='marriage'){ctxKeys.forEach(k=>p.social[k]=8);['cost','sexualImpulsivity','reliabilityRisk','politicsRisk','dramaRisk'].forEach(k=>p.social[k]=2)}
+  if(kind==='pet'){ctxKeys.forEach(k=>p.social[k]=8);['cost','sexualImpulsivity','reliabilityRisk','politicsRisk','dramaRisk'].forEach(k=>p.social[k]=2)}
+  if(kind==='romance'){ctxKeys.forEach(k=>p.social[k]=7);['cost','sexualImpulsivity','reliabilityRisk','politicsRisk','dramaRisk'].forEach(k=>p.social[k]=2)}
+  Object.keys(p.category||{}).forEach(k=>{if(p.category[k]===undefined)p.category[k]=7});
+}
+function ensureDemoSnapshots(p,kind){
+  if(p.snapshots&&p.snapshots.length>=2)return;
+  if(typeof demoSnap==='function'){
+    if(kind==='marriage'){
+      p.snapshots=[
+        demoSnap('Flowers and tasks','He brought flowers and fixed the shelf, then went quiet after I said the shelf was uneven.','He may have felt like the effort did not count.','Criticism / correction',72,76,68,90,72,['competence threat','appreciation']),
+        demoSnap('Shared reality check-in','We discussed upcoming plans and both named one thing we appreciated.','The tone improved when recognition and logistics were separated.','Communication / being on same page',82,84,78,92,83,['communication intimacy gap'])
+      ];
+    } else if(kind==='work'){
+      p.snapshots=[
+        demoSnap('Priority shift','He changed the deadline and later criticized the result as if the original plan had not changed.','I felt set up to fail and unsure what expectations were real.','Planning / logistics',45,42,35,86,38,['work/mission bandwidth']),
+        demoSnap('Clarification attempt','I asked for written priorities and he gave a clearer ranking of tasks.','Still tense, but more manageable when expectations were written.','Communication / being on same page',55,50,48,88,52,['communication clarity gap'])
+      ];
+    } else if(kind==='pet'){
+      p.snapshots=[
+        demoSnap('Evening walk','After work we went on a walk and I felt calmer almost immediately.','The routine makes the day feel grounded.','Affection / reassurance',92,88,85,90,90,[]),
+        demoSnap('Care load','Vet bill and schedule were annoying but worth it.','The cost is real, but the comfort is high.','Other',85,84,80,88,78,[])
+      ];
+    } else {
+      p.snapshots=[
+        demoSnap('Date 1','She showed up on time, asked about my work, and thanked me for planning dinner.','I felt respected and relaxed afterward.','Appreciation / usefulness',82,84,78,65,76,['appreciation']),
+        demoSnap('Follow-up','She texted the next day and suggested a walk.','This seemed reciprocal rather than one-sided.','Communication / being on same page',86,85,82,68,80,['communication clarity gap'])
+      ];
+    }
+  }
+}
+function enrichDemoProfiles(){
+  (state.profiles||[]).forEach(p=>{
+    if(!p.isDemo && !String(p.name||'').includes('Demo'))return;
+    p.isDemo=true;
+    let name=(p.name||'').toLowerCase();
+    let kind=name.includes('boss')?'work':name.includes('husband')?'marriage':name.includes('pet')?'pet':'romance';
+    fillDemoProfileData(p,kind);
+    if(!p.interpretation||p.interpretation.length<20){
+      p.interpretation=kind==='marriage'
+        ? 'Example interpretation: Alex is mostly constructive and committed, but correction may land as competence threat. The useful lesson is to separate recognition from course-correction and use shared-reality check-ins.'
+        : kind==='work'
+        ? 'Example interpretation: John is a high-constraint authority relationship. The strategy is clarification first, written expectations, then containment if repair does not improve.'
+        : kind==='pet'
+        ? 'Example interpretation: Buddy is a stabilizing ecosystem card. The main value is routine, warmth, touch, and emotional grounding, with some care burden.'
+        : 'Example interpretation: Jane shows warmth, reciprocity, and follow-through. The right strategy is slow observation rather than over-investing after one good interaction.';
+    }
+    if(!p.hesitation||p.hesitation.length<20){
+      p.hesitation=kind==='marriage'
+        ? 'Watch for recurring withdrawal after correction and whether repair improves after explicit shared-reality check-ins.'
+        : kind==='work'
+        ? 'Do not over-personalize one bad exchange, but track whether expectations become clear after clarification.'
+        : kind==='pet'
+        ? 'Care burden, schedule restriction, expense, and future grief risk are the main costs.'
+        : 'Still early; needs more repeated snapshots before treating the pattern as stable.';
+    }
+    if(!p.notes||p.notes.length<20)p.notes='Demo card: preloaded to show how sliders, snapshots, trends, translation, and strategy outputs are intended to work.';
+    ensureDemoSnapshots(p,kind);
+    if(!p.evidence)p.evidence=(p.snapshots&&p.snapshots[0]&&p.snapshots[0].note)||'Demo evidence.';
+    if(!p.story)p.story=(p.snapshots&&p.snapshots[0]&&p.snapshots[0].story)||'Demo story.';
+  });
+}
+function ensureDemoBeforeRender(){try{enrichDemoProfiles();saveState()}catch(e){console.warn('demo enrich',e)}}
+function drawMiniBars(containerId, rows, note){
+  let el=$(containerId); if(!el)return;
+  el.innerHTML=`<div class="demoReadout">${note||''}<div class="miniBars">`+rows.map(r=>`<div class="miniBar"><b>${r[0]}</b><div class="miniTrack"><div class="miniFill" style="width:${Math.max(0,Math.min(100,r[1]))}%"></div></div><span>${Math.round(r[1])}</span></div>`).join('')+`</div></div>`;
+}
+function demoMetricsRows(p,m){
+  m=m||metrics(p);
+  return [['Peace',m.peaceIndex||0],['Respect',m.respectIndex||0],['Repair',m.repair||0],['Reciprocity',m.reciprocityDyn||0],['Grounding',m.embedded||0],['Alignment',m.alignment||0]];
+}
+function ensureRadarFallbackDiv(){
+  let c=$('radar'); if(c && !$('radarFallback')){
+    let div=document.createElement('div');div.id='radarFallback';c.parentNode.insertBefore(div,c.nextSibling);
+  }
+}
+function fallbackRadar(p,m){
+  ensureRadarFallbackDiv();
+  drawMiniBars('radarFallback',demoMetricsRows(p,m),'Radar fallback summary');
+}
+function drawTrendFallback(p){
+  if(!$('trendOutput'))return;
+  let snaps=p.snapshots||[];
+  if(snaps.length<2){$('trendOutput').innerHTML='<p><b>Trend:</b> Add at least two snapshots to see trend movement.</p>';return}
+  let a=snaps[0],b=snaps[snaps.length-1];
+  let rows=[['Peace',(b.peace||0)-(a.peace||0)],['Respect',(b.respect||0)-(a.respect||0)],['Repair',(b.repair||0)-(a.repair||0)],['Grounding',(b.embedded||0)-(a.embedded||0)]];
+  $('trendOutput').innerHTML='<p><b>Trend movement:</b> '+rows.map(r=>`${r[0]} ${r[1]>=0?'+':''}${Math.round(r[1])}`).join(' · ')+'</p>';
+}
+function drawTrajectoryFallback(p){
+  let c=$('trajectoryCanvas'); if(!c)return;
+  let snaps=p.snapshots||[]; let ctx=c.getContext('2d'),w=c.width,h=c.height,pad=35;
+  ctx.clearRect(0,0,w,h); ctx.fillStyle='#fff'; ctx.fillRect(0,0,w,h);
+  ctx.strokeStyle='#ded6c9'; ctx.beginPath(); ctx.moveTo(pad,pad); ctx.lineTo(pad,h-pad); ctx.lineTo(w-pad,h-pad); ctx.stroke();
+  if(snaps.length<2){ctx.fillStyle='#6e675d';ctx.font='14px sans-serif';ctx.fillText('Add two snapshots to show trajectory.',pad,50);return}
+  [['peace','Peace'],['respect','Respect'],['repair','Repair'],['embedded','Grounding']].forEach((s,si)=>{
+    ctx.beginPath();
+    snaps.forEach((snap,i)=>{let x=pad+(i/(snaps.length-1))*(w-2*pad), y=h-pad-((snap[s[0]]||50)/100)*(h-2*pad); i?ctx.lineTo(x,y):ctx.moveTo(x,y)});
+    ctx.strokeStyle=['#815b33','#5a78a0','#4d7a52','#7c6f64'][si];ctx.lineWidth=2;ctx.stroke();ctx.fillStyle=ctx.strokeStyle;ctx.fillText(s[1],pad+si*85,18);
+  });
+}
+function ensureTranslationOutputs(p,m){
+  try{if(typeof updateTranslationSources==='function')updateTranslationSources(p)}catch(e){}
+  try{if(typeof updateTranslationMap==='function')updateTranslationMap(p)}catch(e){}
+  try{if(typeof updateFrictionHeatmap==='function')updateFrictionHeatmap(p)}catch(e){}
+  if($('frictionHeatmap')&&!$('frictionHeatmap').innerText.trim()){
+    drawMiniBars('frictionHeatmap',[['Correction',70],['Communication',65],['Planning',45],['Appreciation',75]],'Example friction domain intensity');
+  }
+}
+if(typeof safeUpdate==='function' && !window.__safeUpdateDemoWrapped){
+  window.__safeUpdateDemoWrapped=true;
+  const __oldSafeUpdateDemo=safeUpdate;
+  safeUpdate=function(){
+    ensureDemoBeforeRender();
+    let result=__oldSafeUpdateDemo();
+    try{
+      let p=currentProfile(), m=metrics(p);
+      fallbackRadar(p,m);
+      drawTrendFallback(p);
+      drawTrajectoryFallback(p);
+      ensureTranslationOutputs(p,m);
+    }catch(e){console.warn('demo output stabilization',e)}
+    return result;
+  }
+}
+if(typeof loadExampleCards==='function' && !window.__loadExampleWrapped){
+  window.__loadExampleWrapped=true;
+  const __oldLoadExampleCards=loadExampleCards;
+  loadExampleCards=function(kind){
+    let r=__oldLoadExampleCards(kind);
+    ensureDemoBeforeRender();
+    try{fillForm();safeUpdate()}catch(e){console.warn(e)}
+    return r;
+  }
+}
+document.addEventListener('DOMContentLoaded',()=>setTimeout(()=>{try{ensureDemoBeforeRender();safeUpdate()}catch(e){}},300));
+

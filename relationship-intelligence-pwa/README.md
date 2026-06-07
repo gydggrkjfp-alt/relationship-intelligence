@@ -1,7 +1,8 @@
-# Relationship Intelligence v2.6.1
+# Relationship Intelligence v2.6.2
 
-Fixes demo card visibility:
-- Demo card buttons now appear on the Snapshot home screen
-- Demo buttons are bound after page load and tab changes
-- Adds robust demo cards for romance, boss/work, husband/marriage, and pet
-- Adds radar fallback message if chart rendering fails
+Demo card stabilization:
+- Demo cards populate general/context sliders instead of staying neutral
+- Demo cards include interpretation, hesitation, notes, and snapshots
+- Adds fallback summaries if radar rendering fails
+- Adds trend and trajectory fallbacks for demo snapshots
+- Forces translation map/source/heatmap outputs to populate from demo snapshots

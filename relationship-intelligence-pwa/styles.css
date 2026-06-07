@@ -239,3 +239,10 @@ input.riskRange{accent-color:#9e3b31}
 .demoPanel h3{margin-top:0}
 .demoButtons{display:flex;flex-wrap:wrap;gap:8px}
 .demoButtons button{margin:0}
+
+/* v2.6.2 demo output fallbacks */
+.demoReadout{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px;margin:8px 0}
+.miniBars{display:grid;gap:8px;margin-top:8px}
+.miniBar{display:grid;grid-template-columns:120px 1fr 40px;gap:8px;align-items:center;font-size:12px}
+.miniTrack{height:10px;background:#eee;border-radius:999px;overflow:hidden;border:1px solid var(--line)}
+.miniFill{height:100%;background:var(--accent)}
