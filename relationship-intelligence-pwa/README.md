@@ -1,10 +1,7 @@
-# Relationship Intelligence v2.6
+# Relationship Intelligence v2.6.1
 
-Adds example/demo cards:
-- Romance example
-- Boss/work example
-- Husband/marriage example
-- Pet example
-- Load all examples button
-
-Demo cards include prefilled sliders, snapshots, text evidence, and outputs so users can see how charts and translation maps are supposed to work.
+Fixes demo card visibility:
+- Demo card buttons now appear on the Snapshot home screen
+- Demo buttons are bound after page load and tab changes
+- Adds robust demo cards for romance, boss/work, husband/marriage, and pet
+- Adds radar fallback message if chart rendering fails

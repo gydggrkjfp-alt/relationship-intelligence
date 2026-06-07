@@ -233,3 +233,9 @@ input.riskRange{accent-color:#9e3b31}
 .demoPanel h3{margin-top:0}
 .demoButtons{display:flex;flex-wrap:wrap;gap:8px}
 .demoButtons button{margin:0}
+
+/* v2.6.1 visible demo loader */
+.demoPanel{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;margin:12px 0}
+.demoPanel h3{margin-top:0}
+.demoButtons{display:flex;flex-wrap:wrap;gap:8px}
+.demoButtons button{margin:0}

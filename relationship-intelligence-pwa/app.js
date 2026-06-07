@@ -1,4 +1,4 @@
-const STORAGE_KEY='relationship_intelligence_pwa_v26';
+const STORAGE_KEY='relationship_intelligence_pwa_v26_1';
 const greenDefs=[['warmth','Warmth','Emotional warmth, ease, affection.'],['kindness','Kindness','Basic goodness toward you and others.'],['respect','Baseline respect','General respect signal from the core profile.'],['reciprocity','Reciprocity','Interest and effort move both directions.'],['curiosity','Curiosity','They actually want to know you.'],['stability','Emotional stability','Grounded enough to build with.'],['peace','Peace after contact','Afterward you feel peaceful, not anxious or humiliated.'],['attraction','Attraction','Physical / romantic pull.']];
 const riskDefs=[['chaos','Chaos / drama','Volatility, crisis, or confusing energy.'],['trauma','Early trauma dumping','Heavy disclosure before trust exists.'],['entitlement','Entitlement','Expects without appreciating.'],['family','Family disrespect','Contempt toward family/parents.'],['social','Social-media validation','Attention-seeking or comparison energy.'],['inconsistent','Inconsistent communication','Words and effort fluctuate in a destabilizing way.']];
 const respectDefs=[['opinion','Values your opinions','Does this person take your perspective seriously?'],['appreciation','Expresses appreciation','Does this person notice and value your effort?'],['commitments','Keeps commitments','Does they follow through reliably?'],['proud','Proud to be associated','Would this person speak well of you to others?'],['time','Respects your time','Is this person considerate with scheduling and effort?'],['boundaries','Respects boundaries','Does this person honor limits without punishment?']];
@@ -646,7 +646,7 @@ function bindDemoButtons(){
   Object.entries(map).forEach(([id,kind])=>{let el=$(id);if(el&&!el.dataset.bound){el.dataset.bound='1';el.onclick=()=>loadDemoCards(kind)}});
 }
 
-function renderCards(){
+function renderCards(){setTimeout(bindExampleButtons,0);
   if(!$('cardsGrid'))return;
   let profiles=state.profiles||[];
   let shown=profiles.filter(p=>currentFilter==='All'||profileCategory(p)===currentFilter);
@@ -1269,7 +1269,101 @@ activeDeficiencyDefs().forEach(([k])=>{let el=$(`def_${k}`);if(el)el.addEventLis
 activeBlindSpotDefs().forEach(([k])=>{let el=$(`blind_${k}`);if(el)el.addEventListener('change',onMeChange)});
 activePatternDefs().forEach(([k])=>{let el=$(`pattern_${k}`);if(el)el.addEventListener('change',onMeChange)});
 tendencyDefs.forEach(([k])=>$(`t_${k}`).addEventListener('change',onMeChange));['myName','myPhilosophy','myDatingLens'].forEach(id=>{let el=$(id);if(el){el.addEventListener('input',onMeChange);el.addEventListener('change',()=>{onMeChange();renderSliders();fillMe();updateSelfLensNote();renderGrowthTargets();})}});$('tabSnapshot').onclick=()=>showTab('snapshot');$('tabCards').onclick=()=>showTab('cards');$('tabEcosystem').onclick=()=>showTab('ecosystem');$('tabPerson').onclick=()=>showTab('person');$('tabMe').onclick=()=>showTab('me');document.querySelectorAll('.filter').forEach(b=>b.onclick=()=>{document.querySelectorAll('.filter').forEach(x=>x.classList.remove('active'));b.classList.add('active');currentFilter=b.dataset.filter;renderCards();});['quickPeace','quickRespect','quickCost'].forEach(id=>$(id).addEventListener('input',updateQuickLabels));$('quickSnapshotBtn').onclick=quickUpdate;['qcWarmth','qcRespect','qcTrust','qcEnergy'].forEach(id=>{if($(id))$(id).addEventListener('input',updateQuickCardLabels)});if($('addQuickCardBtn'))$('addQuickCardBtn').onclick=addQuickCard;if($('saveCardBtn'))$('saveCardBtn').onclick=saveCurrentCard;if($('deleteCardBtn'))$('deleteCardBtn').onclick=deleteCurrentCard;$('newBtn').onclick=()=>{collectForm();let p=blankProfile();state.profiles.push(p);state.currentId=p.id;saveState();fillForm();renderProfiles();safeUpdate()};$('addSnapshotBtn').onclick=addSnapshot;$('exportBtn').onclick=()=>{collectForm();collectMe();saveState();let blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='relationship-intelligence-backup.json';a.click()};$('importFile').onchange=e=>{let file=e.target.files[0];if(!file)return;let reader=new FileReader();reader.onload=()=>{try{let imported=JSON.parse(reader.result);if(!Array.isArray(imported.profiles))throw new Error();state=migrate(imported);if(!state.currentId&&state.profiles[0])state.currentId=state.profiles[0].id;saveState();fillForm();fillMe();renderProfiles();safeUpdate()}catch(err){alert('Could not import that backup file.')}};reader.readAsText(file)}}
-function showTab(t){$('snapshotView').classList.toggle('hidden',t!=='snapshot');$('cardsView').classList.toggle('hidden',t!=='cards');$('ecosystemView').classList.toggle('hidden',t!=='ecosystem');$('personView').classList.toggle('hidden',t!=='person');$('meView').classList.toggle('hidden',t!=='me');$('tabSnapshot').classList.toggle('active',t==='snapshot');$('tabCards').classList.toggle('active',t==='cards');$('tabEcosystem').classList.toggle('active',t==='ecosystem');$('tabPerson').classList.toggle('active',t==='person');$('tabMe').classList.toggle('active',t==='me');if(t==='snapshot'){updateSnapshotCardSelect();updateSnapshotInterpretation();}if(t==='cards'){renderCards();bindDemoButtons();}if(t==='ecosystem')renderEcosystem();}
+function showTab(t){setTimeout(bindExampleButtons,0);$('snapshotView').classList.toggle('hidden',t!=='snapshot');$('cardsView').classList.toggle('hidden',t!=='cards');$('ecosystemView').classList.toggle('hidden',t!=='ecosystem');$('personView').classList.toggle('hidden',t!=='person');$('meView').classList.toggle('hidden',t!=='me');$('tabSnapshot').classList.toggle('active',t==='snapshot');$('tabCards').classList.toggle('active',t==='cards');$('tabEcosystem').classList.toggle('active',t==='ecosystem');$('tabPerson').classList.toggle('active',t==='person');$('tabMe').classList.toggle('active',t==='me');if(t==='snapshot'){updateSnapshotCardSelect();updateSnapshotInterpretation();}if(t==='cards'){renderCards();bindDemoButtons();}if(t==='ecosystem')renderEcosystem();}
 function escapeHTML(s){return String(s).replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[ch]))}
 function init(){try{renderSliders();currentProfile();bindEvents();fillForm();fillMe();renderProfiles();updateQuickLabels();updateQuickCardLabels();safeUpdate();renderCards();renderEcosystem();renderGrowthTargets();bindSnapshotInputs();updateSnapshotCardSelect();updateSnapshotInterpretation();saveState();$('status').textContent='App loaded. Autosave active.'}catch(e){$('status').textContent='Startup error: '+e.message;console.error(e)}}
 if('serviceWorker'in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));init();
+
+function demoSet(obj, vals){Object.keys(vals).forEach(k=>obj[k]=vals[k]);}
+function demoSnap(label,note,story,domain,peace,respect,repair,embedded,energy,tags){
+ return {id:uid(),label:label,created:new Date().toISOString(),peace:peace,respect:respect,compat:Math.round((peace+respect+repair+embedded)/4),repair:repair,reciprocity:respect,embedded:embedded,alignment:Math.round((peace+respect+embedded)/3),energy:energy,note:note,story:story,domain:domain,emotion:'Calm / reflective',evidenceConfidence:'High — repeated observable pattern',interpretationChecked:'Partially',tags:tags||[],primary:true};
+}
+function makeExample(kind){
+ let p=blankProfile(); p.isDemo=true;
+ p.social=p.social||{}; p.green=p.green||{}; p.risk=p.risk||{}; p.respect=p.respect||{}; p.translation=p.translation||{}; p.repair=p.repair||{}; p.reciprocityDyn=p.reciprocityDyn||{}; p.embedded=p.embedded||{}; p.energy=p.energy||{};
+ if(kind==='work'){
+   p.name='John Doe — Demo Boss'; p.pronounContext='Man / he'; p.rtype='Boss / authority figure'; p.desiredOutcome='Professional cooperation'; p.met='Example card';
+   demoSet(p.green,{warmth:3,peace:4,respect:4,reciprocity:3,stability:5});
+   demoSet(p.risk,{chaos:6,inconsistent:6,contempt:5,drama:5});
+   demoSet(p.respect,{opinion:4,appreciation:3,proud:4,boundaries:4,commitments:5});
+   demoSet(p.translation,{competenceThreat:6,invisibleLaborSensitivity:4,emotionalTranslation:4,reassuranceNeed:4,missionPriority:8,playfulRepair:2});
+   demoSet(p.repair,{repairAbility:4,accountability:3,apology:2,conflictCalm:4,recoverySpeed:4,resentmentRisk:6});
+   demoSet(p.reciprocityDyn,{initiation:4,effort:4,emotionalLabor:3,accommodation:3,investment:4});
+   demoSet(p.embedded,{realWorld:9,recurring:9,sharedCommunity:7,accountabilitySocial:6,contextStability:8});
+   p.evidence='He changed priorities abruptly and criticized the deliverable without clarifying expectations beforehand.';
+   p.story='This may be a high-constraint work relationship that needs clarification and containment rather than emotional escalation.';
+   p.snapshots=[demoSnap('Priority shift','He changed the deadline and later criticized the result as if the original plan had not changed.','I felt set up to fail and unsure what expectations were real.','Planning / logistics',45,42,35,86,38,['work/mission bandwidth']),demoSnap('Clarification attempt','I asked for written priorities and he gave a clearer ranking of tasks.','Still tense, but more manageable when expectations were written.','Communication / being on same page',55,50,48,88,52,['communication clarity gap'])];
+ } else if(kind==='marriage'){
+   p.name='Alex Doe — Demo Husband'; p.pronounContext='Man / he'; p.rtype='Husband'; p.desiredOutcome='Marriage repair / growth'; p.met='Example card';
+   demoSet(p.green,{warmth:7,peace:7,respect:8,reciprocity:7,stability:8,attraction:7});
+   demoSet(p.risk,{chaos:3,inconsistent:3,contempt:2,drama:3});
+   demoSet(p.respect,{opinion:8,appreciation:7,proud:8,boundaries:8,commitments:8});
+   demoSet(p.translation,{competenceThreat:7,invisibleLaborSensitivity:7,emotionalTranslation:6,reassuranceNeed:6,missionPriority:8,playfulRepair:7,appreciationNeed:8,taskLove:8,utilityIdentity:8});
+   demoSet(p.repair,{repairAbility:7,accountability:7,apology:6,conflictCalm:7,recoverySpeed:7,resentmentRisk:3});
+   demoSet(p.reciprocityDyn,{initiation:7,effort:8,emotionalLabor:6,accommodation:7,investment:8});
+   demoSet(p.embedded,{realWorld:10,recurring:10,sharedCommunity:8,accountabilitySocial:7,contextStability:9});
+   p.evidence='He brought flowers and handled several household tasks, but became quiet when one task was corrected.';
+   p.story='The conflict may be less about laziness and more about appreciation, competence threat, and how correction lands.';
+   p.snapshots=[demoSnap('Flowers and tasks','He brought flowers and fixed the shelf, then went quiet after I said the shelf was uneven.','He may have felt like the effort did not count.','Criticism / correction',72,76,68,90,72,['competence threat','appreciation']),demoSnap('Shared reality check-in','We discussed upcoming plans and both named one thing we appreciated.','The tone improved when recognition and logistics were separated.','Communication / being on same page',82,84,78,92,83,['communication intimacy gap'])];
+ } else if(kind==='pet'){
+   p.name='Buddy Doe — Demo Pet'; p.pronounContext='Neutral / person'; p.rtype='Pet'; p.desiredOutcome='Companionship / care / comfort'; p.met='Example card';
+   demoSet(p.green,{warmth:10,peace:9,respect:8,reciprocity:8,stability:9});
+   demoSet(p.risk,{chaos:2,inconsistent:1,contempt:0,drama:1});
+   demoSet(p.respect,{opinion:7,appreciation:9,proud:9,boundaries:7,commitments:8});
+   demoSet(p.translation,{competenceThreat:2,invisibleLaborSensitivity:3,emotionalTranslation:5,reassuranceNeed:3,missionPriority:1,playfulRepair:8});
+   demoSet(p.repair,{repairAbility:8,accountability:8,apology:5,conflictCalm:9,recoverySpeed:9,resentmentRisk:1});
+   demoSet(p.reciprocityDyn,{initiation:8,effort:8,emotionalLabor:8,accommodation:7,investment:9});
+   demoSet(p.embedded,{realWorld:10,recurring:10,sharedCommunity:5,accountabilitySocial:3,contextStability:9});
+   p.evidence='Daily walks provide routine, affection, touch, and grounding.';
+   p.story='This pet contributes major warmth and stability, with manageable schedule and financial cost.';
+   p.snapshots=[demoSnap('Evening walk','After work we went on a walk and I felt calmer almost immediately.','The routine makes the day feel grounded.','Affection / reassurance',92,88,85,90,90,[]),demoSnap('Care load','Vet bill and schedule were annoying but worth it.','The cost is real, but the comfort is high.','Other',85,84,80,88,78,[])];
+ } else {
+   p.name='Jane Doe — Demo Romance'; p.pronounContext='Woman / she'; p.rtype='Romantic prospect'; p.desiredOutcome='Explore slowly'; p.met='Example card';
+   demoSet(p.green,{warmth:8,peace:8,respect:8,reciprocity:7,attraction:8,curiosity:8,stability:7});
+   demoSet(p.risk,{chaos:2,inconsistent:2,contempt:1,drama:2});
+   demoSet(p.respect,{opinion:8,appreciation:8,proud:7,boundaries:8,commitments:7});
+   demoSet(p.translation,{competenceThreat:4,invisibleLaborSensitivity:5,emotionalTranslation:8,reassuranceNeed:4,missionPriority:4,playfulRepair:7});
+   demoSet(p.repair,{repairAbility:8,accountability:8,apology:7,conflictCalm:8,recoverySpeed:8,resentmentRisk:2});
+   demoSet(p.reciprocityDyn,{initiation:7,effort:8,emotionalLabor:7,accommodation:7,investment:8});
+   demoSet(p.embedded,{realWorld:7,recurring:6,sharedCommunity:5,accountabilitySocial:5,contextStability:7});
+   p.evidence='She followed through on plans, asked thoughtful questions, and showed appreciation after a date.';
+   p.story='This looks like a warm, stable prospect, but still needs more time and repeated evidence.';
+   p.snapshots=[demoSnap('Date 1','She showed up on time, asked about my work, and thanked me for planning dinner.','I felt respected and relaxed afterward.','Appreciation / usefulness',82,84,78,65,76,['appreciation']),demoSnap('Follow-up','She texted the next day and suggested a walk.','This seemed reciprocal rather than one-sided.','Communication / being on same page',86,85,82,68,80,['communication clarity gap'])];
+ }
+ return p;
+}
+function loadExampleCards(kind){
+ let kinds=kind==='all'?['romance','work','marriage','pet']:[kind];
+ kinds.forEach(k=>state.profiles.push(makeExample(k)));
+ state.currentId=state.profiles[state.profiles.length-1].id;
+ saveState();
+ try{renderProfiles()}catch(e){console.warn(e)}
+ try{renderCards()}catch(e){console.warn(e)}
+ try{renderEcosystem()}catch(e){console.warn(e)}
+ try{updateSnapshotCardSelect()}catch(e){console.warn(e)}
+ try{fillForm()}catch(e){console.warn(e)}
+ try{safeUpdate()}catch(e){console.warn(e)}
+ try{showTab('cards')}catch(e){console.warn(e)}
+ let st=$('status'); if(st)st.textContent='Example card loaded.';
+}
+function bindExampleButtons(){
+ const map={loadAllDemoCardsTopBtn:'all',loadDemoRomanceTopBtn:'romance',loadDemoWorkTopBtn:'work',loadDemoMarriageTopBtn:'marriage',loadDemoPetTopBtn:'pet',loadAllDemoCardsBtn:'all',loadDemoRomanceBtn:'romance',loadDemoWorkBtn:'work',loadDemoMarriageBtn:'marriage',loadDemoPetBtn:'pet'};
+ Object.entries(map).forEach(([id,kind])=>{let el=$(id); if(el&&!el.dataset.exampleBound){el.dataset.exampleBound='1'; el.onclick=()=>loadExampleCards(kind);}});
+}
+document.addEventListener('DOMContentLoaded',()=>setTimeout(bindExampleButtons,100));
+
+
+if(typeof drawRadar==='function' && !window.__radarSafe){
+ window.__radarSafe=true;
+ const __oldDrawRadar=drawRadar;
+ drawRadar=function(p,m){
+  try{return __oldDrawRadar(p,m)}catch(e){
+   console.warn('radar fallback',e);
+   let c=$('radar'); if(!c)return;
+   let ctx=c.getContext('2d'); ctx.clearRect(0,0,c.width,c.height);
+   ctx.font='14px -apple-system,BlinkMacSystemFont,Segoe UI,Arial';
+   ctx.fillStyle='#6e675d';
+   ctx.fillText('Radar chart unavailable. A required chart value is missing.',20,40);
+  }
+ }
+}

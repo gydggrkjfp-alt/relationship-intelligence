@@ -1,10 +1,10 @@
 <!doctype html><html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Relationship Intelligence v2.6</title>
+<title>Relationship Intelligence v2.6.1</title>
 <link rel="manifest" href="manifest.json"><link rel="stylesheet" href="styles.css">
 <meta name="theme-color" content="#815b33"></head>
 <body>
-<header><h1>Relationship Intelligence <span>v2.6</span></h1>
+<header><h1>Relationship Intelligence <span>v2.6.1</span></h1>
 <div class="sub">Relational Dynamics Engine: trajectory, repair, reciprocity, embeddedness, loops, archetypes, and vector alignment.</div>
 <div id="status">Loading app…</div></header>
 <nav class="tabs"><button id="tabSnapshot" class="tab active">Snapshot</button><button id="tabCards" class="tab">Cards</button><button id="tabEcosystem" class="tab">Ecosystem</button><button id="tabPerson" class="tab">Card Detail</button><button id="tabMe" class="tab">Self</button></nav>
@@ -23,6 +23,18 @@
 <li><b>Save the snapshot</b>. Later you can open Card Detail for deeper sliders, graphs, and strategy modes.</li>
 </ol>
 <p class="small"><b>Goal:</b> avoid one-time emotional verdicts. The app is designed to detect patterns across repeated interactions.</p><p class="small"><b>Important:</b> Emotional Cost / Drain is reversed: 0 = low drain/good, 10 = high drain/bad.</p>
+</div>
+
+<div id="demoCardsPanelTop" class="demoPanel">
+<h3>Example cards</h3>
+<p class="small">Load a sample card to see populated snapshots, scores, charts, and translation output. You can delete these later.</p>
+<div class="demoButtons">
+<button id="loadAllDemoCardsTopBtn" type="button" class="secondary">Load all examples</button>
+<button id="loadDemoRomanceTopBtn" type="button" class="secondary">Romance example</button>
+<button id="loadDemoWorkTopBtn" type="button" class="secondary">Boss example</button>
+<button id="loadDemoMarriageTopBtn" type="button" class="secondary">Marriage example</button>
+<button id="loadDemoPetTopBtn" type="button" class="secondary">Pet example</button>
+</div>
 </div>
 <div class="snapshotEntry">
 <label>Which card?</label><select id="snapshotCardSelect"></select>
