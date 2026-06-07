@@ -1,8 +1,8 @@
-# Relationship Intelligence v2.6.2
+# Relationship Intelligence v2.6.3
 
-Demo card stabilization:
-- Demo cards populate general/context sliders instead of staying neutral
-- Demo cards include interpretation, hesitation, notes, and snapshots
-- Adds fallback summaries if radar rendering fails
-- Adds trend and trajectory fallbacks for demo snapshots
-- Forces translation map/source/heatmap outputs to populate from demo snapshots
+Fixes:
+- Fixes calculation error: updateTranslationSources missing alias
+- Adds Card Detail profile switcher
+- Removes auto-generated empty Untitled profiles
+- Draws a real radar fallback directly on the radar canvas
+- Forces detail outputs to refresh after switching cards or loading demos

@@ -1,4 +1,4 @@
-const STORAGE_KEY='relationship_intelligence_pwa_v26_2';
+const STORAGE_KEY='relationship_intelligence_pwa_v26_3';
 const greenDefs=[['warmth','Warmth','Emotional warmth, ease, affection.'],['kindness','Kindness','Basic goodness toward you and others.'],['respect','Baseline respect','General respect signal from the core profile.'],['reciprocity','Reciprocity','Interest and effort move both directions.'],['curiosity','Curiosity','They actually want to know you.'],['stability','Emotional stability','Grounded enough to build with.'],['peace','Peace after contact','Afterward you feel peaceful, not anxious or humiliated.'],['attraction','Attraction','Physical / romantic pull.']];
 const riskDefs=[['chaos','Chaos / drama','Volatility, crisis, or confusing energy.'],['trauma','Early trauma dumping','Heavy disclosure before trust exists.'],['entitlement','Entitlement','Expects without appreciating.'],['family','Family disrespect','Contempt toward family/parents.'],['social','Social-media validation','Attention-seeking or comparison energy.'],['inconsistent','Inconsistent communication','Words and effort fluctuate in a destabilizing way.']];
 const respectDefs=[['opinion','Values your opinions','Does this person take your perspective seriously?'],['appreciation','Expresses appreciation','Does this person notice and value your effort?'],['commitments','Keeps commitments','Does they follow through reliably?'],['proud','Proud to be associated','Would this person speak well of you to others?'],['time','Respects your time','Is this person considerate with scheduling and effort?'],['boundaries','Respects boundaries','Does this person honor limits without punishment?']];
@@ -1512,4 +1512,117 @@ if(typeof loadExampleCards==='function' && !window.__loadExampleWrapped){
   }
 }
 document.addEventListener('DOMContentLoaded',()=>setTimeout(()=>{try{ensureDemoBeforeRender();safeUpdate()}catch(e){}},300));
+
+
+
+/* v2.6.3 hard stabilization */
+function isEmptyUntitledProfile(p){
+  if(!p)return false;
+  let name=String(p.name||'').trim().toLowerCase();
+  let noSnaps=!(p.snapshots&&p.snapshots.length);
+  let noText=!String((p.evidence||'')+(p.story||'')+(p.interpretation||'')+(p.notes||'')).trim();
+  return (name===''||name==='untitled'||name==='new card') && noSnaps && noText && !p.isDemo;
+}
+function removeAutoUntitledProfiles(){
+  if(!state||!state.profiles)return;
+  state.profiles=state.profiles.filter(p=>!isEmptyUntitledProfile(p));
+  if(!state.profiles.length){state.currentId=null}
+  else if(!state.profiles.find(p=>p.id===state.currentId)){state.currentId=state.profiles[0].id}
+}
+function updateTranslationSources(p){
+  try{
+    if(typeof updateTranslationSourcesOutput==='function')return updateTranslationSourcesOutput(p);
+    if(typeof translationInputsUsed==='function' && $('translationSourcesOutput')){
+      let rows=translationInputsUsed(p).map(([k,v])=>`<tr><td>${escapeHTML(k)}</td><td>${escapeHTML(String(v))}</td></tr>`).join('');
+      $('translationSourcesOutput').innerHTML=`<table class="inputTable">${rows}</table>`;
+    }
+  }catch(e){console.warn('updateTranslationSources alias',e)}
+}
+function renderDetailSwitcher(){
+  let sel=$('detailProfileSelect'); if(!sel||!state||!state.profiles)return;
+  sel.innerHTML=state.profiles.map(p=>`<option value="${p.id}" ${p.id===state.currentId?'selected':''}>${escapeHTML(p.name||'Untitled')} — ${escapeHTML(p.rtype||'Card')}</option>`).join('');
+  if(!sel.dataset.bound){
+    sel.dataset.bound='1';
+    sel.addEventListener('change',()=>{
+      state.currentId=sel.value; saveState();
+      try{fillForm()}catch(e){console.warn(e)}
+      try{safeUpdate()}catch(e){console.warn(e)}
+      try{renderProfiles()}catch(e){console.warn(e)}
+      renderDetailSwitcher();
+    });
+  }
+}
+function hardMetrics(p){
+  try{return metrics(p)}catch(e){return {peaceIndex:50,respectIndex:50,repair:50,reciprocityDyn:50,embedded:50,alignment:50,energy:50,personalized:50}}
+}
+function drawRealRadarFallback(p,m){
+  let c=$('radar'); if(!c)return;
+  let ctx=c.getContext('2d'),w=c.width,h=c.height;
+  ctx.clearRect(0,0,w,h); ctx.fillStyle='#fff'; ctx.fillRect(0,0,w,h);
+  let rows=[['Peace',m.peaceIndex||0],['Respect',m.respectIndex||0],['Repair',m.repair||0],['Reciprocity',m.reciprocityDyn||0],['Grounding',m.embedded||0],['Alignment',m.alignment||0]];
+  let cx=w/2,cy=h/2,r=Math.min(w,h)*0.33;
+  ctx.strokeStyle='#ded6c9'; ctx.fillStyle='#6e675d'; ctx.font='12px -apple-system,BlinkMacSystemFont,Segoe UI,Arial';
+  for(let ring=1;ring<=4;ring++){ctx.beginPath();ctx.arc(cx,cy,r*ring/4,0,Math.PI*2);ctx.stroke()}
+  rows.forEach((row,i)=>{let a=-Math.PI/2+i*(Math.PI*2/rows.length);let x=cx+Math.cos(a)*r,y=cy+Math.sin(a)*r;ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(x,y);ctx.stroke();ctx.fillText(row[0],cx+Math.cos(a)*(r+30)-22,cy+Math.sin(a)*(r+28))});
+  ctx.beginPath();
+  rows.forEach((row,i)=>{let a=-Math.PI/2+i*(Math.PI*2/rows.length);let rr=r*(row[1]/100);let x=cx+Math.cos(a)*rr,y=cy+Math.sin(a)*rr;i?ctx.lineTo(x,y):ctx.moveTo(x,y)});
+  ctx.closePath();ctx.fillStyle='rgba(129,91,51,0.22)';ctx.fill();ctx.strokeStyle='#815b33';ctx.lineWidth=2;ctx.stroke();
+}
+function renderAllDetailOutputs(){
+  try{renderDetailSwitcher()}catch(e){}
+  try{
+    let p=currentProfile(); if(!p)return;
+    let m=hardMetrics(p);
+    drawRealRadarFallback(p,m);
+    if(typeof drawTrendFallback==='function')drawTrendFallback(p);
+    if(typeof drawTrajectoryFallback==='function')drawTrajectoryFallback(p);
+    if(typeof updateTranslationOutput==='function')updateTranslationOutput(p,m);
+    updateTranslationSources(p);
+    if(typeof updateTranslationMap==='function')updateTranslationMap(p);
+    if(typeof updateFrictionHeatmap==='function')updateFrictionHeatmap(p);
+    if(typeof updateRepairLanguage==='function')updateRepairLanguage(p);
+    if(typeof updateAccuracyOutput==='function')updateAccuracyOutput(p,m);
+    if(typeof updateRepairPlanOutput==='function')updateRepairPlanOutput(p,m);
+    if(typeof updateResponseMode==='function')updateResponseMode(p,m);
+    if(typeof updateStrategy==='function')updateStrategy(p,m);
+    if(typeof updateMarriageSystemOutput==='function')updateMarriageSystemOutput(p,m);
+  }catch(e){console.warn('detail outputs',e)}
+}
+if(typeof loadExampleCards==='function' && !window.__loadExampleCleanWrapped){
+  window.__loadExampleCleanWrapped=true;
+  const oldLoadExampleCards=loadExampleCards;
+  loadExampleCards=function(kind){
+    removeAutoUntitledProfiles();
+    let r=oldLoadExampleCards(kind);
+    removeAutoUntitledProfiles();
+    try{saveState();renderProfiles();renderCards();fillForm();renderAllDetailOutputs()}catch(e){console.warn(e)}
+    return r;
+  }
+}
+if(typeof loadDemoProfiles==='function' && !window.__loadDemoCleanWrapped){
+  window.__loadDemoCleanWrapped=true;
+  const oldLoadDemoProfiles=loadDemoProfiles;
+  loadDemoProfiles=function(kind){
+    removeAutoUntitledProfiles();
+    let r=oldLoadDemoProfiles(kind);
+    removeAutoUntitledProfiles();
+    try{saveState();renderProfiles();renderCards();fillForm();renderAllDetailOutputs()}catch(e){console.warn(e)}
+    return r;
+  }
+}
+if(typeof safeUpdate==='function' && !window.__safeUpdate263){
+  window.__safeUpdate263=true;
+  const oldSafeUpdate263=safeUpdate;
+  safeUpdate=function(){
+    let r; try{r=oldSafeUpdate263()}catch(e){console.warn('safeUpdate original',e)}
+    renderAllDetailOutputs();
+    return r;
+  }
+}
+if(typeof fillForm==='function' && !window.__fillForm263){
+  window.__fillForm263=true;
+  const oldFillForm263=fillForm;
+  fillForm=function(){let r=oldFillForm263();setTimeout(renderDetailSwitcher,0);return r}
+}
+document.addEventListener('DOMContentLoaded',()=>setTimeout(()=>{try{removeAutoUntitledProfiles();saveState();renderProfiles();renderCards();fillForm();renderAllDetailOutputs()}catch(e){console.warn(e)}},300));
 

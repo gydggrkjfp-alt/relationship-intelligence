@@ -246,3 +246,7 @@ input.riskRange{accent-color:#9e3b31}
 .miniBar{display:grid;grid-template-columns:120px 1fr 40px;gap:8px;align-items:center;font-size:12px}
 .miniTrack{height:10px;background:#eee;border-radius:999px;overflow:hidden;border:1px solid var(--line)}
 .miniFill{height:100%;background:var(--accent)}
+
+/* v2.6.3 hard fixes */
+.detailSwitcher{background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px;margin:8px 0}
+.detailSwitcher label{font-weight:800;margin-bottom:4px}
