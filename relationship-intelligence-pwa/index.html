@@ -1,10 +1,10 @@
 <!doctype html><html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Relationship Intelligence v2.5</title>
+<title>Relationship Intelligence v2.6</title>
 <link rel="manifest" href="manifest.json"><link rel="stylesheet" href="styles.css">
 <meta name="theme-color" content="#815b33"></head>
 <body>
-<header><h1>Relationship Intelligence <span>v2.5</span></h1>
+<header><h1>Relationship Intelligence <span>v2.6</span></h1>
 <div class="sub">Relational Dynamics Engine: trajectory, repair, reciprocity, embeddedness, loops, archetypes, and vector alignment.</div>
 <div id="status">Loading app…</div></header>
 <nav class="tabs"><button id="tabSnapshot" class="tab active">Snapshot</button><button id="tabCards" class="tab">Cards</button><button id="tabEcosystem" class="tab">Ecosystem</button><button id="tabPerson" class="tab">Card Detail</button><button id="tabMe" class="tab">Self</button></nav>
@@ -22,7 +22,7 @@
 <li><b>Move the sliders</b> based on this interaction only, not your entire history with the person.</li>
 <li><b>Save the snapshot</b>. Later you can open Card Detail for deeper sliders, graphs, and strategy modes.</li>
 </ol>
-<p class="small"><b>Goal:</b> avoid one-time emotional verdicts. The app is designed to detect patterns across repeated interactions.</p>
+<p class="small"><b>Goal:</b> avoid one-time emotional verdicts. The app is designed to detect patterns across repeated interactions.</p><p class="small"><b>Important:</b> Emotional Cost / Drain is reversed: 0 = low drain/good, 10 = high drain/bad.</p>
 </div>
 <div class="snapshotEntry">
 <label>Which card?</label><select id="snapshotCardSelect"></select>
@@ -44,7 +44,7 @@
 <label>Respect <button class="helpBtn" type="button" data-help="respect">?</button> <span id="snapRespectVal">5</span><span class="scaleEnds"><b>Felt dismissed</b><b>Felt respected</b></span><input id="snapRespect" type="range" min="0" max="10" value="5"></label>
 <label>Closeness / intimacy <button class="helpBtn" type="button" data-help="closeness">?</button> <span id="snapClosenessVal">5</span><span class="scaleEnds"><b>Distant</b><b>Connected</b></span><input id="snapCloseness" type="range" min="0" max="10" value="5"></label>
 <label>Repair quality <button class="helpBtn" type="button" data-help="repair">?</button> <span id="snapRepairVal">5</span><span class="scaleEnds"><b>No repair</b><b>Good repair</b></span><input id="snapRepair" type="range" min="0" max="10" value="5"></label>
-<label>Emotional cost <button class="helpBtn" type="button" data-help="cost">?</button> <span id="snapCostVal">5</span><span class="scaleEnds"><b>Low cost</b><b>High cost</b></span><input id="snapCost" type="range" min="0" max="10" value="5"></label>
+<label>Emotional Cost / Drain <button class="helpBtn" type="button" data-help="cost">?</button> <span id="snapCostVal">5</span><span class="scaleEnds dangerScale"><b>0 = low drain / good</b><b>10 = high drain / bad</b></span><input id="snapCost" class="riskRange" type="range" min="0" max="10" value="5"></label>
 <label>Communication clarity <button class="helpBtn" type="button" data-help="clarity">?</button> <span id="snapClarityVal">5</span><span class="scaleEnds"><b>Confusing</b><b>Clear</b></span><input id="snapClarity" type="range" min="0" max="10" value="5"></label>
 </div>
 <div id="snapshotHelpPanel" class="helpPanel"><b>Slider help:</b> tap a ? button to learn what each category means.</div><button id="saveSnapshotPrimaryBtn" type="button">Save Snapshot</button>
@@ -115,7 +115,7 @@
 <div class="quickSliders">
 <label>Quick Peace <span id="quickPeaceVal">5</span></label><input id="quickPeace" type="range" min="0" max="10" value="5">
 <label>Quick Respect <span id="quickRespectVal">5</span></label><input id="quickRespect" type="range" min="0" max="10" value="5">
-<label>Quick Emotional Cost <span id="quickCostVal">5</span></label><input id="quickCost" type="range" min="0" max="10" value="5">
+<label>Quick Emotional Cost <span id="quickCostVal">5</span></label><input id="quickCost" class="riskRange" type="range" min="0" max="10" value="5">
 </div>
 <button id="quickSnapshotBtn" type="button">Save Quick Update</button>
 </div>
