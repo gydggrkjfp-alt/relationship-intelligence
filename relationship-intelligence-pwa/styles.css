@@ -211,3 +211,13 @@ button.profile.active{background:var(--accent2);border-color:var(--accent)}.smal
 .inputTable{width:100%;border-collapse:collapse;font-size:13px}
 .inputTable td{border-bottom:1px solid var(--line);padding:6px;vertical-align:top}
 .inputTable td:first-child{font-weight:700;width:38%}
+
+/* v2.5 clarity patch */
+.lensTitle{font-weight:900;margin:4px 0;text-transform:none;letter-spacing:0}
+.lensSub{font-size:12px;color:var(--muted);line-height:1.35}
+.scaleHelp{font-size:11px;color:var(--muted);margin:2px 0 8px 0}
+.helpMini{display:inline-flex;align-items:center;justify-content:center;width:19px;height:19px;border-radius:999px;border:1px solid var(--line);background:var(--accent2);font-size:11px;margin-left:4px}
+.scoreNote{font-size:12px;color:var(--muted);line-height:1.35}
+.goodScore{border-left:4px solid #4d7a52}
+.badScore{border-left:4px solid #9e3b31}
+.neutralScore{border-left:4px solid #c98716}

@@ -1,10 +1,10 @@
 <!doctype html><html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Relationship Intelligence v2.4</title>
+<title>Relationship Intelligence v2.5</title>
 <link rel="manifest" href="manifest.json"><link rel="stylesheet" href="styles.css">
 <meta name="theme-color" content="#815b33"></head>
 <body>
-<header><h1>Relationship Intelligence <span>v2.4</span></h1>
+<header><h1>Relationship Intelligence <span>v2.5</span></h1>
 <div class="sub">Relational Dynamics Engine: trajectory, repair, reciprocity, embeddedness, loops, archetypes, and vector alignment.</div>
 <div id="status">Loading app…</div></header>
 <nav class="tabs"><button id="tabSnapshot" class="tab active">Snapshot</button><button id="tabCards" class="tab">Cards</button><button id="tabEcosystem" class="tab">Ecosystem</button><button id="tabPerson" class="tab">Card Detail</button><button id="tabMe" class="tab">Self</button></nav>
@@ -130,7 +130,7 @@
 <h3>Core signal sliders</h3><div id="greenSliders"></div>
 <h3>Risk / caution sliders</h3><div id="riskSliders"></div>
 <h3>Respect Assessment</h3><div id="respectSliders"></div>
-<h3>Adaptive risk / context sliders</h3><div class="guide"><b>Adaptive section:</b> these risk questions change based on card type and pronoun/context.</div><div id="socialSliders"></div>
+<h3>Category-specific context sliders</h3><div class="guide"><b>Adaptive section:</b> these questions change based on card type and pronoun/context. 0 means the left-side condition; 10 means the right-side condition.</div><div id="socialSliders"></div>
 
 <label>Evidence observed</label><textarea id="evidence" placeholder="Facts only. Example: asked questions; showed up on time; dismissed my opinion; seemed kind to teammates."></textarea>
 <label>Interpretation / hypothesis</label><textarea id="interpretation" placeholder="Your read. Example: high attraction but peace is uncertain."></textarea>
@@ -154,10 +154,10 @@
 <h3>Admiration Symmetry</h3><div id="admirationOutput" class="analysisBox"></div>
 <h3>Ecosystem Integration</h3><div id="integrationOutput" class="analysisBox"></div>
 <h3>Marriage / long-term system readout</h3><div id="marriageSystemOutput" class="analysisBox"></div>
-<h3>Relational Translation Engine</h3>
+<h3>Meaning Translation Analysis</h3>
 <div id="translationOutput" class="analysisBox"></div><h3>What this is based on</h3><div id="translationSourcesOutput" class="analysisBox"></div>
 <h3>Meaning translation map</h3><div id="translationMapOutput" class="translationMap"></div><div class="translationCanvasWrap hidden"><canvas id="translationCanvas" width="760" height="360"></canvas></div>
-<h3>Friction heatmap</h3><div id="frictionHeatmap" class="heatmap"></div>
+<h3>Friction domain heatmap</h3><div id="frictionHeatmap" class="heatmap"></div>
 <h3>Repair language suggestions</h3><div id="repairLanguageOutput" class="analysisBox"></div>
 <h3>Accuracy & repair check</h3><div id="accuracyOutput" class="analysisBox"></div><h3>Repair-first problem solving</h3><div id="repairPlanOutput" class="analysisBox"></div><h3>Adaptive response mode</h3><div id="responseModeOutput" class="analysisBox"></div><h3>Interaction Strategy</h3><div id="strategyOutput" class="strategyBox"></div>
 <h3>Social environment readout</h3><div id="socialReadout" class="analysisBox"></div>
@@ -170,7 +170,7 @@
 <div class="guide"><b>Purpose:</b> this is not a personality test. It tells the app what you need and what mistakes you are likely to make.</div>
 <label>Your name / label</label><input id="myName" placeholder="Example: Ryan"><div id="selfLensNote" class="adaptiveNote"></div><label>Primary dating lens</label><select id="myDatingLens"><option>Man evaluating women</option><option>Woman evaluating men</option><option>Neutral / varies</option></select>
 <h3>What do I need to thrive?</h3><div id="needSliders"></div>
-<h3>Social standards & peer influence</h3><div class="guide"><b>Purpose:</b> track how peer group, comparison environment, and intrasexual competition may shape standards and romantic interpretation.</div><div id="socialStandardsSliders"></div><h3>Current ecosystem deficiencies</h3><div class="guide"><b>Question:</b> what is currently underfed or missing in your ecosystem?</div><div id="deficiencyChecks"></div><h3>Role reinforcement needs</h3><div class="guide"><b>Purpose:</b> track what roles make you feel useful, respected, admired, trusted, challenged, and autonomous.</div><div id="roleSliders"></div><h3>Self-sabotage & blind spots</h3><div class="guide"><b>Question:</b> what behaviors quietly destabilize your ecosystem or make relationships harder to maintain?</div><div id="tendencyChecks"></div>
+<h3>Social standards & peer influence</h3><div class="guide"><b>Purpose:</b> track how peer group, comparison environment, and intrasexual competition may shape standards and romantic interpretation.</div><div id="socialStandardsSliders"></div><h3>Current ecosystem deficiencies</h3><div class="guide"><b>Question:</b> what is currently underfed or missing in your ecosystem?</div><div id="deficiencyChecks"></div><h3>Role reinforcement needs</h3><div class="guide"><b>Purpose:</b> these are not “do I want this at all?” questions. Most people want many of them. Use sliders to show which needs most regulate your confidence, safety, or relationship satisfaction. 10 means this need strongly affects how you interpret relationships.</div><div id="roleSliders"></div><h3>Self-sabotage & blind spots</h3><div class="guide"><b>Question:</b> what behaviors quietly destabilize your ecosystem or make relationships harder to maintain?</div><div id="tendencyChecks"></div>
 <label>My relationship philosophy</label><textarea id="myPhilosophy" placeholder="Example: I want warmth, respect, attraction, peace, reciprocity, and a partner who helps life feel grounded."></textarea>
 <h3>My risk profile</h3><div id="myReadout" class="analysisBox"></div></section></main>
 <footer>Private local-first beta. Not therapy or diagnosis.</footer><script src="app.js"></script></body></html>

@@ -1,10 +1,12 @@
-# Relationship Intelligence v2.4
+# Relationship Intelligence v2.5
 
-Meaning Translation upgrade:
-- Replaces unclear abstract diagram with explicit flow map
-- Shows the exact event/snapshot being interpreted
-- Shows intended meaning, received meaning, likely loop, and repair path
-- Adds “What this is based on” input table
-- Adds interpretation confidence score
-- Clearly labels when the output is only a hypothesis
-- Makes invisible labor slider wording more obvious
+Stabilization and clarity patch:
+- Adds clearer slider help and examples across slider sections
+- Makes adaptive lens labels human-readable
+- Clarifies role reinforcement needs
+- Makes Translation Dynamics explicit and separate from category-specific context
+- Improves snapshot event/story lookup for the translation map
+- Improves Meaning Translation Map plain-language repair paths
+- Makes marriage metrics explicitly say high-good vs low-good
+- Makes Peace Index scoring more responsive to highly positive inputs
+- Makes Social Environment score less punitive when data is unknown/default

@@ -1,4 +1,4 @@
-const STORAGE_KEY='relationship_intelligence_pwa_v24';
+const STORAGE_KEY='relationship_intelligence_pwa_v25';
 const greenDefs=[['warmth','Warmth','Emotional warmth, ease, affection.'],['kindness','Kindness','Basic goodness toward you and others.'],['respect','Baseline respect','General respect signal from the core profile.'],['reciprocity','Reciprocity','Interest and effort move both directions.'],['curiosity','Curiosity','They actually want to know you.'],['stability','Emotional stability','Grounded enough to build with.'],['peace','Peace after contact','Afterward you feel peaceful, not anxious or humiliated.'],['attraction','Attraction','Physical / romantic pull.']];
 const riskDefs=[['chaos','Chaos / drama','Volatility, crisis, or confusing energy.'],['trauma','Early trauma dumping','Heavy disclosure before trust exists.'],['entitlement','Entitlement','Expects without appreciating.'],['family','Family disrespect','Contempt toward family/parents.'],['social','Social-media validation','Attention-seeking or comparison energy.'],['inconsistent','Inconsistent communication','Words and effort fluctuate in a destabilizing way.']];
 const respectDefs=[['opinion','Values your opinions','Does this person take your perspective seriously?'],['appreciation','Expresses appreciation','Does this person notice and value your effort?'],['commitments','Keeps commitments','Does they follow through reliably?'],['proud','Proud to be associated','Would this person speak well of you to others?'],['time','Respects your time','Is this person considerate with scheduling and effort?'],['boundaries','Respects boundaries','Does this person honor limits without punishment?']];
@@ -243,6 +243,42 @@ if($('deficiencyChecks'))$('deficiencyChecks').innerHTML='<div class="checkGrid"
 if($('patternChecks'))$('patternChecks').innerHTML='<div class="checkGrid">'+activePatternDefs().map(([k,l])=>`<div class="checkItem"><input type="checkbox" id="pattern_${k}"><span>${l}</span></div>`).join('')+'</div>';
 if($('tendencyChecks'))$('tendencyChecks').innerHTML='<div class="checkGrid">'+activeBlindSpotDefs().map(([k,l])=>`<div class="checkItem"><input type="checkbox" id="blind_${k}"><span>${l}</span></div>`).join('')+'</div>';
 $('tendencyChecks').innerHTML=tendencyDefs.map(([k,l,h])=>`<label class='check'><input type='checkbox' id='t_${k}'><span><b>${l}</b><span class='small'>${h}</span></span></label>`).join('')}
+
+function friendlyLensName(key){
+  const map={romanticMan:'Romantic man lens',romanticWoman:'Romantic woman lens',work:'Work relationship lens',friend:'Friendship lens',family:'Family lens',boundary:'Boundary / managed contact lens',general:'General relationship lens'};
+  return map[key]||String(key||'General relationship lens');
+}
+function latestSnapshot(p){let snaps=p.snapshots||[];return snaps.length?snaps[snaps.length-1]:null}
+function snapshotEventText(p){let snap=latestSnapshot(p);return (snap?.note||snap?.event||p.evidence||'').trim()}
+function snapshotStoryText(p){let snap=latestSnapshot(p);return (snap?.story||p.story||p.interpretation||'').trim()}
+function pct(v){return Math.round(Math.max(0,Math.min(100,Number(v)||0)))}
+function scoreBand(v,goodHigh=true){if(goodHigh)return v>=75?'goodScore':v>=45?'neutralScore':'badScore';return v<=35?'goodScore':v<=65?'neutralScore':'badScore'}
+function sliderDescription(prefix,k,label,hint,left,right){
+  const examples={
+    appreciation:'Example: 0 = effort is often unnoticed; 10 = effort is consistently noticed and valued.',
+    emotionalRegulation:'Example: 0 = reacts badly when frustrated; 10 = can feel hurt or disappointed without escalating.',
+    repairAbility:'Repair means what happens after friction: accountability, apology, clarification, changed behavior, and reconnection.',
+    invisibleLaborSensitivity:'Invisible labor means planning, tracking, remembering, chores, logistics, and emotional work that can go unnoticed.',
+    emotionalTranslation:'Emotional translation means understanding the emotional meaning behind a request, not just the literal task.',
+    reassuranceNeed:'High means consistency, inclusion, and verbal/emotional reassurance strongly affect safety.',
+    competenceThreat:'High means correction may land as “I failed / I am not useful,” even if that was not intended.',
+    missionPriority:'High means work, mission, or bandwidth often outranks ambient relationship maintenance.',
+    safety:'Safety means the relationship feels emotionally and physically non-threatening.',
+    chosen:'Chosen means intentionally prioritized, not merely tolerated or convenient.',
+    included:'Included means brought into decisions, plans, and inner life.'
+  };
+  return examples[k]||hint||`${left||'Low'} to ${right||'High'}. Move based on observed behavior, not hopes.`;
+}
+function repairPlainEnglish(kind){
+  const map={
+    appreciation:'Say what specifically worked as its own complete moment, not as a setup for correction. Later, ask for the change as a comfort/impact request: “When this is handled this way, I feel calmer and more cared for.”',
+    competence:'Avoid making correction the headline. Preserve dignity, explain the desired outcome, and make the next step concrete. Humor or self-aware softness can help if warmth already exists.',
+    sharedReality:'Have a short shared-reality check-in: “What changed this week? What decisions are pending? What are you carrying that I do not know about?”',
+    default:'Clarify the event, state the impact, ask one direct question, and agree on one specific next behavior.'
+  };
+  return map[kind]||map.default;
+}
+
 function sliderHTML(g,k,l,h,d,left,right,good){return`<div class='slider'><div class='sliderTop'><b>${l}</b><span class='bubble' id='${g}_${k}_value'>${d}</span></div><div class='small'>${h}</div><input type='range' min='0' max='10' value='${d}' id='${g}_${k}'><div class='scaleLabels'><span>${left}</span><span class='${good?'goodSide':'riskSide'}'>${right}</span></div></div>`}
 function fillForm(){let p=currentProfile();$('profileTitle').textContent='Profile: '+(p.name||'Untitled');['name','pronounContext','rtype','met','desiredOutcome','socialNotes','impression','evidence','interpretation','hesitation','notes'].forEach(id=>$(id).value=p[id]||'');if(!p.rtype)$('rtype').value='Romantic prospect';if(!p.met)$('met').value='Soccer';greenDefs.forEach(([k])=>{let v=p.green?.[k]??5;$(`green_${k}`).value=v;$(`green_${k}_value`).textContent=v});riskDefs.forEach(([k])=>{let v=p.risk?.[k]??3;$(`risk_${k}`).value=v;$(`risk_${k}_value`).textContent=v});respectDefs.forEach(([k])=>{let v=p.respect?.[k]??5;$(`respect_${k}`).value=v;$(`respect_${k}_value`).textContent=v});renderAdaptiveRiskSliders();bindAdaptiveRiskInputs()}
 function fillMe(){let me=state.me||defaultMe();$('myName').value=me.name||'';if($('myDatingLens'))$('myDatingLens').value=me.datingLens||'Man evaluating women';$('myPhilosophy').value=me.philosophy||'';needDefs.forEach(([k])=>{let v=me.needs?.[k]??5;$(`need_${k}`).value=v;$(`need_${k}_value`).textContent=v});activeRoleDefs().forEach(([k])=>{let el=$(`role_${k}`);if(el){let v=me.roles?.[k]??5;el.value=v;$(`role_${k}_value`).textContent=v}});
@@ -263,10 +299,12 @@ function need(k){return Number((state.me?.needs||{})[k]??5)}function tendency(k)
 function respectIndex(p){return Math.round(Math.max(0,Math.min(100,avg(p.respect,respectDefs)*10)))}
 
 function socialHealth(p){
-  let defs=currentRiskDefs(p);
+  let defs=(typeof currentRiskDefs==='function')?currentRiskDefs(p):[];
+  if(!defs.length)return 70;
   let total=0, weight=0;
   defs.forEach(([k,,,,good])=>{
-    let v=Number(p.social?.[k]??(good?5:3));
+    let raw=p.social?.[k];
+    let v=raw===undefined ? (good?7:3) : Number(raw);
     total += good ? v : (10-v);
     weight += 1;
   });
@@ -309,7 +347,7 @@ function dynamicArchetype(p,m){
   return 'Mixed / Still Learning';
 }
 
-function metrics(p){let g=avg(p.green,greenDefs),r=avg(p.risk,riskDefs),respect=respectIndex(p);let base=Math.max(0,Math.min(100,g*10-r*4));let personalized=base;personalized+=(respect-50)*.22;personalized+=(p.green.warmth-5)*(need('needWarmth')-5)*.7;personalized+=(p.green.respect-5)*(need('needRespect')-5)*.9;personalized+=(p.green.reciprocity-5)*(need('needAppreciation')-5)*.55;personalized+=(p.green.stability-5)*(need('needStability')-5)*.8;personalized+=(p.green.curiosity-5)*(need('needIntellect')-5)*.55;personalized-=p.risk.chaos*(need('needStability')/10)*2.2;personalized-=p.risk.family*(need('needFamily')/10)*1.4;personalized+=(socialHealth(p)-50)*.22;if(tendency('scarcity')&&p.green.attraction>=7)personalized-=6;if(tendency('attractionOverride')&&p.green.attraction>=8&&p.green.peace<=5)personalized-=10;if(tendency('rescuer')&&p.risk.trauma>=7)personalized-=9;if(tendency('peoplePleaser')&&(p.risk.entitlement>=6||respect<55))personalized-=8;if(tendency('movesFast')&&p.green.attraction>=7&&p.risk.chaos>=6)personalized-=8;personalized=Math.round(Math.max(0,Math.min(100,personalized)));let peaceIndex=Math.round(Math.max(0,Math.min(100,p.green.peace*3.5+p.green.respect*1.2+p.green.warmth*1.3+p.green.reciprocity*1.4+p.green.stability*1.4+respect*.012-p.risk.chaos*1.5-p.risk.inconsistent-p.risk.trauma*.8)));return{greenAvg:g,riskAvg:r,base:Math.round(base),personalized,peaceIndex,respectIndex:respect,social:socialHealth(p)}}
+function metrics(p){let g=avg(p.green,greenDefs),r=avg(p.risk,riskDefs),respect=respectIndex(p);let base=Math.max(0,Math.min(100,g*10-r*4));let personalized=base;personalized+=(respect-50)*.22;personalized+=(p.green.warmth-5)*(need('needWarmth')-5)*.7;personalized+=(p.green.respect-5)*(need('needRespect')-5)*.9;personalized+=(p.green.reciprocity-5)*(need('needAppreciation')-5)*.55;personalized+=(p.green.stability-5)*(need('needStability')-5)*.8;personalized+=(p.green.curiosity-5)*(need('needIntellect')-5)*.55;personalized-=p.risk.chaos*(need('needStability')/10)*2.2;personalized-=p.risk.family*(need('needFamily')/10)*1.4;personalized+=(socialHealth(p)-50)*.22;if(tendency('scarcity')&&p.green.attraction>=7)personalized-=6;if(tendency('attractionOverride')&&p.green.attraction>=8&&p.green.peace<=5)personalized-=10;if(tendency('rescuer')&&p.risk.trauma>=7)personalized-=9;if(tendency('peoplePleaser')&&(p.risk.entitlement>=6||respect<55))personalized-=8;if(tendency('movesFast')&&p.green.attraction>=7&&p.risk.chaos>=6)personalized-=8;personalized=Math.round(Math.max(0,Math.min(100,personalized)));let peaceIndex=Math.round(Math.max(0,Math.min(100,personalized)));return{greenAvg:g,riskAvg:r,base:Math.round(base),personalized,peaceIndex,respectIndex:respect,social:socialHealth(p)}}
 function safeUpdate(){try{updateReadout()}catch(e){$('status').textContent='Calculation error: '+e.message;console.error(e)}}
 function updateReadout(){let p=currentProfile(),m=metrics(p);$('meterFill').style.width=m.personalized+'%';$('peaceIndex').textContent=m.peaceIndex;$('respectIndex').textContent=m.respectIndex;$('peacePhrase').textContent=m.peaceIndex>=75?'Calming, respectful, emotionally low-cost.':m.peaceIndex>=55?'Worth exploring, but watch whether calm increases.':m.peaceIndex>=35?'Exciting but not yet peaceful. Slow down.':'Low peace signal. Attraction may be masking emotional cost.';$('respectPhrase').textContent=m.respectIndex>=80?'Strong respect signal: appreciation, reliability, and boundaries look healthy.':m.respectIndex>=60?'Moderate respect signal. Watch consistency over time.':m.respectIndex>=40?'Respect is uncertain. Do not let warmth or attraction compensate too much.':'Low respect signal. This is a major long-term risk.';updateMatrix(m);updateSocialReadout(p,m);updateAttachmentOutput(p,m);updateAdmirationOutput(p,m);updateIntegrationOutput(p,m);updateMarriageSystemOutput(p,m);updateTranslationEngine(p,m);updateAccuracyOutput(p,m);updateRepairPlanOutput(p,m);updateResponseMode(p,m);updateStrategy(p,m);updateAvatar(p,m);let title='Proceed carefully',cls='',text='Keep learning without outrunning the evidence.';if(m.personalized>=70&&m.peaceIndex>=65&&m.respectIndex>=65){title='Worth continuing to explore';cls='good';text='For your profile, this currently aligns with peace, respect, and low emotional cost.'}else if(m.personalized<=40||m.peaceIndex<40||m.respectIndex<40){title='Likely mismatch or boundaries needed';cls='bad';text='For your profile, this may cost too much peace or respect.'}if((p.rtype||'').includes('Do not date')){title='Boundaries-first relationship';cls='';text='This is not for romance escalation. Organize around clarity and boundaries.'}$('readout').className='readout '+cls;$('readout').innerHTML=`<b>${title}</b><br>Personalized Score: <b>${m.personalized}/100</b><br><span class='small'>General: ${m.base}/100 · Repair: ${m.repair}/100 · Reciprocity: ${m.reciprocityDyn}/100 · Grounding: ${m.embedded}/100 · Alignment: ${m.alignment}/100</span><br>${text}`;updateBiasWarnings(p,m);updateGuidance(p,m);updateAI(p,m);drawRadar(p,m);renderTimeline(p);renderCards();$('status').textContent='App loaded. Autosave active.'}
 function updateMatrix(m){let hiP=m.peaceIndex>=60,hiR=m.respectIndex>=60;let active=hiP&&hiR?'exceptional':hiP&&!hiR?'comfort':!hiP&&hiR?'work':'risk';$('matrix').innerHTML=`<div class='quad ${active==='comfort'?'active':''}'><b>High Peace / Low Respect</b><span class='small'>Comfort without full partnership.</span></div><div class='quad ${active==='exceptional'?'active':''}'><b>High Peace / High Respect</b><span class='small'>Long-term potential.</span></div><div class='quad ${active==='risk'?'active':''}'><b>Low Peace / Low Respect</b><span class='small'>Proceed carefully.</span></div><div class='quad ${active==='work'?'active':''}'><b>Low Peace / High Respect</b><span class='small'>Foundation exists, but emotional cost is high.</span></div>`}
@@ -595,7 +633,7 @@ function currentRiskDefs(p){return adaptiveRiskDefs[adaptiveRiskLens(p)]||adapti
 function renderAdaptiveRiskSliders(){
   if(!$('socialSliders'))return;
   let p=currentProfile(), lens=adaptiveRiskLens(p), defs=currentRiskDefs(p);
-  $('socialSliders').innerHTML=`<div class="adaptiveNote"><b>${lens.replace(/([A-Z])/g,' $1')} lens</b><div class="small">Risk questions adapt to card type and pronoun/context.</div></div>`+defs.map(([k,l,h,left,right,good])=>sliderHTML('social',k,l,h,p.social?.[k]??(good?5:3),left,right,good)).join('');
+  $('socialSliders').innerHTML=`<div class="adaptiveNote"><b>${friendlyLensName(lens)}</b><div class="small">This section is category-specific. Questions change for romance, work, family, marriage, pets, children, etc.</div></div>`+defs.map(([k,l,h,left,right,good])=>sliderHTML('social',k,l,h,p.social?.[k]??(good?5:3),left,right,good)).join('');
 }
 function bindAdaptiveRiskInputs(){
   let p=currentProfile();
@@ -707,20 +745,20 @@ function updateMarriageSystemOutput(p,m){
     $('marriageSystemOutput').innerHTML='<p class="small">Marriage/long-term system analysis appears for Husband, Wife, Long-term Partner, Fiancé/Fiancée, and Co-parent cards.</p>';
     return;
   }
-  let cat=profileCategory(p);
-  let t=p.translation||{}, r=p.repair||{}, e=p.energy||{};
-  let sharedReality=Math.round(((t.emotionalTranslation||5)+(10-(t.reassuranceNeed||5))+(m.embedded||50)/10)/3*10);
-  let householdLoad=Math.round(((t.invisibleLaborSensitivity||5)+(e.drain||5)+(10-(r.repairAbility||5)))/3*10);
-  let admirationRisk=cat==='Husband'?Math.round(((t.competenceThreat||5)+(10-(p.respect?.appreciation||5))+(e.drain||5))/3*10):Math.round(((t.invisibleLaborSensitivity||5)+(t.reassuranceNeed||5)+(10-(t.emotionalTranslation||5)))/3*10);
-  let intimacyDrift=Math.round(((10-(p.green?.warmth||5))+(10-(p.green?.reciprocity||5))+(10-(t.emotionalTranslation||5)))/3*10);
-  let primary = sharedReality<50?'Shared Reality Rebuild':householdLoad>65?'Household Load / Burnout':admirationRisk>65?'Admiration or Emotional Visibility Repair':intimacyDrift>65?'Intimacy Drift Repair':'Maintenance / Growth';
+  let cat=profileCategory(p), t=p.translation||{}, r=p.repair||{}, e=p.energy||{};
+  let sharedReality=pct(((t.emotionalTranslation||5)+(10-(t.reassuranceNeed||5))+(m.embedded||50)/10)/3*10);
+  let householdRisk=pct(((t.invisibleLaborSensitivity||5)+(e.drain||5)+(10-(r.repairAbility||5)))/3*10);
+  let visibilityRisk=cat==='Husband'?pct(((t.competenceThreat||5)+(10-(p.respect?.appreciation||5))+(e.drain||5))/3*10):pct(((t.invisibleLaborSensitivity||5)+(t.reassuranceNeed||5)+(10-(t.emotionalTranslation||5)))/3*10);
+  let intimacyRisk=pct(((10-(p.green?.warmth||5))+(10-(p.green?.reciprocity||5))+(10-(t.emotionalTranslation||5)))/3*10);
+  let primary=sharedReality<50?'Shared Reality Rebuild':householdRisk>65?'Household Load / Burnout':visibilityRisk>65?'Admiration or Emotional Visibility Repair':intimacyRisk>65?'Intimacy Drift Repair':'Maintenance / Growth';
   $('marriageSystemOutput').innerHTML=
     `<p><span class="stageBadge">${cat}</span><span class="stageBadge">${primary}</span></p>
+    <p class="scoreNote"><b>Important:</b> Shared reality is a positive score where high is good. Household load, visibility risk, and intimacy drift are risk scores where low is good.</p>
     <div class="marriageGrid">
-      <div class="marriageItem"><b>Shared reality</b>${sharedReality}/100<br><span class="small">How much life is being narrated, processed, and planned together.</span></div>
-      <div class="marriageItem"><b>Household / structural load</b>${householdLoad}/100<br><span class="small">Stress from tasks, logistics, sleep, finances, or invisible management.</span></div>
-      <div class="marriageItem"><b>Admiration / visibility risk</b>${admirationRisk}/100<br><span class="small">Risk of feeling unseen, unappreciated, criticized, or emotionally invisible.</span></div>
-      <div class="marriageItem"><b>Intimacy drift</b>${intimacyDrift}/100<br><span class="small">Risk of parallel lives, reduced warmth, or low emotional/sexual closeness.</span></div>
+      <div class="marriageItem ${scoreBand(sharedReality,true)}"><b>Shared reality</b>${sharedReality}/100<br><span class="small">High is good. Measures whether life is narrated, processed, and planned together.</span></div>
+      <div class="marriageItem ${scoreBand(householdRisk,false)}"><b>Household / structural load risk</b>${householdRisk}/100<br><span class="small">Low is good. Risk from tasks, logistics, sleep, finances, or invisible management.</span></div>
+      <div class="marriageItem ${scoreBand(visibilityRisk,false)}"><b>Admiration / emotional visibility risk</b>${visibilityRisk}/100<br><span class="small">Low is good. Risk of feeling unseen, unappreciated, criticized, or emotionally invisible.</span></div>
+      <div class="marriageItem ${scoreBand(intimacyRisk,false)}"><b>Intimacy drift risk</b>${intimacyRisk}/100<br><span class="small">Low is good. Risk of parallel lives, reduced warmth, or low closeness.</span></div>
     </div>
     <p><b>Suggested exercise:</b> 20-minute weekly shared-reality check-in: what changed this week, what decisions are pending, what stress each person is carrying, and one thing each person appreciated.</p>`;
 }
@@ -735,109 +773,85 @@ function hasTranslationEvidence(p){
   let text=((p.evidence||'')+' '+(p.story||'')+' '+(snap?.note||'')+' '+(snap?.story||'')).trim();
   return text.length>20 || !!snap;
 }
+
 function translationInputsUsed(p){
   let t=p.translation||{}, snap=latestSnapshot(p);
-  let items=[
-    ['Latest snapshot/event', snap?.note || 'No snapshot event saved yet'],
-    ['User story/interpretation', snap?.story || p.story || 'No story/interpretation entered yet'],
+  return [
+    ['Latest snapshot event', snapshotEventText(p) || 'No snapshot event saved yet'],
+    ['User story / interpretation', snapshotStoryText(p) || 'No story/interpretation entered yet'],
     ['Snapshot tags', snap?.tags?.length ? snap.tags.join(', ') : 'No tags detected yet'],
-    ['Domain', snap?.domain || 'No domain selected yet'],
+    ['Snapshot domain', snap?.domain || 'No domain selected yet'],
     ['Evidence confidence', snap?.evidenceConfidence || 'Not set'],
     ['Interpretation checked', snap?.interpretationChecked || 'Not set'],
     ['Competence-threat sensitivity', (t.competenceThreat??5)+'/10 — from Translation dynamics slider'],
-    ['Invisible labor sensitivity', (t.invisibleLaborSensitivity??5)+'/10 — from Translation dynamics slider'],
+    ['Invisible labor / unseen work sensitivity', (t.invisibleLaborSensitivity??5)+'/10 — from Translation dynamics slider'],
     ['Emotional translation ability', (t.emotionalTranslation??5)+'/10 — from Translation dynamics slider or snapshot clarity'],
     ['Reassurance need', (t.reassuranceNeed??5)+'/10 — from Translation dynamics slider or snapshot closeness'],
-    ['Mission/work priority', (t.missionPriority??5)+'/10 — from Translation dynamics slider']
+    ['Mission / work priority', (t.missionPriority??5)+'/10 — from Translation dynamics slider']
   ];
-  return items;
 }
 function translationConfidence(p){
   let snap=latestSnapshot(p), score=0;
-  if(snap?.note && snap.note.length>20)score+=25;
+  if(snapshotEventText(p).length>20)score+=30;
   if(snap?.tags?.length)score+=20;
   if(snap?.evidenceConfidence?.includes('High'))score+=25;
   else if(snap?.evidenceConfidence?.includes('Medium'))score+=15;
   if(snap?.interpretationChecked?.includes('Yes'))score+=20;
   else if(snap?.interpretationChecked?.includes('Partially'))score+=10;
-  if((p.snapshots||[]).length>=3)score+=20;
+  if((p.snapshots||[]).length>=3)score+=15;
   return Math.max(0,Math.min(100,score));
 }
 function meaningTranslationMap(p){
-  let snap=latestSnapshot(p), t=p.translation||{};
+  let snap=latestSnapshot(p), t=p.translation||{}, event=snapshotEventText(p), story=snapshotStoryText(p);
+  if(!event || event.length<5)return {ready:false,repair:'Save a snapshot with a concrete event first. This map should not analyze a blank card.'};
   let domain=snap?.domain || mainFrictionDomain(p);
-  let event=snap?.note || p.evidence || '';
-  if(!hasTranslationEvidence(p)){
-    return {
-      ready:false,
-      event:'No event yet',
-      intended:'No intended meaning can be inferred yet.',
-      received:'No received meaning can be inferred yet.',
-      loop:'No loop detected yet.',
-      repair:'Save a snapshot first. Then the app can map facts → interpretation → emotional effect → repair path.'
-    };
-  }
-  let intended='The other person may have been expressing a need, preference, stress point, or bid for coordination.';
-  let received='The behavior may have been received as criticism, distance, disrespect, invisibility, or lack of care.';
-  let loop='If unclarified, both people may react to the meaning they received rather than the meaning intended.';
-  let repair='Clarify the meaning before judging intent. Ask one direct question and make one concrete request.';
+  let intended='Possible intended meaning: a need, preference, stress point, or attempt to coordinate.';
+  let received='Possible received meaning: criticism, distance, disrespect, invisibility, or lack of care.';
+  let loop='If nobody clarifies, each person may react to the meaning they received rather than what was intended.';
+  let repair=repairPlainEnglish('default');
   let tags=(snap?.tags||[]).join(' ');
   if(domain.includes('Communication') || tags.includes('communication intimacy gap')){
-    intended='A need for shared reality: being included, updated, and treated like a partner in decisions.';
-    received='Possible received meaning: “We are living parallel lives” or “I am not included in your inner world.”';
-    loop='Distance → private processing → surprise/discovery → hurt → more distance.';
-    repair='Use a shared-reality check-in: what changed, what decisions are pending, what stress are we each carrying?';
-  } else if(domain.includes('Tasks') || domain.includes('Criticism') || tags.includes('competence')){
-    intended=(t.invisibleLaborSensitivity||5)>=7?'A request for relief from invisible load, comfort, or being supported.':'A preference, correction, or request about how something should be done.';
-    received=(t.competenceThreat||5)>=7?'Possible received meaning: “I failed / I am not useful / why did I try?”':'Possible received meaning: “This needs to be improved.”';
+    intended='Need for shared reality: being included, updated, and treated like a partner in decisions.';
+    received='“We are living parallel lives” or “I am not included in your inner world.”';
+    loop='Private processing → surprise/discovery → hurt → distance → even less sharing.';
+    repair=repairPlainEnglish('sharedReality');
+  }else if(domain.includes('Tasks') || domain.includes('Criticism') || tags.includes('competence')){
+    intended=(t.invisibleLaborSensitivity||5)>=7?'Request for relief from unseen work, comfort, or support.':'Preference, correction, or request about how something should be done.';
+    received=(t.competenceThreat||5)>=7?'“I failed / I am not useful / why did I try?”':'“This needs to be improved.”';
     loop='Correction → competence threat → withdrawal/reduced initiative → more frustration/correction.';
-    repair=(t.playfulRepair||5)>=7?'Use playful redirection or self-aware framing, not a fake praise sandwich. Preserve dignity while explaining the comfort gained.':'Explain the comfort or outcome gained, not merely what was wrong.';
-  } else if(domain.includes('Commitment')){
-    intended='A need for direction, clarity, security, or future integration.';
-    received='Possible received meaning: pressure, loss of autonomy, or being evaluated.';
-    loop='Ambiguity → anxiety/testing → withdrawal/defensiveness → more ambiguity.';
-    repair='Clarify desired direction without cornering: “I want to understand what we are building toward.”';
-  } else if(domain.includes('Appreciation')){
-    intended='A need to feel effort is seen and valued.';
-    received='Possible received meaning: “Nothing I do counts” or “I am failing the scoreboard.”';
-    loop='Low appreciation → reduced initiative → more disappointment → less appreciation.';
-    repair='Name what is working repeatedly and specifically; handle course-corrections separately from recognition.';
+    repair=(t.competenceThreat||5)>=7?repairPlainEnglish('competence'):repairPlainEnglish('appreciation');
+  }else if(domain.includes('Appreciation')){
+    intended='Need to feel effort is seen and valued.';
+    received='“Nothing I do counts” or “I am failing the scoreboard.”';
+    loop='Low appreciation → reduced initiative → disappointment → even less appreciation.';
+    repair=repairPlainEnglish('appreciation');
   }
-  return {ready:true,event:event||snap?.note||'Event from latest snapshot',intended,received,loop,repair};
-}
-function updateTranslationSources(p){
-  if(!$('translationSourcesOutput'))return;
-  let conf=translationConfidence(p);
-  let cls=conf<45?'confidenceLow':'confidenceOk';
-  let rows=translationInputsUsed(p).map(([k,v])=>`<tr><td>${escapeHTML(k)}</td><td>${escapeHTML(String(v))}</td></tr>`).join('');
-  $('translationSourcesOutput').innerHTML=`<div class="sourceItem ${cls}"><b>Interpretation confidence: ${conf}/100</b>${conf<45?'This is mostly a hypothesis. Add snapshots, notes, and checked interpretations before trusting it.':'This has some grounding from snapshot/card inputs.'}</div><table class="inputTable">${rows}</table>`;
+  return {ready:true,event,story,intended,received,loop,repair};
 }
 function updateTranslationMap(p){
   if(!$('translationMapOutput'))return;
   let m=meaningTranslationMap(p);
-  if(!m.ready){
-    $('translationMapOutput').innerHTML=`<div class="flowCard confidenceLow"><b>No meaningful event selected yet</b>${m.repair}</div>`;
-    return;
-  }
+  if(!m.ready){$('translationMapOutput').innerHTML=`<div class="flowCard confidenceLow"><b>No event selected yet</b>${m.repair}</div>`;return;}
   $('translationMapOutput').innerHTML=`
-    <div class="flowCard"><b>1. Event being interpreted</b>${escapeHTML(String(m.event).slice(0,500))}</div>
+    <div class="flowCard"><b>1. Event being interpreted</b>${escapeHTML(String(m.event).slice(0,700))}</div>
+    <div class="flowCard"><b>2. Your story / interpretation</b>${escapeHTML(String(m.story||'No interpretation entered.').slice(0,700))}</div>
     <div class="flowArrow">↓</div>
-    <div class="flowCard"><b>2. Possible intended meaning</b>${escapeHTML(m.intended)}</div>
+    <div class="flowCard"><b>3. Possible intended meaning</b>${escapeHTML(m.intended)}</div>
     <div class="flowArrow">↓</div>
-    <div class="flowCard"><b>3. Possible received meaning</b>${escapeHTML(m.received)}</div>
+    <div class="flowCard"><b>4. Possible received meaning</b>${escapeHTML(m.received)}</div>
     <div class="flowArrow">↓</div>
-    <div class="flowCard"><b>4. Likely loop if unclarified</b>${escapeHTML(m.loop)}</div>
+    <div class="flowCard"><b>5. Likely loop if unclarified</b>${escapeHTML(m.loop)}</div>
     <div class="flowArrow">↓</div>
-    <div class="flowCard"><b>5. Repair path</b>${escapeHTML(m.repair)}</div>`;
+    <div class="flowCard"><b>6. Plain-language repair path</b>${escapeHTML(m.repair)}</div>`;
 }
 function updateTranslationOutput(p,m){
   if(!$('translationOutput'))return;
-  let score=translationScore(p), domain=latestSnapshot(p)?.domain || mainFrictionDomain(p);
-  let conf=translationConfidence(p);
-  let likely = score>=65 ? 'High meaning-mismatch risk' : score>=40 ? 'Moderate meaning-mismatch risk' : 'Lower meaning-mismatch risk';
-  let caveat = conf<45 ? ' This is low-confidence until you add snapshots or concrete notes.' : '';
-  $('translationOutput').innerHTML=`<p><span class="translationBadge">${likely}</span><span class="translationBadge">Domain: ${escapeHTML(domain)}</span><span class="translationBadge">Confidence: ${conf}/100</span></p><p>This section maps how an event may move from behavior → intended meaning → received meaning → loop → repair path.${caveat}</p>`;
+  let score=translationScore(p), domain=latestSnapshot(p)?.domain || mainFrictionDomain(p), conf=translationConfidence(p);
+  let likely=score>=65?'High meaning-mismatch risk':score>=40?'Moderate meaning-mismatch risk':'Lower meaning-mismatch risk';
+  let caveat=conf<45?' This is low-confidence until you add concrete snapshots or checked interpretations.':'';
+  $('translationOutput').innerHTML=`<p><span class="translationBadge">${likely}</span><span class="translationBadge">Domain: ${escapeHTML(domain)}</span><span class="translationBadge">Confidence: ${conf}/100</span></p><p><b>What this means:</b> this section tries to explain how the same event may mean one thing to the actor and land differently for the receiver. It is not a verdict.${caveat}</p>`;
 }
+
 function drawTranslationCanvas(p){return}
 function updateTranslationEngine(p,m){
   updateTranslationOutput(p,m);
