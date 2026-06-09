@@ -1,13 +1,13 @@
 <!doctype html><html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Relationship Intelligence v2.6.3</title>
+<title>Relationship Intelligence v2.7</title>
 <link rel="manifest" href="manifest.json"><link rel="stylesheet" href="styles.css">
 <meta name="theme-color" content="#815b33"></head>
 <body>
-<header><h1>Relationship Intelligence <span>v2.6.3</span></h1>
+<header><h1>Relationship Intelligence <span>v2.7</span></h1>
 <div class="sub">Relational Dynamics Engine: trajectory, repair, reciprocity, embeddedness, loops, archetypes, and vector alignment.</div>
 <div id="status">Loading app…</div></header>
-<nav class="tabs"><button id="tabSnapshot" class="tab active">Snapshot</button><button id="tabCards" class="tab">Cards</button><button id="tabEcosystem" class="tab">Ecosystem</button><button id="tabPerson" class="tab">Card Detail</button><button id="tabMe" class="tab">Self</button></nav>
+<nav class="tabs"><button id="tabSnapshot" class="tab active">Snapshot</button><button id="tabCards" class="tab">Cards</button><button id="tabEcosystem" class="tab">Ecosystem</button><button id="tabPerson" class="tab">Card Detail</button><button id="tabMe" class="tab">Self</button><button id="tabDiagnostics" class="tab">Diagnostics</button></nav>
 
 
 <main id="snapshotView" class="single">
@@ -185,4 +185,18 @@
 <h3>Social standards & peer influence</h3><div class="guide"><b>Purpose:</b> track how peer group, comparison environment, and intrasexual competition may shape standards and romantic interpretation.</div><div id="socialStandardsSliders"></div><h3>Current ecosystem deficiencies</h3><div class="guide"><b>Question:</b> what is currently underfed or missing in your ecosystem?</div><div id="deficiencyChecks"></div><h3>Role reinforcement needs</h3><div class="guide"><b>Purpose:</b> these are not “do I want this at all?” questions. Most people want many of them. Use sliders to show which needs most regulate your confidence, safety, or relationship satisfaction. 10 means this need strongly affects how you interpret relationships.</div><div id="roleSliders"></div><h3>Self-sabotage & blind spots</h3><div class="guide"><b>Question:</b> what behaviors quietly destabilize your ecosystem or make relationships harder to maintain?</div><div id="tendencyChecks"></div>
 <label>My relationship philosophy</label><textarea id="myPhilosophy" placeholder="Example: I want warmth, respect, attraction, peace, reciprocity, and a partner who helps life feel grounded."></textarea>
 <h3>My risk profile</h3><div id="myReadout" class="analysisBox"></div></section></main>
-<footer>Private local-first beta. Not therapy or diagnosis.</footer><script src="app.js"></script></body></html>
+<footer>Private local-first beta. Not therapy or diagnosis.</footer>
+<main id="diagnosticsView" class="single hidden">
+<section>
+<h2>Diagnostics</h2>
+<div class="guide"><b>Purpose:</b> check app health, profile consistency, required fields, and chart readiness.</div>
+<div class="demoButtons">
+<button id="runDiagnosticsBtn" type="button">Run diagnostics</button>
+<button id="normalizeProfilesBtn" type="button" class="secondary">Normalize profiles</button>
+<button id="removeEmptyProfilesBtn" type="button" class="secondary">Remove empty untitled cards</button>
+</div>
+<div id="diagnosticsOutput" class="analysisBox">Run diagnostics to check app health.</div>
+</section>
+</main>
+
+<script src="app.js"></script></body></html>

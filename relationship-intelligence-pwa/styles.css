@@ -250,3 +250,10 @@ input.riskRange{accent-color:#9e3b31}
 /* v2.6.3 hard fixes */
 .detailSwitcher{background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px;margin:8px 0}
 .detailSwitcher label{font-weight:800;margin-bottom:4px}
+
+/* v2.7 diagnostics + future viability */
+.diagnosticPass{border-left:4px solid #4d7a52;background:#f5fbf5;padding:8px;border-radius:10px;margin:6px 0}
+.diagnosticWarn{border-left:4px solid #c98716;background:#fff8e8;padding:8px;border-radius:10px;margin:6px 0}
+.diagnosticFail{border-left:4px solid #9e3b31;background:#fff0ee;padding:8px;border-radius:10px;margin:6px 0}
+.futureScore{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px;margin:8px 0}
+.futureScore strong{font-size:18px}

@@ -1,8 +1,8 @@
-# Relationship Intelligence v2.6.3
+# Relationship Intelligence v2.7
 
-Fixes:
-- Fixes calculation error: updateTranslationSources missing alias
-- Adds Card Detail profile switcher
-- Removes auto-generated empty Untitled profiles
-- Draws a real radar fallback directly on the radar canvas
-- Forces detail outputs to refresh after switching cards or loading demos
+Adds:
+- Diagnostics dashboard
+- Profile normalization
+- Empty profile cleanup
+- Future viability / couple-success forecast sliders
+- Same-team conflict, shared direction, background fit, communication, sexual communication, loyalty, repair, commitment, admiration, stress teamwork, family system, and practical fit
