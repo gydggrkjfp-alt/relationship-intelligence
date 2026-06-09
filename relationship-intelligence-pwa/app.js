@@ -1,4 +1,4 @@
-const STORAGE_KEY='relationship_intelligence_pwa_v27';
+const STORAGE_KEY='relationship_intelligence_pwa_v27_1';
 const greenDefs=[['warmth','Warmth','Emotional warmth, ease, affection.'],['kindness','Kindness','Basic goodness toward you and others.'],['respect','Baseline respect','General respect signal from the core profile.'],['reciprocity','Reciprocity','Interest and effort move both directions.'],['curiosity','Curiosity','They actually want to know you.'],['stability','Emotional stability','Grounded enough to build with.'],['peace','Peace after contact','Afterward you feel peaceful, not anxious or humiliated.'],['attraction','Attraction','Physical / romantic pull.']];
 const riskDefs=[['chaos','Chaos / drama','Volatility, crisis, or confusing energy.'],['trauma','Early trauma dumping','Heavy disclosure before trust exists.'],['entitlement','Entitlement','Expects without appreciating.'],['family','Family disrespect','Contempt toward family/parents.'],['social','Social-media validation','Attention-seeking or comparison energy.'],['inconsistent','Inconsistent communication','Words and effort fluctuate in a destabilizing way.']];
 const respectDefs=[['opinion','Values your opinions','Does this person take your perspective seriously?'],['appreciation','Expresses appreciation','Does this person notice and value your effort?'],['commitments','Keeps commitments','Does they follow through reliably?'],['proud','Proud to be associated','Would this person speak well of you to others?'],['time','Respects your time','Is this person considerate with scheduling and effort?'],['boundaries','Respects boundaries','Does this person honor limits without punishment?']];
@@ -1660,4 +1660,118 @@ if(typeof collectForm==='function'&&!window.__futureCollectWrapped){window.__fut
 if(typeof safeUpdate==='function'&&!window.__futureSafeWrapped){window.__futureSafeWrapped=true;const oldSafeFuture=safeUpdate;safeUpdate=function(){let r=oldSafeFuture();updateFutureViabilityOutput();bindDiagnostics();return r}}
 if(typeof showTab==='function'&&!window.__diagnosticTabWrapped){window.__diagnosticTabWrapped=true;const oldShowTabDiag=showTab;showTab=function(t){let r=oldShowTabDiag(t);let dv=$('diagnosticsView');if(dv)dv.classList.toggle('hidden',t!=='diagnostics');let tab=$('tabDiagnostics');if(tab)tab.classList.toggle('active',t==='diagnostics');if(t==='diagnostics'){bindDiagnostics();runDiagnostics();}return r}}
 document.addEventListener('DOMContentLoaded',()=>setTimeout(()=>{let td=$('tabDiagnostics');if(td&&!td.dataset.bound){td.dataset.bound='1';td.onclick=()=>showTab('diagnostics')}bindDiagnostics();normalizeAllProfiles();try{renderFutureViabilitySliders();fillFutureViability();bindFutureViability();updateFutureViabilityOutput()}catch(e){console.warn(e)}},250));
+
+
+
+/* v2.7.1 hard fixes for missing functions, diagnostics, and radar values */
+function snapshotAverage(p,key,fallback){
+  let snaps=(p&&p.snapshots)||[];
+  let vals=snaps.map(s=>Number(s[key])).filter(v=>Number.isFinite(v)&&v>0);
+  if(vals.length)return vals.reduce((a,b)=>a+b,0)/vals.length;
+  return fallback;
+}
+function safeMetricSet(p){
+  let m={};
+  try{m=metrics(p)||{}}catch(e){m={}}
+  let peace=Number(m.peaceIndex||m.personalized||0);
+  let respect=Number(m.respectIndex||0);
+  let repair=Number(m.repair||0);
+  let rec=Number(m.reciprocityDyn||m.reciprocity||0);
+  let emb=Number(m.embedded||0);
+  let align=Number(m.alignment||0);
+  peace=peace||snapshotAverage(p,'peace',Math.round(((p?.green?.peace||5)+(p?.green?.warmth||5)+(10-(p?.risk?.chaos||5)))/3*10));
+  respect=respect||snapshotAverage(p,'respect',Math.round(((p?.respect?.opinion||5)+(p?.respect?.appreciation||5)+(p?.green?.respect||5))/3*10));
+  repair=repair||snapshotAverage(p,'repair',Math.round(((p?.repair?.repairAbility||5)+(p?.repair?.accountability||5)+(p?.repair?.conflictCalm||5))/3*10));
+  rec=rec||snapshotAverage(p,'reciprocity',Math.round(((p?.reciprocityDyn?.effort||5)+(p?.reciprocityDyn?.investment||5)+(p?.green?.reciprocity||5))/3*10));
+  emb=emb||snapshotAverage(p,'embedded',Math.round(((p?.embedded?.realWorld||5)+(p?.embedded?.recurring||5)+(p?.embedded?.contextStability||5))/3*10));
+  align=align||snapshotAverage(p,'alignment',Math.round((peace+respect+emb)/3));
+  return {peaceIndex:Math.round(peace),respectIndex:Math.round(respect),repair:Math.round(repair),reciprocityDyn:Math.round(rec),embedded:Math.round(emb),alignment:Math.round(align),personalized:Math.round(peace)};
+}
+function updateFrictionHeatmap(p){
+  try{
+    let snap=((p&&p.snapshots)||[]).slice(-1)[0]||{};
+    let vals={
+      Communication: snap.domain&&snap.domain.includes('Communication')?75:45,
+      Correction: snap.domain&&snap.domain.includes('Criticism')?75:35,
+      Planning: snap.domain&&snap.domain.includes('Planning')?70:40,
+      Appreciation: snap.domain&&snap.domain.includes('Appreciation')?75:45,
+      Commitment: snap.domain&&snap.domain.includes('Commitment')?70:35
+    };
+    if(typeof drawMiniBars==='function')drawMiniBars('frictionHeatmap',Object.entries(vals),'Friction domain intensity');
+    else if($('frictionHeatmap'))$('frictionHeatmap').innerHTML=Object.entries(vals).map(([k,v])=>`<p><b>${k}</b>: ${v}/100</p>`).join('');
+  }catch(e){console.warn('updateFrictionHeatmap fallback',e)}
+}
+function updateRepairLanguage(p){
+  if(!$('repairLanguageOutput'))return;
+  let snap=((p&&p.snapshots)||[]).slice(-1)[0]||{};
+  let domain=snap.domain||'';
+  let text='Clarify the event, state the impact, ask one direct question, and agree on one concrete next behavior.';
+  if(domain.includes('Criticism'))text='Separate appreciation from correction. First let the good effort stand on its own; later make a concrete comfort/outcome request without making the person the problem.';
+  if(domain.includes('Communication'))text='Use a shared-reality check-in: what changed, what decisions are pending, what stress is each person carrying, and what needs to be clarified?';
+  if(domain.includes('Appreciation'))text='Name what was appreciated specifically and repeatedly. Do not use appreciation as a fake setup for immediate criticism.';
+  $('repairLanguageOutput').innerHTML=`<p>${text}</p>`;
+}
+function updateAccuracyOutput(p,m){
+  if(!$('accuracyOutput'))return;
+  let snap=((p&&p.snapshots)||[]).slice(-1)[0]||{};
+  $('accuracyOutput').innerHTML=`<p><b>Evidence confidence:</b> ${escapeHTML(snap.evidenceConfidence||'Not set')}</p><p><b>Interpretation checked:</b> ${escapeHTML(snap.interpretationChecked||'Not set')}</p><p>Treat low-confidence interpretations as hypotheses until repeated snapshots or direct clarification support them.</p>`;
+}
+function updateRepairPlanOutput(p,m){
+  if(!$('repairPlanOutput'))return;
+  $('repairPlanOutput').innerHTML='<p><b>Repair-first plan:</b> 1) identify the exact event, 2) separate facts from story, 3) ask one clarifying question, 4) make one concrete request, 5) log the next snapshot to see whether repair improved.</p>';
+}
+function updateStrategy(p,m){
+  if(!$('strategyOutput'))return;
+  let score=((m?.peaceIndex||0)+(m?.respectIndex||0))/2;
+  let mode=score>=75?'Maintain and deepen':'Go slow and gather evidence';
+  $('strategyOutput').innerHTML=`<p><b>${mode}.</b> Use repeated snapshots rather than one emotional verdict. Watch trend direction more than a single score.</p>`;
+}
+function renderRadarStable(p){
+  let c=$('radar'); if(!c)return;
+  let m=safeMetricSet(p);
+  let ctx=c.getContext('2d'),w=c.width,h=c.height;
+  ctx.clearRect(0,0,w,h);
+  ctx.fillStyle='#fff';ctx.fillRect(0,0,w,h);
+  let rows=[['Peace',m.peaceIndex],['Respect',m.respectIndex],['Repair',m.repair],['Reciprocity',m.reciprocityDyn],['Grounding',m.embedded],['Alignment',m.alignment]];
+  let cx=w/2,cy=h/2,r=Math.min(w,h)*0.33;
+  ctx.strokeStyle='#ded6c9';ctx.fillStyle='#6e675d';ctx.font='12px -apple-system,BlinkMacSystemFont,Segoe UI,Arial';
+  for(let ring=1;ring<=4;ring++){ctx.beginPath();ctx.arc(cx,cy,r*ring/4,0,Math.PI*2);ctx.stroke();}
+  rows.forEach((row,i)=>{let a=-Math.PI/2+i*Math.PI*2/rows.length;ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(cx+Math.cos(a)*r,cy+Math.sin(a)*r);ctx.stroke();ctx.fillText(row[0],cx+Math.cos(a)*(r+32)-24,cy+Math.sin(a)*(r+30));});
+  ctx.beginPath();
+  rows.forEach((row,i)=>{let a=-Math.PI/2+i*Math.PI*2/rows.length;let rr=r*(Math.max(0,Math.min(100,row[1]))/100);let x=cx+Math.cos(a)*rr,y=cy+Math.sin(a)*rr;i?ctx.lineTo(x,y):ctx.moveTo(x,y);});
+  ctx.closePath();ctx.fillStyle='rgba(129,91,51,0.24)';ctx.fill();ctx.strokeStyle='#815b33';ctx.lineWidth=2;ctx.stroke();
+}
+function showDiagnosticsTab(){
+  ['snapshotView','cardsView','ecosystemView','personView','meView'].forEach(id=>{let el=$(id);if(el)el.classList.add('hidden')});
+  let dv=$('diagnosticsView'); if(dv){dv.classList.remove('hidden');dv.classList.add('diagnosticsVisible')}
+  ['tabSnapshot','tabCards','tabEcosystem','tabPerson','tabMe'].forEach(id=>{let el=$(id);if(el)el.classList.remove('active')});
+  let tab=$('tabDiagnostics'); if(tab)tab.classList.add('active');
+  if(typeof bindDiagnostics==='function')bindDiagnostics();
+  if(typeof runDiagnostics==='function')runDiagnostics();
+}
+function bindDiagnosticsHard(){
+  let tab=$('tabDiagnostics');
+  if(tab&&!tab.dataset.hardBound){tab.dataset.hardBound='1';tab.addEventListener('click',showDiagnosticsTab);}
+  if(typeof bindDiagnostics==='function')bindDiagnostics();
+}
+if(typeof safeUpdate==='function' && !window.__safeUpdate271){
+  window.__safeUpdate271=true;
+  const oldSafeUpdate271=safeUpdate;
+  safeUpdate=function(){
+    let r; try{r=oldSafeUpdate271()}catch(e){console.warn('safeUpdate original',e)}
+    try{let p=currentProfile(); if(p){let m=safeMetricSet(p);renderRadarStable(p); updateFrictionHeatmap(p); updateRepairLanguage(p); updateAccuracyOutput(p,m); updateRepairPlanOutput(p,m); updateStrategy(p,m); if(typeof updateFutureViabilityOutput==='function')updateFutureViabilityOutput();}}catch(e){console.warn('v271 stable render',e)}
+    bindDiagnosticsHard();
+    return r;
+  }
+}
+if(typeof renderAllDetailOutputs==='function' && !window.__renderAll271){
+  const oldRenderAll271=renderAllDetailOutputs;
+  renderAllDetailOutputs=function(){
+    let r; try{r=oldRenderAll271()}catch(e){console.warn('renderAll old',e)}
+    try{let p=currentProfile(); if(p){let m=safeMetricSet(p);renderRadarStable(p);updateFrictionHeatmap(p);updateRepairLanguage(p);updateAccuracyOutput(p,m);updateRepairPlanOutput(p,m);updateStrategy(p,m);}}catch(e){console.warn(e)}
+    bindDiagnosticsHard();
+    return r;
+  }
+}
+document.addEventListener('DOMContentLoaded',()=>setTimeout(()=>{try{bindDiagnosticsHard();let p=currentProfile();if(p)renderRadarStable(p);}catch(e){console.warn(e)}},400));
 

@@ -1,8 +1,8 @@
-# Relationship Intelligence v2.7
+# Relationship Intelligence v2.7.1
 
-Adds:
-- Diagnostics dashboard
-- Profile normalization
-- Empty profile cleanup
-- Future viability / couple-success forecast sliders
-- Same-team conflict, shared direction, background fit, communication, sexual communication, loyalty, repair, commitment, admiration, stress teamwork, family system, and practical fit
+Fixes:
+- Adds missing updateFrictionHeatmap function
+- Makes Diagnostics tab hard-bound and reliable
+- Adds missing repair/accuracy/strategy fallback outputs
+- Stabilizes radar chart values using metrics plus snapshot fallback
+- Prevents missing renderer functions from stopping the rest of the page

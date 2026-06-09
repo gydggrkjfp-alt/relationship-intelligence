@@ -257,3 +257,6 @@ input.riskRange{accent-color:#9e3b31}
 .diagnosticFail{border-left:4px solid #9e3b31;background:#fff0ee;padding:8px;border-radius:10px;margin:6px 0}
 .futureScore{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px;margin:8px 0}
 .futureScore strong{font-size:18px}
+
+/* v2.7.1 hard error fixes */
+.diagnosticsVisible{display:block!important}
