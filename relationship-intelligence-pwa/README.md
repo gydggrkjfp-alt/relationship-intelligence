@@ -1,8 +1,9 @@
-# Relationship Intelligence v2.7.1
+# Relationship Intelligence v2.7.2
 
-Fixes:
-- Adds missing updateFrictionHeatmap function
-- Makes Diagnostics tab hard-bound and reliable
-- Adds missing repair/accuracy/strategy fallback outputs
-- Stabilizes radar chart values using metrics plus snapshot fallback
-- Prevents missing renderer functions from stopping the rest of the page
+Adds:
+- Peace × Respect trajectory chart
+- Event labels tied to snapshots
+- Trajectory narrative: improving, worsening, mixed, or stable
+- Largest-change callout linked to the triggering snapshot
+- Expectation-fit tracking for snapshots
+- Conceptual support for seeing whether rising/falling peace and respect are tied to events or changing expectations

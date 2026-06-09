@@ -260,3 +260,8 @@ input.riskRange{accent-color:#9e3b31}
 
 /* v2.7.1 hard error fixes */
 .diagnosticsVisible{display:block!important}
+
+/* v2.7.2 trajectory + expectation tracking */
+.trajectoryTools{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}
+.expectationBadge{display:inline-block;background:var(--accent2);border:1px solid var(--line);border-radius:999px;padding:3px 8px;margin:2px;font-size:12px;font-weight:700}
+.eventCallout{background:#fff;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:12px;padding:10px;margin:8px 0}
