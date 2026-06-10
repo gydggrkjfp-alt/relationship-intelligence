@@ -1,4 +1,4 @@
-const STORAGE_KEY='relationship_intelligence_pwa_v28';
+const STORAGE_KEY='relationship_intelligence_pwa_v300';
 const greenDefs=[['warmth','Warmth','Emotional warmth, ease, affection.'],['kindness','Kindness','Basic goodness toward you and others.'],['respect','Baseline respect','General respect signal from the core profile.'],['reciprocity','Reciprocity','Interest and effort move both directions.'],['curiosity','Curiosity','They actually want to know you.'],['stability','Emotional stability','Grounded enough to build with.'],['peace','Peace after contact','Afterward you feel peaceful, not anxious or humiliated.'],['attraction','Attraction','Physical / romantic pull.']];
 const riskDefs=[['chaos','Chaos / drama','Volatility, crisis, or confusing energy.'],['trauma','Early trauma dumping','Heavy disclosure before trust exists.'],['entitlement','Entitlement','Expects without appreciating.'],['family','Family disrespect','Contempt toward family/parents.'],['social','Social-media validation','Attention-seeking or comparison energy.'],['inconsistent','Inconsistent communication','Words and effort fluctuate in a destabilizing way.']];
 const respectDefs=[['opinion','Values your opinions','Does this person take your perspective seriously?'],['appreciation','Expresses appreciation','Does this person notice and value your effort?'],['commitments','Keeps commitments','Does they follow through reliably?'],['proud','Proud to be associated','Would this person speak well of you to others?'],['time','Respects your time','Is this person considerate with scheduling and effort?'],['boundaries','Respects boundaries','Does this person honor limits without punishment?']];
@@ -1874,4 +1874,217 @@ function bindDashboardTab(){let tab=$('tabDashboard');if(tab&&!tab.dataset.bound
 if(typeof safeUpdate==='function'&&!window.__dashboardSafeWrapped){window.__dashboardSafeWrapped=true;const oldSafeDashboard=safeUpdate;safeUpdate=function(){let r=oldSafeDashboard();try{updateTopOutputSummary();if(!$('dashboardView')?.classList.contains('hidden'))renderDashboard();}catch(e){console.warn('dashboard update',e)}return r}}
 if(typeof fillForm==='function'&&!window.__dashboardFillWrapped){window.__dashboardFillWrapped=true;const oldFillDashboard=fillForm;fillForm=function(){let r=oldFillDashboard();setTimeout(()=>{try{updateTopOutputSummary();renderDashboard()}catch(e){}},0);return r}}
 document.addEventListener('DOMContentLoaded',()=>setTimeout(()=>{try{bindDashboardTab();updateTopOutputSummary();renderDashboard()}catch(e){console.warn(e)}},350));
+
+
+
+/* v3.0.0 repair-first visual architecture */
+function v3LatestSnapshot(p){
+  let snaps=(p&&p.snapshots)||[];
+  return snaps.length?snaps[snaps.length-1]:null;
+}
+function v3CardKind(p){
+  let c=typeof profileCategory==='function'?profileCategory(p):(p?.rtype||'');
+  if(['Husband','Wife','Long-term partner','Fiancé / Fiancée','Dating relationship','Romantic','Situationship'].includes(c))return 'romantic';
+  if(c==='Work')return 'work';
+  if(c==='Boundary')return 'boundary';
+  if(c==='Friend')return 'friend';
+  if(c==='Family')return 'family';
+  return 'general';
+}
+function v3Metric(p){
+  if(typeof dashboardMetricSet==='function')return dashboardMetricSet(p);
+  if(typeof safeMetricSet==='function')return safeMetricSet(p);
+  try{return metrics(p)}catch(e){return {peaceIndex:50,respectIndex:50,repair:50,reciprocityDyn:50,embedded:50,alignment:50}}
+}
+function v3NeedThreat(p){
+  let snap=v3LatestSnapshot(p), t=p.translation||{}, domain=snap?.domain||'';
+  if(domain.includes('Criticism') || (t.competenceThreat||5)>=7)return 'usefulness / competence / admiration';
+  if(domain.includes('Communication') || (t.reassuranceNeed||5)>=7)return 'closeness / certainty / emotional inclusion';
+  if(domain.includes('Appreciation'))return 'recognition / appreciation';
+  if(domain.includes('Commitment'))return 'security / future direction';
+  if(v3CardKind(p)==='work')return 'clarity / fairness / role stability';
+  if(v3CardKind(p)==='boundary')return 'safety / autonomy / reduced exposure';
+  return 'respect / safety / belonging';
+}
+function v3LoopData(p){
+  let snap=v3LatestSnapshot(p)||{};
+  let event=snap.note||p.evidence||'No concrete event yet. Add a snapshot to make this loop specific.';
+  let story=snap.story||p.story||'No interpretation entered yet.';
+  let need=v3NeedThreat(p);
+  let kind=v3CardKind(p);
+  let received='The other person may receive the event as criticism, rejection, control, indifference, or disrespect.';
+  let response='Defend, withdraw, pursue, criticize, appease, or shut down.';
+  let partner='The partner may then react to the reaction rather than the original event.';
+  let breakPoint='Name the event, separate facts from story, identify the threatened need, and make one concrete repair request.';
+  if(kind==='work'){
+    received='This may land as unclear expectations, unfair evaluation, shifting goalposts, or threat to competence/status.';
+    response='Document, clarify, contain emotion, request priorities in writing, and reduce ambiguous verbal dependency.';
+    partner='The boss may interpret pushback as resistance unless framed around alignment and deliverables.';
+    breakPoint='Break the loop with written priorities: “To make sure I’m aligned, can you confirm the top priority and deadline?”';
+  } else if(kind==='boundary'){
+    received='Contact may land as pressure, guilt, obligation, or autonomy threat.';
+    response='Shorten exposure, stop overexplaining, restate boundary, and avoid emotional negotiation.';
+    partner='The other person may escalate because the old access pattern is being interrupted.';
+    breakPoint='Break the loop with calm repetition: “I’m not available for that. I’ll let you know if that changes.”';
+  } else if(kind==='romantic'){
+    if((p.translation?.competenceThreat||5)>=7){
+      received='One partner may hear: “I failed / I’m not useful / nothing I do counts.”';
+      response='Withdraw, stop initiating, defend, or become quietly resentful.';
+      partner='The other partner may interpret withdrawal as not caring, creating more correction or pursuit.';
+      breakPoint='Break the loop by separating appreciation from correction and restoring dignity before problem-solving.';
+    } else {
+      received='One partner may hear: “I’m not included / I’m not chosen / we are not on the same team.”';
+      response='Pursue, test, protest, withdraw, or criticize.';
+      partner='The other partner may experience that as pressure or criticism and shut down.';
+      breakPoint='Break the loop with a shared-reality check-in and one explicit reassurance/clarity request.';
+    }
+  }
+  return {event,story,need,received,response,partner,breakPoint,domain:snap.domain||'Unspecified'};
+}
+function renderV3TranslationLoop(){
+  let el=$('v3TranslationLoop'); if(!el)return;
+  let p=currentProfile&&currentProfile(); if(!p)return;
+  let d=v3LoopData(p);
+  el.innerHTML=[
+    ['Event',d.event,''],
+    ['Interpretation / story',d.story,'warningPoint'],
+    ['Need threatened',d.need,'dangerPoint'],
+    ['Emotional response',d.response,'warningPoint'],
+    ['Partner interpretation',d.partner,'warningPoint'],
+    ['Loop breaker',d.breakPoint,'breakPoint']
+  ].map((n,i)=>`<div class="loopNode ${n[2]}"><b>${i+1}. ${n[0]}</b>${escapeHTML(String(n[1]).slice(0,500))}</div>${i<5?'<div class="loopArrow">↓</div>':''}`).join('');
+}
+function admirationValues(p){
+  let respect=p.respect||{}, green=p.green||{}, rec=p.reciprocityDyn||{};
+  let userToThem=Math.round(((green.attraction||5)+(respect.proud||5)+(green.curiosity||5)+(respect.opinion||5))/4*10);
+  let themToUser=Math.round(((respect.appreciation||5)+(green.reciprocity||5)+(rec.investment||5)+(rec.effort||5))/4*10);
+  let imbalance=Math.abs(userToThem-themToUser);
+  return {userToThem,themToUser,imbalance};
+}
+function drawV3Admiration(){
+  let c=$('v3AdmirationCanvas'); if(!c)return;
+  let p=currentProfile&&currentProfile(); if(!p)return;
+  let a=admirationValues(p), ctx=c.getContext('2d'),w=c.width,h=c.height;
+  ctx.clearRect(0,0,w,h);ctx.fillStyle='#fff';ctx.fillRect(0,0,w,h);
+  ctx.font='15px -apple-system,BlinkMacSystemFont,Segoe UI,Arial';ctx.fillStyle='#3f3832';
+  ctx.fillText('You → Them',40,48);ctx.fillText('Them → You',w-160,48);
+  let midY=h/2, left=80, right=w-80;
+  ctx.strokeStyle='#ded6c9';ctx.lineWidth=12;ctx.lineCap='round';
+  ctx.beginPath();ctx.moveTo(left,midY-35);ctx.lineTo(right,midY-35);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(right,midY+35);ctx.lineTo(left,midY+35);ctx.stroke();
+  ctx.strokeStyle='#815b33';ctx.lineWidth=12;
+  ctx.beginPath();ctx.moveTo(left,midY-35);ctx.lineTo(left+(right-left)*(a.userToThem/100),midY-35);ctx.stroke();
+  ctx.strokeStyle='#4d7a52';
+  ctx.beginPath();ctx.moveTo(right,midY+35);ctx.lineTo(right-(right-left)*(a.themToUser/100),midY+35);ctx.stroke();
+  ctx.fillStyle='#3f3832';ctx.font='30px -apple-system,BlinkMacSystemFont,Segoe UI,Arial';
+  ctx.fillText(String(a.userToThem),left+(right-left)*(a.userToThem/100)-12,midY-55);
+  ctx.fillText(String(a.themToUser),right-(right-left)*(a.themToUser/100)-12,midY+78);
+  ctx.font='13px -apple-system,BlinkMacSystemFont,Segoe UI,Arial';ctx.fillStyle='#6e675d';
+  ctx.fillText('Balanced admiration is not sameness; it means both sides feel valued and drawn toward the bond.',40,h-34);
+  let txt=$('v3AdmirationText');
+  if(txt){
+    txt.innerHTML=a.imbalance>=25?'<b>Pattern:</b> admiration appears asymmetric. Watch pursuit/withdrawal, resentment, or overfunctioning.':'<b>Pattern:</b> admiration appears relatively balanced.';
+  }
+}
+function v3ResponseStrategy(){
+  let p=currentProfile&&currentProfile(); if(!p)return;
+  let kind=v3CardKind(p), m=v3Metric(p), d=v3LoopData(p);
+  let mode='Repair';
+  if(kind==='work')mode='Clarify + document';
+  if(kind==='boundary')mode='Boundary + containment';
+  if(kind==='friend' && (m.reciprocityDyn||50)<45)mode='Reciprocity reset';
+  if((m.peaceIndex||50)<35 || (m.respectIndex||50)<35)mode='Containment first';
+  let say='Can we pause and make sure we are solving the same problem? I want to understand what you meant and explain how it landed for me.';
+  let doAct='Write down the event, the interpretation, the need threatened, and the next concrete request.';
+  if(kind==='work'){
+    say='To make sure I’m aligned, can you confirm the priority, deadline, and success criteria in writing?';
+    doAct='Track decisions, deadlines, and feedback. Reduce ambiguous verbal agreements.';
+  } else if(kind==='boundary'){
+    say='I’m not available for that. I’m going to keep this boundary, and I’ll let you know if anything changes.';
+    doAct='Do not overexplain. Repeat the boundary and reduce exposure if pressure increases.';
+  } else if(kind==='romantic'){
+    say='I don’t want us to make each other the problem. I think the loop is: event → hurt meaning → reaction. Can we name what each of us heard?';
+    doAct='Use a 15-minute repair talk: facts, story, need, apology/clarification, one next behavior.';
+  }
+  return {mode,say,doAct,why:d.need};
+}
+function renderV3ResponseStrategy(){
+  let el=$('v3ResponseStrategy'); if(!el)return;
+  let s=v3ResponseStrategy();
+  if(!s)return;
+  el.innerHTML=`<div class="strategyGrid">
+    <div><span class="v3ModeBadge">${escapeHTML(s.mode)}</span><span class="v3ModeBadge">Need: ${escapeHTML(s.why)}</span></div>
+    <div class="strategyCard"><b>What to say</b><div class="scriptBox">${escapeHTML(s.say)}</div></div>
+    <div class="strategyCard"><b>What to do</b>${escapeHTML(s.doAct)}</div>
+    <div class="strategyCard"><b>Why this helps</b>It addresses the threatened need directly instead of arguing about surface behavior.</div>
+  </div>`;
+}
+function buildConversationRepair(){
+  let said=$('v3SaidInput')?.value||'', heard=$('v3HeardInput')?.value||'';
+  let p=currentProfile&&currentProfile(); let kind=v3CardKind(p||{});
+  let need=v3NeedThreat(p||{});
+  let output=$('v3ConversationOutput'); if(!output)return;
+  let crux='The conflict is probably not only the words. It is the meaning each person attached to the words.';
+  let script='Can we slow this down? I want to separate what was said from what was heard. What I meant was ____. What I heard was ____. The need underneath this for me is ____.';
+  if(kind==='work'){
+    script='I want to make sure I’m aligned with expectations. Here is what I understood, here is where I’m uncertain, and here is the decision I need confirmed.';
+    crux='The likely crux is expectation clarity, role pressure, and documentation — not emotional repair alone.';
+  } else if(kind==='romantic'){
+    script='I don’t want us to make each other the enemy. What I heard was painful, but I want to understand what you meant. The need underneath this for me is closeness/respect, not winning.';
+    crux='The likely crux is a threatened need for respect, safety, usefulness, closeness, or appreciation.';
+  }
+  output.innerHTML=`<p><b>They said/did:</b> ${escapeHTML(said||'No phrase entered yet.')}</p>
+  <p><b>The other person heard/felt:</b> ${escapeHTML(heard||'No heard meaning entered yet.')}</p>
+  <p><b>Likely crux:</b> ${escapeHTML(crux)}</p>
+  <p><b>Need underneath:</b> ${escapeHTML(need)}</p>
+  <div class="scriptBox"><b>Try saying:</b><br>${escapeHTML(script)}</div>`;
+}
+function bindV3Conversation(){
+  let btn=$('v3BuildRepairBtn');
+  if(btn&&!btn.dataset.bound){btn.dataset.bound='1';btn.onclick=buildConversationRepair;}
+}
+function updateV3SourceStrip(){
+  let el=$('v3SourceStrip'); if(!el)return;
+  let p=currentProfile&&currentProfile(); if(!p)return;
+  let snaps=(p.snapshots||[]).length, kind=v3CardKind(p), m=v3Metric(p);
+  el.innerHTML=`<span class="v3SourcePill">${escapeHTML(kind)} card</span><span class="v3SourcePill">${snaps} snapshots</span><span class="v3SourcePill">Peace ${Math.round(m.peaceIndex||0)}</span><span class="v3SourcePill">Respect ${Math.round(m.respectIndex||0)}</span><span class="v3SourcePill">Repair ${Math.round(m.repair||0)}</span>`;
+}
+function makeSectionsCollapsible(){
+  let root=$('personView'); if(!root||root.dataset.collapsibleDone)return;
+  root.dataset.collapsibleDone='1';
+  [...root.querySelectorAll('section > h3')].forEach(h=>{
+    let wrapper=document.createElement('div'); wrapper.className='collapsibleSection';
+    h.parentNode.insertBefore(wrapper,h);
+    wrapper.appendChild(h);
+    let node=wrapper.nextSibling;
+    while(node && !(node.nodeType===1 && node.tagName==='H3')){
+      let next=node.nextSibling;
+      wrapper.appendChild(node);
+      node=next;
+    }
+    h.addEventListener('click',()=>wrapper.classList.toggle('collapsed'));
+  });
+}
+function updateV3All(){
+  try{updateV3SourceStrip()}catch(e){}
+  try{renderV3TranslationLoop()}catch(e){}
+  try{drawV3Admiration()}catch(e){}
+  try{renderV3ResponseStrategy()}catch(e){}
+  try{bindV3Conversation()}catch(e){}
+  try{makeSectionsCollapsible()}catch(e){}
+}
+if(typeof safeUpdate==='function' && !window.__v3SafeWrapped){
+  window.__v3SafeWrapped=true;
+  const oldSafeV3=safeUpdate;
+  safeUpdate=function(){let r=oldSafeV3();updateV3All();return r;}
+}
+if(typeof fillForm==='function' && !window.__v3FillWrapped){
+  window.__v3FillWrapped=true;
+  const oldFillV3=fillForm;
+  fillForm=function(){let r=oldFillV3();setTimeout(updateV3All,0);return r;}
+}
+document.addEventListener('DOMContentLoaded',()=>setTimeout(()=>{
+  let jump=$('scrollToInputsBtn'); if(jump&&!jump.dataset.bound){jump.dataset.bound='1';jump.onclick=()=>$('v3InputsStart')?.scrollIntoView({behavior:'smooth'});}
+  updateV3All();
+},400));
 
