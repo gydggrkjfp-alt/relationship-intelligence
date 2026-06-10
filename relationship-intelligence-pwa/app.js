@@ -1,4 +1,4 @@
-const STORAGE_KEY='relationship_intelligence_pwa_v27_2';
+const STORAGE_KEY='relationship_intelligence_pwa_v28';
 const greenDefs=[['warmth','Warmth','Emotional warmth, ease, affection.'],['kindness','Kindness','Basic goodness toward you and others.'],['respect','Baseline respect','General respect signal from the core profile.'],['reciprocity','Reciprocity','Interest and effort move both directions.'],['curiosity','Curiosity','They actually want to know you.'],['stability','Emotional stability','Grounded enough to build with.'],['peace','Peace after contact','Afterward you feel peaceful, not anxious or humiliated.'],['attraction','Attraction','Physical / romantic pull.']];
 const riskDefs=[['chaos','Chaos / drama','Volatility, crisis, or confusing energy.'],['trauma','Early trauma dumping','Heavy disclosure before trust exists.'],['entitlement','Entitlement','Expects without appreciating.'],['family','Family disrespect','Contempt toward family/parents.'],['social','Social-media validation','Attention-seeking or comparison energy.'],['inconsistent','Inconsistent communication','Words and effort fluctuate in a destabilizing way.']];
 const respectDefs=[['opinion','Values your opinions','Does this person take your perspective seriously?'],['appreciation','Expresses appreciation','Does this person notice and value your effort?'],['commitments','Keeps commitments','Does they follow through reliably?'],['proud','Proud to be associated','Would this person speak well of you to others?'],['time','Respects your time','Is this person considerate with scheduling and effort?'],['boundaries','Respects boundaries','Does this person honor limits without punishment?']];
@@ -1777,119 +1777,101 @@ document.addEventListener('DOMContentLoaded',()=>setTimeout(()=>{try{bindDiagnos
 
 
 
-/* v2.7.2 Peace x Respect trajectory and expectation tracking */
-function expectationScore(label){
-  label=String(label||'').toLowerCase();
-  if(label.includes('exceeded'))return 90;
-  if(label.includes('mostly'))return 75;
-  if(label.includes('mixed'))return 55;
-  if(label.includes('fell short'))return 35;
-  if(label.includes('major'))return 15;
-  return 55;
+/* v2.8 dashboard / outputs page */
+function dashboardMetricSet(p){
+  if(typeof safeMetricSet==='function')return safeMetricSet(p);
+  try{return metrics(p)}catch(e){return {peaceIndex:50,respectIndex:50,repair:50,reciprocityDyn:50,embedded:50,alignment:50,personalized:50}}
 }
-function attachExpectationToLatestSnapshot(p){
-  try{
-    let snap=(p.snapshots||[]).slice(-1)[0];
-    let el=$('snapshotExpectation');
-    if(snap && el && !snap.expectationFit){
-      snap.expectationFit=el.value;
-      snap.expectationScore=expectationScore(el.value);
-    }
-  }catch(e){console.warn('expectation attach',e)}
-}
-if(typeof savePrimarySnapshot==='function' && !window.__expectationSnapshotWrapped){
-  window.__expectationSnapshotWrapped=true;
-  const oldSavePrimarySnapshot=savePrimarySnapshot;
-  savePrimarySnapshot=function(){
-    let r=oldSavePrimarySnapshot();
-    try{let p=currentProfile();attachExpectationToLatestSnapshot(p);saveState();drawPeaceRespectTrajectory(p)}catch(e){console.warn(e)}
-    return r;
+function currentDashboardProfile(){
+  let sel=$('dashboardProfileSelect');
+  if(sel&&sel.value){
+    let p=(state.profiles||[]).find(x=>x.id===sel.value);
+    if(p)return p;
   }
+  return currentProfile&&currentProfile();
 }
-function ensureSnapshotScores(p){
-  if(!p)return;
-  p.snapshots=p.snapshots||[];
-  p.snapshots.forEach((s,i)=>{
-    if(s.peace===undefined||s.peace===0)s.peace=snapshotAverage(p,'peace',p.green?.peace?Math.round(p.green.peace*10):50);
-    if(s.respect===undefined||s.respect===0)s.respect=snapshotAverage(p,'respect',p.green?.respect?Math.round(p.green.respect*10):50);
-    if(!s.label)s.label='Snapshot '+(i+1);
-    if(!s.expectationFit){s.expectationFit='Mixed / unclear expectations';s.expectationScore=55}
-  });
+function sourceSummaryForProfile(p){
+  if(!p)return '<p>No selected card.</p>';
+  let snaps=p.snapshots||[];
+  let latest=snaps[snaps.length-1]||{};
+  let textCount=[p.evidence,p.story,p.interpretation,p.hesitation,p.notes].filter(x=>String(x||'').trim()).length;
+  let futureCount=p.future?Object.keys(p.future).length:0;
+  let socialCount=p.social?Object.keys(p.social).length:0;
+  let translationCount=p.translation?Object.keys(p.translation).length:0;
+  return `<div class="sourceMini"><p><b>This output is informed by:</b></p><ul>
+<li><b>Card type:</b> ${escapeHTML(p.rtype||'Unspecified')}</li>
+<li><b>Snapshots:</b> ${snaps.length}${latest.note?` — latest: ${escapeHTML(String(latest.note).slice(0,140))}`:''}</li>
+<li><b>Text fields filled:</b> ${textCount}/5 evidence, story, interpretation, hesitation, notes</li>
+<li><b>Context sliders:</b> ${socialCount} values</li>
+<li><b>Translation sliders:</b> ${translationCount} values</li>
+<li><b>Future viability sliders:</b> ${futureCount} values</li>
+<li><b>Expectation signal:</b> ${escapeHTML(latest.expectation||'Not set')}</li>
+</ul></div>`;
 }
-function drawPeaceRespectTrajectory(p){
-  let c=$('peaceRespectCanvas'); if(!c||!p)return;
-  ensureSnapshotScores(p);
-  let ctx=c.getContext('2d'),w=c.width,h=c.height,pad=55;
-  ctx.clearRect(0,0,w,h);
-  ctx.fillStyle='#fff';ctx.fillRect(0,0,w,h);
+function updateTopOutputSummary(){
+  let el=$('profileOutputSummaryTop'); if(!el)return;
+  let p=currentProfile&&currentProfile(); if(!p){el.innerHTML='No selected card.';return}
+  let m=dashboardMetricSet(p), snaps=(p.snapshots||[]).length, future=(typeof futureScore==='function')?futureScore(p):null;
+  el.innerHTML=`<b>Output summary</b><p class="small">A quick read before the full inputs.</p><div class="summaryPills">
+<span class="summaryPill">Peace ${Math.round(m.peaceIndex||0)}</span><span class="summaryPill">Respect ${Math.round(m.respectIndex||0)}</span><span class="summaryPill">Repair ${Math.round(m.repair||0)}</span><span class="summaryPill">Snapshots ${snaps}</span>${future!==null?`<span class="summaryPill">Future ${future}</span>`:''}
+</div>${sourceSummaryForProfile(p)}`;
+}
+function populateDashboardSelect(){
+  let sel=$('dashboardProfileSelect'); if(!sel)return;
+  sel.innerHTML=(state.profiles||[]).map(p=>`<option value="${p.id}" ${p.id===state.currentId?'selected':''}>${escapeHTML(p.name||'Untitled')} — ${escapeHTML(p.rtype||'Card')}</option>`).join('');
+  if(!sel.dataset.bound){sel.dataset.bound='1';sel.addEventListener('change',()=>{state.currentId=sel.value;saveState();try{fillForm()}catch(e){};renderDashboard();});}
+}
+function drawSmallRadar(canvasId,p){
+  let c=$(canvasId); if(!c||!p)return;
+  let m=dashboardMetricSet(p), ctx=c.getContext('2d'),w=c.width,h=c.height;
+  ctx.clearRect(0,0,w,h);ctx.fillStyle='#fff';ctx.fillRect(0,0,w,h);
+  let rows=[['Peace',m.peaceIndex||0],['Respect',m.respectIndex||0],['Repair',m.repair||0],['Reciprocity',m.reciprocityDyn||0],['Grounding',m.embedded||0],['Alignment',m.alignment||0]];
+  let cx=w/2,cy=h/2,r=Math.min(w,h)*0.33;
+  ctx.strokeStyle='#ded6c9';ctx.fillStyle='#6e675d';ctx.font='12px sans-serif';
+  for(let ring=1;ring<=4;ring++){ctx.beginPath();ctx.arc(cx,cy,r*ring/4,0,Math.PI*2);ctx.stroke();}
+  rows.forEach((row,i)=>{let a=-Math.PI/2+i*Math.PI*2/rows.length;ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(cx+Math.cos(a)*r,cy+Math.sin(a)*r);ctx.stroke();ctx.fillText(row[0],cx+Math.cos(a)*(r+32)-24,cy+Math.sin(a)*(r+30));});
+  ctx.beginPath();rows.forEach((row,i)=>{let a=-Math.PI/2+i*Math.PI*2/rows.length;let rr=r*(Math.max(0,Math.min(100,row[1]))/100);let x=cx+Math.cos(a)*rr,y=cy+Math.sin(a)*rr;i?ctx.lineTo(x,y):ctx.moveTo(x,y);});
+  ctx.closePath();ctx.fillStyle='rgba(129,91,51,0.24)';ctx.fill();ctx.strokeStyle='#815b33';ctx.lineWidth=2;ctx.stroke();
+}
+function trajectoryPointsForDashboard(p){
+  if(typeof snapshotsForTrajectory==='function')return snapshotsForTrajectory(p);
+  let pts=(p.snapshots||[]).map((s,i)=>({i,label:s.label||`Snapshot ${i+1}`,peace:Number(s.peace||50),respect:Number(s.respect||50),domain:s.domain||'',note:s.note||''}));
+  if(!pts.length){let m=dashboardMetricSet(p);pts=[{i:0,label:'Baseline',peace:m.peaceIndex||50,respect:m.respectIndex||50,domain:'Baseline',note:'No snapshots yet'}];}
+  return pts;
+}
+function drawDashboardPeaceRespect(p){
+  let c=$('dashboardPeaceRespectCanvas'); if(!c||!p)return;
+  let ctx=c.getContext('2d'),w=c.width,h=c.height,pad=60,pts=trajectoryPointsForDashboard(p);
+  ctx.clearRect(0,0,w,h);ctx.fillStyle='#fff';ctx.fillRect(0,0,w,h);
   ctx.strokeStyle='#ded6c9';ctx.lineWidth=1;
-  for(let i=0;i<=10;i++){
-    let x=pad+i*(w-2*pad)/10, y=h-pad-i*(h-2*pad)/10;
-    ctx.beginPath();ctx.moveTo(x,pad);ctx.lineTo(x,h-pad);ctx.stroke();
-    ctx.beginPath();ctx.moveTo(pad,y);ctx.lineTo(w-pad,y);ctx.stroke();
-  }
-  ctx.fillStyle='#6e675d';ctx.font='13px -apple-system,BlinkMacSystemFont,Segoe UI,Arial';
-  ctx.fillText('Respect →',w/2-35,h-14);
-  ctx.save();ctx.translate(18,h/2+35);ctx.rotate(-Math.PI/2);ctx.fillText('Peace →',0,0);ctx.restore();
-  ctx.fillText('Low peace / low respect',pad,h-pad+25);
-  ctx.fillText('High peace / high respect',w-pad-150,pad-15);
-  let snaps=p.snapshots||[];
-  if(snaps.length===0){
-    ctx.fillText('Add snapshots to plot Peace × Respect over time.',pad,60);
-    if($('peaceRespectNarrative'))$('peaceRespectNarrative').innerHTML='<p>Add snapshots to generate a trajectory.</p>';
-    return;
-  }
-  function xy(s){return [pad+(Math.max(0,Math.min(100,s.respect||50))/100)*(w-2*pad),h-pad-(Math.max(0,Math.min(100,s.peace||50))/100)*(h-2*pad)]}
-  ctx.strokeStyle='#815b33';ctx.lineWidth=3;ctx.beginPath();
-  snaps.forEach((s,i)=>{let point=xy(s);i?ctx.lineTo(point[0],point[1]):ctx.moveTo(point[0],point[1])});
-  ctx.stroke();
-  snaps.forEach((s,i)=>{
-    let point=xy(s),x=point[0],y=point[1];
-    ctx.beginPath();ctx.arc(x,y,7,0,Math.PI*2);ctx.fillStyle=i===snaps.length-1?'#815b33':'#b79a77';ctx.fill();ctx.strokeStyle='#fff';ctx.lineWidth=2;ctx.stroke();
-    ctx.fillStyle='#3d352c';ctx.font='12px -apple-system,BlinkMacSystemFont,Segoe UI,Arial';
-    ctx.fillText(String(i+1),x+9,y-9);
-  });
-  updatePeaceRespectNarrative(p);
+  for(let v=0;v<=100;v+=25){let x=pad+(v/100)*(w-2*pad),y=h-pad-(v/100)*(h-2*pad);ctx.beginPath();ctx.moveTo(x,pad);ctx.lineTo(x,h-pad);ctx.stroke();ctx.beginPath();ctx.moveTo(pad,y);ctx.lineTo(w-pad,y);ctx.stroke();ctx.fillStyle='#8a8177';ctx.font='11px sans-serif';ctx.fillText(String(v),x-6,h-pad+18);ctx.fillText(String(v),pad-32,y+4);}
+  ctx.strokeStyle='#7c6f64';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(pad,pad);ctx.lineTo(pad,h-pad);ctx.lineTo(w-pad,h-pad);ctx.stroke();
+  ctx.fillStyle='#5a5148';ctx.font='13px sans-serif';ctx.fillText('Respect →',w/2,h-18);ctx.save();ctx.translate(18,h/2);ctx.rotate(-Math.PI/2);ctx.fillText('Peace →',0,0);ctx.restore();
+  ctx.strokeStyle='#815b33';ctx.lineWidth=3;ctx.beginPath();pts.forEach((pt,i)=>{let x=pad+(pt.respect/100)*(w-2*pad),y=h-pad-(pt.peace/100)*(h-2*pad);i?ctx.lineTo(x,y):ctx.moveTo(x,y);});ctx.stroke();
+  pts.forEach((pt,i)=>{let x=pad+(pt.respect/100)*(w-2*pad),y=h-pad-(pt.peace/100)*(h-2*pad);ctx.beginPath();ctx.arc(x,y,7,0,Math.PI*2);ctx.fillStyle='#815b33';ctx.fill();ctx.fillStyle='#3f3832';ctx.font='11px sans-serif';ctx.fillText(String(i+1),x+9,y-8);});
 }
-function updatePeaceRespectNarrative(p){
-  let el=$('peaceRespectNarrative'); if(!el||!p)return;
-  ensureSnapshotScores(p);
-  let snaps=p.snapshots||[];
-  if(snaps.length<2){
-    let s=snaps[0];
-    el.innerHTML=s?`<p><b>Single snapshot:</b> Peace ${Math.round(s.peace||0)}, Respect ${Math.round(s.respect||0)}. Add more snapshots to detect direction.</p>`:'<p>No snapshots yet.</p>';
-    return;
-  }
-  let first=snaps[0],last=snaps[snaps.length-1];
-  let dp=Math.round((last.peace||0)-(first.peace||0));
-  let dr=Math.round((last.respect||0)-(first.respect||0));
-  let biggest=null;
-  for(let i=1;i<snaps.length;i++){
-    let a=snaps[i-1],b=snaps[i];
-    let mag=Math.abs((b.peace||0)-(a.peace||0))+Math.abs((b.respect||0)-(a.respect||0));
-    if(!biggest||mag>biggest.mag)biggest={mag,i,a,b};
-  }
-  let trend=(dp>=5&&dr>=5)?'improving in both peace and respect':(dp<=-5&&dr<=-5)?'worsening in both peace and respect':(dp>=5&&dr<0)?'more peaceful but less respectful':(dp<0&&dr>=5)?'more respectful but less peaceful':'mostly stable or mixed';
-  let event=biggest?`<div class="eventCallout"><b>Largest change:</b> between snapshot ${biggest.i} and ${biggest.i+1}. Trigger/event: ${escapeHTML(biggest.b.note||biggest.b.label||'No note saved')}<br><b>Expectation fit:</b> <span class="expectationBadge">${escapeHTML(biggest.b.expectationFit||'Mixed / unclear expectations')}</span></div>`:'';
-  el.innerHTML=`<p><b>Trajectory:</b> ${trend}. Peace change: ${dp>=0?'+':''}${dp}. Respect change: ${dr>=0?'+':''}${dr}.</p>${event}<p><b>How to read it:</b> sharp jumps usually correspond to specific events; gradual slopes suggest the relationship atmosphere is changing over time. Compare expectation-fit notes to see whether disappointment is driven by behavior or by rising hopes.</p>`;
+function dashboardMatrixHtml(p){
+  let m=dashboardMetricSet(p), peace=m.peaceIndex||0, respect=m.respectIndex||0;
+  let q=peace>=60&&respect>=60?'High Peace / High Respect':peace>=60?'High Peace / Low Respect':respect>=60?'Low Peace / High Respect':'Low Peace / Low Respect';
+  return `<div class="matrixCell activeMatrix"><b>${q}</b><br>${q==='High Peace / High Respect'?'Long-term potential.':q==='High Peace / Low Respect'?'Comfort without full partnership.':q==='Low Peace / High Respect'?'Respect exists, but nervous system cost is high.':'Low calm and low respect; proceed carefully.'}</div>`;
 }
-if(typeof safeUpdate==='function' && !window.__trajectorySafeWrapped){
-  window.__trajectorySafeWrapped=true;
-  const oldSafeTrajectory=safeUpdate;
-  safeUpdate=function(){
-    let r=oldSafeTrajectory();
-    try{drawPeaceRespectTrajectory(currentProfile())}catch(e){console.warn('trajectory',e)}
-    return r;
-  }
+function renderDashboard(){
+  populateDashboardSelect();
+  let p=currentDashboardProfile(); if(!p)return;
+  let m=dashboardMetricSet(p);
+  if($('dashboardSourceSummary'))$('dashboardSourceSummary').innerHTML=sourceSummaryForProfile(p);
+  if($('dashboardScoreCards'))$('dashboardScoreCards').innerHTML=[['Peace',m.peaceIndex],['Respect',m.respectIndex],['Repair',m.repair],['Reciprocity',m.reciprocityDyn],['Grounding',m.embedded],['Alignment',m.alignment]].map(([k,v])=>`<div class="scoreCardMini"><b>${k}</b><strong>${Math.round(v||0)}</strong></div>`).join('');
+  drawSmallRadar('dashboardRadarCanvas',p); drawDashboardPeaceRespect(p);
+  if($('dashboardTrajectorySummary'))$('dashboardTrajectorySummary').innerHTML=(typeof trajectoryInterpretation==='function')?trajectoryInterpretation(p):'<p>Add snapshots to interpret trajectory.</p>';
+  if($('dashboardMatrix'))$('dashboardMatrix').innerHTML=dashboardMatrixHtml(p);
+  if($('dashboardFutureSummary'))$('dashboardFutureSummary').innerHTML=(typeof futureScore==='function')?`<p><b>Future viability:</b> ${futureScore(p)}/100</p>`:'<p>Future viability sliders not available in this build.</p>';
+  let latest=(p.snapshots||[]).slice(-1)[0]||{};
+  if($('dashboardTranslationSummary'))$('dashboardTranslationSummary').innerHTML=`<p><b>Latest event:</b> ${escapeHTML(latest.note||p.evidence||'No event yet')}</p><p><b>Likely domain:</b> ${escapeHTML(latest.domain||'Unspecified')}</p>`;
+  if($('dashboardResponseSummary'))$('dashboardResponseSummary').innerHTML='<p>Use Card Detail for full repair language, response mode, and strategy. This dashboard summarizes outputs and their inputs.</p>';
 }
-if(typeof fillForm==='function' && !window.__trajectoryFillWrapped){
-  window.__trajectoryFillWrapped=true;
-  const oldFillTrajectory=fillForm;
-  fillForm=function(){
-    let r=oldFillTrajectory();
-    setTimeout(()=>{try{drawPeaceRespectTrajectory(currentProfile())}catch(e){}},0);
-    return r;
-  }
-}
-document.addEventListener('DOMContentLoaded',()=>setTimeout(()=>{try{let btn=$('refreshTrajectoryBtn');if(btn&&!btn.dataset.bound){btn.dataset.bound='1';btn.onclick=()=>drawPeaceRespectTrajectory(currentProfile())}drawPeaceRespectTrajectory(currentProfile())}catch(e){}},500));
+if(typeof showTab==='function'&&!window.__dashboardTabWrapped){window.__dashboardTabWrapped=true;const oldShowTabDashboard=showTab;showTab=function(t){let r=oldShowTabDashboard(t);let dv=$('dashboardView');if(dv)dv.classList.toggle('hidden',t!=='dashboard');let tab=$('tabDashboard');if(tab)tab.classList.toggle('active',t==='dashboard');if(t==='dashboard')renderDashboard();return r;}}
+function bindDashboardTab(){let tab=$('tabDashboard');if(tab&&!tab.dataset.bound){tab.dataset.bound='1';tab.onclick=()=>showTab('dashboard');}}
+if(typeof safeUpdate==='function'&&!window.__dashboardSafeWrapped){window.__dashboardSafeWrapped=true;const oldSafeDashboard=safeUpdate;safeUpdate=function(){let r=oldSafeDashboard();try{updateTopOutputSummary();if(!$('dashboardView')?.classList.contains('hidden'))renderDashboard();}catch(e){console.warn('dashboard update',e)}return r}}
+if(typeof fillForm==='function'&&!window.__dashboardFillWrapped){window.__dashboardFillWrapped=true;const oldFillDashboard=fillForm;fillForm=function(){let r=oldFillDashboard();setTimeout(()=>{try{updateTopOutputSummary();renderDashboard()}catch(e){}},0);return r}}
+document.addEventListener('DOMContentLoaded',()=>setTimeout(()=>{try{bindDashboardTab();updateTopOutputSummary();renderDashboard()}catch(e){console.warn(e)}},350));
 

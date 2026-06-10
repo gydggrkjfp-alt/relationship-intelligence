@@ -1,9 +1,11 @@
-# Relationship Intelligence v2.7.2
+# Relationship Intelligence v2.8
 
 Adds:
-- Peace × Respect trajectory chart
-- Event labels tied to snapshots
-- Trajectory narrative: improving, worsening, mixed, or stable
-- Largest-change callout linked to the triggering snapshot
-- Expectation-fit tracking for snapshots
-- Conceptual support for seeing whether rising/falling peace and respect are tied to events or changing expectations
+- Dashboard / Outputs page
+- Dashboard card switcher
+- Top-of-profile output summary
+- Source summary explaining what informs graphs and scores
+- Core score cards
+- Dashboard radar chart
+- Dashboard Peace × Respect chart
+- Matrix, future viability, translation, and response summaries
