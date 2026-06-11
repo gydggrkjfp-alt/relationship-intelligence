@@ -323,3 +323,19 @@ input.riskRange{accent-color:#9e3b31}
 .scriptBox{background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px;margin-top:8px}
 .v3ModeBadge{display:inline-block;border-radius:999px;border:1px solid var(--line);background:var(--accent2);padding:4px 9px;font-size:12px;font-weight:800;margin:2px}
 #repairCockpitAdmirationCanvas{width:100%;max-width:520px;background:#fff;border-radius:12px}
+
+/* v3.1.0 pretty repair-first redesign */
+:root{--accent:#256b72!important;--accent2:#e6f3f4!important;--ink:#1f2933!important;--muted:#65727e!important;--line:#d7e1e5!important;--paper:#f6f9fa!important}
+body{background:linear-gradient(180deg,#eef7f8,#f8fafb 38%,#f6f8fb)!important;color:var(--ink)!important}
+a,.tab{color:#1b6470!important}button{background:#256b72!important;color:white!important;border-radius:12px!important}button.secondary{background:#eef4f5!important;color:#1f4f57!important}.tab.active{background:#256b72!important;color:white!important}
+#tabCards,#tabDashboard{display:none!important}#dashboardView,#cardsView{display:none!important}
+.heroWizard{background:linear-gradient(135deg,#ffffff,#e8f4f6);border:1px solid var(--line);border-radius:24px;padding:20px;margin:12px 0;box-shadow:0 12px 30px rgba(31,80,90,.08)}
+.heroWizard h3{margin-top:0;font-size:24px}
+.wizardOverlay{position:fixed;inset:0;background:rgba(16,31,36,.45);z-index:9999;display:flex;align-items:center;justify-content:center;padding:18px}.wizardOverlay.hidden{display:none!important}
+.wizardCard{background:#fff;border-radius:24px;border:1px solid var(--line);box-shadow:0 30px 80px rgba(0,0,0,.22);max-width:760px;width:100%;max-height:92vh;overflow:auto;padding:18px}
+.wizardHeader{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:14px}.wizardHeader h2{margin:0}
+.wizardProgress{height:9px;background:#e8eef0;border-radius:999px;overflow:hidden;margin:10px 0 16px}#wizardProgressFill{height:100%;width:0;background:#256b72;border-radius:999px;transition:.2s}
+.wizardStep label{display:block;margin:12px 0}.wizardStep textarea{min-height:110px}.wizardNav{display:flex;justify-content:space-between;gap:10px;border-top:1px solid var(--line);padding-top:12px;margin-top:12px}
+.exampleBar{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}.exampleBar button{font-size:12px;padding:8px 10px;background:#e7f1f3!important;color:#1f4f57!important}
+.v3Panel{box-shadow:0 8px 24px rgba(31,80,90,.06)}.loopNode{background:#f7fbfc!important}.breakPoint{border-left-color:#2f855a!important;background:#f3fbf7!important}.warningPoint{border-left-color:#c88a1d!important}.dangerPoint{border-left-color:#c2413a!important}.scriptBox{background:#f9fcfd!important}
+.actionList{display:grid;gap:10px}.actionItem{background:#f7fbfc;border:1px solid var(--line);border-radius:14px;padding:10px}.actionItem b{display:block;margin-bottom:4px}

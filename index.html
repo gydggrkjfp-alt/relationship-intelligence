@@ -1,13 +1,13 @@
 <!doctype html><html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Relationship Intelligence v3.0.1</title>
+<title>Relationship Intelligence v3.1.0</title>
 <link rel="manifest" href="manifest.json"><link rel="stylesheet" href="styles.css">
 <meta name="theme-color" content="#815b33"></head>
 <body>
-<header><h1>Relationship Intelligence <span>v3.0.1</span></h1>
+<header><h1>Relationship Intelligence <span>v3.1.0</span></h1>
 <div class="sub">Relational Dynamics Engine: trajectory, repair, reciprocity, embeddedness, loops, archetypes, and vector alignment.</div>
 <div id="status">Loading app…</div></header>
-<nav class="tabs"><button id="tabSnapshot" class="tab active">Snapshot</button><button id="tabRepairCockpit" class="tab">V3 Repair Cockpit</button><button id="tabCards" class="tab">Cards</button><button id="tabDashboard" class="tab">Dashboard</button><button id="tabEcosystem" class="tab">Ecosystem</button><button id="tabPerson" class="tab">Card Detail</button><button id="tabMe" class="tab">Self</button><button id="tabDiagnostics" class="tab">Diagnostics</button></nav>
+<nav class="tabs"><button id="tabSnapshot" class="tab active">New Snapshot</button><button id="tabRepairCockpit" class="tab">Workspace</button><button id="tabCards" class="tab">Cards</button><button id="tabDashboard" class="tab">Dashboard</button><button id="tabEcosystem" class="tab">Ecosystem</button><button id="tabPerson" class="tab">Card Detail</button><button id="tabMe" class="tab">Self / Galaxy</button><button id="tabDiagnostics" class="tab">Diagnostics</button></nav>
 
 
 <main id="snapshotView" class="single">
@@ -231,7 +231,7 @@
 
 <main id="repairCockpitView" class="single hidden">
 <section>
-<h2>V3 Repair Cockpit</h2>
+<h2>Workspace</h2>
 <div class="guide"><b>New v3 direction:</b> this page is the visual repair-first interface. It helps translate miscommunications, identify the threatened need, and generate a response strategy.</div>
 
 <div class="detailSwitcher">
@@ -239,7 +239,7 @@
 <select id="repairCockpitProfileSelect"></select>
 </div>
 
-<div id="repairCockpitSourceStrip" class="v3SourceStrip"></div>
+<div id="repairCockpitSourceStrip" class="v3SourceStrip"></div><div id="repairExampleBar" class="exampleBar"><button type="button" data-example="appreciation">Appreciation conflict</button><button type="button" data-example="sharedReality">Shared reality drift</button><button type="button" data-example="boss">Boss expectations</button><button type="button" data-example="boundary">Boundary pressure</button><button type="button" data-example="pursueWithdraw">Pursue / withdraw</button></div>
 
 <div class="v3Grid">
   <div class="v3Panel wide">
@@ -266,11 +266,28 @@
   </div>
 
   <div class="v3Panel wide">
-    <h3>Response strategy</h3>
-    <div id="repairCockpitStrategy"></div>
+    <h3>Therapy response strategy</h3>
+    <div id="repairCockpitStrategy"></div><h3>Action response strategy</h3><div id="repairCockpitActionStrategy"></div>
   </div>
 </div>
 </section>
 </main>
+
+
+<div id="snapshotWizardOverlay" class="wizardOverlay hidden">
+  <div class="wizardCard">
+    <div class="wizardHeader">
+      <div><h2>Snapshot Wizard</h2><p class="small">One question at a time. Capture the event first, refine later.</p></div>
+      <button id="closeSnapshotWizardBtn" type="button" class="secondary">Close</button>
+    </div>
+    <div class="wizardProgress"><div id="wizardProgressFill"></div></div>
+    <div id="wizardStepContent"></div>
+    <div class="wizardNav">
+      <button id="wizardBackBtn" type="button" class="secondary">Back</button>
+      <button id="wizardNextBtn" type="button">Next</button>
+      <button id="wizardSaveBtn" type="button" class="hidden">Save Snapshot</button>
+    </div>
+  </div>
+</div>
 
 <script src="app.js"></script></body></html>

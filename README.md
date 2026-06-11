@@ -1,7 +1,11 @@
-# Relationship Intelligence v3.0.1
+# Relationship Intelligence v3.1.0
 
-Fixes v3 visibility:
-- Adds visible V3 Repair Cockpit tab
-- Adds standalone repair-first interface
-- Adds translation loop, admiration symmetry, response strategy, and he-said/she-heard builder directly on that page
-- Hard-binds tab navigation instead of relying on injection into old Card Detail flow
+Major UX consolidation:
+- Adds Snapshot Wizard modal
+- Hides redundant Cards and Dashboard tabs
+- Keeps Workspace as main cockpit
+- Adds examples for miscommunication repair builder
+- Adds Therapy Response Strategy + Action Response Strategy split
+- Adds Self / Relationship Galaxy graphic
+- Refreshes visual palette away from brown into teal/slate
+- Improves action-oriented repair recommendations

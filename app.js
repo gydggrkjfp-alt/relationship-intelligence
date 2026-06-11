@@ -1,4 +1,4 @@
-const STORAGE_KEY='relationship_intelligence_pwa_v301';
+const STORAGE_KEY='relationship_intelligence_pwa_v310';
 const greenDefs=[['warmth','Warmth','Emotional warmth, ease, affection.'],['kindness','Kindness','Basic goodness toward you and others.'],['respect','Baseline respect','General respect signal from the core profile.'],['reciprocity','Reciprocity','Interest and effort move both directions.'],['curiosity','Curiosity','They actually want to know you.'],['stability','Emotional stability','Grounded enough to build with.'],['peace','Peace after contact','Afterward you feel peaceful, not anxious or humiliated.'],['attraction','Attraction','Physical / romantic pull.']];
 const riskDefs=[['chaos','Chaos / drama','Volatility, crisis, or confusing energy.'],['trauma','Early trauma dumping','Heavy disclosure before trust exists.'],['entitlement','Entitlement','Expects without appreciating.'],['family','Family disrespect','Contempt toward family/parents.'],['social','Social-media validation','Attention-seeking or comparison energy.'],['inconsistent','Inconsistent communication','Words and effort fluctuate in a destabilizing way.']];
 const respectDefs=[['opinion','Values your opinions','Does this person take your perspective seriously?'],['appreciation','Expresses appreciation','Does this person notice and value your effort?'],['commitments','Keeps commitments','Does they follow through reliably?'],['proud','Proud to be associated','Would this person speak well of you to others?'],['time','Respects your time','Is this person considerate with scheduling and effort?'],['boundaries','Respects boundaries','Does this person honor limits without punishment?']];
@@ -2249,4 +2249,88 @@ function bindRepairCockpit(){
 if(typeof safeUpdate==='function'&&!window.__rcSafeWrapped){window.__rcSafeWrapped=true;const oldRcSafe=safeUpdate;safeUpdate=function(){let r=oldRcSafe();try{renderRepairCockpit()}catch(e){};return r;}}
 if(typeof fillForm==='function'&&!window.__rcFillWrapped){window.__rcFillWrapped=true;const oldRcFill=fillForm;fillForm=function(){let r=oldRcFill();setTimeout(()=>{try{renderRepairCockpit()}catch(e){}},0);return r;}}
 document.addEventListener('DOMContentLoaded',()=>setTimeout(()=>{bindRepairCockpit();renderRepairCockpit();},350));
+
+
+
+/* v3.1.0 simplified flow + wizard + action strategy */
+const wizardState={step:0,data:{}};
+const wizardSteps=[
+  {key:'card',title:'Who is this about?',type:'selectCard'},
+  {key:'event',title:'What happened?',type:'textarea',placeholder:'Describe the concrete event. Facts first.'},
+  {key:'story',title:'What story are you telling yourself?',type:'textarea',placeholder:'What did it seem to mean? What are you afraid it means?'},
+  {key:'heard',title:'What might the other person have heard?',type:'textarea',placeholder:'Example: “I am failing,” “I am not included,” “I am being controlled.”'},
+  {key:'expectation',title:'What expectation was involved?',type:'select',options:['Neutral / no strong expectation','Exceeded expectations','Met expectations','Below expectations','Expectation mismatch / unclear agreement','New relationship high / idealizing','Disappointment after hope']},
+  {key:'scores',title:'Quick sliders for this event',type:'scores'},
+  {key:'domain',title:'What domain best fits this?',type:'select',options:['Communication / being on same page','Criticism / correction','Appreciation / usefulness','Planning / logistics','Commitment / future direction','Affection / reassurance','Boundary / pressure','Work expectations','Other']}
+];
+function wizardCardOptions(){return (state.profiles||[]).map(p=>`<option value="${p.id}" ${p.id===state.currentId?'selected':''}>${escapeHTML(p.name||'Untitled')} — ${escapeHTML(p.rtype||'Card')}</option>`).join('');}
+function renderWizardStep(){
+  let s=wizardSteps[wizardState.step], el=$('wizardStepContent'); if(!el)return;
+  let html=`<div class="wizardStep"><h3>${s.title}</h3>`;
+  if(s.type==='selectCard')html+=`<label>Relationship/card<select id="wiz_card">${wizardCardOptions()}</select></label>`;
+  if(s.type==='textarea')html+=`<textarea id="wiz_${s.key}" placeholder="${s.placeholder||''}">${wizardState.data[s.key]||''}</textarea>`;
+  if(s.type==='select')html+=`<select id="wiz_${s.key}">${s.options.map(o=>`<option ${wizardState.data[s.key]===o?'selected':''}>${o}</option>`).join('')}</select>`;
+  if(s.type==='scores')html+=`
+    <label>Peace <span id="wizPeaceVal">${wizardState.data.peace||5}</span><span class="scaleEnds"><b>Low calm</b><b>High calm</b></span><input id="wiz_peace" type="range" min="0" max="10" value="${wizardState.data.peace||5}"></label>
+    <label>Respect <span id="wizRespectVal">${wizardState.data.respect||5}</span><span class="scaleEnds"><b>Dismissed</b><b>Respected</b></span><input id="wiz_respect" type="range" min="0" max="10" value="${wizardState.data.respect||5}"></label>
+    <label>Repair quality <span id="wizRepairVal">${wizardState.data.repair||5}</span><span class="scaleEnds"><b>No repair</b><b>Strong repair</b></span><input id="wiz_repair" type="range" min="0" max="10" value="${wizardState.data.repair||5}"></label>
+    <label>Emotional drain <span id="wizEnergyVal">${wizardState.data.energy||5}</span><span class="scaleEnds dangerScale"><b>Low drain</b><b>High drain</b></span><input id="wiz_energy" class="riskRange" type="range" min="0" max="10" value="${wizardState.data.energy||5}"></label>`;
+  html+='</div>'; el.innerHTML=html;
+  let fill=$('wizardProgressFill'); if(fill)fill.style.width=((wizardState.step+1)/wizardSteps.length*100)+'%';
+  if($('wizardBackBtn'))$('wizardBackBtn').disabled=wizardState.step===0;
+  if($('wizardNextBtn'))$('wizardNextBtn').classList.toggle('hidden',wizardState.step===wizardSteps.length-1);
+  if($('wizardSaveBtn'))$('wizardSaveBtn').classList.toggle('hidden',wizardState.step!==wizardSteps.length-1);
+  [['peace','Peace'],['respect','Respect'],['repair','Repair'],['energy','Energy']].forEach(([k,label])=>{let input=$(`wiz_${k}`), val=$(`wiz${label}Val`); if(input&&val)input.oninput=()=>{val.textContent=input.value;wizardState.data[k]=Number(input.value)};});
+}
+function collectWizardStep(){
+  let s=wizardSteps[wizardState.step];
+  if(s.type==='selectCard'){let v=$('wiz_card')?.value;if(v){wizardState.data.card=v;state.currentId=v;saveState();}}
+  if(s.type==='textarea')wizardState.data[s.key]=$(`wiz_${s.key}`)?.value||'';
+  if(s.type==='select')wizardState.data[s.key]=$(`wiz_${s.key}`)?.value||s.options[0];
+  if(s.type==='scores'){['peace','respect','repair','energy'].forEach(k=>{let v=$(`wiz_${k}`)?.value;if(v!==undefined)wizardState.data[k]=Number(v)});}
+}
+function openSnapshotWizard(){wizardState.step=0;wizardState.data={card:state.currentId,peace:7,respect:7,repair:6,energy:3};$('snapshotWizardOverlay')?.classList.remove('hidden');renderWizardStep();}
+function closeSnapshotWizard(){$('snapshotWizardOverlay')?.classList.add('hidden');}
+function saveWizardSnapshot(){
+  collectWizardStep();
+  let p=(state.profiles||[]).find(x=>x.id===(wizardState.data.card||state.currentId))||currentProfile(); if(!p)return;
+  p.snapshots=p.snapshots||[];
+  let cost=Number(wizardState.data.energy||3);
+  let snap={id:uid(),label:'Wizard snapshot',created:new Date().toISOString(),note:wizardState.data.event||'',story:wizardState.data.story||'',heard:wizardState.data.heard||'',domain:wizardState.data.domain||'Other',expectation:wizardState.data.expectation||'Neutral / no strong expectation',expectationScore:typeof expectationScoreFromLabel==='function'?expectationScoreFromLabel(wizardState.data.expectation):5,peace:Number(wizardState.data.peace||7)*10,respect:Number(wizardState.data.respect||7)*10,repair:Number(wizardState.data.repair||6)*10,energy:Math.max(0,100-cost*10),reciprocity:Number(wizardState.data.respect||7)*10,embedded:70,alignment:Math.round((Number(wizardState.data.peace||7)+Number(wizardState.data.respect||7))/2*10),evidenceConfidence:'Medium — fresh self-report',interpretationChecked:'Not yet checked',tags:[]};
+  p.snapshots.push(snap);p.evidence=snap.note;p.story=snap.story;state.currentId=p.id;saveState();
+  try{fillForm();safeUpdate();renderRepairCockpit&&renderRepairCockpit()}catch(e){}
+  closeSnapshotWizard();try{showRepairCockpit&&showRepairCockpit()}catch(e){}
+}
+function bindWizard(){
+  let open=$('openSnapshotWizardBtn'); if(open&&!open.dataset.bound){open.dataset.bound='1';open.onclick=openSnapshotWizard}
+  let close=$('closeSnapshotWizardBtn'); if(close&&!close.dataset.bound){close.dataset.bound='1';close.onclick=closeSnapshotWizard}
+  let back=$('wizardBackBtn'); if(back&&!back.dataset.bound){back.dataset.bound='1';back.onclick=()=>{collectWizardStep();wizardState.step=Math.max(0,wizardState.step-1);renderWizardStep();}}
+  let next=$('wizardNextBtn'); if(next&&!next.dataset.bound){next.dataset.bound='1';next.onclick=()=>{collectWizardStep();wizardState.step=Math.min(wizardSteps.length-1,wizardState.step+1);renderWizardStep();}}
+  let save=$('wizardSaveBtn'); if(save&&!save.dataset.bound){save.dataset.bound='1';save.onclick=saveWizardSnapshot}
+}
+function renderRcActionStrategy(){
+  let el=$('repairCockpitActionStrategy'); if(!el)return;
+  let p=rcCurrentProfile&&rcCurrentProfile(); if(!p)return;
+  let kind=rcKind(p), need=rcNeed(p);
+  let actions=[['Pause the loop','Stop arguing about the surface issue and name the loop: event → meaning → reaction.'],['Ask one clarifying question','“What did you mean by that?” or “What did you hear me saying?”'],['Make one concrete repair request','One behavior, one timeframe, no character attack.']];
+  if(kind==='work')actions=[['Document expectations','Summarize priorities, deadlines, and success criteria in writing.'],['Reduce ambiguity','Ask for rank order: what matters most, what can wait, what does done look like?'],['Contain emotion','Do not litigate disrespect in the moment unless safety requires it; move to clarity and records.']];
+  if(kind==='romantic' && need.includes('competence'))actions=[['Restore usefulness','Name the effort as real before making any correction.'],['Separate correction from appreciation','Do not pair praise and critique in the same breath if it will feel like a trap.'],['Request comfort, not compliance','Frame the change as “this helps me feel cared for/calm,” not “you did it wrong.”']];
+  if(kind==='romantic' && need.includes('closeness'))actions=[['Schedule a shared-reality check-in','Ask what changed this week, what decisions are pending, and what each person is carrying.'],['Reassure before solving','Signal “we are okay” before logistics.'],['Make inclusion concrete','Ask for one update habit: calendar, weekly check-in, or decision heads-up.']];
+  if(kind==='boundary')actions=[['Shorten the exchange','Use one sentence. No debate.'],['Repeat without expanding','Same boundary, same tone, no new justification.'],['Reduce exposure','If pressure increases, reduce access rather than escalating explanation.']];
+  el.innerHTML='<div class="actionList">'+actions.map(a=>`<div class="actionItem"><b>${escapeHTML(a[0])}</b>${escapeHTML(a[1])}</div>`).join('')+'</div>';
+}
+const repairExamples={appreciation:["He said, “You never appreciate what I do.”","She heard, “You want praise for doing basic things.”"],sharedReality:["She said, “You never tell me what’s going on anymore.”","He heard, “I’m failing again and nothing I do is enough.”"],boss:["Boss said, “This isn’t what I expected.”","Employee heard, “I was set up to fail because expectations changed.”"],boundary:["Family member said, “After everything I’ve done, you owe me this.”","User heard, “My autonomy is being overwritten by guilt.”"],pursueWithdraw:["She said, “Why are you being distant?”","He heard, “You are defective and need to perform emotionally right now.”"]};
+function bindRepairExamples(){document.querySelectorAll('#repairExampleBar button[data-example]').forEach(btn=>{if(btn.dataset.bound)return;btn.dataset.bound='1';btn.onclick=()=>{let ex=repairExamples[btn.dataset.example];if(!ex)return;$('repairCockpitSaidInput').value=ex[0];$('repairCockpitHeardInput').value=ex[1];buildRcConversation&&buildRcConversation();};});}
+function drawSelfGalaxy(){
+  let c=$('selfGalaxyCanvas'); if(!c)return;
+  let ctx=c.getContext('2d'),w=c.width,h=c.height,cx=w/2,cy=h/2;
+  ctx.clearRect(0,0,w,h);ctx.fillStyle='#fff';ctx.fillRect(0,0,w,h);ctx.strokeStyle='#d7e1e5';[70,140,210].forEach(r=>{ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);ctx.stroke();});
+  ctx.fillStyle='#256b72';ctx.beginPath();ctx.arc(cx,cy,22,0,Math.PI*2);ctx.fill();ctx.fillStyle='#fff';ctx.font='12px sans-serif';ctx.fillText('YOU',cx-12,cy+4);
+  let profiles=state.profiles||[];
+  profiles.forEach((p,i)=>{let m=typeof dashboardMetricSet==='function'?dashboardMetricSet(p):(typeof safeMetricSet==='function'?safeMetricSet(p):{peaceIndex:50,respectIndex:50});let score=Math.round(((m.peaceIndex||50)+(m.respectIndex||50))/2);let angle=i*Math.PI*2/Math.max(1,profiles.length)-Math.PI/2;let dist=240-(score*1.5);let x=cx+Math.cos(angle)*dist,y=cy+Math.sin(angle)*dist;let kind=typeof profileCategory==='function'?profileCategory(p):(p.rtype||'Other');ctx.fillStyle=kind==='Work'?'#c88a1d':kind==='Husband'||kind==='Wife'||kind==='Romantic'?'#c2413a':kind==='Pet'?'#2f855a':'#64748b';if(kind==='Work'){ctx.fillRect(x-12,y-12,24,24);}else if(kind==='Pet'){ctx.beginPath();ctx.arc(x,y,13,0,Math.PI*2);ctx.fill();}else{ctx.beginPath();ctx.moveTo(x,y-15);ctx.lineTo(x+14,y+12);ctx.lineTo(x-14,y+12);ctx.closePath();ctx.fill();}ctx.strokeStyle='rgba(37,107,114,.25)';ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(x,y);ctx.stroke();ctx.fillStyle='#1f2933';ctx.font='12px sans-serif';ctx.fillText((p.name||'Untitled').slice(0,18),x+16,y);ctx.fillText(String(score),x+16,y+14);});
+  let sum=$('selfGalaxySummary'); if(sum)sum.innerHTML='<p><b>Galaxy key:</b> closer = stronger peace/respect contribution. Shape/color indicates relationship type. Number is average Peace/Respect score.</p>';
+}
+if(typeof renderRepairCockpit==='function'&&!window.__actionRenderWrapped){const oldRenderRepairCockpit=renderRepairCockpit;renderRepairCockpit=function(){let r=oldRenderRepairCockpit();try{renderRcActionStrategy();bindRepairExamples()}catch(e){};return r}}
+document.addEventListener('DOMContentLoaded',()=>setTimeout(()=>{bindWizard();bindRepairExamples();drawSelfGalaxy();},500));
+if(typeof safeUpdate==='function'&&!window.__v310Safe){window.__v310Safe=true;const oldSafe310=safeUpdate;safeUpdate=function(){let r=oldSafe310();try{bindWizard();bindRepairExamples();renderRcActionStrategy();drawSelfGalaxy();}catch(e){}return r}}
 
