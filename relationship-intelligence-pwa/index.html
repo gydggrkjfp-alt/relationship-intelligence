@@ -1,13 +1,13 @@
 <!doctype html><html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Relationship Intelligence v3.0.0</title>
+<title>Relationship Intelligence v3.0.1</title>
 <link rel="manifest" href="manifest.json"><link rel="stylesheet" href="styles.css">
 <meta name="theme-color" content="#815b33"></head>
 <body>
-<header><h1>Relationship Intelligence <span>v3.0.0</span></h1>
+<header><h1>Relationship Intelligence <span>v3.0.1</span></h1>
 <div class="sub">Relational Dynamics Engine: trajectory, repair, reciprocity, embeddedness, loops, archetypes, and vector alignment.</div>
 <div id="status">Loading app…</div></header>
-<nav class="tabs"><button id="tabSnapshot" class="tab active">Snapshot</button><button id="tabCards" class="tab">Cards</button><button id="tabDashboard" class="tab">Dashboard</button><button id="tabEcosystem" class="tab">Ecosystem</button><button id="tabPerson" class="tab">Card Detail</button><button id="tabMe" class="tab">Self</button><button id="tabDiagnostics" class="tab">Diagnostics</button></nav>
+<nav class="tabs"><button id="tabSnapshot" class="tab active">Snapshot</button><button id="tabRepairCockpit" class="tab">V3 Repair Cockpit</button><button id="tabCards" class="tab">Cards</button><button id="tabDashboard" class="tab">Dashboard</button><button id="tabEcosystem" class="tab">Ecosystem</button><button id="tabPerson" class="tab">Card Detail</button><button id="tabMe" class="tab">Self</button><button id="tabDiagnostics" class="tab">Diagnostics</button></nav>
 
 
 <main id="snapshotView" class="single">
@@ -225,6 +225,51 @@
 <h3>Future viability</h3><div id="dashboardFutureSummary" class="analysisBox"></div>
 <h3>Meaning translation summary</h3><div id="dashboardTranslationSummary" class="analysisBox"></div>
 <h3>Repair / response recommendations</h3><div id="dashboardResponseSummary" class="analysisBox"></div>
+</section>
+</main>
+
+
+<main id="repairCockpitView" class="single hidden">
+<section>
+<h2>V3 Repair Cockpit</h2>
+<div class="guide"><b>New v3 direction:</b> this page is the visual repair-first interface. It helps translate miscommunications, identify the threatened need, and generate a response strategy.</div>
+
+<div class="detailSwitcher">
+<label>Choose card</label>
+<select id="repairCockpitProfileSelect"></select>
+</div>
+
+<div id="repairCockpitSourceStrip" class="v3SourceStrip"></div>
+
+<div class="v3Grid">
+  <div class="v3Panel wide">
+    <h3>Translation loop</h3>
+    <p class="small">Event → story → threatened need → reaction → partner interpretation → escalation or repair.</p>
+    <div id="repairCockpitLoop" class="loopGraphic"></div>
+  </div>
+
+  <div class="v3Panel">
+    <h3>Admiration symmetry</h3>
+    <p class="small">Shows whether admiration, effort, and appreciation are flowing both ways.</p>
+    <canvas id="repairCockpitAdmirationCanvas" width="520" height="360"></canvas>
+    <div id="repairCockpitAdmirationText" class="small"></div>
+  </div>
+
+  <div class="v3Panel wide">
+    <h3>He said / she heard repair builder</h3>
+    <label>What one person said or did</label>
+    <textarea id="repairCockpitSaidInput" placeholder="Example: He said, 'You never appreciate what I do.'"></textarea>
+    <label>What the other person heard / felt</label>
+    <textarea id="repairCockpitHeardInput" placeholder="Example: She heard, 'You want praise for basic chores.'"></textarea>
+    <button id="repairCockpitBuildBtn" type="button">Build repair response</button>
+    <div id="repairCockpitConversationOutput" class="analysisBox"></div>
+  </div>
+
+  <div class="v3Panel wide">
+    <h3>Response strategy</h3>
+    <div id="repairCockpitStrategy"></div>
+  </div>
+</div>
 </section>
 </main>
 

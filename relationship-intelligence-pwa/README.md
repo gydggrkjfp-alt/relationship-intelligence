@@ -1,11 +1,7 @@
-# Relationship Intelligence v3.0.0
+# Relationship Intelligence v3.0.1
 
-Major architecture redesign:
-- Shifts app from rating/scoring toward miscommunication repair
-- Adds top-of-profile Relationship Repair Cockpit
-- Adds visual Translation Loop
-- Adds Admiration Symmetry graphic
-- Adds unified Response Strategy
-- Adds Miscommunication Repair Builder with he-said/she-heard structure
-- Adds collapsible input sections
-- Makes outputs appear before inputs
+Fixes v3 visibility:
+- Adds visible V3 Repair Cockpit tab
+- Adds standalone repair-first interface
+- Adds translation loop, admiration symmetry, response strategy, and he-said/she-heard builder directly on that page
+- Hard-binds tab navigation instead of relying on injection into old Card Detail flow

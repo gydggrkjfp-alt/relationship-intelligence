@@ -302,3 +302,24 @@ input.riskRange{accent-color:#9e3b31}
 .collapsibleSection.collapsed>*:not(h3){display:none!important}
 #v3AdmirationCanvas{width:100%;max-width:520px;background:#fff;border-radius:12px}
 .v3ModeBadge{display:inline-block;border-radius:999px;border:1px solid var(--line);background:var(--accent2);padding:4px 9px;font-size:12px;font-weight:800;margin:2px}
+
+/* v3.0.1 forced visible repair cockpit */
+.v3SourceStrip{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.v3SourcePill{display:inline-block;background:var(--accent2);border:1px solid var(--line);border-radius:999px;padding:6px 10px;font-size:12px;font-weight:800}
+.v3Grid{display:grid;grid-template-columns:1fr;gap:12px}
+@media(min-width:900px){.v3Grid{grid-template-columns:1.15fr .85fr}.v3Panel.wide{grid-column:span 1}}
+.v3Panel{background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px}
+.v3Panel h3{margin-top:0}
+.loopGraphic{display:grid;gap:8px}
+.loopNode{background:#fbf7ef;border:1px solid var(--line);border-radius:14px;padding:10px;position:relative}
+.loopNode b{display:block;margin-bottom:4px}
+.loopArrow{text-align:center;font-weight:900;color:var(--accent);font-size:20px;line-height:1}
+.breakPoint{border-left:5px solid #4d7a52;background:#f4fbf4}
+.warningPoint{border-left:5px solid #c98716}
+.dangerPoint{border-left:5px solid #9e3b31}
+.strategyGrid{display:grid;gap:10px}
+.strategyCard{background:#fbf7ef;border:1px solid var(--line);border-radius:14px;padding:10px}
+.strategyCard b{display:block;margin-bottom:4px}
+.scriptBox{background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px;margin-top:8px}
+.v3ModeBadge{display:inline-block;border-radius:999px;border:1px solid var(--line);background:var(--accent2);padding:4px 9px;font-size:12px;font-weight:800;margin:2px}
+#repairCockpitAdmirationCanvas{width:100%;max-width:520px;background:#fff;border-radius:12px}
