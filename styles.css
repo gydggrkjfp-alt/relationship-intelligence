@@ -339,3 +339,28 @@ a,.tab{color:#1b6470!important}button{background:#256b72!important;color:white!i
 .exampleBar{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}.exampleBar button{font-size:12px;padding:8px 10px;background:#e7f1f3!important;color:#1f4f57!important}
 .v3Panel{box-shadow:0 8px 24px rgba(31,80,90,.06)}.loopNode{background:#f7fbfc!important}.breakPoint{border-left-color:#2f855a!important;background:#f3fbf7!important}.warningPoint{border-left-color:#c88a1d!important}.dangerPoint{border-left-color:#c2413a!important}.scriptBox{background:#f9fcfd!important}
 .actionList{display:grid;gap:10px}.actionItem{background:#f7fbfc;border:1px solid var(--line);border-radius:14px;padding:10px}.actionItem b{display:block;margin-bottom:4px}
+
+/* v3.1.1 cleanup */
+button,.tab{color:#ffffff!important;font-weight:800!important}
+button.secondary{color:#174f58!important;background:#eef4f5!important}
+.tab:not(.active){background:#2a6f77!important;color:#ffffff!important;opacity:1!important}
+.tab.active{background:#174f58!important;color:#ffffff!important}
+#tabCards,#tabDashboard,#tabEcosystem{display:none!important}
+#cardsView,#dashboardView,#ecosystemView{display:none!important}
+body:not(.showInlineSnapshot) #snapshotView .snapshotEntry,
+body:not(.showInlineSnapshot) #snapshotView form,
+body:not(.showInlineSnapshot) #snapshotView .snapshotForm,
+body:not(.showInlineSnapshot) #snapshotView #snapshotForm,
+body:not(.showInlineSnapshot) #snapshotView .quickUpdate,
+body:not(.showInlineSnapshot) #snapshotView #quickUpdate{display:none!important}
+body:not(.showDiagnostics) #diagnosticsView{display:none!important}
+body:not(.showWorkspace) #repairCockpitView{display:none!important}
+.wizardOverlay{position:fixed!important;inset:0!important;background:rgba(16,31,36,.48)!important;z-index:999999!important;display:flex!important;align-items:center!important;justify-content:center!important;padding:18px!important}
+.wizardOverlay.hidden{display:none!important}
+.wizardCard{background:#fff!important;border-radius:24px!important;border:1px solid var(--line)!important;box-shadow:0 30px 80px rgba(0,0,0,.28)!important;max-width:760px!important;width:100%!important;max-height:92vh!important;overflow:auto!important;padding:18px!important}
+.heroWizard{background:linear-gradient(135deg,#ffffff,#e8f4f6)!important;border:1px solid var(--line)!important;border-radius:24px!important;padding:20px!important;margin:12px 0!important;box-shadow:0 12px 30px rgba(31,80,90,.08)!important}
+.wizardHeader{display:flex!important;justify-content:space-between!important;border-bottom:1px solid var(--line)!important;padding-bottom:10px!important;margin-bottom:14px!important}
+.wizardProgress{height:9px!important;background:#e8eef0!important;border-radius:999px!important;overflow:hidden!important;margin:10px 0 16px!important}
+#wizardProgressFill{height:100%!important;background:#256b72!important;border-radius:999px!important}
+.wizardStep textarea{min-height:110px!important}
+.wizardNav{display:flex!important;justify-content:space-between!important;gap:10px!important;border-top:1px solid var(--line)!important;padding-top:12px!important;margin-top:12px!important}

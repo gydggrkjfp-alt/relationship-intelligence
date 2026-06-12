@@ -1,11 +1,11 @@
-# Relationship Intelligence v3.1.0
+# Relationship Intelligence v3.1.1
 
-Major UX consolidation:
-- Adds Snapshot Wizard modal
-- Hides redundant Cards and Dashboard tabs
-- Keeps Workspace as main cockpit
-- Adds examples for miscommunication repair builder
-- Adds Therapy Response Strategy + Action Response Strategy split
-- Adds Self / Relationship Galaxy graphic
-- Refreshes visual palette away from brown into teal/slate
-- Improves action-oriented repair recommendations
+Fixes:
+- Snapshot Wizard opens as a modal
+- Old inline snapshot form hidden by default
+- Diagnostics hidden unless Diagnostics tab is selected
+- Workspace hidden unless Workspace tab is selected
+- Cards, Dashboard, and Ecosystem tabs hidden
+- Self/Galaxy gets the relationship galaxy canvas
+- Navigation text contrast fixed
+- Future viability diagnostic failure removed for simplified v3.1 flow

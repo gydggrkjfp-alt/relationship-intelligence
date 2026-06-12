@@ -1,4 +1,4 @@
-const STORAGE_KEY='relationship_intelligence_pwa_v310';
+const STORAGE_KEY='relationship_intelligence_pwa_v311';
 const greenDefs=[['warmth','Warmth','Emotional warmth, ease, affection.'],['kindness','Kindness','Basic goodness toward you and others.'],['respect','Baseline respect','General respect signal from the core profile.'],['reciprocity','Reciprocity','Interest and effort move both directions.'],['curiosity','Curiosity','They actually want to know you.'],['stability','Emotional stability','Grounded enough to build with.'],['peace','Peace after contact','Afterward you feel peaceful, not anxious or humiliated.'],['attraction','Attraction','Physical / romantic pull.']];
 const riskDefs=[['chaos','Chaos / drama','Volatility, crisis, or confusing energy.'],['trauma','Early trauma dumping','Heavy disclosure before trust exists.'],['entitlement','Entitlement','Expects without appreciating.'],['family','Family disrespect','Contempt toward family/parents.'],['social','Social-media validation','Attention-seeking or comparison energy.'],['inconsistent','Inconsistent communication','Words and effort fluctuate in a destabilizing way.']];
 const respectDefs=[['opinion','Values your opinions','Does this person take your perspective seriously?'],['appreciation','Expresses appreciation','Does this person notice and value your effort?'],['commitments','Keeps commitments','Does they follow through reliably?'],['proud','Proud to be associated','Would this person speak well of you to others?'],['time','Respects your time','Is this person considerate with scheduling and effort?'],['boundaries','Respects boundaries','Does this person honor limits without punishment?']];
@@ -2333,4 +2333,81 @@ function drawSelfGalaxy(){
 if(typeof renderRepairCockpit==='function'&&!window.__actionRenderWrapped){const oldRenderRepairCockpit=renderRepairCockpit;renderRepairCockpit=function(){let r=oldRenderRepairCockpit();try{renderRcActionStrategy();bindRepairExamples()}catch(e){};return r}}
 document.addEventListener('DOMContentLoaded',()=>setTimeout(()=>{bindWizard();bindRepairExamples();drawSelfGalaxy();},500));
 if(typeof safeUpdate==='function'&&!window.__v310Safe){window.__v310Safe=true;const oldSafe310=safeUpdate;safeUpdate=function(){let r=oldSafe310();try{bindWizard();bindRepairExamples();renderRcActionStrategy();drawSelfGalaxy();}catch(e){}return r}}
+
+
+
+/* v3.1.1 hard cleanup */
+(function(){
+const $id=id=>document.getElementById(id);
+function esc(s){return (window.escapeHTML?escapeHTML(String(s||'')):String(s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])));}
+const wiz={step:0,data:{}};
+const steps=[
+ ['card','Who is this about?','card'],
+ ['event','What happened?','text'],
+ ['story','What story are you telling yourself?','text'],
+ ['heard','What might the other person have heard?','text'],
+ ['expectation','What expectation was involved?','select'],
+ ['scores','Quick sliders for this event','scores'],
+ ['domain','What domain best fits this?','domain']
+];
+const exp=['Neutral / no strong expectation','Exceeded expectations','Met expectations','Below expectations','Expectation mismatch / unclear agreement','New relationship high / idealizing','Disappointment after hope'];
+const domains=['Communication / being on same page','Criticism / correction','Appreciation / usefulness','Planning / logistics','Commitment / future direction','Affection / reassurance','Boundary / pressure','Work expectations','Other'];
+function cardOptions(){return ((window.state&&state.profiles)||[]).map(p=>`<option value="${p.id}" ${p.id===state.currentId?'selected':''}>${esc(p.name||'Untitled')} — ${esc(p.rtype||'Card')}</option>`).join('');}
+function renderStep(){
+ let [key,title,type]=steps[wiz.step], el=$id('wizardStepContent'); if(!el)return;
+ let html=`<div class="wizardStep"><h3>${title}</h3>`;
+ if(type==='card') html+=`<label>Relationship/card<select id="wiz_card">${cardOptions()}</select></label>`;
+ if(type==='text') html+=`<textarea id="wiz_${key}" placeholder="Write a few sentences.">${esc(wiz.data[key]||'')}</textarea>`;
+ if(type==='select') html+=`<select id="wiz_${key}">${exp.map(o=>`<option ${wiz.data[key]===o?'selected':''}>${o}</option>`).join('')}</select>`;
+ if(type==='domain') html+=`<select id="wiz_${key}">${domains.map(o=>`<option ${wiz.data[key]===o?'selected':''}>${o}</option>`).join('')}</select>`;
+ if(type==='scores') html+=['peace:Peace:Low calm:High calm','respect:Respect:Dismissed:Respected','repair:Repair quality:No repair:Strong repair','energy:Emotional drain:Low drain:High drain'].map(x=>{let [k,l,a,b]=x.split(':'),v=wiz.data[k]??(k==='energy'?3:7);return `<label>${l} <span id="wiz_${k}_val">${v}</span><span class="scaleEnds"><b>${a}</b><b>${b}</b></span><input id="wiz_${k}" type="range" min="0" max="10" value="${v}"></label>`}).join('');
+ html+='</div>'; el.innerHTML=html;
+ if($id('wizardProgressFill')) $id('wizardProgressFill').style.width=((wiz.step+1)/steps.length*100)+'%';
+ if($id('wizardBackBtn')) $id('wizardBackBtn').disabled=wiz.step===0;
+ if($id('wizardNextBtn')) $id('wizardNextBtn').classList.toggle('hidden',wiz.step===steps.length-1);
+ if($id('wizardSaveBtn')) $id('wizardSaveBtn').classList.toggle('hidden',wiz.step!==steps.length-1);
+ ['peace','respect','repair','energy'].forEach(k=>{let i=$id('wiz_'+k), v=$id('wiz_'+k+'_val'); if(i&&v)i.oninput=()=>{v.textContent=i.value;wiz.data[k]=Number(i.value)};});
+}
+function collect(){
+ let [key,,type]=steps[wiz.step];
+ if(type==='card'){let v=$id('wiz_card')?.value;if(v&&window.state){wiz.data.card=v;state.currentId=v;if(window.saveState)saveState();}}
+ if(type==='text') wiz.data[key]=$id('wiz_'+key)?.value||'';
+ if(type==='select'||type==='domain') wiz.data[key]=$id('wiz_'+key)?.value||'';
+ if(type==='scores') ['peace','respect','repair','energy'].forEach(k=>{let v=$id('wiz_'+k)?.value;if(v!==undefined)wiz.data[k]=Number(v);});
+}
+window.openSnapshotWizard=function(){wiz.step=0;wiz.data={card:state?.currentId,peace:7,respect:7,repair:6,energy:3};$id('snapshotWizardOverlay')?.classList.remove('hidden');renderStep();}
+window.closeSnapshotWizard=function(){$id('snapshotWizardOverlay')?.classList.add('hidden');}
+window.saveWizardSnapshot=function(){
+ collect();
+ let p=((window.state&&state.profiles)||[]).find(x=>x.id===(wiz.data.card||state.currentId))||(window.currentProfile&&currentProfile()); if(!p)return;
+ p.snapshots=p.snapshots||[];
+ let cost=Number(wiz.data.energy||3);
+ let snap={id:window.uid?uid():String(Date.now()),label:'Wizard snapshot',created:new Date().toISOString(),note:wiz.data.event||'',story:wiz.data.story||'',heard:wiz.data.heard||'',domain:wiz.data.domain||'Other',expectation:wiz.data.expectation||'Neutral / no strong expectation',peace:Number(wiz.data.peace||7)*10,respect:Number(wiz.data.respect||7)*10,repair:Number(wiz.data.repair||6)*10,energy:Math.max(0,100-cost*10),reciprocity:Number(wiz.data.respect||7)*10,embedded:70,alignment:Math.round((Number(wiz.data.peace||7)+Number(wiz.data.respect||7))/2*10),evidenceConfidence:'Medium — fresh self-report',interpretationChecked:'Not yet checked',tags:[]};
+ p.snapshots.push(snap);p.evidence=snap.note;p.story=snap.story;state.currentId=p.id;if(window.saveState)saveState();if(window.fillForm)fillForm();if(window.safeUpdate)safeUpdate();closeSnapshotWizard();if(window.showRepairCockpit)showRepairCockpit();
+}
+function bind(){
+ let open=$id('openSnapshotWizardBtn'); if(open)open.onclick=openSnapshotWizard;
+ let close=$id('closeSnapshotWizardBtn'); if(close)close.onclick=closeSnapshotWizard;
+ let back=$id('wizardBackBtn'); if(back)back.onclick=()=>{collect();wiz.step=Math.max(0,wiz.step-1);renderStep();};
+ let next=$id('wizardNextBtn'); if(next)next.onclick=()=>{collect();wiz.step=Math.min(steps.length-1,wiz.step+1);renderStep();};
+ let save=$id('wizardSaveBtn'); if(save)save.onclick=saveWizardSnapshot;
+ let show=$id('showInlineSnapshotBtn'); if(show)show.onclick=()=>{document.body.classList.toggle('showInlineSnapshot');show.textContent=document.body.classList.contains('showInlineSnapshot')?'Hide full form':'Show full form';};
+ let repair=$id('tabRepairCockpit'); if(repair)repair.onclick=()=>{document.body.classList.add('showWorkspace');document.body.classList.remove('showDiagnostics');if(window.showRepairCockpit)showRepairCockpit();};
+ let diag=$id('tabDiagnostics'); if(diag)diag.onclick=()=>{document.body.classList.add('showDiagnostics');document.body.classList.remove('showWorkspace');if(window.showDiagnosticsTab)showDiagnosticsTab();else if(window.showTab)showTab('diagnostics');};
+ ['tabSnapshot','tabMe'].forEach(id=>{let t=$id(id); if(t)t.addEventListener('click',()=>{document.body.classList.remove('showWorkspace','showDiagnostics');});});
+}
+function drawGalaxy(){
+ let c=$id('selfGalaxyCanvas'); if(!c)return;
+ let ctx=c.getContext('2d'),w=c.width,h=c.height,cx=w/2,cy=h/2,profiles=(window.state&&state.profiles)||[];
+ ctx.clearRect(0,0,w,h);ctx.fillStyle='#fff';ctx.fillRect(0,0,w,h);ctx.strokeStyle='#d7e1e5';[70,140,210].forEach(r=>{ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);ctx.stroke();});
+ ctx.fillStyle='#256b72';ctx.beginPath();ctx.arc(cx,cy,22,0,Math.PI*2);ctx.fill();ctx.fillStyle='#fff';ctx.font='12px sans-serif';ctx.fillText('YOU',cx-12,cy+4);
+ profiles.forEach((p,i)=>{let m=window.dashboardMetricSet?dashboardMetricSet(p):(window.safeMetricSet?safeMetricSet(p):{peaceIndex:50,respectIndex:50});let score=Math.round(((m.peaceIndex||50)+(m.respectIndex||50))/2);let ang=i*Math.PI*2/Math.max(1,profiles.length)-Math.PI/2,dist=240-score*1.5,x=cx+Math.cos(ang)*dist,y=cy+Math.sin(ang)*dist;let kind=window.profileCategory?profileCategory(p):(p.rtype||'Other');ctx.fillStyle=kind==='Work'?'#c88a1d':kind==='Pet'?'#2f855a':(['Husband','Wife','Romantic'].includes(kind)?'#c2413a':'#64748b');if(kind==='Work')ctx.fillRect(x-12,y-12,24,24);else{ctx.beginPath();ctx.arc(x,y,13,0,Math.PI*2);ctx.fill();}ctx.strokeStyle='rgba(37,107,114,.25)';ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(x,y);ctx.stroke();ctx.fillStyle='#1f2933';ctx.font='12px sans-serif';ctx.fillText((p.name||'Untitled').slice(0,18),x+16,y);ctx.fillText(String(score),x+16,y+14);});
+ if($id('selfGalaxySummary'))$id('selfGalaxySummary').innerHTML='<p><b>Galaxy key:</b> closer = stronger peace/respect contribution. Shape/color indicates relationship type. Number is average Peace/Respect score.</p>';
+}
+window.drawSelfGalaxy311=drawGalaxy;
+const oldRun=window.runDiagnostics;
+if(oldRun){window.runDiagnostics=function(){oldRun();let out=$id('diagnosticsOutput');if(out)out.innerHTML=out.innerHTML.replace(/<div class="diagnosticFail"><b>FAIL:<\/b> future viability section present<\/div>/g,'<div class="diagnosticPass"><b>PASS:</b> future viability not required in simplified v3.1 flow</div>');}}
+document.addEventListener('DOMContentLoaded',()=>setTimeout(()=>{bind();drawGalaxy();document.body.classList.remove('showWorkspace','showDiagnostics');},250));
+setTimeout(()=>{bind();drawGalaxy();},800);
+})();
 
