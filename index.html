@@ -1,10 +1,10 @@
 <!doctype html><html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Relationship Intelligence v3.1.1</title>
+<title>Relationship Intelligence v3.2.0</title>
 <link rel="manifest" href="manifest.json"><link rel="stylesheet" href="styles.css">
 <meta name="theme-color" content="#815b33"></head>
 <body>
-<header><h1>Relationship Intelligence <span>v3.1.1</span></h1>
+<header><h1>Relationship Intelligence <span>v3.2.0</span></h1>
 <div class="sub">Relational Dynamics Engine: trajectory, repair, reciprocity, embeddedness, loops, archetypes, and vector alignment.</div>
 <div id="status">Loading app…</div></header>
 <nav class="tabs"><button id="tabSnapshot" class="tab active">New Snapshot</button><button id="tabRepairCockpit" class="tab">Workspace</button><button id="tabCards" class="tab">Cards</button><button id="tabDashboard" class="tab">Dashboard</button><button id="tabEcosystem" class="tab">Ecosystem</button><button id="tabPerson" class="tab">Card Detail</button><button id="tabMe" class="tab">Self / Galaxy</button><button id="tabDiagnostics" class="tab">Diagnostics</button></nav>
@@ -267,7 +267,23 @@
 
   <div class="v3Panel wide">
     <h3>Therapy response strategy</h3>
-    <div id="repairCockpitStrategy"></div><h3>Action response strategy</h3><div id="repairCockpitActionStrategy"></div>
+    <div id="repairCockpitStrategy"></div>
+<div id="workspaceProfileDashboard" class="workspaceSection">
+  <h3>Profile dashboard</h3>
+  <p class="small">Major relationship dimensions are shown here as outputs. Use the wizard to edit the underlying sliders.</p>
+  <button id="openSliderWizardBtn" type="button">Open Profile Slider Wizard</button>
+  <div class="exampleEvolveBar"><button id="loadGoodYearExampleBtn" type="button">Load 1-year good relationship example</button></div>
+  <div id="profileBarDashboard" class="barDashboard"></div>
+</div>
+<div id="workspaceGraphicalOutputs" class="workspaceSection">
+  <h3>Graphical outputs</h3>
+  <div class="graphGrid">
+    <div><h4>Peace × Respect Matrix</h4><div id="workspaceMatrix" class="matrixGrid"></div></div>
+    <div><h4>Radar</h4><div class="outputCanvas"><canvas id="workspaceRadarCanvas" width="520" height="360"></canvas></div></div>
+    <div style="grid-column:1/-1"><h4>Slider trajectory over time</h4><div class="outputCanvas"><canvas id="sliderTimelineCanvas" width="820" height="420"></canvas></div><div id="sliderTimelineSummary" class="analysisBox"></div></div>
+    <div style="grid-column:1/-1"><h4>Peace × Respect trajectory</h4><div class="outputCanvas"><canvas id="workspacePeaceRespectCanvas" width="820" height="420"></canvas></div></div>
+  </div>
+</div><h3>Action response strategy</h3><div id="repairCockpitActionStrategy"></div>
   </div>
 </div>
 </section>
@@ -286,6 +302,26 @@
       <button id="wizardBackBtn" type="button" class="secondary">Back</button>
       <button id="wizardNextBtn" type="button">Next</button>
       <button id="wizardSaveBtn" type="button" class="hidden">Save Snapshot</button>
+    </div>
+  </div>
+</div>
+
+
+<div id="sliderWizardOverlay" class="sliderWizardOverlay hidden">
+  <div class="sliderWizardCard">
+    <div class="sliderWizardHeader">
+      <div>
+        <h2>Profile Slider Wizard</h2>
+        <p class="small">Fill this out once, then update occasionally. The dashboard tracks how these dimensions change over time.</p>
+      </div>
+      <button id="closeSliderWizardBtn" type="button" class="secondary">Close</button>
+    </div>
+    <div class="wizardProgress"><div id="sliderWizardProgressFill"></div></div>
+    <div id="sliderWizardBody" class="sliderWizardBody"></div>
+    <div class="wizardNav">
+      <button id="sliderWizardBackBtn" type="button" class="secondary">Back</button>
+      <button id="sliderWizardNextBtn" type="button">Next</button>
+      <button id="sliderWizardSaveBtn" type="button" class="hidden">Save Slider Snapshot</button>
     </div>
   </div>
 </div>

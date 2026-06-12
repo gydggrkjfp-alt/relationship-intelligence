@@ -1,11 +1,12 @@
-# Relationship Intelligence v3.1.1
+# Relationship Intelligence v3.2.0
 
-Fixes:
-- Snapshot Wizard opens as a modal
-- Old inline snapshot form hidden by default
-- Diagnostics hidden unless Diagnostics tab is selected
-- Workspace hidden unless Workspace tab is selected
-- Cards, Dashboard, and Ecosystem tabs hidden
-- Self/Galaxy gets the relationship galaxy canvas
-- Navigation text contrast fixed
-- Future viability diagnostic failure removed for simplified v3.1 flow
+Workspace consolidation:
+- Hides old Card Detail tab
+- Moves profile outputs into Workspace
+- Adds Profile Slider Wizard pop-out
+- Adds profile slider dashboard bar chart
+- Adds slider trajectory chart over time
+- Adds Peace × Respect matrix to Workspace
+- Adds radar chart to Workspace
+- Adds Peace × Respect trajectory to Workspace
+- Adds 1-year good relationship example with five evolution points

@@ -1,4 +1,4 @@
-const STORAGE_KEY='relationship_intelligence_pwa_v311';
+const STORAGE_KEY='relationship_intelligence_pwa_v320';
 const greenDefs=[['warmth','Warmth','Emotional warmth, ease, affection.'],['kindness','Kindness','Basic goodness toward you and others.'],['respect','Baseline respect','General respect signal from the core profile.'],['reciprocity','Reciprocity','Interest and effort move both directions.'],['curiosity','Curiosity','They actually want to know you.'],['stability','Emotional stability','Grounded enough to build with.'],['peace','Peace after contact','Afterward you feel peaceful, not anxious or humiliated.'],['attraction','Attraction','Physical / romantic pull.']];
 const riskDefs=[['chaos','Chaos / drama','Volatility, crisis, or confusing energy.'],['trauma','Early trauma dumping','Heavy disclosure before trust exists.'],['entitlement','Entitlement','Expects without appreciating.'],['family','Family disrespect','Contempt toward family/parents.'],['social','Social-media validation','Attention-seeking or comparison energy.'],['inconsistent','Inconsistent communication','Words and effort fluctuate in a destabilizing way.']];
 const respectDefs=[['opinion','Values your opinions','Does this person take your perspective seriously?'],['appreciation','Expresses appreciation','Does this person notice and value your effort?'],['commitments','Keeps commitments','Does they follow through reliably?'],['proud','Proud to be associated','Would this person speak well of you to others?'],['time','Respects your time','Is this person considerate with scheduling and effort?'],['boundaries','Respects boundaries','Does this person honor limits without punishment?']];
@@ -2410,4 +2410,121 @@ if(oldRun){window.runDiagnostics=function(){oldRun();let out=$id('diagnosticsOut
 document.addEventListener('DOMContentLoaded',()=>setTimeout(()=>{bind();drawGalaxy();document.body.classList.remove('showWorkspace','showDiagnostics');},250));
 setTimeout(()=>{bind();drawGalaxy();},800);
 })();
+
+
+
+/* v3.2.0 workspace/profile dashboard consolidation */
+const sliderDims=[
+ ['warmth','Warmth','How warm, kind, affectionate, and emotionally inviting this relationship feels.'],
+ ['respect','Respect','How valued, appreciated, admired, and dignified you feel.'],
+ ['peace','Peace','How calm, safe, and emotionally sustainable the relationship feels.'],
+ ['repair','Repair quality','How well rupture becomes repair instead of resentment.'],
+ ['reciprocity','Reciprocity','Whether effort, initiation, care, and sacrifice are mutual enough.'],
+ ['clarity','Communication clarity','Whether plans, intentions, needs, and expectations are explicit.'],
+ ['intimacy','Intimacy','How close, included, connected, and bonded the relationship feels.'],
+ ['admiration','Admiration symmetry','Whether admiration and appreciation flow in both directions.'],
+ ['practical','Practical load','How manageable the logistics, chores, planning, and coordination feel. High = manageable.'],
+ ['future','Future viability','Whether shared direction, loyalty, same-team conflict, and life fit look promising.']
+];
+const sliderWiz={step:0,data:{}};
+function p320(){return window.rcCurrentProfile?rcCurrentProfile():(window.currentProfile&&currentProfile());}
+function ensureSliders320(p){p.profileSliders=p.profileSliders||{};sliderDims.forEach(([k])=>{if(p.profileSliders[k]===undefined)p.profileSliders[k]=6;});p.sliderHistory=p.sliderHistory||[];}
+function metric320(p,k){
+ let m=window.safeMetricSet?safeMetricSet(p):(window.dashboardMetricSet?dashboardMetricSet(p):{});
+ let map={warmth:p?.green?.warmth,respect:(m.respectIndex||p?.green?.respect),peace:(m.peaceIndex||p?.green?.peace),repair:(m.repair||p?.repair?.repairAbility),reciprocity:(m.reciprocityDyn||p?.green?.reciprocity),clarity:p?.social?.clarityGeneral,intimacy:p?.green?.attraction,admiration:p?.respect?.appreciation,practical:p?.social?.financialPracticalFit,future:(window.futureScore?futureScore(p):60)};
+ let v=map[k]; if(v===undefined||v===null||Number.isNaN(Number(v)))return 60; return Number(v)>10?Number(v):Number(v)*10;
+}
+function val320(p,k){ensureSliders320(p);let v=p.profileSliders[k];return Number(v)*10 || metric320(p,k);}
+function renderBars320(){
+ let el=$('profileBarDashboard'), p=p320(); if(!el||!p)return; ensureSliders320(p);
+ el.innerHTML=sliderDims.map(([k,label])=>{let v=Math.round(val320(p,k));return `<div class="barRow"><b>${escapeHTML(label)}</b><div class="barTrack"><div class="barFill" style="width:${Math.max(0,Math.min(100,v))}%"></div></div><span>${v}</span></div>`;}).join('');
+}
+function openSliderWizard(){let p=p320(); if(!p)return; ensureSliders320(p);sliderWiz.step=0;sliderWiz.data={...p.profileSliders};$('sliderWizardOverlay')?.classList.remove('hidden');renderSliderWizardStep();}
+function closeSliderWizard(){$('sliderWizardOverlay')?.classList.add('hidden');}
+function renderSliderWizardStep(){
+ let p=p320(); if(!p)return; let [k,label,help]=sliderDims[sliderWiz.step], el=$('sliderWizardBody'); if(!el)return;
+ let v=sliderWiz.data[k] ?? p.profileSliders?.[k] ?? 6;
+ el.innerHTML=`<h3>${escapeHTML(label)}</h3><div class="sliderWizardExplain">${escapeHTML(help)}</div><label>${escapeHTML(label)} <span id="sliderWizVal">${v}</span><span class="scaleEnds"><b>Low</b><b>High</b></span><input id="sliderWizInput" type="range" min="0" max="10" value="${v}"></label>`;
+ let fill=$('sliderWizardProgressFill'); if(fill)fill.style.width=((sliderWiz.step+1)/sliderDims.length*100)+'%';
+ if($('sliderWizardBackBtn'))$('sliderWizardBackBtn').disabled=sliderWiz.step===0;
+ if($('sliderWizardNextBtn'))$('sliderWizardNextBtn').classList.toggle('hidden',sliderWiz.step===sliderDims.length-1);
+ if($('sliderWizardSaveBtn'))$('sliderWizardSaveBtn').classList.toggle('hidden',sliderWiz.step!==sliderDims.length-1);
+ let input=$('sliderWizInput'), val=$('sliderWizVal'); if(input&&val)input.oninput=()=>{val.textContent=input.value;sliderWiz.data[k]=Number(input.value);};
+}
+function collectSliderWizard(){let [k]=sliderDims[sliderWiz.step];let input=$('sliderWizInput'); if(input)sliderWiz.data[k]=Number(input.value);}
+function saveSliderWizard(){
+ collectSliderWizard(); let p=p320(); if(!p)return; ensureSliders320(p);
+ Object.assign(p.profileSliders,sliderWiz.data); p.sliderHistory.push({created:new Date().toISOString(),...sliderWiz.data});
+ saveState&&saveState(); closeSliderWizard(); renderWorkspaceGraphs320();
+}
+function bindSliderWizard(){
+ let open=$('openSliderWizardBtn'); if(open)open.onclick=openSliderWizard;
+ let close=$('closeSliderWizardBtn'); if(close)close.onclick=closeSliderWizard;
+ let back=$('sliderWizardBackBtn'); if(back)back.onclick=()=>{collectSliderWizard();sliderWiz.step=Math.max(0,sliderWiz.step-1);renderSliderWizardStep();};
+ let next=$('sliderWizardNextBtn'); if(next)next.onclick=()=>{collectSliderWizard();sliderWiz.step=Math.min(sliderDims.length-1,sliderWiz.step+1);renderSliderWizardStep();};
+ let save=$('sliderWizardSaveBtn'); if(save)save.onclick=saveSliderWizard;
+}
+function matrix320(p){
+ let m=window.safeMetricSet?safeMetricSet(p):(window.dashboardMetricSet?dashboardMetricSet(p):{peaceIndex:50,respectIndex:50});
+ let peace=m.peaceIndex||50, respect=m.respectIndex||50;
+ let q=peace>=60&&respect>=60?'High Peace / High Respect':peace>=60?'High Peace / Low Respect':respect>=60?'Low Peace / High Respect':'Low Peace / Low Respect';
+ return `<div class="matrixCell activeMatrix"><b>${q}</b><br>${q==='High Peace / High Respect'?'Long-term potential.':q==='High Peace / Low Respect'?'Comfort without enough respect.':q==='Low Peace / High Respect'?'Respect exists, but nervous-system cost is high.':'Low calm and low respect; proceed carefully.'}</div>`;
+}
+function drawRadar320(canvasId,p){
+ let c=$(canvasId); if(!c||!p)return; let ctx=c.getContext('2d'),w=c.width,h=c.height,cx=w/2,cy=h/2,r=Math.min(w,h)*.33;
+ let rows=[['Warmth',val320(p,'warmth')],['Respect',val320(p,'respect')],['Peace',val320(p,'peace')],['Repair',val320(p,'repair')],['Reciprocity',val320(p,'reciprocity')],['Intimacy',val320(p,'intimacy')]];
+ ctx.clearRect(0,0,w,h);ctx.fillStyle='#fff';ctx.fillRect(0,0,w,h);ctx.strokeStyle='#d7e1e5';ctx.fillStyle='#65727e';ctx.font='12px sans-serif';
+ for(let ring=1;ring<=4;ring++){ctx.beginPath();ctx.arc(cx,cy,r*ring/4,0,Math.PI*2);ctx.stroke();}
+ rows.forEach((row,i)=>{let a=-Math.PI/2+i*Math.PI*2/rows.length;ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(cx+Math.cos(a)*r,cy+Math.sin(a)*r);ctx.stroke();ctx.fillText(row[0],cx+Math.cos(a)*(r+32)-24,cy+Math.sin(a)*(r+30));});
+ ctx.beginPath();rows.forEach((row,i)=>{let a=-Math.PI/2+i*Math.PI*2/rows.length,rr=r*(Math.max(0,Math.min(100,row[1]))/100),x=cx+Math.cos(a)*rr,y=cy+Math.sin(a)*rr;i?ctx.lineTo(x,y):ctx.moveTo(x,y);});
+ ctx.closePath();ctx.fillStyle='rgba(37,107,114,.22)';ctx.fill();ctx.strokeStyle='#256b72';ctx.lineWidth=2;ctx.stroke();
+}
+function drawPeaceRespect320(p){
+ let c=$('workspacePeaceRespectCanvas'); if(!c||!p)return; let ctx=c.getContext('2d'),w=c.width,h=c.height,pad=55;
+ let pts=(p.snapshots||[]).map((s,i)=>({i,peace:Number(s.peace||50),respect:Number(s.respect||50)}));
+ if(!pts.length){let m=window.safeMetricSet?safeMetricSet(p):{peaceIndex:50,respectIndex:50};pts=[{i:0,peace:m.peaceIndex||50,respect:m.respectIndex||50}];}
+ ctx.clearRect(0,0,w,h);ctx.fillStyle='#fff';ctx.fillRect(0,0,w,h);ctx.strokeStyle='#d7e1e5';
+ for(let v=0;v<=100;v+=25){let x=pad+(v/100)*(w-2*pad),y=h-pad-(v/100)*(h-2*pad);ctx.beginPath();ctx.moveTo(x,pad);ctx.lineTo(x,h-pad);ctx.stroke();ctx.beginPath();ctx.moveTo(pad,y);ctx.lineTo(w-pad,y);ctx.stroke();}
+ ctx.strokeStyle='#256b72';ctx.lineWidth=3;ctx.beginPath();pts.forEach((pt,i)=>{let x=pad+(pt.respect/100)*(w-2*pad),y=h-pad-(pt.peace/100)*(h-2*pad);i?ctx.lineTo(x,y):ctx.moveTo(x,y);});ctx.stroke();
+ pts.forEach((pt,i)=>{let x=pad+(pt.respect/100)*(w-2*pad),y=h-pad-(pt.peace/100)*(h-2*pad);ctx.beginPath();ctx.arc(x,y,7,0,Math.PI*2);ctx.fillStyle='#256b72';ctx.fill();ctx.fillStyle='#1f2933';ctx.font='11px sans-serif';ctx.fillText(String(i+1),x+9,y-8);});
+ ctx.fillStyle='#1f2933';ctx.font='13px sans-serif';ctx.fillText('Respect →',w/2,h-18);ctx.save();ctx.translate(16,h/2);ctx.rotate(-Math.PI/2);ctx.fillText('Peace →',0,0);ctx.restore();
+}
+function drawTimeline320(){
+ let p=p320(), c=$('sliderTimelineCanvas'); if(!p||!c)return; ensureSliders320(p);
+ let hist=p.sliderHistory&&p.sliderHistory.length?p.sliderHistory:[{created:new Date().toISOString(),...p.profileSliders}];
+ let ctx=c.getContext('2d'),w=c.width,h=c.height,pad=50; ctx.clearRect(0,0,w,h);ctx.fillStyle='#fff';ctx.fillRect(0,0,w,h);ctx.strokeStyle='#d7e1e5';
+ for(let v=0;v<=10;v+=2){let y=h-pad-(v/10)*(h-2*pad);ctx.beginPath();ctx.moveTo(pad,y);ctx.lineTo(w-pad,y);ctx.stroke();ctx.fillStyle='#65727e';ctx.font='10px sans-serif';ctx.fillText(String(v),18,y+3);}
+ let keys=['warmth','respect','peace','repair','reciprocity','intimacy'], colors=['#256b72','#c2413a','#2f855a','#c88a1d','#64748b','#7c3aed'];
+ keys.forEach((k,ki)=>{ctx.beginPath();hist.forEach((snap,i)=>{let x=pad+(i/Math.max(1,hist.length-1))*(w-2*pad),y=h-pad-((snap[k]??5)/10)*(h-2*pad);i?ctx.lineTo(x,y):ctx.moveTo(x,y);});ctx.strokeStyle=colors[ki];ctx.lineWidth=2;ctx.stroke();ctx.fillStyle=colors[ki];ctx.fillText(k,pad+ki*85,18);});
+ if($('sliderTimelineSummary'))$('sliderTimelineSummary').innerHTML=`<p><b>${hist.length}</b> profile slider snapshots. Use the wizard occasionally to see whether core dimensions are improving, fading, or stabilizing over time.</p>`;
+}
+function renderWorkspaceGraphs320(){
+ let p=p320(); if(!p)return; renderBars320(); if($('workspaceMatrix'))$('workspaceMatrix').innerHTML=matrix320(p); drawRadar320('workspaceRadarCanvas',p); drawPeaceRespect320(p); drawTimeline320();
+}
+function loadGoodYearExample(){
+ let p=p320(); if(!p)return; ensureSliders320(p);
+ p.name=p.name&&p.name!=='Untitled'?p.name:'Jane Doe — 1-year Good Relationship Demo';
+ let arr=[
+  [8,7,8,5,6,5,7,7,5,6],
+  [9,8,9,6,7,6,8,8,6,7],
+  [8,8,7,7,8,7,8,8,7,8],
+  [8,9,8,8,8,8,9,9,7,8],
+  [9,9,9,8,9,9,9,9,8,9],
+  [9,9,9,9,9,9,9,9,8,9]
+ ];
+ p.sliderHistory=arr.map((a,i)=>{let o={created:new Date(Date.now()-((arr.length-i)*60*24*3600*1000)).toISOString()};sliderDims.forEach(([k],j)=>o[k]=a[j]);return o;});
+ Object.assign(p.profileSliders,p.sliderHistory[p.sliderHistory.length-1]);
+ p.snapshots=[
+  {label:'First month',peace:82,respect:74,repair:55,domain:'New relationship high',note:'Strong chemistry, still learning communication patterns.'},
+  {label:'First conflict',peace:68,respect:76,repair:66,domain:'Criticism / correction',note:'A misunderstanding created tension, but both people came back to repair.'},
+  {label:'Shared rhythm',peace:78,respect:82,repair:76,domain:'Planning / logistics',note:'Weekly rhythm and expectations became clearer.'},
+  {label:'Integration',peace:84,respect:86,repair:82,domain:'Commitment / future direction',note:'Started integrating friends/family with less ambiguity.'},
+  {label:'One year',peace:90,respect:90,repair:88,domain:'Communication / being on same page',note:'Conflict still happens, but repair is faster and trust is stronger.'}
+ ];
+ saveState&&saveState(); fillForm&&fillForm(); safeUpdate&&safeUpdate(); renderWorkspaceGraphs320();
+}
+function bindWorkspace320(){bindSliderWizard();let ex=$('loadGoodYearExampleBtn'); if(ex)ex.onclick=loadGoodYearExample;}
+if(typeof renderRepairCockpit==='function'&&!window.__v320RenderWrap){window.__v320RenderWrap=true; const old=renderRepairCockpit; renderRepairCockpit=function(){let r=old();try{bindWorkspace320();renderWorkspaceGraphs320();}catch(e){console.warn(e)}return r;}}
+if(typeof safeUpdate==='function'&&!window.__v320Safe){window.__v320Safe=true; const old=safeUpdate; safeUpdate=function(){let r=old();try{bindWorkspace320();renderWorkspaceGraphs320();}catch(e){}return r;}}
+document.addEventListener('DOMContentLoaded',()=>setTimeout(()=>{bindWorkspace320();renderWorkspaceGraphs320();},600));
 
