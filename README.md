@@ -1,11 +1,11 @@
-# Relationship Intelligence v3.3.4
+# Relationship Intelligence v3.3.5
 
-Fixes:
-- Hard-removes the nonfunctional Example Cards section from Snapshot
-- Removes redundant Workspace example relationship/type dropdowns and chip buttons
-- Adds one simple working example issue loader
-- Forces Workspace into clean two-column layout
-- Moves therapy/action/casual/profile modules left
-- Keeps graphical outputs on right and prevents overlap
-- Bounds Admiration Symmetry to remove giant blank space
-- Adds diagnostics checks for these exact UI failures
+Hard structural fix:
+- Rewrites Snapshot page to remove Example Cards completely
+- Rewrites Workspace HTML into one stable two-column layout
+- Removes redundant example relationship/type dropdowns and scenario buttons
+- Adds one working example issue loader
+- Forces therapy/action/casual/profile modules left
+- Forces admiration + graphs right
+- Bounds Admiration Symmetry to remove blank space
+- Adds diagnostics for the exact repeated failures

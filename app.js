@@ -1,4 +1,4 @@
-const STORAGE_KEY='relationship_intelligence_pwa_v334';
+const STORAGE_KEY='relationship_intelligence_pwa_v335';
 const greenDefs=[['warmth','Warmth','Emotional warmth, ease, affection.'],['kindness','Kindness','Basic goodness toward you and others.'],['respect','Baseline respect','General respect signal from the core profile.'],['reciprocity','Reciprocity','Interest and effort move both directions.'],['curiosity','Curiosity','They actually want to know you.'],['stability','Emotional stability','Grounded enough to build with.'],['peace','Peace after contact','Afterward you feel peaceful, not anxious or humiliated.'],['attraction','Attraction','Physical / romantic pull.']];
 const riskDefs=[['chaos','Chaos / drama','Volatility, crisis, or confusing energy.'],['trauma','Early trauma dumping','Heavy disclosure before trust exists.'],['entitlement','Entitlement','Expects without appreciating.'],['family','Family disrespect','Contempt toward family/parents.'],['social','Social-media validation','Attention-seeking or comparison energy.'],['inconsistent','Inconsistent communication','Words and effort fluctuate in a destabilizing way.']];
 const respectDefs=[['opinion','Values your opinions','Does this person take your perspective seriously?'],['appreciation','Expresses appreciation','Does this person notice and value your effort?'],['commitments','Keeps commitments','Does they follow through reliably?'],['proud','Proud to be associated','Would this person speak well of you to others?'],['time','Respects your time','Is this person considerate with scheduling and effort?'],['boundaries','Respects boundaries','Does this person honor limits without punishment?']];
@@ -3474,5 +3474,293 @@ document.addEventListener('DOMContentLoaded',()=>setTimeout(()=>{cleanupSnapshot
 
   document.addEventListener('DOMContentLoaded', () => setTimeout(hardCleanup334, 600));
   setTimeout(hardCleanup334, 1200);
+})();
+
+
+
+/* v3.3.5 final structural cleanup and tested example loader */
+(function(){
+  const $id = id => document.getElementById(id);
+  const esc = s => typeof escapeHTML === 'function'
+    ? escapeHTML(String(s ?? ''))
+    : String(s ?? '').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+
+  const examples335 = [
+    {label:'Appreciation conflict', type:'Appreciation / usefulness', title:'Annie’s perfectionism', event:'She corrects how he helps immediately, and he starts feeling that his effort does not count.', rtype:'Romantic: woman evaluating man', aggrieved:'Man'},
+    {label:'Shared reality drift', type:'Communication / shared reality', title:'Parallel lives drift', event:'He makes decisions privately and she finds out later, making her feel excluded from the partnership.', rtype:'Marriage / long-term', aggrieved:'Woman'},
+    {label:'Future ambiguity', type:'Commitment / future direction', title:'Future ambiguity', event:'She wants clarity about where the relationship is going, while he avoids defining the next step.', rtype:'Romantic: woman evaluating man', aggrieved:'Woman'},
+    {label:'Public disrespect', type:'Respect / public image', title:'Public disrespect', event:'She jokes or posts about him in a way that makes him feel diminished in public.', rtype:'Romantic: man evaluating woman', aggrieved:'Man'},
+    {label:'Roommate energy', type:'Passion / sexual disconnect', title:'Roommate energy', event:'He feels undesired and starts interpreting low intimacy as rejection.', rtype:'Romantic: man evaluating woman', aggrieved:'Man'}
+  ];
+
+  function currentProfile335(){
+    return typeof rcCurrentProfile === 'function'
+      ? rcCurrentProfile()
+      : (typeof currentProfile === 'function' ? currentProfile() : state.profiles?.[0]);
+  }
+
+  function ensureProfile335(){
+    state.profiles = state.profiles || [];
+    if (!state.profiles.length) {
+      const p = {
+        id: typeof uid === 'function' ? uid() : String(Date.now()),
+        name: 'New relationship',
+        rtype: 'Dating / early relationship',
+        snapshots: [],
+        issues: [],
+        profileSliders: {},
+        future: {},
+        casual: {}
+      };
+      state.profiles.push(p);
+      state.currentId = p.id;
+      if (typeof saveState === 'function') saveState();
+    }
+    const p = currentProfile335() || state.profiles[0];
+    p.snapshots = p.snapshots || [];
+    p.issues = p.issues || [];
+    p.profileSliders = p.profileSliders || {};
+    p.future = p.future || {};
+    return p;
+  }
+
+  function renderSimpleExamples335(){
+    const holder = $id('simpleIssueExamples334');
+    if (!holder) return;
+    holder.innerHTML = `<h3>Load example issue</h3>
+      <div class="exampleRow">
+        <label>Example issue
+          <select id="simpleExampleIssueSelect335">
+            ${examples335.map((x,i)=>`<option value="${i}">${esc(x.label)} — ${esc(x.type)}</option>`).join('')}
+          </select>
+        </label>
+        <button id="loadSimpleExampleIssueBtn335" type="button" class="secondary">Load example issue</button>
+      </div>`;
+    const btn = $id('loadSimpleExampleIssueBtn335');
+    if (btn) {
+      btn.onclick = () => {
+        const p = ensureProfile335();
+        const item = examples335[Number($id('simpleExampleIssueSelect335')?.value || 0)] || examples335[0];
+
+        p.rtype = item.rtype;
+        p.issues = p.issues || [];
+        p.snapshots = p.snapshots || [];
+
+        const issueId = typeof uid === 'function' ? uid() : String(Date.now());
+        const snapId = typeof uid === 'function' ? uid() : String(Date.now()+1);
+        const issue = {
+          id: issueId,
+          type: item.type,
+          title: item.title,
+          event: item.event,
+          story: item.event,
+          polarity: 'Negative',
+          aggrieved: item.aggrieved,
+          recurrence: 'Recurring pattern',
+          ratings: {},
+          created: new Date().toISOString(),
+          history: []
+        };
+        const snap = {
+          id: snapId,
+          label: item.title,
+          created: new Date().toISOString(),
+          domain: item.type,
+          note: item.event,
+          story: item.event,
+          polarity: 'Negative',
+          aggrieved: item.aggrieved,
+          recurrence: 'Recurring pattern',
+          peace: 60,
+          respect: 60,
+          repair: 50,
+          reciprocity: 55,
+          energy: 50,
+          embedded: 50,
+          alignment: 50
+        };
+        issue.history.push(snap);
+        p.issues.push(issue);
+        p.snapshots.push(snap);
+        state.currentId = p.id;
+
+        if (typeof saveState === 'function') saveState();
+        if (typeof fillForm === 'function') fillForm();
+
+        // Rebuild selector immediately, independent of old broken handlers.
+        const sel = $id('issueCardSelector');
+        if (sel) {
+          sel.innerHTML = p.issues.map(i => `<option value="${i.id}">${esc(i.title || i.type || 'Issue')}</option>`).join('');
+          sel.value = issueId;
+        }
+
+        if (typeof renderTranslation331 === 'function') renderTranslation331();
+        else if (typeof renderTranslation330 === 'function') renderTranslation330();
+
+        if (typeof safeUpdate === 'function') safeUpdate();
+        if (typeof renderRepairCockpit === 'function') {
+          // One delayed render so old code cannot leave stale content.
+          setTimeout(() => {
+            if ($id('issueCardSelector')) $id('issueCardSelector').value = issueId;
+            if (typeof renderTranslation331 === 'function') renderTranslation331();
+            else if (typeof renderTranslation330 === 'function') renderTranslation330();
+            renderSimpleExamples335();
+            hardLayout335();
+          }, 80);
+        }
+      };
+    }
+  }
+
+  function killOldControls335(){
+    [
+      'workspaceExampleRelationshipSelect','workspaceExampleIssueSelect','loadWorkspaceExampleIssueBtn',
+      'workspaceRelationshipTypeSelect','workspaceIssueExampleSelect','loadSelectedIssueExampleBtn',
+      'loadOneYearAllModulesBtn','loadBossScenarioBtn','loadBoundaryScenarioBtn','loadPetScenarioBtn'
+    ].forEach(id => {
+      const el = $id(id);
+      if (el) (el.closest('.issueControls,.exampleEvolveBar,label') || el).remove();
+    });
+
+    const bar = $id('repairExampleBar');
+    if (bar) bar.remove();
+
+    document.querySelectorAll('#repairCockpitView .exampleEvolveBar, #repairCockpitView button').forEach(el => {
+      const t = (el.textContent || '').toLowerCase();
+      if (t.includes('boss scenario') || t.includes('boundary scenario') || t.includes('pet scenario') || t.includes('load 1-year full workspace example')) {
+        (el.closest('.exampleEvolveBar') || el).remove();
+      }
+    });
+  }
+
+  function killSnapshotExamples335(){
+    const root = $id('snapshotView');
+    if (!root) return;
+    root.querySelectorAll('.exampleCards,#exampleCards,.examples,.sampleCards,.demoPanel,#demoCardsPanelTop,#snapshotInterpretation,.appIntro,.heroWizard').forEach(el => el.remove());
+    root.querySelectorAll('h2,h3').forEach(h => {
+      if ((h.textContent || '').trim().toLowerCase() === 'example cards') h.remove();
+    });
+  }
+
+  function fixAdmiration335(){
+    const c = $id('repairCockpitAdmirationCanvas');
+    if (!c) return;
+    c.width = 520;
+    c.height = 220;
+    c.style.width = '100%';
+    c.style.maxWidth = '520px';
+    c.style.height = '220px';
+    c.style.maxHeight = '220px';
+    try { if (typeof drawRcAdmiration === 'function') drawRcAdmiration(); } catch(e){}
+    const panel = $id('admirationPanel335') || c.closest('.workspaceSection,.v3Panel,.card');
+    if (panel) {
+      panel.style.minHeight = '0';
+      panel.style.height = 'auto';
+      panel.style.overflow = 'hidden';
+    }
+  }
+
+  function hardLayout335(){
+    const view = $id('repairCockpitView');
+    if (!view) return;
+
+    killOldControls335();
+    renderSimpleExamples335();
+    fixAdmiration335();
+
+    // If old patches moved nodes around, force them back into the intended containers.
+    const left = view.querySelector('.workspaceLeft335');
+    const right = view.querySelector('.workspaceRight335');
+    const graph = $id('workspaceGraphicalOutputs');
+    const admiration = $id('admirationPanel335') || $id('repairCockpitAdmirationCanvas')?.closest('.workspaceSection,.v3Panel,.card');
+    const therapy = $id('therapyPanel335') || $id('repairCockpitStrategy')?.closest('.workspaceSection,.v3Panel,.card');
+    const role = $id('rolePanel335') || $id('repairCockpitActionStrategy')?.closest('.workspaceSection,.v3Panel,.card');
+    const casual = $id('casualRelationshipTracker');
+    const profile = $id('workspaceProfileDashboard');
+
+    if (right && admiration && admiration.parentNode !== right) right.insertBefore(admiration, right.firstChild);
+    if (right && graph && graph.parentNode !== right) right.appendChild(graph);
+
+    [therapy, role, casual, profile].forEach(node => {
+      if (left && node && node.parentNode !== left) left.appendChild(node);
+    });
+
+    const gg = graph?.querySelector('.graphGrid');
+    if (gg) {
+      gg.style.display = 'grid';
+      gg.style.gridTemplateColumns = '1fr';
+      gg.style.gap = '14px';
+    }
+
+    graph?.querySelectorAll('canvas').forEach(c => {
+      c.style.maxWidth = '100%';
+      c.style.height = 'auto';
+    });
+
+    patchDiagnostics335();
+  }
+
+  function patchDiagnostics335(){
+    const out = $id('diagnosticsOutput');
+    if (!out) return;
+    let extra = $id('diagExtra335');
+    if (!extra) {
+      out.insertAdjacentHTML('afterend', '<div id="diagExtra335" class="analysisBox"></div>');
+      extra = $id('diagExtra335');
+    }
+    const checks = [
+      ['Snapshot Example Cards removed', !document.querySelector('#snapshotView .demoPanel,#snapshotView .exampleCards,#snapshotView #exampleCards,#snapshotView .sampleCards')],
+      ['Only simple example loader exists', !!$id('simpleExampleIssueSelect335') && !$id('workspaceExampleRelationshipSelect') && !$id('workspaceRelationshipTypeSelect')],
+      ['Load example button wired', !!$id('loadSimpleExampleIssueBtn335') && typeof $id('loadSimpleExampleIssueBtn335').onclick === 'function'],
+      ['Workspace shell exists', !!document.querySelector('.workspaceShell335')],
+      ['Left column exists', !!document.querySelector('.workspaceLeft335')],
+      ['Right column exists', !!document.querySelector('.workspaceRight335')],
+      ['Graphs are in right column', !!document.querySelector('.workspaceRight335 #workspaceGraphicalOutputs')],
+      ['Therapy/action left', !!document.querySelector('.workspaceLeft335 #therapyPanel335') && !!document.querySelector('.workspaceLeft335 #rolePanel335')],
+      ['Admiration bounded', (() => { const c=$id('repairCockpitAdmirationCanvas'); return !!c && c.height <= 230; })()]
+    ];
+    extra.innerHTML = '<h3>Expanded diagnostics v3.3.5</h3>' + checks.map(([name, ok]) =>
+      `<div class="${ok ? 'diagnosticPass' : 'diagnosticFail'}"><b>${ok ? 'PASS' : 'FAIL'}:</b> ${esc(name)}</div>`
+    ).join('');
+  }
+
+  const oldRender = window.renderRepairCockpit;
+  if (oldRender && !window.__render335) {
+    window.__render335 = true;
+    window.renderRepairCockpit = function(){
+      const r = oldRender();
+      setTimeout(hardLayout335, 60);
+      setTimeout(hardLayout335, 250);
+      return r;
+    };
+  }
+
+  const oldSafe = window.safeUpdate;
+  if (oldSafe && !window.__safe335) {
+    window.__safe335 = true;
+    window.safeUpdate = function(){
+      const r = oldSafe();
+      setTimeout(hardLayout335, 60);
+      return r;
+    };
+  }
+
+  const oldDiag = window.runDiagnostics;
+  if (oldDiag && !window.__diag335) {
+    window.__diag335 = true;
+    window.runDiagnostics = function(){
+      const r = oldDiag();
+      setTimeout(patchDiagnostics335, 60);
+      return r;
+    };
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+      killSnapshotExamples335();
+      hardLayout335();
+    }, 600);
+    setTimeout(hardLayout335, 1500);
+  });
 })();
 

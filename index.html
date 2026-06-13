@@ -1,34 +1,31 @@
 <!doctype html><html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Relationship Intelligence v3.3.4</title>
+<title>Relationship Intelligence v3.3.5</title>
 <link rel="manifest" href="manifest.json"><link rel="stylesheet" href="styles.css">
 <meta name="theme-color" content="#815b33"></head>
 <body>
-<header><h1>Relationship Intelligence <span>v3.3.4</span></h1>
+<header><h1>Relationship Intelligence <span>v3.3.5</span></h1>
 <div class="sub">Relational Dynamics Engine: trajectory, repair, reciprocity, embeddedness, loops, archetypes, and vector alignment.</div>
 <div id="status">Loading app…</div></header>
 <nav class="tabs"><button id="tabSnapshot" class="tab active">New Snapshot</button><button id="tabRepairCockpit" class="tab">Workspace</button><button id="tabCards" class="tab">Cards</button><button id="tabDashboard" class="tab">Dashboard</button><button id="tabEcosystem" class="tab">Ecosystem</button><button id="tabPerson" class="tab">Card Detail</button><button id="tabMe" class="tab">Self / Galaxy</button><button id="tabDiagnostics" class="tab">Diagnostics</button></nav>
 
 
+
 <main id="snapshotView" class="single">
 <section>
-<h2>Add Snapshot</h2><div id="frontWorkflow333" class="frontWorkflow"><h3>Start here</h3><ol><li><b>Log a good or bad event</b> for a new or existing relationship.</li><li><b>Serious relationship?</b> Open Workspace and interpret the issue, role pattern, repair path, and exercises.</li><li><b>Casual relationship?</b> Use Casual Relationship Tracker to log impressions, sliders, and graphs without over-problem-solving.</li></ol><button id="openRelationshipSnapshotBtn" type="button">New Relationship / Snapshot</button></div><div class="heroWizard"><h3>Process a relationship moment</h3><p>Use the wizard instead of filling a giant form.</p><button id="openSnapshotWizardBtn" type="button">Start Snapshot Wizard</button><button id="showInlineSnapshotBtn" type="button" class="secondary">Show full form</button></div>
-<div class="appIntro">
-<h3>How to use this app</h3>
-<p><b>Start with a snapshot.</b> Capture one real interaction while it is fresh. Over time, snapshots build the card’s trajectory, repair patterns, attachment loops, and ecosystem impact.</p>
-<ol>
-<li><b>Choose or create a card</b> for the person, pet, child, boss, friend, partner, or family member.</li>
-<li><b>Write what happened</b> using facts first, then separate the story you are telling yourself.</li>
-<li><b>Move the sliders</b> based on this interaction only, not your entire history with the person.</li>
-<li><b>Save the snapshot</b>. Later you can open Card Detail for deeper sliders, graphs, and strategy modes.</li>
-</ol>
-<p class="small"><b>Goal:</b> avoid one-time emotional verdicts. The app is designed to detect patterns across repeated interactions.</p><p class="small"><b>Important:</b> Emotional Cost / Drain is reversed: 0 = low drain/good, 10 = high drain/bad.</p>
-</div>
-
-<div id="demoCardsPanelTop" class="demoPanel">
-<h3>Snapshot interpretation</h3><div id="snapshotInterpretation" class="analysisBox">Add a note to generate tags and likely dynamics.</div>
+  <h2>New Snapshot</h2>
+  <div id="frontWorkflow333" class="frontWorkflow">
+    <h3>Start here</h3>
+    <ol>
+      <li><b>Log a good or bad event</b> for a new or existing relationship.</li>
+      <li><b>Serious relationship?</b> Go to Workspace to interpret the issue, role pattern, repair path, and exercises.</li>
+      <li><b>Casual relationship?</b> Use Casual Relationship Tracker in Workspace to log impressions and watch graphs without over-problem-solving.</li>
+    </ol>
+    <button id="openRelationshipSnapshotBtn" type="button">New Relationship / Snapshot</button>
+  </div>
 </section>
 </main>
+
 
 <main id="cardsView" class="single hidden">
 <section>
@@ -194,66 +191,95 @@
 </main>
 
 
+
 <main id="repairCockpitView" class="single hidden">
 <section>
-<h2>Workspace</h2>
-<div class="guide"><b>New v3 direction:</b> this page is the visual repair-first interface. It helps translate miscommunications, identify the threatened need, and generate a response strategy.</div>
+  <h2>Workspace</h2>
+  <div class="guide"><b>Purpose:</b> choose a relationship, load or create a specific issue, then use the left side for interpretation/repair and the right side for graphs.</div>
 
-<div class="detailSwitcher">
-<label>Choose card</label>
-<select id="repairCockpitProfileSelect"></select>
-</div>
-
-<div id="repairCockpitSourceStrip" class="v3SourceStrip"></div><div id="workspaceRelationshipSummary" class="workspaceSummary"></div><div class="exampleEvolveBar"><button id="loadOneYearAllModulesBtn" type="button">Load 1-year full workspace example</button><button id="loadBossScenarioBtn" type="button">Boss scenario</button><button id="loadBoundaryScenarioBtn" type="button">Boundary scenario</button><button id="loadPetScenarioBtn" type="button">Pet scenario</button></div><div id="repairExampleBar" class="exampleBar"><button type="button" data-example="appreciation">Appreciation conflict</button><button type="button" data-example="sharedReality">Shared reality drift</button><button type="button" data-example="boss">Boss expectations</button><button type="button" data-example="boundary">Boundary pressure</button><button type="button" data-example="pursueWithdraw">Pursue / withdraw</button></div>
-
-<div class="v3Grid">
-  <div class="v3Panel wide">
-    <h3>Issue Translation</h3><div class="guide"><b>Purpose:</b> translate one specific romantic event or recurring issue into what each person may have meant, heard, needed, and how to repair the loop.</div><div id="simpleIssueExamples334" class="simpleIssueExamples"></div>
-<div class="issueControls"><label>Tracked issue / event<select id="issueCardSelector"></select></label><button id="newIssueCardBtn" type="button" class="secondary">+ New issue card</button></div>
-    <p class="small">Event → story → threatened need → reaction → partner interpretation → escalation or repair.</p>
-    <div id="repairCockpitLoop" class="loopGraphic"></div>
+  <div class="detailSwitcher">
+    <label>Choose relationship</label>
+    <select id="repairCockpitProfileSelect"></select>
   </div>
 
-  <div class="v3Panel">
-    <h3>Admiration symmetry</h3>
-    <p class="small">Shows whether admiration, effort, and appreciation are flowing both ways.</p>
-    <canvas id="repairCockpitAdmirationCanvas" width="520" height="360"></canvas>
-    <div id="repairCockpitAdmirationText" class="small"></div>
-  </div>
+  <div id="repairCockpitSourceStrip" class="v3SourceStrip"></div>
+  <div id="workspaceRelationshipSummary" class="workspaceSummary"></div>
 
-  <div class="v3Panel wide">
-    <h3>He said / she heard repair builder</h3>
-    <label>What one person said or did</label>
-    <textarea id="repairCockpitSaidInput" placeholder="Example: He said, 'You never appreciate what I do.'"></textarea>
-    <label>What the other person heard / felt</label>
-    <textarea id="repairCockpitHeardInput" placeholder="Example: She heard, 'You want praise for basic chores.'"></textarea>
-    <button id="repairCockpitBuildBtn" type="button">Build repair response</button>
-    <div id="repairCockpitConversationOutput" class="analysisBox"></div>
-  </div>
+  <div id="simpleIssueExamples334" class="simpleIssueExamples"></div>
 
-  <div class="v3Panel wide">
-    <h3>Therapy / growth exercises</h3>
-    <div id="repairCockpitStrategy"></div>
-<div id="workspaceProfileDashboard" class="workspaceSection">
-  <h3>Profile dashboard</h3>
-  <p class="small">Major relationship dimensions are shown here as outputs. Use the wizard to edit the underlying sliders.</p>
-  <button id="openSliderWizardBtn" type="button">Open Profile Slider Wizard</button>
-  <div class="exampleEvolveBar"><button id="loadGoodYearExampleBtn" type="button">Load 1-year good relationship example</button></div>
-  <div id="profileBarDashboard" class="barDashboard"></div>
-</div>
-<div id="casualRelationshipTracker" class="workspaceSection"><h3>Casual Relationship Tracker</h3><p class="small">For early dating, low-stakes relationships, or periodic check-ins on an existing relationship. Track general impressions without forcing the app into problem-solving mode.</p><button id="openCasualTrackerWizardBtn" type="button">Open Casual Tracker Wizard</button><div id="casualTrackerBars" class="barDashboard"></div></div><div id="workspaceGraphicalOutputs" class="workspaceSection">
-  <h3>Graphical outputs</h3>
-  <div class="graphGrid">
-    <div><h4>Peace × Respect Matrix</h4><div id="workspaceMatrix" class="matrixGrid"></div></div>
-    <div><h4>Radar</h4><div class="outputCanvas"><canvas id="workspaceRadarCanvas" width="520" height="360"></canvas></div></div>
-    <div style="grid-column:1/-1"><h4>Slider trajectory over time</h4><div class="outputCanvas"><canvas id="sliderTimelineCanvas" width="820" height="420"></canvas></div><div id="sliderTimelineSummary" class="analysisBox"></div></div>
-    <div style="grid-column:1/-1"><h4>Peace × Respect trajectory</h4><div class="outputCanvas"><canvas id="workspacePeaceRespectCanvas" width="820" height="420"></canvas></div></div>
+  <div class="workspaceShell335">
+    <div class="workspaceLeft335">
+
+      <div class="workspaceSection" id="issueTranslationPanel335">
+        <h3>Issue Translation</h3>
+        <div class="guide"><b>Purpose:</b> translate one specific event or recurring issue into what each person may have meant, heard, needed, and how to repair the loop.</div>
+        <div class="issueControls">
+          <label>Tracked issue / event<select id="issueCardSelector"></select></label>
+          <button id="newIssueCardBtn" type="button" class="secondary">+ New issue card</button>
+        </div>
+        <div id="repairCockpitLoop" class="loopGraphic"></div>
+      </div>
+
+      <div class="workspaceSection" id="conversationBuilderPanel335">
+        <h3>He said / she heard repair builder</h3>
+        <label>What one person said or did</label>
+        <textarea id="repairCockpitSaidInput" placeholder="Example: He said, 'You never appreciate what I do.'"></textarea>
+        <label>What the other person heard / felt</label>
+        <textarea id="repairCockpitHeardInput" placeholder="Example: She heard, 'You want praise for basic chores.'"></textarea>
+        <button id="repairCockpitBuildBtn" type="button">Build repair response</button>
+        <div id="repairCockpitConversationOutput" class="analysisBox"></div>
+      </div>
+
+      <div class="workspaceSection" id="therapyPanel335">
+        <h3>Therapy / growth exercises</h3>
+        <div id="repairCockpitStrategy"></div>
+      </div>
+
+      <div class="workspaceSection" id="rolePanel335">
+        <h3>Role / paradigm shift</h3>
+        <div id="repairCockpitActionStrategy"></div>
+      </div>
+
+      <div id="casualRelationshipTracker" class="workspaceSection">
+        <h3>Casual Relationship Tracker</h3>
+        <p class="small">For early dating, low-stakes relationships, or periodic check-ins on an existing relationship. Track general impressions without forcing the app into problem-solving mode.</p>
+        <button id="openCasualTrackerWizardBtn" type="button">Open Casual Tracker Wizard</button>
+        <div id="casualTrackerBars" class="barDashboard"></div>
+      </div>
+
+      <div id="workspaceProfileDashboard" class="workspaceSection">
+        <h3>Profile dashboard</h3>
+        <p class="small">Major relationship dimensions are shown here as outputs. Use the wizard to edit the underlying sliders.</p>
+        <button id="openSliderWizardBtn" type="button">Open Profile Slider Wizard</button>
+        <div id="profileBarDashboard" class="barDashboard"></div>
+      </div>
+
+    </div>
+
+    <div class="workspaceRight335">
+
+      <div class="workspaceSection" id="admirationPanel335">
+        <h3>Admiration symmetry</h3>
+        <p class="small">Shows whether admiration, effort, and appreciation are flowing both ways.</p>
+        <canvas id="repairCockpitAdmirationCanvas" width="520" height="220"></canvas>
+        <div id="repairCockpitAdmirationText" class="small"></div>
+      </div>
+
+      <div id="workspaceGraphicalOutputs" class="workspaceSection">
+        <h3>Graphical outputs</h3>
+        <div class="graphGrid">
+          <div><h4>Peace × Respect Matrix</h4><div id="workspaceMatrix" class="matrixGrid"></div></div>
+          <div><h4>Radar</h4><div class="outputCanvas"><canvas id="workspaceRadarCanvas" width="520" height="360"></canvas></div></div>
+          <div><h4>Slider trajectory over time</h4><div class="outputCanvas"><canvas id="sliderTimelineCanvas" width="820" height="420"></canvas></div><div id="sliderTimelineSummary" class="analysisBox"></div></div>
+          <div><h4>Peace × Respect trajectory</h4><div class="outputCanvas"><canvas id="workspacePeaceRespectCanvas" width="820" height="420"></canvas></div></div>
+        </div>
+      </div>
+
+    </div>
   </div>
-</div><h3>Immediate action response</h3><div id="repairCockpitActionStrategy"></div>
-  </div>
-</div>
 </section>
 </main>
+
 
 
 <div id="snapshotWizardOverlay" class="wizardOverlay hidden">
