@@ -417,3 +417,23 @@ body:not(.showWorkspace) #repairCockpitView{display:none!important}
 .exerciseList{display:grid;gap:10px}
 .exerciseCard{background:#f7fbfc;border:1px solid var(--line);border-radius:14px;padding:10px}
 .exerciseCard b{display:block;color:#174f58;margin-bottom:4px}
+
+/* v3.3.1 repair patch */
+.issueWizardOverlay{position:fixed;inset:0;background:rgba(16,31,36,.48);z-index:999999;display:flex;align-items:center;justify-content:center;padding:18px}
+.issueWizardOverlay.hidden{display:none!important}
+.issueWizardCard{background:#fff;border-radius:24px;border:1px solid var(--line);box-shadow:0 30px 80px rgba(0,0,0,.28);max-width:820px;width:100%;max-height:92vh;overflow:auto;padding:18px}
+.issueWizardHeader{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:14px}
+.issueWizardGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:800px){.issueWizardGrid{grid-template-columns:1fr}}
+.issueWizardGrid label{display:block}
+.issueWizardGrid textarea{min-height:105px}
+.reviewRow button.selected{background:#256b72!important;color:#fff!important}
+.loopSectionTitle{margin:14px 0 6px;color:#174f58}
+.clearLoopGrid{display:grid;gap:10px}
+.clearLoopCard{background:#f7fbfc;border:1px solid var(--line);border-radius:14px;padding:12px}
+.clearLoopCard b{display:block;color:#174f58;margin-bottom:5px}
+#repairCockpitAdmirationCanvas{display:block!important;max-height:190px!important}
+#repairCockpitAdmirationText{margin-top:0!important;padding:0 0 4px 0!important}
+.v3Panel:has(#repairCockpitAdmirationCanvas){min-height:0!important}
+.outputCanvas canvas{max-width:100%;height:auto}
+.selfRadarWrap{background:#fff;border:1px solid var(--line);border-radius:18px;padding:12px;margin:12px 0}

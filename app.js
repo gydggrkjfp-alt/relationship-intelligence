@@ -1,4 +1,4 @@
-const STORAGE_KEY='relationship_intelligence_pwa_v330';
+const STORAGE_KEY='relationship_intelligence_pwa_v331';
 const greenDefs=[['warmth','Warmth','Emotional warmth, ease, affection.'],['kindness','Kindness','Basic goodness toward you and others.'],['respect','Baseline respect','General respect signal from the core profile.'],['reciprocity','Reciprocity','Interest and effort move both directions.'],['curiosity','Curiosity','They actually want to know you.'],['stability','Emotional stability','Grounded enough to build with.'],['peace','Peace after contact','Afterward you feel peaceful, not anxious or humiliated.'],['attraction','Attraction','Physical / romantic pull.']];
 const riskDefs=[['chaos','Chaos / drama','Volatility, crisis, or confusing energy.'],['trauma','Early trauma dumping','Heavy disclosure before trust exists.'],['entitlement','Entitlement','Expects without appreciating.'],['family','Family disrespect','Contempt toward family/parents.'],['social','Social-media validation','Attention-seeking or comparison energy.'],['inconsistent','Inconsistent communication','Words and effort fluctuate in a destabilizing way.']];
 const respectDefs=[['opinion','Values your opinions','Does this person take your perspective seriously?'],['appreciation','Expresses appreciation','Does this person notice and value your effort?'],['commitments','Keeps commitments','Does they follow through reliably?'],['proud','Proud to be associated','Would this person speak well of you to others?'],['time','Respects your time','Is this person considerate with scheduling and effort?'],['boundaries','Respects boundaries','Does this person honor limits without punishment?']];
@@ -2865,4 +2865,224 @@ if(oldSafe330&&!window.__safe330){
  window.safeUpdate=function(){let r=oldSafe330();try{bindIssue330();}catch(e){}return r;};
 }
 document.addEventListener('DOMContentLoaded',()=>setTimeout(()=>{bindIssue330();},800));
+
+
+
+/* v3.3.1: restore dropdown issue wizard, working ratings, self radar, proper time-series */
+const issueOptions331 = [
+ 'Appreciation / usefulness',
+ 'Respect / public image',
+ 'Communication / shared reality',
+ 'Commitment / future direction',
+ 'Passion / sexual disconnect',
+ 'Social media / outside validation',
+ 'Planning / logistics',
+ 'Household labor',
+ 'Emotional distance',
+ 'Criticism / correction',
+ 'Jealousy / insecurity',
+ 'Trust / honesty',
+ 'Affection / reassurance'
+];
+const polarityOptions331=['Positive','Negative','Mixed'];
+const aggrievedOptions331=['Man','Woman','Both','Unclear'];
+const recurrenceOptions331=['First time','Occasional','Recurring pattern','Core relationship issue'];
+
+function profile331(){return typeof rcCurrentProfile==='function'?rcCurrentProfile():(typeof currentProfile==='function'?currentProfile():state.profiles?.[0]);}
+function ensureIssues331(p){p.issues=p.issues||[];return p.issues;}
+function escape331(s){return typeof escapeHTML==='function'?escapeHTML(String(s??'')):String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
+
+function openIssueWizard331(){
+  let p=profile331(); if(!p)return;
+  let body=$('issueWizardBody'); if(!body)return;
+  body.innerHTML=`<div class="issueWizardGrid">
+    <label>Issue type
+      <select id="issueWizType">${issueOptions331.map(o=>`<option>${escape331(o)}</option>`).join('')}</select>
+    </label>
+    <label>Positive or negative?
+      <select id="issueWizPolarity">${polarityOptions331.map(o=>`<option>${o}</option>`).join('')}</select>
+    </label>
+    <label>Who feels aggrieved?
+      <select id="issueWizAggrieved">${aggrievedOptions331.map(o=>`<option>${o}</option>`).join('')}</select>
+    </label>
+    <label>Is this recurring?
+      <select id="issueWizRecurrence">${recurrenceOptions331.map(o=>`<option>${o}</option>`).join('')}</select>
+    </label>
+    <label style="grid-column:1/-1">Name this issue card
+      <input id="issueWizTitle" value="Appreciation / usefulness issue">
+    </label>
+    <label style="grid-column:1/-1">Specific event
+      <textarea id="issueWizEvent" placeholder="Example: She corrected how he did a task immediately after he tried to help."></textarea>
+    </label>
+    <label style="grid-column:1/-1">Story / interpretation
+      <textarea id="issueWizStory" placeholder="Example: He felt like his effort did not count; she felt like she had to manage the details alone."></textarea>
+    </label>
+  </div>`;
+  let type=$('issueWizType'), title=$('issueWizTitle');
+  if(type&&title)type.onchange=()=>{title.value=type.value+' issue'};
+  $('issueWizardOverlay')?.classList.remove('hidden');
+}
+function closeIssueWizard331(){ $('issueWizardOverlay')?.classList.add('hidden'); }
+function saveIssueWizard331(){
+  let p=profile331(); if(!p)return; ensureIssues331(p);
+  let issue={
+    id:typeof uid==='function'?uid():String(Date.now()),
+    title:$('issueWizTitle')?.value||'Relationship issue',
+    type:$('issueWizType')?.value||'Communication / shared reality',
+    polarity:$('issueWizPolarity')?.value||'Negative',
+    aggrieved:$('issueWizAggrieved')?.value||'Both',
+    recurrence:$('issueWizRecurrence')?.value||'First time',
+    event:$('issueWizEvent')?.value||'No event described yet.',
+    story:$('issueWizStory')?.value||'',
+    created:new Date().toISOString(),
+    ratings:{},
+    history:[]
+  };
+  p.issues.push(issue); saveState&&saveState(); closeIssueWizard331();
+  renderIssueSelector331(issue.id); renderTranslation331();
+}
+function currentIssue331(){
+  let p=profile331(); if(!p)return null; ensureIssues331(p);
+  let sel=$('issueCardSelector'), id=sel?.value;
+  if(id){let f=p.issues.find(x=>x.id===id); if(f)return f;}
+  if(p.issues.length)return p.issues[p.issues.length-1];
+  let issue={id:typeof uid==='function'?uid():String(Date.now()),title:'Communication issue',type:'Communication / shared reality',polarity:'Negative',aggrieved:'Both',recurrence:'Unclear',event:'No event described yet.',story:'',created:new Date().toISOString(),ratings:{},history:[]};
+  p.issues.push(issue); saveState&&saveState(); return issue;
+}
+function renderIssueSelector331(selectId){
+  let p=profile331(); if(!p)return; ensureIssues331(p);
+  let sel=$('issueCardSelector'); if(!sel)return;
+  if(!p.issues.length)currentIssue331();
+  sel.innerHTML=p.issues.map(i=>`<option value="${i.id}" ${i.id===(selectId||sel.value)?'selected':''}>${escape331(i.title||i.type||'Issue')}</option>`).join('');
+  sel.onchange=()=>renderTranslation331();
+}
+function template331(issue){
+  let type=issue.type||'Communication / shared reality';
+  let data={
+    male:'He may be asking whether he is respected, useful, desired, and treated as someone whose effort matters.',
+    female:'She may be asking whether she is safe, included, cherished, and emotionally partnered.',
+    issue:`This is a ${type.toLowerCase()} issue. The surface event matters, but the emotional meaning underneath matters more.`,
+    steps:['A concrete event happens.','One partner attaches painful meaning to it.','The hurt partner protects themselves.','The other partner reacts to the protection.','The relationship starts fighting the loop instead of the issue.'],
+    action:'Pause and say: “I do not want us to make each other the problem. What did this mean to you?”',
+    exercise:['One precise repair conversation','Each partner says: 1) what happened, 2) what I heard, 3) what I needed, 4) one thing I can do differently.']
+  };
+  if(type.includes('Appreciation')||type.includes('Criticism')){
+    data.male='He may feel that his effort is invisible, and that trying only creates another opportunity to be corrected.';
+    data.female='She may feel that if she does not manage the details, the task will still fall emotionally or practically on her.';
+    data.issue='This is an appreciation-and-correction issue. The core tension is effort recognition versus outcome standards.';
+    data.steps=['He tries to help or provide something.','She corrects the result too quickly or too directly.','He hears: “I failed; I am not useful.”','He withdraws or stops initiating.','She experiences the withdrawal as laziness or lack of care.'];
+    data.action='Separate appreciation from correction. Let appreciation stand alone first; solve the technical problem later.';
+    data.exercise=['Correction separation rule','For one week, no correction is paired with gratitude unless safety requires it. Appreciation gets its own clean moment.'];
+  }
+  if(type.includes('Communication')){
+    data.male='He may feel accused of failing even if he thought he was simply handling something privately.';
+    data.female='She may feel excluded from his inner world and afraid they are living parallel lives instead of operating as partners.';
+    data.issue='This is a shared-reality issue. The conflict is not just information; it is whether both people feel like partners in the same life.';
+    data.steps=['One person handles something privately.','The other finds out later.','Discovery becomes: “We are not operating as partners.”','The private person feels criticized and shares less.','Distance and suspicion increase.'];
+    data.action='Do a shared-reality check: “What changed this week? What decisions are pending? What are you carrying that I do not know?”';
+    data.exercise=['Weekly shared-reality meeting','Fifteen minutes weekly: appreciation, logistics, emotional weather, pending decisions, and one request.'];
+  }
+  if(type.includes('Social media')||type.includes('public')){
+    data.male='He may feel exposed, humiliated, or unprotected by the woman whose public respect matters most.';
+    data.female='She may feel unheard privately and may be seeking validation, witnesses, or emotional pressure through a public channel.';
+    data.issue='This is a public-respect issue. Social media can turn a private repair problem into a reputation and loyalty problem.';
+    data.steps=['Private hurt is not repaired.','One partner vents or signals publicly.','The other feels humiliated or betrayed.','Trust and attraction drop.','The next private conflict becomes less safe.'];
+    data.action='Take it offline. Agree to no public humiliation, subtweets, screenshots, or friend-court trials during active conflict.';
+    data.exercise=['Private-before-public agreement','For 30 days, conflict is brought privately first unless safety is at stake. Each partner protects the other’s dignity in public.'];
+  }
+  if(type.includes('Passion')||type.includes('sexual')){
+    data.male='He may feel undesired, rejected, or replaced by roommate energy.';
+    data.female='She may feel pressured, emotionally unsafe, unseen, or not warmed up relationally.';
+    data.issue='This is an intimacy-pressure issue. Sex becomes symbolic of rejection, safety, attraction, and acceptance.';
+    data.steps=['Emotional distance or pressure appears.','Sex becomes symbolic of acceptance or rejection.','One partner pursues while the other avoids.','Both attach painful meanings.','Desire becomes loaded instead of playful.'];
+    data.action='Stop arguing about sex during rejection moments. Talk when calm about what increases desire, kills desire, and makes intimacy feel safe.';
+    data.exercise=['Desire conditions map','Each partner lists: what increases desire, what kills desire, and what makes intimacy feel safe. Compare lists without debating them.'];
+  }
+  return data;
+}
+function ratingBtn331(issue,key,value){
+  let selected=issue.ratings?.[key]===value?' selected':'';
+  return `<button class="rateBtn${selected}" data-rate-key="${key}" data-rate-val="${value}">${value}</button>`;
+}
+function bindRatings331(){
+  document.querySelectorAll('.rateBtn').forEach(btn=>{
+    btn.onclick=()=>{
+      let issue=currentIssue331(); if(!issue)return;
+      issue.ratings=issue.ratings||{};
+      issue.ratings[btn.dataset.rateKey]=btn.dataset.rateVal;
+      saveState&&saveState(); renderTranslation331();
+    };
+  });
+}
+function renderTranslation331(){
+  let p=profile331(), issue=currentIssue331(), el=$('repairCockpitLoop'); if(!p||!issue||!el)return;
+  let t=template331(issue);
+  el.innerHTML=`<div class="issueSummaryHero"><h4>${escape331(issue.title||issue.type)}</h4>
+    <p><b>Specific event:</b> ${escape331(issue.event||'No event described yet.')}</p>
+    <p><b>What kind of issue this is:</b> ${escape331(t.issue)}</p>
+    <div class="issuePills"><span class="issuePill">${escape331(issue.polarity||'Negative')}</span><span class="issuePill">Aggrieved: ${escape331(issue.aggrieved||'Both')}</span><span class="issuePill">${escape331(issue.recurrence||'Unclear')}</span><span class="issuePill">${escape331(issue.type||'Issue')}</span></div>
+  </div>
+  <div class="translationTwoCol">
+    <div class="translationCard"><b>Possible male-side meaning</b><p>${escape331(t.male)}</p><div class="reviewRow">${ratingBtn331(issue,'male','Accurate')}${ratingBtn331(issue,'male','Partial')}${ratingBtn331(issue,'male','Wrong')}</div></div>
+    <div class="translationCard"><b>Possible female-side meaning</b><p>${escape331(t.female)}</p><div class="reviewRow">${ratingBtn331(issue,'female','Accurate')}${ratingBtn331(issue,'female','Partial')}${ratingBtn331(issue,'female','Wrong')}</div></div>
+  </div>
+  <h4 class="loopSectionTitle">Escalation loop</h4>
+  <div class="clearLoopGrid">${t.steps.map((s,i)=>`<div class="clearLoopCard"><b>${i+1}. ${escape331(s.split('.')[0])}</b>${escape331(s)}</div>`).join('')}</div>
+  <div class="translationCard"><b>Loop breaker</b><p>${escape331(t.action)}</p></div>`;
+  let act=$('repairCockpitActionStrategy'); if(act)act.innerHTML=`<div class="actionList"><div class="actionItem"><b>Immediate action</b>${escape331(t.action)}</div></div>`;
+  let th=$('repairCockpitStrategy'); if(th)th.innerHTML=`<div class="exerciseList"><div class="exerciseCard"><b>${escape331(t.exercise[0])}</b>${escape331(t.exercise[1])}</div></div>`;
+  bindRatings331();
+}
+function bindIssue331(){
+  let n=$('newIssueCardBtn'); if(n)n.onclick=openIssueWizard331;
+  let c=$('closeIssueWizardBtn'); if(c)c.onclick=closeIssueWizard331;
+  let s=$('saveIssueWizardBtn'); if(s)s.onclick=saveIssueWizard331;
+  renderIssueSelector331(); renderTranslation331();
+}
+function drawTimeSeriesPeaceRespect331(){
+  let p=profile331(), c=$('workspacePeaceRespectCanvas'); if(!p||!c)return;
+  let pts=(p.snapshots||[]).map((s,i)=>({i,peace:Number(s.peace||50),respect:Number(s.respect||50)}));
+  if(!pts.length)pts=[{i:0,peace:50,respect:50}];
+  let ctx=c.getContext('2d'),w=c.width,h=c.height,pad=55;
+  ctx.clearRect(0,0,w,h);ctx.fillStyle='#fff';ctx.fillRect(0,0,w,h);ctx.strokeStyle='#d7e1e5';ctx.lineWidth=1;
+  for(let v=0;v<=100;v+=25){let y=h-pad-(v/100)*(h-2*pad);ctx.beginPath();ctx.moveTo(pad,y);ctx.lineTo(w-pad,y);ctx.stroke();ctx.fillStyle='#65727e';ctx.font='11px sans-serif';ctx.fillText(String(v),20,y+3);}
+  function drawLine(key,color,label,yoff){
+    ctx.beginPath();pts.forEach((pt,i)=>{let x=pad+(i/Math.max(1,pts.length-1))*(w-2*pad),y=h-pad-(pt[key]/100)*(h-2*pad);i?ctx.lineTo(x,y):ctx.moveTo(x,y);});ctx.strokeStyle=color;ctx.lineWidth=3;ctx.stroke();
+    pts.forEach((pt,i)=>{let x=pad+(i/Math.max(1,pts.length-1))*(w-2*pad),y=h-pad-(pt[key]/100)*(h-2*pad);ctx.beginPath();ctx.arc(x,y,5,0,Math.PI*2);ctx.fillStyle=color;ctx.fill();});
+    ctx.fillStyle=color;ctx.font='13px sans-serif';ctx.fillText(label,pad+10,yoff);
+  }
+  drawLine('peace','#256b72','Peace',22);
+  drawLine('respect','#c2413a','Respect',40);
+  ctx.fillStyle='#1f2933';ctx.font='13px sans-serif';ctx.fillText('Time / snapshots →',w/2-50,h-18);
+}
+function addDefaultSelf331(){
+  state.self=state.self||{};
+  state.self.needs=state.self.needs||{warmth:8,respect:9,peace:8,repair:8,reciprocity:7,clarity:8,intimacy:8,admiration:8,practical:7,future:8};
+  saveState&&saveState();
+}
+function drawSelfRadar331(){
+  addDefaultSelf331();
+  let target=document.querySelector('#meView')||document.querySelector('#selfView'); if(!target)return;
+  if(!document.getElementById('selfRadarCanvas')){
+    target.insertAdjacentHTML('afterbegin','<div class="selfRadarWrap"><h3>Self needs vs selected relationship</h3><canvas id="selfRadarCanvas" width="560" height="380"></canvas><p class="small">Compares what you need with what the selected relationship currently provides.</p></div>');
+  }
+  let c=$('selfRadarCanvas'), p=profile331(); if(!c||!p)return;
+  let ctx=c.getContext('2d'),w=c.width,h=c.height,cx=w/2,cy=h/2,r=Math.min(w,h)*.34;
+  let keys=[['warmth','Warmth'],['respect','Respect'],['peace','Peace'],['repair','Repair'],['reciprocity','Reciprocity'],['intimacy','Intimacy']];
+  let provided=p.profileSliders||{}, needs=state.self.needs||{};
+  ctx.clearRect(0,0,w,h);ctx.fillStyle='#fff';ctx.fillRect(0,0,w,h);ctx.strokeStyle='#d7e1e5';
+  for(let ring=1;ring<=4;ring++){ctx.beginPath();ctx.arc(cx,cy,r*ring/4,0,Math.PI*2);ctx.stroke();}
+  keys.forEach(([k,label],i)=>{let a=-Math.PI/2+i*Math.PI*2/keys.length;ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(cx+Math.cos(a)*r,cy+Math.sin(a)*r);ctx.stroke();ctx.fillStyle='#1f2933';ctx.font='12px sans-serif';ctx.fillText(label,cx+Math.cos(a)*(r+35)-25,cy+Math.sin(a)*(r+28));});
+  function poly(obj,color,alpha){
+    ctx.beginPath();keys.forEach(([k],i)=>{let a=-Math.PI/2+i*Math.PI*2/keys.length,v=Number(obj[k]??6)*10,rr=r*v/100,x=cx+Math.cos(a)*rr,y=cy+Math.sin(a)*rr;i?ctx.lineTo(x,y):ctx.moveTo(x,y);});ctx.closePath();ctx.fillStyle=color.replace('1)',alpha+')');ctx.fill();ctx.strokeStyle=color.replace('1)','1)');ctx.lineWidth=2;ctx.stroke();
+  }
+  poly(provided,'rgba(37,107,114,1)',.22);
+  poly(needs,'rgba(194,65,58,1)',.14);
+  ctx.fillStyle='#256b72';ctx.fillText('Relationship provides',20,24);ctx.fillStyle='#c2413a';ctx.fillText('Your needs',20,42);
+}
+const oldRenderRc331=window.renderRepairCockpit;
+if(oldRenderRc331&&!window.__renderRc331){window.__renderRc331=true;window.renderRepairCockpit=function(){let r=oldRenderRc331();try{bindIssue331();drawTimeSeriesPeaceRespect331();}catch(e){}return r;};}
+const oldSafe331=window.safeUpdate;
+if(oldSafe331&&!window.__safe331){window.__safe331=true;window.safeUpdate=function(){let r=oldSafe331();try{bindIssue331();drawTimeSeriesPeaceRespect331();drawSelfRadar331();}catch(e){}return r;};}
+document.addEventListener('DOMContentLoaded',()=>setTimeout(()=>{addDefaultSelf331();bindIssue331();drawTimeSeriesPeaceRespect331();drawSelfRadar331();},800));
 

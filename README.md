@@ -1,10 +1,10 @@
-# Relationship Intelligence v3.3.0
+# Relationship Intelligence v3.3.1
 
-Major romantic issue-card rebuild:
-- Reframes translation loop as a specific issue/event tracker
-- Adds issue selector and New Issue Card button in Workspace
-- Adds romantic event categories and concrete male/female-side meanings
-- Adds full-sentence needs underneath
-- Adds clear escalation chain
-- Splits Therapy/Growth Exercises from Immediate Action Response
-- Converts wizard snapshots into issue cards
+Fixes:
+- New Issue Card now uses real dropdowns instead of prompt text stuffing
+- Male/female meaning rating buttons now work and stay selected
+- Escalation loop simplified into clearer concrete cards
+- Therapy section now gives one bespoke exercise for the selected issue
+- Peace × Respect trajectory is now time-series with two lines
+- Adds default Self needs and restores Self radar comparison
+- Reduces blank space under Admiration Symmetry
