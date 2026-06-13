@@ -464,3 +464,142 @@ body:not(.showWorkspace) #repairCockpitView{display:none!important}
 .workspaceTwoColumn{display:grid;grid-template-columns:minmax(0,1fr) minmax(360px,.9fr);gap:14px;align-items:start}@media(max-width:1000px){.workspaceTwoColumn{grid-template-columns:1fr}}
 .workspaceLeftStack,.workspaceRightStack{display:grid;gap:12px}.casualScaleNA{display:flex;align-items:center;gap:10px;margin:10px 0}.casualScaleNA input[type="checkbox"]{width:auto}.casualTrackerPill{display:inline-flex;align-items:center;background:#e7f1f3;color:#174f58;border:1px solid var(--line);border-radius:999px;padding:4px 8px;margin:3px;font-size:12px;font-weight:800}
 #workspaceRelationshipTypeSelect,#workspaceIssueExampleSelect,#loadSelectedIssueExampleBtn{display:none!important}#loadOneYearAllModulesBtn,#loadBossScenarioBtn,#loadBoundaryScenarioBtn,#loadPetScenarioBtn{display:none!important}
+
+/* v3.3.4 hard UI cleanup */
+
+/* Permanently remove the dead Snapshot example-card block and old snapshot interpretation tail */
+#snapshotView .exampleCards,
+#snapshotView #exampleCards,
+#snapshotView .examples,
+#snapshotView .sampleCards,
+#snapshotView .demoCards,
+#snapshotView .example-card,
+#snapshotView .demoCard,
+#snapshotView [id*="Example"],
+#snapshotView [id*="example"],
+#snapshotView [class*="Example"],
+#snapshotView [class*="example"],
+#snapshotView h3:has(+ .exampleCards),
+#snapshotView h3:has(+ #exampleCards) {
+  display: none !important;
+}
+
+/* Remove redundant Workspace example dropdown systems and old chip buttons */
+#workspaceExampleRelationshipSelect,
+#workspaceExampleIssueSelect,
+#loadWorkspaceExampleIssueBtn,
+#workspaceRelationshipTypeSelect,
+#workspaceIssueExampleSelect,
+#loadSelectedIssueExampleBtn,
+#loadOneYearAllModulesBtn,
+#loadBossScenarioBtn,
+#loadBoundaryScenarioBtn,
+#loadPetScenarioBtn,
+.exampleEvolveBar,
+#repairCockpitView > .exampleEvolveBar,
+button[data-scenario],
+.quickScenarioBtn {
+  display: none !important;
+}
+
+.simpleIssueExamples {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 12px;
+  margin: 10px 0 12px;
+}
+.simpleIssueExamples h3 { margin: 0 0 8px 0; }
+.simpleIssueExamples .exampleRow {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+  align-items: end;
+}
+@media(max-width:760px){ .simpleIssueExamples .exampleRow { grid-template-columns: 1fr; } }
+
+/* Workspace should be two clean columns: repair/therapy/action/casual on left, graphs on right */
+#repairCockpitView .workspaceTwoColumn334 {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) minmax(360px, 0.95fr) !important;
+  gap: 16px !important;
+  align-items: start !important;
+}
+@media(max-width:1050px){
+  #repairCockpitView .workspaceTwoColumn334 { grid-template-columns: 1fr !important; }
+}
+.workspaceLeft334, .workspaceRight334 {
+  min-width: 0 !important;
+  display: grid !important;
+  gap: 12px !important;
+}
+.workspaceRight334 {
+  align-self: start !important;
+}
+.workspaceRight334 .workspaceSection,
+.workspaceRight334 #workspaceGraphicalOutputs {
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow: hidden !important;
+}
+.workspaceRight334 canvas,
+#workspaceGraphicalOutputs canvas {
+  max-width: 100% !important;
+  height: auto !important;
+}
+
+/* Stop cards from overlapping into the graph column */
+#repairCockpitView .graphGrid {
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  gap: 12px !important;
+}
+#workspaceGraphicalOutputs {
+  clear: both !important;
+  position: static !important;
+  transform: none !important;
+  margin: 0 !important;
+}
+
+/* Fix giant blank space under admiration symmetry */
+#repairCockpitAdmirationCanvas {
+  display: block !important;
+  width: 100% !important;
+  max-width: 520px !important;
+  height: 210px !important;
+  max-height: 210px !important;
+  margin: 0 auto !important;
+}
+#repairCockpitAdmirationText {
+  margin-top: 0 !important;
+  padding: 0 !important;
+}
+.v3Panel:has(#repairCockpitAdmirationCanvas),
+.workspaceSection:has(#repairCockpitAdmirationCanvas),
+.card:has(#repairCockpitAdmirationCanvas) {
+  min-height: 0 !important;
+  height: auto !important;
+  padding-bottom: 12px !important;
+  overflow: hidden !important;
+}
+
+/* Hide any accidental empty columns/panels produced by earlier patches */
+#repairCockpitView .v3Panel:empty,
+#repairCockpitView .workspaceSection:empty,
+#repairCockpitView .analysisBox:empty {
+  display: none !important;
+}
+
+/* Make the Snapshot landing dead simple */
+#snapshotView .frontWorkflow,
+#frontWorkflow333 {
+  display: block !important;
+  background: linear-gradient(135deg,#ffffff,#eaf6f7) !important;
+  border: 1px solid var(--line) !important;
+  border-radius: 22px !important;
+  padding: 18px !important;
+  margin: 12px 0 !important;
+}
+#snapshotView .heroWizard {
+  display: none !important;
+}

@@ -1,4 +1,4 @@
-const STORAGE_KEY='relationship_intelligence_pwa_v333';
+const STORAGE_KEY='relationship_intelligence_pwa_v334';
 const greenDefs=[['warmth','Warmth','Emotional warmth, ease, affection.'],['kindness','Kindness','Basic goodness toward you and others.'],['respect','Baseline respect','General respect signal from the core profile.'],['reciprocity','Reciprocity','Interest and effort move both directions.'],['curiosity','Curiosity','They actually want to know you.'],['stability','Emotional stability','Grounded enough to build with.'],['peace','Peace after contact','Afterward you feel peaceful, not anxious or humiliated.'],['attraction','Attraction','Physical / romantic pull.']];
 const riskDefs=[['chaos','Chaos / drama','Volatility, crisis, or confusing energy.'],['trauma','Early trauma dumping','Heavy disclosure before trust exists.'],['entitlement','Entitlement','Expects without appreciating.'],['family','Family disrespect','Contempt toward family/parents.'],['social','Social-media validation','Attention-seeking or comparison energy.'],['inconsistent','Inconsistent communication','Words and effort fluctuate in a destabilizing way.']];
 const respectDefs=[['opinion','Values your opinions','Does this person take your perspective seriously?'],['appreciation','Expresses appreciation','Does this person notice and value your effort?'],['commitments','Keeps commitments','Does they follow through reliably?'],['proud','Proud to be associated','Would this person speak well of you to others?'],['time','Respects your time','Is this person considerate with scheduling and effort?'],['boundaries','Respects boundaries','Does this person honor limits without punishment?']];
@@ -3185,4 +3185,294 @@ const oldRender333=window.renderRepairCockpit;if(oldRender333&&!window.__render3
 const oldSafe333=window.safeUpdate;if(oldSafe333&&!window.__safe333){window.__safe333=true;window.safeUpdate=function(){let r=oldSafe333();try{cleanupSnapshot333();populateWorkspaceExampleDropdown333();bindCasual333();layoutWorkspace333();expandedDiag333();}catch(e){}return r;};}
 const oldDiag333=window.runDiagnostics;if(oldDiag333&&!window.__diag333){window.__diag333=true;window.runDiagnostics=function(){let r=oldDiag333();try{expandedDiag333();}catch(e){}return r;};}
 document.addEventListener('DOMContentLoaded',()=>setTimeout(()=>{cleanupSnapshot333();if(typeof bindRelationshipSnapshot332==='function')bindRelationshipSnapshot332();populateWorkspaceExampleDropdown333();bindCasual333();layoutWorkspace333();expandedDiag333();},900));
+
+
+
+/* v3.3.4 hard cleanup: snapshot examples, workspace layout, example loading, admiration whitespace */
+(function(){
+  const $id = id => document.getElementById(id);
+  const esc = s => typeof escapeHTML === 'function'
+    ? escapeHTML(String(s ?? ''))
+    : String(s ?? '').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+
+  const examples334 = [
+    ['Appreciation conflict', 'Appreciation / usefulness', 'Annie’s perfectionism', 'She corrects how he helps immediately, and he starts feeling that his effort does not count.', 'Romantic: woman evaluating man'],
+    ['Shared reality drift', 'Communication / shared reality', 'Parallel lives drift', 'He makes decisions privately and she finds out later, making her feel excluded from the partnership.', 'Marriage / long-term'],
+    ['Future ambiguity', 'Commitment / future direction', 'Future ambiguity', 'She wants clarity about where the relationship is going, while he avoids defining the next step.', 'Romantic: woman evaluating man'],
+    ['Public disrespect', 'Respect / public image', 'Public disrespect', 'She jokes or posts about him in a way that makes him feel diminished in public.', 'Romantic: man evaluating woman'],
+    ['Roommate energy', 'Passion / sexual disconnect', 'Roommate energy', 'He feels undesired and starts interpreting low intimacy as rejection.', 'Romantic: man evaluating woman']
+  ];
+
+  function currentProfile334(){
+    return typeof rcCurrentProfile === 'function'
+      ? rcCurrentProfile()
+      : (typeof currentProfile === 'function' ? currentProfile() : state.profiles?.[0]);
+  }
+
+  function ensureProfile334(){
+    state.profiles = state.profiles || [];
+    if (!state.profiles.length) {
+      const p = { id: typeof uid === 'function' ? uid() : String(Date.now()), name: 'New relationship', rtype: 'Dating / early relationship', snapshots: [], issues: [], profileSliders: {}, future: {}, casual: {} };
+      state.profiles.push(p);
+      state.currentId = p.id;
+      if (typeof saveState === 'function') saveState();
+    }
+    return currentProfile334() || state.profiles[0];
+  }
+
+  function removeSnapshotExamples334(){
+    const root = $id('snapshotView') || document;
+    const selectors = [
+      '.exampleCards','#exampleCards','.examples','.sampleCards','.demoCards','.example-card','.demoCard',
+      '[id*="Example"]','[id*="example"]','[class*="Example"]','[class*="example"]'
+    ];
+    root.querySelectorAll(selectors.join(',')).forEach(el => {
+      const text = (el.textContent || '').toLowerCase();
+      if (text.includes('romance example') || text.includes('boss example') || text.includes('marriage example') || text.includes('pet example') || text.includes('load all examples') || el.closest('#snapshotView')) {
+        el.remove();
+      }
+    });
+    root.querySelectorAll('h3, h2').forEach(h => {
+      if ((h.textContent || '').trim().toLowerCase() === 'example cards') {
+        let n = h.nextElementSibling;
+        h.remove();
+        while (n && !/^H[23]$/.test(n.tagName)) {
+          const next = n.nextElementSibling;
+          n.remove();
+          n = next;
+        }
+      }
+    });
+  }
+
+  function renderSimpleExamples334(){
+    let holder = $id('simpleIssueExamples334');
+    if (!holder) {
+      const summary = $id('workspaceRelationshipSummary') || $id('repairCockpitView');
+      if (!summary) return;
+      summary.insertAdjacentHTML('afterend', '<div id="simpleIssueExamples334" class="simpleIssueExamples"></div>');
+      holder = $id('simpleIssueExamples334');
+    }
+    holder.innerHTML = `<h3>Load example issue</h3>
+      <div class="exampleRow">
+        <label>Example issue
+          <select id="simpleExampleIssueSelect334">
+            ${examples334.map((x,i)=>`<option value="${i}">${esc(x[0])} — ${esc(x[1])}</option>`).join('')}
+          </select>
+        </label>
+        <button id="loadSimpleExampleIssueBtn334" type="button" class="secondary">Load example issue</button>
+      </div>`;
+    const btn = $id('loadSimpleExampleIssueBtn334');
+    if (btn) btn.onclick = () => {
+      const p = ensureProfile334();
+      const item = examples334[Number($id('simpleExampleIssueSelect334')?.value || 0)];
+      if (!item) return;
+      const [label, type, title, event, rtype] = item;
+      p.rtype = rtype;
+      p.issues = p.issues || [];
+      p.snapshots = p.snapshots || [];
+      const issue = {
+        id: typeof uid === 'function' ? uid() : String(Date.now()),
+        type, title, event, story: event, polarity: type.includes('Green') ? 'Positive' : 'Negative',
+        aggrieved: rtype.includes('man evaluating') ? 'Man' : (rtype.includes('woman evaluating') ? 'Woman' : 'Both'),
+        recurrence: 'Recurring pattern',
+        ratings: {},
+        created: new Date().toISOString(),
+        history: []
+      };
+      const snap = {
+        id: typeof uid === 'function' ? uid() : String(Date.now()+1),
+        label: title,
+        created: new Date().toISOString(),
+        domain: type,
+        note: event,
+        story: event,
+        peace: 60,
+        respect: 60,
+        repair: 50,
+        reciprocity: 55,
+        energy: 50,
+        embedded: 50,
+        alignment: 50
+      };
+      p.issues.push(issue);
+      p.snapshots.push(snap);
+      state.currentId = p.id;
+      if (typeof saveState === 'function') saveState();
+      if (typeof fillForm === 'function') fillForm();
+      if (typeof safeUpdate === 'function') safeUpdate();
+      if (typeof renderRepairCockpit === 'function') renderRepairCockpit();
+      const sel = $id('issueCardSelector');
+      if (sel) {
+        sel.value = issue.id;
+        if (typeof renderTranslation331 === 'function') renderTranslation331();
+      }
+    };
+  }
+
+  function removeRedundantExampleControls334(){
+    ['workspaceExampleRelationshipSelect','workspaceExampleIssueSelect','loadWorkspaceExampleIssueBtn','workspaceRelationshipTypeSelect','workspaceIssueExampleSelect','loadSelectedIssueExampleBtn'].forEach(id => {
+      const el = $id(id);
+      if (el) {
+        const wrap = el.closest('.issueControls') || el.closest('label') || el;
+        wrap.remove();
+      }
+    });
+    document.querySelectorAll('.exampleEvolveBar, button').forEach(el => {
+      const t = (el.textContent || '').toLowerCase();
+      if (t.includes('boss scenario') || t.includes('boundary scenario') || t.includes('pet scenario') || t.includes('load 1-year full workspace example')) {
+        const wrap = el.closest('.exampleEvolveBar') || el;
+        wrap.remove();
+      }
+    });
+  }
+
+  function fixAdmiration334(){
+    const c = $id('repairCockpitAdmirationCanvas');
+    if (!c) return;
+    c.width = 520;
+    c.height = 210;
+    c.style.width = '100%';
+    c.style.height = '210px';
+    c.style.maxHeight = '210px';
+    try { if (typeof drawRcAdmiration === 'function') drawRcAdmiration(); } catch(e){}
+    const text = $id('repairCockpitAdmirationText');
+    if (text) {
+      text.style.marginTop = '0';
+      text.style.padding = '0 0 4px 0';
+    }
+    const panel = c.closest('.v3Panel,.workspaceSection,.card');
+    if (panel) {
+      panel.style.minHeight = '0';
+      panel.style.height = 'auto';
+      panel.style.overflow = 'hidden';
+    }
+  }
+
+  function forceWorkspaceLayout334(){
+    const view = $id('repairCockpitView') || $id('workspaceView');
+    if (!view) return;
+    let wrap = view.querySelector('.workspaceTwoColumn334');
+    const graph = $id('workspaceGraphicalOutputs');
+    if (!graph) return;
+
+    if (!wrap) {
+      wrap = document.createElement('div');
+      wrap.className = 'workspaceTwoColumn334';
+      const left = document.createElement('div');
+      left.className = 'workspaceLeft334';
+      const right = document.createElement('div');
+      right.className = 'workspaceRight334';
+      graph.parentNode.insertBefore(wrap, graph);
+      wrap.appendChild(left);
+      wrap.appendChild(right);
+    }
+    const left = wrap.querySelector('.workspaceLeft334');
+    const right = wrap.querySelector('.workspaceRight334');
+
+    // Move graphs to the right.
+    if (right && graph.parentNode !== right) right.appendChild(graph);
+
+    // Move practical text / repair sections left.
+    const idsLeft = [
+      'repairCockpitStrategy',
+      'repairCockpitActionStrategy',
+      'casualRelationshipTracker',
+      'workspaceProfileDashboard'
+    ];
+    idsLeft.forEach(id => {
+      const el = $id(id);
+      if (!el || !left) return;
+      const block = el.closest('.workspaceSection,.v3Panel,.card') || el;
+      if (block.parentNode !== left) left.appendChild(block);
+    });
+
+    // If therapy/action are raw divs, wrap labels for readability.
+    const therapy = $id('repairCockpitStrategy');
+    if (therapy && !therapy.dataset.titled334) {
+      therapy.dataset.titled334 = '1';
+      if (!therapy.previousElementSibling || !/therapy|growth/i.test(therapy.previousElementSibling.textContent || '')) {
+        therapy.insertAdjacentHTML('beforebegin','<h3>Therapy / growth exercises</h3>');
+      }
+    }
+    const action = $id('repairCockpitActionStrategy');
+    if (action && !action.dataset.titled334) {
+      action.dataset.titled334 = '1';
+      if (!action.previousElementSibling || !/role|paradigm|action/i.test(action.previousElementSibling.textContent || '')) {
+        action.insertAdjacentHTML('beforebegin','<h3>Role / paradigm shift</h3>');
+      }
+    }
+
+    // Prevent graph grid side-by-side overlap.
+    const gg = graph.querySelector('.graphGrid');
+    if (gg) {
+      gg.style.display = 'grid';
+      gg.style.gridTemplateColumns = '1fr';
+      gg.style.gap = '12px';
+    }
+  }
+
+  function patchDiagnostics334(){
+    const out = $id('diagnosticsOutput');
+    if (!out) return;
+    let extra = $id('diagExtra334');
+    if (!extra) {
+      out.insertAdjacentHTML('afterend', '<div id="diagExtra334" class="analysisBox"></div>');
+      extra = $id('diagExtra334');
+    }
+    const checks = [
+      ['Snapshot example cards removed', !document.querySelector('#snapshotView .exampleCards,#snapshotView #exampleCards,#snapshotView .examples,#snapshotView .sampleCards')],
+      ['Simple example loader present', !!$id('simpleIssueExamples334')],
+      ['Redundant example relationship dropdown removed', !$id('workspaceExampleRelationshipSelect')],
+      ['Redundant relationship type dropdown removed', !$id('workspaceRelationshipTypeSelect')],
+      ['Workspace two-column layout applied', !!document.querySelector('.workspaceTwoColumn334')],
+      ['Graph section in right column', !!document.querySelector('.workspaceRight334 #workspaceGraphicalOutputs')],
+      ['Therapy/action left column exists', !!document.querySelector('.workspaceLeft334')],
+      ['Admiration canvas bounded', (()=>{const c=$id('repairCockpitAdmirationCanvas'); return !c || c.height <= 230;})()]
+    ];
+    extra.innerHTML = '<h3>Expanded diagnostics v3.3.4</h3>' + checks.map(([n,ok]) =>
+      `<div class="${ok?'diagnosticPass':'diagnosticFail'}"><b>${ok?'PASS':'FAIL'}:</b> ${esc(n)}</div>`
+    ).join('');
+  }
+
+  function hardCleanup334(){
+    removeSnapshotExamples334();
+    removeRedundantExampleControls334();
+    renderSimpleExamples334();
+    forceWorkspaceLayout334();
+    fixAdmiration334();
+    patchDiagnostics334();
+  }
+
+  const oldRender = window.renderRepairCockpit;
+  if (oldRender && !window.__render334) {
+    window.__render334 = true;
+    window.renderRepairCockpit = function(){
+      const r = oldRender();
+      try { setTimeout(hardCleanup334, 50); } catch(e){}
+      return r;
+    };
+  }
+  const oldSafe = window.safeUpdate;
+  if (oldSafe && !window.__safe334) {
+    window.__safe334 = true;
+    window.safeUpdate = function(){
+      const r = oldSafe();
+      try { setTimeout(hardCleanup334, 50); } catch(e){}
+      return r;
+    };
+  }
+  const oldDiag = window.runDiagnostics;
+  if (oldDiag && !window.__diag334) {
+    window.__diag334 = true;
+    window.runDiagnostics = function(){
+      const r = oldDiag();
+      try { setTimeout(patchDiagnostics334, 50); } catch(e){}
+      return r;
+    };
+  }
+
+  document.addEventListener('DOMContentLoaded', () => setTimeout(hardCleanup334, 600));
+  setTimeout(hardCleanup334, 1200);
+})();
 

@@ -1,10 +1,10 @@
 <!doctype html><html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Relationship Intelligence v3.3.3</title>
+<title>Relationship Intelligence v3.3.4</title>
 <link rel="manifest" href="manifest.json"><link rel="stylesheet" href="styles.css">
 <meta name="theme-color" content="#815b33"></head>
 <body>
-<header><h1>Relationship Intelligence <span>v3.3.3</span></h1>
+<header><h1>Relationship Intelligence <span>v3.3.4</span></h1>
 <div class="sub">Relational Dynamics Engine: trajectory, repair, reciprocity, embeddedness, loops, archetypes, and vector alignment.</div>
 <div id="status">Loading app…</div></header>
 <nav class="tabs"><button id="tabSnapshot" class="tab active">New Snapshot</button><button id="tabRepairCockpit" class="tab">Workspace</button><button id="tabCards" class="tab">Cards</button><button id="tabDashboard" class="tab">Dashboard</button><button id="tabEcosystem" class="tab">Ecosystem</button><button id="tabPerson" class="tab">Card Detail</button><button id="tabMe" class="tab">Self / Galaxy</button><button id="tabDiagnostics" class="tab">Diagnostics</button></nav>
@@ -26,41 +26,6 @@
 </div>
 
 <div id="demoCardsPanelTop" class="demoPanel">
-<h3>Example cards</h3>
-<p class="small">Load a sample card to see populated snapshots, scores, charts, and translation output. You can delete these later.</p>
-<div class="demoButtons">
-<button id="loadAllDemoCardsTopBtn" type="button" class="secondary">Load all examples</button>
-<button id="loadDemoRomanceTopBtn" type="button" class="secondary">Romance example</button>
-<button id="loadDemoWorkTopBtn" type="button" class="secondary">Boss example</button>
-<button id="loadDemoMarriageTopBtn" type="button" class="secondary">Marriage example</button>
-<button id="loadDemoPetTopBtn" type="button" class="secondary">Pet example</button>
-</div>
-</div>
-<div class="snapshotEntry">
-<label>Which card?</label><select id="snapshotCardSelect"></select>
-<button id="snapshotNewCardBtn" type="button" class="secondary">+ New relationship</button>
-<div id="snapshotNewCardFields" class="hidden">
-<label>New card name</label><input id="snapshotNewName" placeholder="Example: Boss, Sarah, Dad, Max">
-<label>Category</label><select id="snapshotNewCategory"><option>Romantic</option><option>Situationship</option><option>Dating relationship</option><option>Long-term partner</option><option>Fiancé / Fiancée</option><option>Husband</option><option>Wife</option><option>Co-parent</option><option>Ex-partner</option><option>Friend</option><option>Work</option><option>Family</option><option>Mentor</option><option>Activity / teammate</option><option>Boundary</option><option>Child</option><option>Pet</option><option>Other</option></select>
-</div>
-<label>What happened?</label><textarea id="snapshotEvent" placeholder="Facts first. Example: He submitted a grant proposal and we had never discussed it as a partnership."></textarea>
-<label>What story am I telling myself?</label><textarea id="snapshotStory" placeholder="Interpretation. Example: Maybe we are not actually communicating deeply or operating as partners."></textarea>
-<div class="quickGrid">
-<label>Emotional state<select id="snapshotEmotion"><option>Calm / reflective</option><option>Activated / angry</option><option>Anxious / uncertain</option><option>Lonely / craving connection</option><option>Excited / idealizing</option><option>Hurt / rejected</option></select></label>
-<label>Evidence confidence<select id="snapshotConfidence"><option>Low — mostly feeling/interpretation</option><option>Medium — some observable evidence</option><option>High — repeated observable pattern</option></select></label>
-<label>Interpretation checked?<select id="snapshotChecked"><option>No</option><option>Partially</option><option>Yes — I asked/clarified</option></select></label>
-<label>Domain<select id="snapshotDomain"><option>Communication / being on same page</option><option>Tasks / chores</option><option>Planning / logistics</option><option>Commitment</option><option>Appreciation / usefulness</option><option>Criticism / correction</option><option>Work / mission bandwidth</option><option>Affection / reassurance</option><option>Money / provision</option><option>Family / roles</option><option>Other</option></select></label>
-</div>
-<div class="quickGrid">
-<label>Peace <button class="helpBtn" type="button" data-help="peace">?</button> <span id="snapPeaceVal">5</span><span class="scaleEnds"><b>Low calm</b><b>High calm</b></span><input id="snapPeace" type="range" min="0" max="10" value="5"></label>
-<label>Respect <button class="helpBtn" type="button" data-help="respect">?</button> <span id="snapRespectVal">5</span><span class="scaleEnds"><b>Felt dismissed</b><b>Felt respected</b></span><input id="snapRespect" type="range" min="0" max="10" value="5"></label>
-<label>Closeness / intimacy <button class="helpBtn" type="button" data-help="closeness">?</button> <span id="snapClosenessVal">5</span><span class="scaleEnds"><b>Distant</b><b>Connected</b></span><input id="snapCloseness" type="range" min="0" max="10" value="5"></label>
-<label>Repair quality <button class="helpBtn" type="button" data-help="repair">?</button> <span id="snapRepairVal">5</span><span class="scaleEnds"><b>No repair</b><b>Good repair</b></span><input id="snapRepair" type="range" min="0" max="10" value="5"></label>
-<label>Emotional Cost / Drain <button class="helpBtn" type="button" data-help="cost">?</button> <span id="snapCostVal">5</span><span class="scaleEnds dangerScale"><b>0 = low drain / good</b><b>10 = high drain / bad</b></span><input id="snapCost" class="riskRange" type="range" min="0" max="10" value="5"></label>
-<label>Communication clarity <button class="helpBtn" type="button" data-help="clarity">?</button> <span id="snapClarityVal">5</span><span class="scaleEnds"><b>Confusing</b><b>Clear</b></span><input id="snapClarity" type="range" min="0" max="10" value="5"></label>
-</div>
-<div id="snapshotHelpPanel" class="helpPanel"><b>Slider help:</b> tap a ? button to learn what each category means.</div><button id="saveSnapshotPrimaryBtn" type="button">Save Snapshot</button>
-</div>
 <h3>Snapshot interpretation</h3><div id="snapshotInterpretation" class="analysisBox">Add a note to generate tags and likely dynamics.</div>
 </section>
 </main>
@@ -239,11 +204,12 @@
 <select id="repairCockpitProfileSelect"></select>
 </div>
 
-<div id="repairCockpitSourceStrip" class="v3SourceStrip"></div><div id="workspaceRelationshipSummary" class="workspaceSummary"></div><div class="issueControls"><label>Example relationship<select id="workspaceExampleRelationshipSelect"></select></label><label>Example issue<select id="workspaceExampleIssueSelect"></select></label><button id="loadWorkspaceExampleIssueBtn" type="button" class="secondary">Load example issue</button></div><div class="exampleEvolveBar"><button id="loadOneYearAllModulesBtn" type="button">Load 1-year full workspace example</button><button id="loadBossScenarioBtn" type="button">Boss scenario</button><button id="loadBoundaryScenarioBtn" type="button">Boundary scenario</button><button id="loadPetScenarioBtn" type="button">Pet scenario</button></div><div id="repairExampleBar" class="exampleBar"><button type="button" data-example="appreciation">Appreciation conflict</button><button type="button" data-example="sharedReality">Shared reality drift</button><button type="button" data-example="boss">Boss expectations</button><button type="button" data-example="boundary">Boundary pressure</button><button type="button" data-example="pursueWithdraw">Pursue / withdraw</button></div>
+<div id="repairCockpitSourceStrip" class="v3SourceStrip"></div><div id="workspaceRelationshipSummary" class="workspaceSummary"></div><div class="exampleEvolveBar"><button id="loadOneYearAllModulesBtn" type="button">Load 1-year full workspace example</button><button id="loadBossScenarioBtn" type="button">Boss scenario</button><button id="loadBoundaryScenarioBtn" type="button">Boundary scenario</button><button id="loadPetScenarioBtn" type="button">Pet scenario</button></div><div id="repairExampleBar" class="exampleBar"><button type="button" data-example="appreciation">Appreciation conflict</button><button type="button" data-example="sharedReality">Shared reality drift</button><button type="button" data-example="boss">Boss expectations</button><button type="button" data-example="boundary">Boundary pressure</button><button type="button" data-example="pursueWithdraw">Pursue / withdraw</button></div>
 
 <div class="v3Grid">
   <div class="v3Panel wide">
-    <h3>Issue Translation</h3><div class="guide"><b>Purpose:</b> translate one specific romantic event or recurring issue into what each person may have meant, heard, needed, and how to repair the loop.</div><div class="issueControls"><label>Tracked issue / event<select id="issueCardSelector"></select></label><button id="newIssueCardBtn" type="button" class="secondary">+ New issue card</button></div>
+    <h3>Issue Translation</h3><div class="guide"><b>Purpose:</b> translate one specific romantic event or recurring issue into what each person may have meant, heard, needed, and how to repair the loop.</div><div id="simpleIssueExamples334" class="simpleIssueExamples"></div>
+<div class="issueControls"><label>Tracked issue / event<select id="issueCardSelector"></select></label><button id="newIssueCardBtn" type="button" class="secondary">+ New issue card</button></div>
     <p class="small">Event → story → threatened need → reaction → partner interpretation → escalation or repair.</p>
     <div id="repairCockpitLoop" class="loopGraphic"></div>
   </div>
