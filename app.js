@@ -1,4 +1,4 @@
-const STORAGE_KEY='relationship_intelligence_pwa_v321';
+const STORAGE_KEY='relationship_intelligence_pwa_v322';
 const greenDefs=[['warmth','Warmth','Emotional warmth, ease, affection.'],['kindness','Kindness','Basic goodness toward you and others.'],['respect','Baseline respect','General respect signal from the core profile.'],['reciprocity','Reciprocity','Interest and effort move both directions.'],['curiosity','Curiosity','They actually want to know you.'],['stability','Emotional stability','Grounded enough to build with.'],['peace','Peace after contact','Afterward you feel peaceful, not anxious or humiliated.'],['attraction','Attraction','Physical / romantic pull.']];
 const riskDefs=[['chaos','Chaos / drama','Volatility, crisis, or confusing energy.'],['trauma','Early trauma dumping','Heavy disclosure before trust exists.'],['entitlement','Entitlement','Expects without appreciating.'],['family','Family disrespect','Contempt toward family/parents.'],['social','Social-media validation','Attention-seeking or comparison energy.'],['inconsistent','Inconsistent communication','Words and effort fluctuate in a destabilizing way.']];
 const respectDefs=[['opinion','Values your opinions','Does this person take your perspective seriously?'],['appreciation','Expresses appreciation','Does this person notice and value your effort?'],['commitments','Keeps commitments','Does they follow through reliably?'],['proud','Proud to be associated','Would this person speak well of you to others?'],['time','Respects your time','Is this person considerate with scheduling and effort?'],['boundaries','Respects boundaries','Does this person honor limits without punishment?']];
@@ -2624,4 +2624,115 @@ if(oldRunDiag321&&!window.__runDiag321){
   }
 }
 document.addEventListener('DOMContentLoaded',()=>setTimeout(()=>{bindDiagnosticsExamples321();normalizeAllProfiles321();},500));
+
+
+
+/* v3.2.2 workspace examples + clearer loop */
+function ensureCard322(){
+ state.profiles=state.profiles||[];
+ if(!state.profiles.length){
+  let p={id:typeof uid==='function'?uid():String(Date.now()),name:'New relationship',rtype:'Romantic prospect',snapshots:[],future:{},profileSliders:{}};
+  state.profiles.push(p);state.currentId=p.id;saveState&&saveState();
+ }
+}
+function current322(){return typeof rcCurrentProfile==='function'?rcCurrentProfile():(typeof currentProfile==='function'?currentProfile():state.profiles[0]);}
+function last322(p){let s=p?.snapshots||[];return s.length?s[s.length-1]:null;}
+function workspaceSummary322(){
+ let p=current322();let el=$('workspaceRelationshipSummary');if(!el||!p)return;
+ let snaps=p.snapshots||[],last=last322(p)||{},m=typeof safeMetricSet==='function'?safeMetricSet(p):(typeof dashboardMetricSet==='function'?dashboardMetricSet(p):{peaceIndex:50,respectIndex:50});
+ let best='Not enough evidence yet.',worst='Not enough evidence yet.';
+ if(snaps.length){
+  let high=snaps.reduce((a,b)=>((Number(b.peace||0)+Number(b.respect||0))>(Number(a.peace||0)+Number(a.respect||0))?b:a),snaps[0]);
+  let low=snaps.reduce((a,b)=>((Number(b.peace||0)+Number(b.respect||0))<(Number(a.peace||0)+Number(a.respect||0))?b:a),snaps[0]);
+  best=high.note||high.label||best;worst=low.note||low.label||worst;
+ }
+ let age=snaps.length>=5?'about one year / full example timeline':snaps.length?`${snaps.length} interaction(s) logged`:'not enough history yet';
+ el.innerHTML=`<h3>${escapeHTML(p.name||'Untitled')}</h3><div class="summaryGrid">
+  <div class="summaryTile"><b>Relationship</b>${escapeHTML(p.rtype||'Unspecified')}</div>
+  <div class="summaryTile"><b>Duration / evidence</b>${escapeHTML(age)}</div>
+  <div class="summaryTile"><b>Peace / Respect</b>${Math.round(m.peaceIndex||0)} / ${Math.round(m.respectIndex||0)}</div>
+  <div class="summaryTile"><b>Latest event</b>${escapeHTML(last.eventSummary||last.note||'No event loaded yet.')}</div>
+  <div class="summaryTile"><b>Best part</b>${escapeHTML(best)}</div>
+  <div class="summaryTile"><b>Hardest part</b>${escapeHTML(worst)}</div>
+ </div>`;
+}
+function loopData322(p){
+ let last=last322(p)||{};
+ let event=last.eventSummary||last.note||p.evidence||'No specific event yet.';
+ let resolution=last.resolution||p.resolution||'No resolution logged yet.';
+ if((p.name||'').toLowerCase().includes('jane')){
+  event='Early relationship conflict about appreciation and correction: one partner felt effort was not being recognized, but both learned to separate appreciation from course-correction.';
+  resolution='By the one-year point, conflict still happens, but repair is faster, same-team language is stronger, and trust is higher.';
+ }
+ return {event,resolution};
+}
+function renderLoop322(){
+ let el=$('repairCockpitLoop');let p=current322();if(!el||!p)return;
+ let base=typeof rcLoopData==='function'?rcLoopData(p):{};
+ let er=loopData322(p);
+ let nodes=[
+  ['Event summary',er.event,''],
+  ['Resolution / desired repair',er.resolution,'breakPoint'],
+  ['Interpretation / story',base.story||p.story||'What story did each person tell themselves?','warningPoint'],
+  ['Need threatened',base.need||'respect / safety / belonging','dangerPoint'],
+  ['Emotional response',base.response||'Withdraw, pursue, defend, criticize, appease, or shut down.','warningPoint'],
+  ['Partner interpretation',base.partner||'The partner may react to the reaction instead of the original event.','warningPoint'],
+  ['Loop breaker',base.breakPoint||'Name the event, separate facts from story, identify the threatened need, and make one concrete repair request.','breakPoint']
+ ];
+ el.innerHTML=`<div class="eventResolution"><b>What this loop is about:</b><br>${escapeHTML(er.event)}<br><br><b>Resolution:</b><br>${escapeHTML(er.resolution)}</div>`+
+ nodes.map((n,i)=>`<div class="loopNode ${n[2]}"><b>${i+1}. ${n[0]}</b>${escapeHTML(String(n[1]).slice(0,700))}</div>${i<nodes.length-1?'<div class="loopArrow">↓</div>':''}`).join('');
+}
+function refreshSelect322(){
+ ensureCard322();let sel=$('repairCockpitProfileSelect');if(!sel)return;
+ sel.innerHTML=(state.profiles||[]).map(p=>`<option value="${p.id}" ${p.id===state.currentId?'selected':''}>${escapeHTML(p.name||'Untitled')} — ${escapeHTML(p.rtype||'Card')}</option>`).join('');
+ sel.onchange=()=>{state.currentId=sel.value;saveState&&saveState();fillForm&&fillForm();safeUpdate&&safeUpdate();renderRepairCockpit&&renderRepairCockpit();renderWorkspaceGraphs320&&renderWorkspaceGraphs320();workspaceSummary322();renderLoop322();};
+}
+function patchWizardSelect322(){
+ setInterval(()=>{let sel=$('wiz_card');if(sel&&!sel.dataset.v322){sel.dataset.v322='1';let opts=(state.profiles||[]).map(p=>`<option value="${p.id}" ${p.id===state.currentId?'selected':''}>${escapeHTML(p.name||'Untitled')} — ${escapeHTML(p.rtype||'Card')}</option>`).join('');sel.innerHTML=opts+'<option value="__new__">+ Create new quick card</option>';sel.onchange=()=>{if(sel.value==='__new__'){let name=prompt('Name for new card?','New relationship')||'New relationship';let type=prompt('Relationship type?','Romantic prospect')||'Romantic prospect';let p={id:uid?uid():String(Date.now()),name,rtype:type,snapshots:[],future:{},profileSliders:{}};state.profiles.push(p);state.currentId=p.id;saveState&&saveState();}else{state.currentId=sel.value;saveState&&saveState();}};}},500);
+}
+function applyScenario322(kind){
+ ensureCard322();let p=current322();
+ if(kind==='romantic'){
+  p.name='Jane Doe — 1-year Good Relationship Demo';p.rtype='Romantic prospect';
+  p.evidence='Early conflict about appreciation, correction, and feeling useful.';p.story='The conflict may be less about laziness and more about appreciation, competence threat, and how correction lands.';p.resolution='Separate appreciation from correction and return to same-team repair.';
+  p.snapshots=[
+   {label:'Month 1',peace:82,respect:74,repair:55,domain:'New relationship high',note:'Strong connection, but expectations are still implicit.',eventSummary:'Early dating high with unclear expectations.',resolution:'Go slow and gather repeated evidence.'},
+   {label:'Month 3',peace:68,respect:76,repair:66,domain:'Criticism / correction',note:'A correction landed as “nothing I do counts.”',eventSummary:'A gift/task was corrected too quickly and he felt less useful.',resolution:'Recognize effort separately before course correction.'},
+   {label:'Month 5',peace:78,respect:82,repair:76,domain:'Planning / logistics',note:'Weekly rhythm and expectations became clearer.',eventSummary:'They created a better weekly rhythm.',resolution:'Use shared-reality check-ins.'},
+   {label:'Month 8',peace:84,respect:86,repair:82,domain:'Commitment / future direction',note:'Friends/family integration reduced ambiguity.',eventSummary:'The relationship became more socially embedded.',resolution:'Keep future-direction conversations explicit.'},
+   {label:'Month 12',peace:90,respect:90,repair:88,domain:'Communication / being on same page',note:'Conflict still happens, but repair is faster and trust is stronger.',eventSummary:'Conflict still happens, but repair is faster and trust is stronger.',resolution:'Repair is now a practiced loop, not a panic event.'}
+  ];
+  p.profileSliders={warmth:9,respect:9,peace:9,repair:9,reciprocity:9,clarity:9,intimacy:9,admiration:9,practical:8,future:9};
+  p.sliderHistory=[{warmth:8,respect:7,peace:8,repair:5,reciprocity:6,clarity:5,intimacy:7,admiration:7,practical:5,future:6},{warmth:9,respect:8,peace:7,repair:6,reciprocity:7,clarity:6,intimacy:8,admiration:8,practical:6,future:7},{warmth:8,respect:8,peace:8,repair:7,reciprocity:8,clarity:7,intimacy:8,admiration:8,practical:7,future:8},{warmth:9,respect:9,peace:9,repair:8,reciprocity:9,clarity:8,intimacy:9,admiration:9,practical:8,future:9},{warmth:9,respect:9,peace:9,repair:9,reciprocity:9,clarity:9,intimacy:9,admiration:9,practical:8,future:9}];
+  if($('repairCockpitSaidInput'))$('repairCockpitSaidInput').value='He said, “You never appreciate what I do.”';
+  if($('repairCockpitHeardInput'))$('repairCockpitHeardInput').value='She heard, “You want praise for basic things.”';
+ }
+ if(kind==='boss'){
+  p.name='John Doe — Boss Expectations Demo';p.rtype='Work';p.evidence='A deadline and success criteria shifted without clear documentation.';p.story='The issue is role ambiguity and moving expectations, not emotional repair alone.';p.resolution='Written priorities and success criteria reduce chaos.';
+  p.snapshots=[{label:'Ambiguous assignment',peace:42,respect:45,repair:30,domain:'Work expectations',note:'Initial task was vague.',eventSummary:'Boss assigned work with unclear success criteria.',resolution:'Ask for written criteria.'},{label:'Priority shift',peace:35,respect:40,repair:35,domain:'Work expectations',note:'Deadline changed and feedback treated it like failure.',eventSummary:'Priority shifted without acknowledgement.',resolution:'Document change and ask for ranking.'},{label:'Clarification',peace:55,respect:50,repair:48,domain:'Communication / being on same page',note:'Asked for written priorities.',eventSummary:'The employee requested written alignment.',resolution:'Use written recap.'}];
+  if($('repairCockpitSaidInput'))$('repairCockpitSaidInput').value='Boss said, “This isn’t what I expected.”';if($('repairCockpitHeardInput'))$('repairCockpitHeardInput').value='Employee heard, “I was set up to fail because expectations changed.”';
+ }
+ if(kind==='boundary'){
+  p.name='Boundary Doe — Pressure Demo';p.rtype='Boundary';p.evidence='Someone used guilt after a clear no.';p.story='The issue is autonomy pressure and overexplanation risk.';p.resolution='Short boundary, repeated calmly, with less exposure.';
+  p.snapshots=[{label:'Guilt pressure',peace:35,respect:30,repair:25,domain:'Boundary / pressure',note:'They implied I owed them access after I said no.',eventSummary:'A boundary was challenged through guilt.',resolution:'Do not debate the boundary.'},{label:'Short boundary',peace:55,respect:50,repair:40,domain:'Boundary / pressure',note:'I repeated one sentence and stopped explaining.',eventSummary:'Boundary was restated without overexplaining.',resolution:'Reduce exposure if pressure continues.'}];
+  if($('repairCockpitSaidInput'))$('repairCockpitSaidInput').value='Family member said, “After everything I’ve done, you owe me this.”';if($('repairCockpitHeardInput'))$('repairCockpitHeardInput').value='User heard, “My autonomy is being overwritten by guilt.”';
+ }
+ if(kind==='pet'){
+  p.name='Buddy Doe — Pet Support Demo';p.rtype='Pet';p.evidence='Pet relationship provides comfort but also care load.';p.story='The comfort is high; the practical burden is real but worthwhile.';p.resolution='Stable routines increase peace.';
+  p.snapshots=[{label:'Evening walk',peace:92,respect:88,repair:85,domain:'Affection / reassurance',note:'After work we walked and I felt calmer immediately.',eventSummary:'The pet routine regulated stress.',resolution:'Keep routine stable.'},{label:'Vet bill',peace:84,respect:82,repair:80,domain:'Planning / logistics',note:'Care burden was annoying but worth it.',eventSummary:'Care cost created load but not resentment.',resolution:'Plan costs and routines.'}];
+  if($('repairCockpitSaidInput'))$('repairCockpitSaidInput').value='The dog needed care when I was exhausted.';if($('repairCockpitHeardInput'))$('repairCockpitHeardInput').value='I felt burdened, but also grounded and needed.';
+ }
+ normalizeProfile321&&normalizeProfile321(p);state.currentId=p.id;saveState&&saveState();fillForm&&fillForm();safeUpdate&&safeUpdate();renderRepairCockpit&&renderRepairCockpit();renderWorkspaceGraphs320&&renderWorkspaceGraphs320();workspaceSummary322();renderLoop322();buildRcConversation&&buildRcConversation();
+}
+function bindScenario322(){
+ let a=$('loadOneYearAllModulesBtn'); if(a)a.onclick=()=>applyScenario322('romantic');
+ let b=$('loadBossScenarioBtn'); if(b)b.onclick=()=>applyScenario322('boss');
+ let c=$('loadBoundaryScenarioBtn'); if(c)c.onclick=()=>applyScenario322('boundary');
+ let d=$('loadPetScenarioBtn'); if(d)d.onclick=()=>applyScenario322('pet');
+}
+const oldRender322=window.renderRepairCockpit;
+if(oldRender322&&!window.__render322){window.__render322=true;window.renderRepairCockpit=function(){let r=oldRender322();try{refreshSelect322();workspaceSummary322();renderLoop322();bindScenario322();}catch(e){}return r;}}
+const oldSafe322=window.safeUpdate;
+if(oldSafe322&&!window.__safe322){window.__safe322=true;window.safeUpdate=function(){let r=oldSafe322();try{refreshSelect322();workspaceSummary322();renderLoop322();bindScenario322();}catch(e){}return r;}}
+document.addEventListener('DOMContentLoaded',()=>setTimeout(()=>{ensureCard322();patchWizardSelect322();bindScenario322();refreshSelect322();workspaceSummary322();renderLoop322();},700));
 

@@ -386,3 +386,14 @@ body:not(.showWorkspace) #repairCockpitView{display:none!important}
 .outputCanvas{background:#fff;border:1px solid var(--line);border-radius:14px;padding:8px;overflow:auto}
 .exampleEvolveBar{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
 .exampleEvolveBar button{background:#e7f1f3!important;color:#1f4f57!important;font-size:12px}
+
+/* v3.2.2 clarity fixes */
+.workspaceSummary{background:linear-gradient(135deg,#fff,#eef8f9);border:1px solid var(--line);border-radius:18px;padding:14px;margin:12px 0}
+.workspaceSummary h3{margin-top:0}
+.summaryGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-top:10px}
+.summaryTile{background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px}
+.summaryTile b{display:block;margin-bottom:4px;color:#174f58}
+.eventResolution{background:#f7fbfc;border:1px solid var(--line);border-radius:16px;padding:12px;margin-bottom:10px}
+#snapshotView .exampleCards,#snapshotView #exampleCards,#snapshotView .examples,#snapshotView .sampleCards{display:none!important}
+#repairCockpitAdmirationCanvas{max-height:240px!important}
+#repairCockpitAdmirationText{margin-top:4px!important}
