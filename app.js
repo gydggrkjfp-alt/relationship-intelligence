@@ -1,4 +1,4 @@
-const STORAGE_KEY='relationship_intelligence_pwa_v320';
+const STORAGE_KEY='relationship_intelligence_pwa_v321';
 const greenDefs=[['warmth','Warmth','Emotional warmth, ease, affection.'],['kindness','Kindness','Basic goodness toward you and others.'],['respect','Baseline respect','General respect signal from the core profile.'],['reciprocity','Reciprocity','Interest and effort move both directions.'],['curiosity','Curiosity','They actually want to know you.'],['stability','Emotional stability','Grounded enough to build with.'],['peace','Peace after contact','Afterward you feel peaceful, not anxious or humiliated.'],['attraction','Attraction','Physical / romantic pull.']];
 const riskDefs=[['chaos','Chaos / drama','Volatility, crisis, or confusing energy.'],['trauma','Early trauma dumping','Heavy disclosure before trust exists.'],['entitlement','Entitlement','Expects without appreciating.'],['family','Family disrespect','Contempt toward family/parents.'],['social','Social-media validation','Attention-seeking or comparison energy.'],['inconsistent','Inconsistent communication','Words and effort fluctuate in a destabilizing way.']];
 const respectDefs=[['opinion','Values your opinions','Does this person take your perspective seriously?'],['appreciation','Expresses appreciation','Does this person notice and value your effort?'],['commitments','Keeps commitments','Does they follow through reliably?'],['proud','Proud to be associated','Would this person speak well of you to others?'],['time','Respects your time','Is this person considerate with scheduling and effort?'],['boundaries','Respects boundaries','Does this person honor limits without punishment?']];
@@ -2527,4 +2527,101 @@ function bindWorkspace320(){bindSliderWizard();let ex=$('loadGoodYearExampleBtn'
 if(typeof renderRepairCockpit==='function'&&!window.__v320RenderWrap){window.__v320RenderWrap=true; const old=renderRepairCockpit; renderRepairCockpit=function(){let r=old();try{bindWorkspace320();renderWorkspaceGraphs320();}catch(e){console.warn(e)}return r;}}
 if(typeof safeUpdate==='function'&&!window.__v320Safe){window.__v320Safe=true; const old=safeUpdate; safeUpdate=function(){let r=old();try{bindWorkspace320();renderWorkspaceGraphs320();}catch(e){}return r;}}
 document.addEventListener('DOMContentLoaded',()=>setTimeout(()=>{bindWorkspace320();renderWorkspaceGraphs320();},600));
+
+
+
+/* v3.2.1 normalize demo/example profiles + diagnostics loader */
+function futureDefaults321(kind){
+  let base={sameTeamConflict:6,sharedDirection:6,backgroundFit:6,communicationClarityFuture:6,sexualCommunication:6,loyaltyTrust:7,repairAfterFight:6,commitmentReadiness:6,admirationDesire:7,stressTeamwork:6,familySystemFit:6,financialPracticalFit:6};
+  if(kind==='romantic'||kind==='marriage')Object.assign(base,{sameTeamConflict:8,sharedDirection:8,communicationClarityFuture:8,sexualCommunication:7,loyaltyTrust:9,repairAfterFight:8,commitmentReadiness:8,admirationDesire:9,stressTeamwork:8});
+  if(kind==='work')Object.assign(base,{sameTeamConflict:5,sharedDirection:6,communicationClarityFuture:7,sexualCommunication:5,loyaltyTrust:5,repairAfterFight:5,commitmentReadiness:5,admirationDesire:4,stressTeamwork:6,financialPracticalFit:7});
+  if(kind==='pet')Object.assign(base,{sameTeamConflict:9,sharedDirection:8,communicationClarityFuture:6,sexualCommunication:5,loyaltyTrust:10,repairAfterFight:8,commitmentReadiness:8,admirationDesire:10,stressTeamwork:8,familySystemFit:8,financialPracticalFit:7});
+  if(kind==='boundary')Object.assign(base,{sameTeamConflict:3,sharedDirection:3,communicationClarityFuture:4,loyaltyTrust:3,repairAfterFight:3,commitmentReadiness:2,admirationDesire:2,stressTeamwork:3});
+  return base;
+}
+function profileKind321(p){
+  let name=String(p?.name||'').toLowerCase(), r=String(p?.rtype||'').toLowerCase();
+  if(name.includes('buddy')||r.includes('pet'))return 'pet';
+  if(name.includes('boss')||r.includes('work'))return 'work';
+  if(name.includes('boundary')||r.includes('boundary'))return 'boundary';
+  if(name.includes('husband')||name.includes('wife')||r.includes('husband')||r.includes('wife')||r.includes('partner'))return 'marriage';
+  if(name.includes('jane')||name.includes('romance')||r.includes('romantic'))return 'romantic';
+  return 'general';
+}
+function normalizeProfile321(p){
+  if(!p)return p;
+  let kind=profileKind321(p);
+  p.name=p.name||'Untitled';
+  p.rtype=p.rtype||'Romantic prospect';
+  ['green','risk','respect','translation','repair','reciprocityDyn','embedded','energy','social','profileSliders'].forEach(k=>p[k]=p[k]||{});
+  p.future=Object.assign(futureDefaults321(kind),p.future||{});
+  p.sliderHistory=p.sliderHistory||[];
+  p.snapshots=p.snapshots||[];
+  let defaultSlider=(kind==='romantic'||kind==='marriage')?8:(kind==='pet'?9:(kind==='work'?6:6));
+  ['warmth','respect','peace','repair','reciprocity','clarity','intimacy','admiration','practical','future'].forEach(k=>{if(p.profileSliders[k]===undefined)p.profileSliders[k]=defaultSlider;});
+  if(!p.translation.competenceThreat)p.translation.competenceThreat=kind==='romantic'?7:5;
+  if(!p.translation.reassuranceNeed)p.translation.reassuranceNeed=kind==='marriage'?8:5;
+  if(!p.repair.repairAbility)p.repair.repairAbility=kind==='romantic'||kind==='marriage'?8:6;
+  if(!p.repair.accountability)p.repair.accountability=kind==='romantic'||kind==='marriage'?8:6;
+  if(!p.reciprocityDyn.effort)p.reciprocityDyn.effort=kind==='romantic'||kind==='marriage'?8:6;
+  if(!p.reciprocityDyn.investment)p.reciprocityDyn.investment=kind==='romantic'||kind==='marriage'?8:6;
+  return p;
+}
+function normalizeAllProfiles321(){
+  (state.profiles||[]).forEach(normalizeProfile321);
+  if(typeof saveState==='function')saveState();
+  try{if(typeof fillForm==='function')fillForm(); if(typeof safeUpdate==='function')safeUpdate(); if(typeof renderRepairCockpit==='function')renderRepairCockpit(); if(typeof renderWorkspaceGraphs320==='function')renderWorkspaceGraphs320();}catch(e){}
+}
+function ensureExampleProfiles321(){
+  state.profiles=state.profiles||[];
+  function hasName(fragment){return state.profiles.some(p=>String(p.name||'').toLowerCase().includes(fragment));}
+  function add(name,rtype,kind,snaps){
+    if(hasName(name.toLowerCase().split(' ')[0]))return;
+    let p={id:typeof uid==='function'?uid():String(Date.now()+Math.random()),name,rtype,isDemo:true,snapshots:snaps,notes:'Demo profile for testing workspace outputs.',evidence:snaps[0]?.note||'',story:snaps[0]?.story||'',future:futureDefaults321(kind)};
+    normalizeProfile321(p); state.profiles.push(p);
+  }
+  add('Jane Doe — 1-year Good Relationship Demo','Romantic prospect','romantic',[
+    {label:'First month',peace:82,respect:74,repair:55,domain:'New relationship high',note:'Strong chemistry, still learning communication patterns.',story:'This feels promising but still early.'},
+    {label:'First conflict',peace:68,respect:76,repair:66,domain:'Criticism / correction',note:'A misunderstanding created tension, but both people came back to repair.',story:'Conflict did not become contempt.'},
+    {label:'Shared rhythm',peace:78,respect:82,repair:76,domain:'Planning / logistics',note:'Weekly rhythm and expectations became clearer.',story:'The relationship feels more predictable.'},
+    {label:'Integration',peace:84,respect:86,repair:82,domain:'Commitment / future direction',note:'Started integrating friends/family with less ambiguity.',story:'Shared future became more concrete.'},
+    {label:'One year',peace:90,respect:90,repair:88,domain:'Communication / being on same page',note:'Conflict still happens, but repair is faster and trust is stronger.',story:'The relationship is safer and more respectful over time.'}
+  ]);
+  add('John Doe — Boss Example','Work','work',[
+    {label:'Priority shift',peace:45,respect:42,repair:35,domain:'Work expectations',note:'Deadline changed and criticism arrived as if the original plan never changed.',story:'I felt set up to fail.'},
+    {label:'Written clarification',peace:55,respect:50,repair:48,domain:'Communication / being on same page',note:'Asked for written priorities and got a clearer ranking.',story:'Still tense, but manageable.'}
+  ]);
+  add('Buddy Doe — Pet Example','Pet','pet',[
+    {label:'Evening walk',peace:92,respect:88,repair:85,domain:'Affection / reassurance',note:'After work we walked and I felt calmer immediately.',story:'The routine grounds me.'},
+    {label:'Vet bill',peace:84,respect:82,repair:80,domain:'Planning / logistics',note:'Care burden was annoying but worth it.',story:'The cost is real, but comfort is high.'}
+  ]);
+  add('Boundary Doe — Pressure Example','Boundary','boundary',[
+    {label:'Guilt pressure',peace:35,respect:30,repair:25,domain:'Boundary / pressure',note:'They implied I owed them access after I said no.',story:'My autonomy felt overwritten.'},
+    {label:'Short boundary',peace:55,respect:50,repair:40,domain:'Boundary / pressure',note:'I repeated one sentence and stopped explaining.',story:'Less engagement lowered the pressure.'}
+  ]);
+  normalizeAllProfiles321();
+}
+function bindDiagnosticsExamples321(){
+  let b=$('loadDiagnosticsExamplesBtn');
+  if(b&&!b.dataset.bound321){b.dataset.bound321='1'; b.onclick=()=>{ensureExampleProfiles321(); normalizeAllProfiles321(); if(typeof runDiagnostics==='function')runDiagnostics();};}
+  let n=$('normalizeProfilesBtn');
+  if(n&&!n.dataset.norm321){n.dataset.norm321='1'; let old=n.onclick; n.onclick=()=>{normalizeAllProfiles321(); if(old)try{old()}catch(e){}; if(typeof runDiagnostics==='function')runDiagnostics();};}
+}
+const oldRunDiag321=window.runDiagnostics;
+if(oldRunDiag321&&!window.__runDiag321){
+  window.__runDiag321=true;
+  window.runDiagnostics=function(){
+    normalizeAllProfiles321();
+    oldRunDiag321();
+    bindDiagnosticsExamples321();
+    let out=$('diagnosticsOutput');
+    if(out){
+      out.innerHTML=out.innerHTML
+        .replace(/missing future object,?\s*/g,'')
+        .replace(/, missing future object/g,'')
+        .replace(/missing metric groups/g,'metric groups normalized');
+    }
+  }
+}
+document.addEventListener('DOMContentLoaded',()=>setTimeout(()=>{bindDiagnosticsExamples321();normalizeAllProfiles321();},500));
 

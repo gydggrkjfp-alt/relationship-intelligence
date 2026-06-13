@@ -1,12 +1,7 @@
-# Relationship Intelligence v3.2.0
+# Relationship Intelligence v3.2.1
 
-Workspace consolidation:
-- Hides old Card Detail tab
-- Moves profile outputs into Workspace
-- Adds Profile Slider Wizard pop-out
-- Adds profile slider dashboard bar chart
-- Adds slider trajectory chart over time
-- Adds Peace × Respect matrix to Workspace
-- Adds radar chart to Workspace
-- Adds Peace × Respect trajectory to Workspace
-- Adds 1-year good relationship example with five evolution points
+Fixes:
+- Normalizes all profiles with missing future objects
+- Adds Load / repair examples button in Diagnostics
+- Ensures Jane Doe, John Doe, Buddy Doe, and Boundary Doe examples have future/profile/metric objects
+- Makes Normalize Profiles repair missing objects
