@@ -732,3 +732,68 @@ button[data-scenario],
   max-width: 100% !important;
   overflow: hidden !important;
 }
+
+/* v3.3.6 examples, snapshot timeline, role walkthrough cleanup */
+#therapyPanel335:has(#repairCockpitStrategy:empty),
+#rolePanel335:has(#repairCockpitActionStrategy:empty) {
+  display: none !important;
+}
+#therapyPanel335 > h3:only-child,
+#rolePanel335 > h3:only-child {
+  display: none !important;
+}
+.paradigmWalkthrough336 {
+  display: grid;
+  gap: 8px;
+  margin-top: 10px;
+}
+.walkStep336 {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 10px;
+}
+.walkStep336 b {
+  color: #174f58;
+  display: block;
+  margin-bottom: 3px;
+}
+.timeline336 {
+  position: relative;
+  display: grid;
+  gap: 8px;
+  padding: 8px 0;
+}
+.timelineEvent336 {
+  display: grid;
+  grid-template-columns: 86px 1fr auto;
+  gap: 10px;
+  align-items: start;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 10px;
+}
+.timelineEvent336.positive { border-left: 6px solid #2f855a; }
+.timelineEvent336.negative { border-left: 6px solid #c2413a; }
+.timelineEvent336.mixed { border-left: 6px solid #c88a1d; }
+.timelineDate336 { font-weight: 900; color: #174f58; font-size: 12px; }
+.timelineBody336 b { display:block; }
+.timelineScore336 {
+  font-size: 12px;
+  color: #475569;
+  text-align: right;
+}
+.exampleStatus336 {
+  margin-top: 8px;
+  background: #eaf6f7;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 8px;
+  font-size: 13px;
+  font-weight: 800;
+  color: #174f58;
+}
+#simpleIssueExamples334 .exampleStatus336 {
+  display: block;
+}

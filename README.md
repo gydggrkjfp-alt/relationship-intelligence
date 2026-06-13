@@ -1,11 +1,10 @@
-# Relationship Intelligence v3.3.5
+# Relationship Intelligence v3.3.6
 
-Hard structural fix:
-- Rewrites Snapshot page to remove Example Cards completely
-- Rewrites Workspace HTML into one stable two-column layout
-- Removes redundant example relationship/type dropdowns and scenario buttons
-- Adds one working example issue loader
-- Forces therapy/action/casual/profile modules left
-- Forces admiration + graphs right
-- Bounds Admiration Symmetry to remove blank space
-- Adds diagnostics for the exact repeated failures
+Changes:
+- Keeps selected example issue state clear after loading
+- Adds one-year example profiles for dating patterns
+- Adds Snapshot Timeline module for events over time
+- Adds snapshot markers to Peace/Respect trajectory
+- Adds step-by-step real-world role/paradigm walkthrough
+- Renames role labels to Current role one/two
+- Hides empty duplicate therapy/role boxes

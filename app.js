@@ -1,4 +1,4 @@
-const STORAGE_KEY='relationship_intelligence_pwa_v335';
+const STORAGE_KEY='relationship_intelligence_pwa_v336';
 const greenDefs=[['warmth','Warmth','Emotional warmth, ease, affection.'],['kindness','Kindness','Basic goodness toward you and others.'],['respect','Baseline respect','General respect signal from the core profile.'],['reciprocity','Reciprocity','Interest and effort move both directions.'],['curiosity','Curiosity','They actually want to know you.'],['stability','Emotional stability','Grounded enough to build with.'],['peace','Peace after contact','Afterward you feel peaceful, not anxious or humiliated.'],['attraction','Attraction','Physical / romantic pull.']];
 const riskDefs=[['chaos','Chaos / drama','Volatility, crisis, or confusing energy.'],['trauma','Early trauma dumping','Heavy disclosure before trust exists.'],['entitlement','Entitlement','Expects without appreciating.'],['family','Family disrespect','Contempt toward family/parents.'],['social','Social-media validation','Attention-seeking or comparison energy.'],['inconsistent','Inconsistent communication','Words and effort fluctuate in a destabilizing way.']];
 const respectDefs=[['opinion','Values your opinions','Does this person take your perspective seriously?'],['appreciation','Expresses appreciation','Does this person notice and value your effort?'],['commitments','Keeps commitments','Does they follow through reliably?'],['proud','Proud to be associated','Would this person speak well of you to others?'],['time','Respects your time','Is this person considerate with scheduling and effort?'],['boundaries','Respects boundaries','Does this person honor limits without punishment?']];
@@ -3762,5 +3762,333 @@ document.addEventListener('DOMContentLoaded',()=>setTimeout(()=>{cleanupSnapshot
     }, 600);
     setTimeout(hardLayout335, 1500);
   });
+})();
+
+
+
+/* v3.3.6 full example profiles, selected-example state, timeline, role walkthrough */
+(function(){
+  const $id = id => document.getElementById(id);
+  const esc = s => typeof escapeHTML === 'function'
+    ? escapeHTML(String(s ?? ''))
+    : String(s ?? '').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+
+  const profileExamples336 = {
+    "Good early dating — one year": {
+      name: "Jane Doe — Good Early Dating Demo",
+      rtype: "Dating / early relationship",
+      casual: {warmth:9,respect:9,peace:9,reciprocity:9,attraction:8,clarity:8,followThrough:9,socialFit:8,femaleSocialMedia_na:true,femaleComparison:2,femaleSoftness:9,maleUsefulness_na:true,maleCommitment_na:true,maleEmotionalSteadiness_na:true},
+      sliders: {warmth:9,respect:9,peace:9,repair:8,reciprocity:9,clarity:8,intimacy:8,admiration:9,practical:8,future:8},
+      events: [
+        ["Month 1","Positive","Green flag follow-through","She follows through on plans, asks thoughtful questions, and shows clear reciprocal interest.",78,76,55,"Affection / reassurance"],
+        ["Month 2","Mixed","Texting ambiguity","Warm in person but slower over text, creating mild uncertainty.",68,72,50,"Communication / shared reality"],
+        ["Month 3","Positive","Repair after awkwardness","An awkward misunderstanding is named quickly and handled without punishment.",76,80,70,"Communication / shared reality"],
+        ["Month 5","Positive","Social inclusion","She introduces him to friends and treats him warmly in public.",82,84,72,"Respect / public image"],
+        ["Month 7","Mixed","Expectation check","They realize one person wants more planning clarity, but discuss it directly.",78,86,78,"Planning / logistics"],
+        ["Month 9","Positive","Mutual effort rhythm","Both start initiating dates and checking in.",86,88,82,"Reciprocity"],
+        ["Month 12","Positive","Stable warmth","The relationship feels calmer, respectful, and increasingly trustworthy.",90,90,86,"Affection / reassurance"]
+      ]
+    },
+    "Promising but ambiguous — one year": {
+      name: "Lissa Doe — Ambiguous Dating Demo",
+      rtype: "Dating / early relationship",
+      casual: {warmth:8,respect:6,peace:5,reciprocity:5,attraction:9,clarity:4,followThrough:5,socialFit:5,femaleSocialMedia:7,femaleComparison:7,femaleSoftness:6,maleUsefulness_na:true,maleCommitment_na:true,maleEmotionalSteadiness_na:true},
+      sliders: {warmth:7,respect:6,peace:5,repair:5,reciprocity:5,clarity:4,intimacy:7,admiration:6,practical:5,future:4},
+      events: [
+        ["Month 1","Positive","Strong chemistry","The first few dates feel exciting and highly attractive.",78,70,45,"Passion / sexual disconnect"],
+        ["Month 2","Negative","Inconsistent follow-through","Plans are warm when made but often vague or delayed.",58,62,40,"Planning / logistics"],
+        ["Month 4","Mixed","Social media ambiguity","Posts and outside attention create uncertainty about seriousness.",54,56,42,"Social media / outside validation"],
+        ["Month 6","Positive","Good reconnecting date","A date goes well and warmth returns temporarily.",66,64,50,"Affection / reassurance"],
+        ["Month 8","Negative","Unclear expectations","One person assumes momentum; the other avoids defining the relationship.",48,56,40,"Commitment / future direction"],
+        ["Month 10","Mixed","Partial repair","They talk honestly, but no concrete plan changes.",56,60,55,"Communication / shared reality"],
+        ["Month 12","Negative","Pattern still unresolved","Chemistry remains, but peace and clarity remain unstable.",50,58,45,"Commitment / future direction"]
+      ]
+    },
+    "Respect problem — one year": {
+      name: "Annie Doe — Respect Problem Demo",
+      rtype: "Romantic: man evaluating woman",
+      casual: {warmth:6,respect:3,peace:4,reciprocity:5,attraction:8,clarity:5,followThrough:6,socialFit:4,femaleSocialMedia:8,femaleComparison:8,femaleSoftness:3,maleUsefulness_na:true,maleCommitment_na:true,maleEmotionalSteadiness_na:true},
+      sliders: {warmth:6,respect:3,peace:4,repair:4,reciprocity:5,clarity:5,intimacy:6,admiration:3,practical:5,future:3},
+      events: [
+        ["Month 1","Positive","Attraction high","The relationship starts with strong attraction and novelty.",72,70,45,"Passion / sexual disconnect"],
+        ["Month 2","Negative","Small public jab","A joke in front of friends lands as disrespectful.",58,52,38,"Respect / public image"],
+        ["Month 4","Negative","Social media complaint","She posts indirectly after conflict and he feels publicly exposed.",46,42,34,"Social media / outside validation"],
+        ["Month 5","Mixed","Apology without pattern change","She apologizes but later repeats the same kind of public framing.",50,46,44,"Respect / public image"],
+        ["Month 7","Negative","Friend-court escalation","She tells friends a one-sided version of conflict.",40,38,30,"Social media / outside validation"],
+        ["Month 9","Mixed","Boundary attempt","He asks for no public conflict but enforcement is inconsistent.",48,44,48,"Communication / shared reality"],
+        ["Month 12","Negative","Admiration erosion","Attraction remains but admiration and safety are low.",42,35,35,"Respect / public image"]
+      ]
+    }
+  };
+
+  function currentProfile336(){
+    return typeof rcCurrentProfile === 'function'
+      ? rcCurrentProfile()
+      : (typeof currentProfile === 'function' ? currentProfile() : state.profiles?.[0]);
+  }
+  function ensureProfile336(){
+    state.profiles = state.profiles || [];
+    if (!state.profiles.length) {
+      const p = {id: typeof uid === 'function' ? uid() : String(Date.now()), name:'New relationship', rtype:'Dating / early relationship', snapshots:[], issues:[], profileSliders:{}, future:{}, casual:{}};
+      state.profiles.push(p);
+      state.currentId = p.id;
+      if (typeof saveState === 'function') saveState();
+    }
+    const p = currentProfile336() || state.profiles[0];
+    p.snapshots = p.snapshots || [];
+    p.issues = p.issues || [];
+    p.profileSliders = p.profileSliders || {};
+    p.casual = p.casual || {};
+    return p;
+  }
+  function monthDate336(i){
+    const d = new Date();
+    d.setMonth(d.getMonth() - (12 - i));
+    return d.toISOString();
+  }
+  function loadProfileExample336(key){
+    const ex = profileExamples336[key] || profileExamples336[Object.keys(profileExamples336)[0]];
+    let p = ensureProfile336();
+    p.name = ex.name;
+    p.rtype = ex.rtype;
+    p.casual = Object.assign({}, ex.casual);
+    p.profileSliders = Object.assign({}, ex.sliders);
+    p.snapshots = [];
+    p.issues = [];
+    p.sliderHistory = [];
+    ex.events.forEach((row, idx) => {
+      const [label, polarity, title, note, peace, respect, repair, domain] = row;
+      const created = monthDate336(idx+1);
+      const snap = {
+        id: typeof uid === 'function' ? uid() : String(Date.now()+idx),
+        label, title, created, polarity, domain, note, story: note,
+        peace, respect, repair,
+        reciprocity: Math.round((peace + respect) / 2),
+        energy: polarity === 'Negative' ? 35 : polarity === 'Mixed' ? 55 : 75,
+        embedded: 55 + idx * 4,
+        alignment: Math.round((peace + repair) / 2),
+        marker: true
+      };
+      p.snapshots.push(snap);
+      p.sliderHistory.push({
+        created,
+        warmth: Math.max(1, Math.round((peace + 10) / 10)),
+        respect: Math.max(1, Math.round(respect / 10)),
+        peace: Math.max(1, Math.round(peace / 10)),
+        repair: Math.max(1, Math.round(repair / 10)),
+        reciprocity: Math.max(1, Math.round(((peace+respect)/2)/10)),
+        clarity: Math.max(1, Math.round((repair+respect)/20)),
+        intimacy: Math.max(1, Math.round((peace+respect)/20)),
+        admiration: Math.max(1, Math.round(respect/10)),
+        practical: 6,
+        future: Math.max(1, Math.round((peace+respect+repair)/30))
+      });
+      if (polarity !== 'Positive' || idx === 1 || idx === 4) {
+        p.issues.push({
+          id: typeof uid === 'function' ? uid() : String(Date.now()+100+idx),
+          type: domain,
+          title,
+          event: note,
+          story: note,
+          polarity,
+          aggrieved: ex.rtype.includes('man evaluating') ? 'Man' : 'Woman',
+          recurrence: idx > 3 ? 'Recurring pattern' : 'Occasional',
+          ratings: {},
+          created,
+          history: [snap]
+        });
+      }
+    });
+    state.currentId = p.id;
+    if (typeof saveState === 'function') saveState();
+    if (typeof fillForm === 'function') fillForm();
+    if (typeof safeUpdate === 'function') safeUpdate();
+    if (typeof renderRepairCockpit === 'function') renderRepairCockpit();
+    setTimeout(() => {
+      renderProfileExampleLoader336(key);
+      renderSnapshotTimeline336();
+      if (typeof renderWorkspaceGraphs320 === 'function') renderWorkspaceGraphs320();
+      if (typeof drawTimeSeriesPeaceRespect331 === 'function') drawTimeSeriesPeaceRespect331();
+      drawTimeSeriesWithMarkers336();
+    }, 120);
+  }
+
+  function renderProfileExampleLoader336(selected){
+    const holder = $id('profileExampleLoader336');
+    if (!holder) return;
+    const keys = Object.keys(profileExamples336);
+    holder.innerHTML = `<h3>Load one-year example profile</h3>
+      <div class="exampleRow">
+        <label>Example profile
+          <select id="profileExampleSelect336">
+            ${keys.map(k=>`<option value="${esc(k)}" ${k===selected?'selected':''}>${esc(k)}</option>`).join('')}
+          </select>
+        </label>
+        <button id="loadProfileExampleBtn336" type="button" class="secondary">Load one-year profile</button>
+      </div>
+      <div class="exampleStatus336">Loaded profile: ${esc(selected || 'none yet')}</div>`;
+    const btn = $id('loadProfileExampleBtn336');
+    if (btn) btn.onclick = () => loadProfileExample336($id('profileExampleSelect336')?.value || keys[0]);
+  }
+
+  function renderSnapshotTimeline336(){
+    const el = $id('snapshotTimelineBody336');
+    const p = ensureProfile336();
+    if (!el) return;
+    const snaps = (p.snapshots || []).slice().sort((a,b)=>new Date(a.created||0)-new Date(b.created||0));
+    if (!snaps.length) {
+      el.innerHTML = '<p class="small">No snapshots yet. Load a one-year profile example or create a New Relationship / Snapshot.</p>';
+      return;
+    }
+    el.innerHTML = `<div class="timeline336">${snaps.map((s,i)=>{
+      const pol = String(s.polarity || 'Mixed').toLowerCase();
+      const dt = s.label || new Date(s.created||Date.now()).toLocaleDateString();
+      return `<div class="timelineEvent336 ${pol}">
+        <div class="timelineDate336">${esc(dt)}</div>
+        <div class="timelineBody336"><b>${esc(s.title || s.domain || 'Snapshot')}</b>${esc(s.note || s.story || '')}</div>
+        <div class="timelineScore336">Peace ${Math.round(s.peace||0)}<br>Respect ${Math.round(s.respect||0)}</div>
+      </div>`;
+    }).join('')}</div>`;
+  }
+
+  function drawTimeSeriesWithMarkers336(){
+    const p = ensureProfile336();
+    const c = $id('workspacePeaceRespectCanvas');
+    if (!c) return;
+    const pts = (p.snapshots || []).map((s,i)=>({
+      i, label:s.label || String(i+1), polarity:s.polarity || 'Mixed',
+      peace:Number(s.peace||50), respect:Number(s.respect||50)
+    }));
+    if (!pts.length) return;
+    const ctx = c.getContext('2d'), w=c.width, h=c.height, pad=58;
+    ctx.clearRect(0,0,w,h);
+    ctx.fillStyle='#fff'; ctx.fillRect(0,0,w,h);
+    ctx.strokeStyle='#d7e1e5'; ctx.lineWidth=1;
+    for(let v=0; v<=100; v+=25){
+      const y=h-pad-(v/100)*(h-2*pad);
+      ctx.beginPath(); ctx.moveTo(pad,y); ctx.lineTo(w-pad,y); ctx.stroke();
+      ctx.fillStyle='#64748b'; ctx.font='11px sans-serif'; ctx.fillText(String(v),22,y+3);
+    }
+    function xFor(i){ return pad + (i/Math.max(1,pts.length-1))*(w-2*pad); }
+    function yFor(v){ return h-pad-(v/100)*(h-2*pad); }
+    function line(key,color,label,yoff){
+      ctx.beginPath();
+      pts.forEach((pt,i)=>{const x=xFor(i), y=yFor(pt[key]); i?ctx.lineTo(x,y):ctx.moveTo(x,y);});
+      ctx.strokeStyle=color; ctx.lineWidth=3; ctx.stroke();
+      ctx.fillStyle=color; ctx.font='13px sans-serif'; ctx.fillText(label,pad+8,yoff);
+    }
+    line('peace','#256b72','Peace',22);
+    line('respect','#c2413a','Respect',40);
+    pts.forEach((pt,i)=>{
+      const x=xFor(i);
+      const y=(yFor(pt.peace)+yFor(pt.respect))/2;
+      const color = pt.polarity === 'Positive' ? '#2f855a' : pt.polarity === 'Negative' ? '#c2413a' : '#c88a1d';
+      ctx.beginPath(); ctx.arc(x,y,7,0,Math.PI*2); ctx.fillStyle=color; ctx.fill();
+      ctx.fillStyle='#1f2933'; ctx.font='10px sans-serif'; ctx.fillText(String(i+1),x+8,y-8);
+      ctx.save(); ctx.translate(x-8,h-pad+22); ctx.rotate(-0.7); ctx.fillText(pt.label,0,0); ctx.restore();
+    });
+    ctx.fillStyle='#1f2933'; ctx.font='13px sans-serif'; ctx.fillText('Time / snapshots →',w/2-55,h-18);
+  }
+
+  function roleWalkthrough336(){
+    const issue = typeof currentIssue331 === 'function' ? currentIssue331() : null;
+    const el = $id('repairCockpitActionStrategy');
+    if (!el || !issue) return;
+    const existing = el.querySelector('.roleGrid') || el;
+    let type = issue.type || 'Communication / shared reality';
+    let steps = [
+      ['Name the current role pattern','One person is pursuing change; the other is defending, withdrawing, or trying not to fail.'],
+      ['Stop making the person the problem','Say the pattern out loud: “I think we are in a pressure/defense loop.”'],
+      ['Trade one concrete behavior','Each person offers one action: one softening move, one follow-through move, one clearer request.'],
+      ['Measure the next interaction','Log the next snapshot and see whether peace, respect, and repair improved.']
+    ];
+    if (type.includes('Communication')) steps = [
+      ['Current role one: inclusion-seeker','This person wants to feel included in decisions and inner-world updates.'],
+      ['Current role two: private processor','This person handles stress privately and may experience questions as criticism.'],
+      ['Paradigm shift in real life','Create a weekly check-in so inclusion is automatic, not extracted through pursuit.'],
+      ['Concrete next action','Ask: “What changed this week? What decisions are pending? What are you carrying that I do not know?”']
+    ];
+    if (type.includes('Appreciation') || type.includes('Criticism')) steps = [
+      ['Current role one: standards-holder','This person is trying to improve the outcome or reduce hidden labor.'],
+      ['Current role two: under-recognized helper','This person wants effort to count before it is corrected.'],
+      ['Paradigm shift in real life','Separate appreciation from correction. Appreciation gets a clean moment; technical correction happens later.'],
+      ['Concrete next action','Say: “I see what you did and I appreciate it. If we adjust anything, let’s do it later, not in the thank-you moment.”']
+    ];
+    if (type.includes('Respect') || type.includes('Social media') || type.includes('public')) steps = [
+      ['Current role one: outside-court seeker','This person seeks validation, leverage, or emotional witnesses outside the couple.'],
+      ['Current role two: dignity-protection responder','This person experiences public framing as humiliation or betrayal.'],
+      ['Paradigm shift in real life','Move conflict back inside the relationship and protect public dignity while repairing privately.'],
+      ['Concrete next action','Agree: no public jokes, posts, screenshots, or friend-court trials during active conflict.']
+    ];
+    const html = `<div class="paradigmWalkthrough336">${steps.map(s=>`<div class="walkStep336"><b>${esc(s[0])}</b>${esc(s[1])}</div>`).join('')}</div>`;
+    if (!el.querySelector('.paradigmWalkthrough336')) el.insertAdjacentHTML('beforeend', html);
+    else el.querySelector('.paradigmWalkthrough336').outerHTML = html;
+    el.querySelectorAll('.roleCard b').forEach(b=>{
+      if ((b.textContent||'').trim()==='Role one') b.textContent='Current role one';
+      if ((b.textContent||'').trim()==='Role two') b.textContent='Current role two';
+    });
+  }
+
+  function hideEmptyDuplicatePanels336(){
+    ['therapyPanel335','rolePanel335'].forEach(id=>{
+      const panel = $id(id);
+      if (!panel) return;
+      const target = id==='therapyPanel335' ? $id('repairCockpitStrategy') : $id('repairCockpitActionStrategy');
+      if (!target || !target.textContent.trim()) panel.style.display='none';
+      else panel.style.display='';
+    });
+  }
+
+  function syncSelectedIssueLabel336(){
+    const sel = $id('issueCardSelector');
+    const exampleSel = $id('simpleExampleIssueSelect335') || $id('simpleExampleIssueSelect334');
+    if (!sel) return;
+    sel.onchange = () => {
+      if (typeof renderTranslation331 === 'function') renderTranslation331();
+      roleWalkthrough336();
+    };
+  }
+
+  function refresh336(){
+    renderProfileExampleLoader336();
+    renderSnapshotTimeline336();
+    drawTimeSeriesWithMarkers336();
+    roleWalkthrough336();
+    hideEmptyDuplicatePanels336();
+    syncSelectedIssueLabel336();
+  }
+
+  const oldRender = window.renderRepairCockpit;
+  if (oldRender && !window.__render336) {
+    window.__render336 = true;
+    window.renderRepairCockpit = function(){
+      const r = oldRender();
+      setTimeout(refresh336, 80);
+      setTimeout(refresh336, 300);
+      return r;
+    };
+  }
+
+  const oldSafe = window.safeUpdate;
+  if (oldSafe && !window.__safe336) {
+    window.__safe336 = true;
+    window.safeUpdate = function(){
+      const r = oldSafe();
+      setTimeout(refresh336, 80);
+      return r;
+    };
+  }
+
+  const oldTrans = window.renderTranslation331;
+  if (oldTrans && !window.__trans336) {
+    window.__trans336 = true;
+    window.renderTranslation331 = function(){
+      const r = oldTrans();
+      setTimeout(roleWalkthrough336, 40);
+      return r;
+    };
+  }
+
+  document.addEventListener('DOMContentLoaded', () => setTimeout(refresh336, 700));
 })();
 
