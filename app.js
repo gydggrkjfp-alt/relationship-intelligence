@@ -1,4 +1,4 @@
-const STORAGE_KEY='relationship_intelligence_pwa_v336';
+const STORAGE_KEY='relationship_intelligence_pwa_v337';
 const greenDefs=[['warmth','Warmth','Emotional warmth, ease, affection.'],['kindness','Kindness','Basic goodness toward you and others.'],['respect','Baseline respect','General respect signal from the core profile.'],['reciprocity','Reciprocity','Interest and effort move both directions.'],['curiosity','Curiosity','They actually want to know you.'],['stability','Emotional stability','Grounded enough to build with.'],['peace','Peace after contact','Afterward you feel peaceful, not anxious or humiliated.'],['attraction','Attraction','Physical / romantic pull.']];
 const riskDefs=[['chaos','Chaos / drama','Volatility, crisis, or confusing energy.'],['trauma','Early trauma dumping','Heavy disclosure before trust exists.'],['entitlement','Entitlement','Expects without appreciating.'],['family','Family disrespect','Contempt toward family/parents.'],['social','Social-media validation','Attention-seeking or comparison energy.'],['inconsistent','Inconsistent communication','Words and effort fluctuate in a destabilizing way.']];
 const respectDefs=[['opinion','Values your opinions','Does this person take your perspective seriously?'],['appreciation','Expresses appreciation','Does this person notice and value your effort?'],['commitments','Keeps commitments','Does they follow through reliably?'],['proud','Proud to be associated','Would this person speak well of you to others?'],['time','Respects your time','Is this person considerate with scheduling and effort?'],['boundaries','Respects boundaries','Does this person honor limits without punishment?']];
@@ -4090,5 +4090,248 @@ document.addEventListener('DOMContentLoaded',()=>setTimeout(()=>{cleanupSnapshot
   }
 
   document.addEventListener('DOMContentLoaded', () => setTimeout(refresh336, 700));
+})();
+
+
+
+/* v3.3.7 adaptive interpretation feedback + casual slider trajectory */
+(function(){
+  const $id = id => document.getElementById(id);
+  const esc = s => typeof escapeHTML === 'function'
+    ? escapeHTML(String(s ?? ''))
+    : String(s ?? '').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+
+  const meaningAlternatives337 = {
+    male: [
+      ['Respect injury','He may feel disrespected, diminished, or treated as less competent.'],
+      ['Usefulness threat','He may feel his effort does not count or that trying only creates criticism.'],
+      ['Sexual rejection','He may feel undesired, unwanted, or replaced by roommate energy.'],
+      ['Loss of freedom','He may feel controlled, managed, or unable to act without correction.'],
+      ['Public embarrassment','He may feel exposed or humiliated in front of others.'],
+      ['Trust rupture','He may feel the relationship is no longer loyal or private.']
+    ],
+    female: [
+      ['Safety threat','She may feel emotionally unsafe, unsupported, or unable to relax.'],
+      ['Feeling unseen','She may feel invisible, unconsidered, or emotionally alone.'],
+      ['Commitment anxiety','She may feel uncertain about whether the relationship has a future.'],
+      ['Shared-reality gap','She may feel excluded from his inner world or major decisions.'],
+      ['Overburdened / labor load','She may feel she has to manage the details or carry the relationship structure alone.'],
+      ['Not cherished','She may feel chosen only when convenient, not actively treasured.']
+    ]
+  };
+
+  const casualMeanings337 = {
+    warmth:['Low: cold, guarded, flat, or emotionally unrewarding.','High: kind, pleasant, affectionate, emotionally inviting.'],
+    respect:['Low: diminished, mocked, dismissed, or taken for granted.','High: valued, protected, considered, not belittled.'],
+    peace:['Low: contact leaves you anxious, chaotic, or dysregulated.','High: contact leaves you calm, grounded, and clear.'],
+    reciprocity:['Low: you initiate most effort and carry the interaction.','High: they initiate, ask, follow up, and return effort.'],
+    attraction:['Low: little chemistry or attraction depends on fantasy.','High: real chemistry without ignoring obvious problems.'],
+    clarity:['Low: unclear intentions, vague plans, mixed signals.','High: intentions, expectations, and plans are clear.'],
+    followThrough:['Low: words often do not become actions.','High: they reliably do what they say.'],
+    socialFit:['Low: clashes with your real life, friends, routines, or values.','High: fits naturally into your life and values.'],
+    femaleSocialMedia:['Low: social media does not seem to drive validation needs.','High: social media attention shapes expectations or validation.'],
+    femaleComparison:['Low: outside comparison/friend-court pressure is minimal.','High: outside approval/comparison strongly steers the relationship.'],
+    femaleSoftness:['Low: low receptivity, warmth, gratitude, or respect.','High: warm, receptive, grateful, cooperative, and respectful.'],
+    maleUsefulness:['Low: he does not respond well to being useful or appreciated.','High: he lights up when useful, needed, respected, or appreciated.'],
+    maleCommitment:['Low: avoids definition, investment, or protection.','High: willing to define, protect, and invest.'],
+    maleEmotionalSteadiness:['Low: reactive, punitive, shuts down, or escalates.','High: regulated under correction, frustration, or conflict.']
+  };
+
+  function profile(){
+    return typeof rcCurrentProfile==='function' ? rcCurrentProfile() :
+      (typeof currentProfile==='function' ? currentProfile() : state.profiles?.[0]);
+  }
+  function ensureProfile(){
+    state.profiles = state.profiles || [];
+    if(!state.profiles.length){
+      const p={id:typeof uid==='function'?uid():String(Date.now()),name:'New relationship',rtype:'Dating / early relationship',snapshots:[],issues:[],casual:{},casualHistory:[]};
+      state.profiles.push(p); state.currentId=p.id; if(typeof saveState==='function')saveState();
+    }
+    const p=profile()||state.profiles[0];
+    p.issues=p.issues||[]; p.casual=p.casual||{}; p.casualHistory=p.casualHistory||[];
+    return p;
+  }
+  function issue(){
+    if(typeof currentIssue331==='function')return currentIssue331();
+    const p=ensureProfile(); return p.issues[p.issues.length-1]||null;
+  }
+
+  function needFrom(text){
+    const t=text.toLowerCase();
+    if(t.includes('disrespect')||t.includes('diminish')||t.includes('competent')) return 'Respect, dignity, and competent contribution.';
+    if(t.includes('effort')||t.includes('useful')||t.includes('criticism')) return 'Usefulness, appreciation, and recognition before correction.';
+    if(t.includes('unsafe')||t.includes('support')) return 'Emotional safety, reassurance, and a softer landing.';
+    if(t.includes('excluded')||t.includes('inner world')||t.includes('decision')) return 'Shared reality, inclusion, and partnership visibility.';
+    if(t.includes('undesired')||t.includes('rejection')||t.includes('desire')) return 'Desire, affection, and non-pressured intimacy.';
+    return 'A core relational need that should be named directly before problem-solving.';
+  }
+  function roleFrom(text){
+    const t=text.toLowerCase();
+    if(t.includes('effort')||t.includes('correct')) return 'Standards-holder versus under-recognized helper.';
+    if(t.includes('excluded')||t.includes('inner world')) return 'Inclusion-seeker versus private processor.';
+    if(t.includes('undesired')||t.includes('desire')) return 'Reassurance pursuer versus safety/desire gatekeeper.';
+    if(t.includes('public')||t.includes('humiliat')||t.includes('embarrass')) return 'Outside-court seeker versus dignity-protection responder.';
+    return 'Pursue/defend loop: one person pressures for change while the other protects against shame.';
+  }
+  function shiftFrom(text){
+    const t=text.toLowerCase();
+    if(t.includes('effort')||t.includes('correct')) return 'Separate appreciation from correction. Let effort count before improving the outcome.';
+    if(t.includes('excluded')||t.includes('inner world')) return 'Create default check-ins so inclusion does not require interrogation.';
+    if(t.includes('undesired')||t.includes('desire')) return 'Separate affection from demand and rebuild low-pressure conditions for desire.';
+    if(t.includes('public')||t.includes('humiliat')||t.includes('embarrass')) return 'Move conflict inside the couple and protect public dignity while repairing privately.';
+    return 'Name the loop, name the need, make one concrete request, and test whether the next snapshot improves.';
+  }
+  function exerciseFrom(text){
+    const t=text.toLowerCase();
+    if(t.includes('effort')||t.includes('correct')) return ['Clean appreciation exercise','For seven days, each partner gives one clean appreciation with no correction attached. Corrections get scheduled separately.'];
+    if(t.includes('excluded')||t.includes('inner world')) return ['Shared-reality check-in','Once weekly, answer: what changed, what decisions are pending, what stress am I carrying, and what do I need you to know?'];
+    if(t.includes('undesired')||t.includes('desire')) return ['Desire conditions map','Each partner lists what increases desire, what kills desire, and what makes intimacy feel safe. Compare without debating.'];
+    if(t.includes('public')||t.includes('humiliat')||t.includes('embarrass')) return ['Private-before-public agreement','For 30 days, active conflict is brought privately first. No posts, jokes, screenshots, or friend-court trials.'];
+    return ['Meaning correction exercise','Each partner states: what I thought it meant, what it actually meant, and one behavior that would make the correct meaning visible.'];
+  }
+
+  function rewriteDownstream(){
+    const i=issue(); if(!i)return;
+    const focus=i.alternativeMeanings?.male?.text || i.alternativeMeanings?.female?.text;
+    if(!focus)return;
+    const action=$id('repairCockpitActionStrategy'), therapy=$id('repairCockpitStrategy');
+    if(action){
+      action.innerHTML = `<div class="roleGrid">
+        <div class="roleCard"><b>Corrected meaning</b>${esc(focus)}</div>
+        <div class="roleCard"><b>Need now being tested</b>${esc(needFrom(focus))}</div>
+        <div class="roleCard"><b>Role pattern to interrupt</b>${esc(roleFrom(focus))}</div>
+        <div class="roleCard"><b>Behavioral paradigm shift</b>${esc(shiftFrom(focus))}</div>
+      </div>
+      <div class="paradigmWalkthrough336">
+        <div class="walkStep336"><b>1. Pause the old loop</b>Stop arguing about the surface behavior for 90 seconds.</div>
+        <div class="walkStep336"><b>2. Name the corrected meaning</b>Say: “The real meaning may be: ${esc(focus)}”</div>
+        <div class="walkStep336"><b>3. Ask for confirmation</b>Ask: “Is that actually what this meant to you, or am I still missing it?”</div>
+        <div class="walkStep336"><b>4. Make one visible repair</b>Choose one action that would make the corrected meaning feel addressed within 24 hours.</div>
+      </div>`;
+    }
+    if(therapy){
+      const ex=exerciseFrom(focus);
+      therapy.innerHTML=`<div class="exerciseList"><div class="exerciseCard"><b>${esc(ex[0])}</b>${esc(ex[1])}</div></div>`;
+    }
+  }
+
+  function altBox(side, i){
+    const selected=i.alternativeMeanings?.[side]?.label||'';
+    return `<div class="alternativeBox337" id="altBox337_${side}">
+      <b>Alternative ${side==='male'?'male-side':'female-side'} interpretations</b>
+      <p class="small">Choose one if the first interpretation was wrong. This rewrites the need, role shift, action, and therapy exercise.</p>
+      <div class="alternativeGrid337">
+      ${(meaningAlternatives337[side]||[]).map(([label,text])=>`<button type="button" class="altBtn337 ${selected===label?'selected':''}" data-side="${side}" data-label="${esc(label)}" data-text="${esc(text)}">${esc(label)}</button>`).join('')}
+      </div>
+      <div class="customAlt337"><input id="customAlt337_${side}" placeholder="Custom meaning"><button type="button" data-custom-alt="${side}">Use custom</button></div>
+    </div>`;
+  }
+  function applyAlt(side,label,text){
+    const i=issue(); if(!i)return;
+    i.alternativeMeanings=i.alternativeMeanings||{};
+    i.alternativeMeanings[side]={label,text};
+    i.ratings=i.ratings||{};
+    i.ratings[side]='Corrected';
+    if(typeof saveState==='function')saveState();
+    if(typeof renderTranslation331==='function')renderTranslation331();
+    setTimeout(()=>{injectAlternatives(); rewriteDownstream();},80);
+  }
+  function injectAlternatives(){
+    const i=issue(); if(!i)return;
+    document.querySelectorAll('.rateBtn').forEach(btn=>{
+      if(btn.dataset.alt337)return;
+      btn.dataset.alt337='1';
+      const old=btn.onclick;
+      btn.onclick=()=>{
+        if(old)try{old();}catch(e){}
+        const side=btn.dataset.rateKey, val=btn.dataset.rateVal;
+        const ii=issue(); ii.ratings=ii.ratings||{}; ii.ratings[side]=val;
+        if(typeof saveState==='function')saveState();
+        if(val==='Wrong'||val==='Partial')setTimeout(injectAlternatives,80);
+      };
+    });
+    const cards=[...document.querySelectorAll('.translationCard')];
+    const maleCard=cards.find(x=>(x.textContent||'').includes('Possible male-side meaning'));
+    const femaleCard=cards.find(x=>(x.textContent||'').includes('Possible female-side meaning'));
+    if(maleCard && !$id('altBox337_male') && (i.ratings?.male==='Wrong'||i.ratings?.male==='Partial'||i.alternativeMeanings?.male)) maleCard.insertAdjacentHTML('beforeend',altBox('male',i));
+    if(femaleCard && !$id('altBox337_female') && (i.ratings?.female==='Wrong'||i.ratings?.female==='Partial'||i.alternativeMeanings?.female)) femaleCard.insertAdjacentHTML('beforeend',altBox('female',i));
+    document.querySelectorAll('.altBtn337').forEach(b=>b.onclick=()=>applyAlt(b.dataset.side,b.dataset.label,b.dataset.text));
+    document.querySelectorAll('[data-custom-alt]').forEach(b=>b.onclick=()=>{
+      const side=b.dataset.customAlt, val=$id('customAlt337_'+side)?.value||'';
+      if(val.trim())applyAlt(side,'Custom',val.trim());
+    });
+  }
+
+  function enhanceCasualWizard(){
+    const body=$id('casualTrackerWizardBody'); if(!body)return;
+    if(!body.querySelector('.naToggleRow337')){
+      body.insertAdjacentHTML('afterbegin',`<div class="naToggleRow337">
+        <button type="button" id="maleNAAll337">Mark all male-specific N/A</button>
+        <button type="button" id="femaleNAAll337">Mark all female-specific N/A</button>
+        <button type="button" id="clearNAAll337">Clear all N/A</button>
+      </div>`);
+    }
+    Object.entries(casualMeanings337).forEach(([k,parts])=>{
+      const input=$id('casual_'+k); if(!input)return;
+      const label=input.closest('label');
+      if(label&&!label.querySelector('.casualSliderHelp337')){
+        input.insertAdjacentHTML('afterend',`<div class="casualSliderHelp337"><span>${esc(parts[0])}</span><span>${esc(parts[1])}</span></div>`);
+      }
+    });
+    const setGroup=(prefix,checked)=>{
+      Object.keys(casualMeanings337).forEach(k=>{
+        if(k.startsWith(prefix)){
+          const cb=$id('casual_'+k+'_na'), input=$id('casual_'+k), val=$id('casual_'+k+'_val');
+          if(cb)cb.checked=checked; if(input)input.disabled=checked; if(val)val.textContent=checked?'N/A':input?.value;
+        }
+      });
+    };
+    const male=$id('maleNAAll337'), female=$id('femaleNAAll337'), clear=$id('clearNAAll337');
+    if(male)male.onclick=()=>setGroup('male',true);
+    if(female)female.onclick=()=>setGroup('female',true);
+    if(clear)clear.onclick=()=>{setGroup('male',false);setGroup('female',false);};
+  }
+
+  function patchCasualOpenSave(){
+    const oldOpen=window.openCasualTracker333;
+    if(oldOpen&&!window.__openCasual337){
+      window.__openCasual337=true;
+      window.openCasualTracker333=function(){oldOpen();setTimeout(enhanceCasualWizard,80);};
+    }
+    const oldSave=window.saveCasualTracker333;
+    if(oldSave&&!window.__saveCasual337){
+      window.__saveCasual337=true;
+      window.saveCasualTracker333=function(){const r=oldSave();setTimeout(drawCasualTrajectory,80);return r;};
+    }
+  }
+
+  function drawCasualTrajectory(){
+    const p=ensureProfile(), c=$id('casualTrajectoryCanvas337'); if(!c)return;
+    const hist=p.casualHistory||[], ctx=c.getContext('2d'), w=c.width, h=c.height, pad=58;
+    ctx.clearRect(0,0,w,h); ctx.fillStyle='#fff'; ctx.fillRect(0,0,w,h); ctx.strokeStyle='#d7e1e5';
+    for(let v=0;v<=100;v+=25){const y=h-pad-(v/100)*(h-2*pad);ctx.beginPath();ctx.moveTo(pad,y);ctx.lineTo(w-pad,y);ctx.stroke();ctx.fillStyle='#64748b';ctx.font='11px sans-serif';ctx.fillText(String(v),22,y+3);}
+    if(!hist.length){ctx.fillStyle='#475569';ctx.font='16px sans-serif';ctx.fillText('No casual tracker snapshots yet. Save a tracker snapshot to start the trajectory.',pad,h/2);return;}
+    const keys=['warmth','respect','peace','reciprocity','attraction','clarity'], colors=['#256b72','#c2413a','#2f855a','#c88a1d','#6d5bd','#475569'];
+    const xFor=i=>pad+(i/Math.max(1,hist.length-1))*(w-2*pad), yFor=v=>h-pad-(v/10)*(h-2*pad);
+    keys.forEach((k,ki)=>{ctx.beginPath();hist.forEach((pt,i)=>{if(pt[k]==null)return;const x=xFor(i),y=yFor(Number(pt[k]));i?ctx.lineTo(x,y):ctx.moveTo(x,y);});ctx.strokeStyle=colors[ki];ctx.lineWidth=2;ctx.stroke();ctx.fillStyle=colors[ki];ctx.font='12px sans-serif';ctx.fillText(k,pad+ki*82,22);});
+    hist.forEach((pt,i)=>{const vals=keys.map(k=>pt[k]).filter(v=>v!=null).map(Number);const avg=vals.length?vals.reduce((a,b)=>a+b,0)/vals.length:5;const x=xFor(i),y=yFor(avg);ctx.beginPath();ctx.arc(x,y,5,0,Math.PI*2);ctx.fillStyle='#1f2933';ctx.fill();ctx.fillText(String(i+1),x+7,y-7);});
+    ctx.fillStyle='#1f2933';ctx.font='13px sans-serif';ctx.fillText('Time / casual tracker snapshots →',w/2-90,h-18);
+  }
+
+  function refresh(){
+    injectAlternatives();
+    rewriteDownstream();
+    patchCasualOpenSave();
+    enhanceCasualWizard();
+    drawCasualTrajectory();
+  }
+
+  const oldRender=window.renderRepairCockpit;
+  if(oldRender&&!window.__render337){window.__render337=true;window.renderRepairCockpit=function(){const r=oldRender();setTimeout(refresh,100);setTimeout(refresh,350);return r;};}
+  const oldSafe=window.safeUpdate;
+  if(oldSafe&&!window.__safe337){window.__safe337=true;window.safeUpdate=function(){const r=oldSafe();setTimeout(refresh,100);return r;};}
+  const oldTrans=window.renderTranslation331;
+  if(oldTrans&&!window.__trans337){window.__trans337=true;window.renderTranslation331=function(){const r=oldTrans();setTimeout(refresh,70);return r;};}
+  document.addEventListener('DOMContentLoaded',()=>setTimeout(refresh,900));
 })();
 

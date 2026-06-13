@@ -1,10 +1,9 @@
-# Relationship Intelligence v3.3.6
+# Relationship Intelligence v3.3.7
 
 Changes:
-- Keeps selected example issue state clear after loading
-- Adds one-year example profiles for dating patterns
-- Adds Snapshot Timeline module for events over time
-- Adds snapshot markers to Peace/Respect trajectory
-- Adds step-by-step real-world role/paradigm walkthrough
-- Renames role labels to Current role one/two
-- Hides empty duplicate therapy/role boxes
+- Wrong/Partial interpretation ratings now show alternative meanings
+- Selecting an alternative rewrites downstream needs, role shift, action, and therapy exercise
+- Adds custom corrected interpretation input
+- Adds low/high meaning labels for all casual tracker sliders
+- Adds one-click N/A for all male-specific and female-specific casual sliders
+- Save Tracker Snapshot now feeds a casual tracker trajectory graph

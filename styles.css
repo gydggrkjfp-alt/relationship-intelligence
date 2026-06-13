@@ -797,3 +797,16 @@ button[data-scenario],
 #simpleIssueExamples334 .exampleStatus336 {
   display: block;
 }
+
+/* v3.3.7 adaptive interpretation + casual trajectory */
+.alternativeBox337{background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px;margin-top:8px}
+.alternativeGrid337{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:8px;margin-top:8px}
+.altBtn337{background:#e7f1f3!important;color:#174f58!important;border:1px solid var(--line)!important;font-size:12px!important;padding:8px 10px!important}
+.altBtn337.selected{background:#256b72!important;color:#fff!important}
+.customAlt337{display:grid;grid-template-columns:1fr auto;gap:8px;margin-top:8px}
+.casualSliderHelp337{display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:12px;color:#475569;margin-top:4px}
+.casualSliderHelp337 span{background:#f7fbfc;border:1px solid var(--line);border-radius:10px;padding:6px}
+.naToggleRow337{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.naToggleRow337 button{background:#e7f1f3!important;color:#174f58!important}
+#casualTrajectory337{margin-top:14px}
+#casualTrajectoryCanvas337{display:block;max-width:100%;height:auto}
