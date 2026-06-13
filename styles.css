@@ -456,3 +456,11 @@ body:not(.showWorkspace) #repairCockpitView{display:none!important}
 #repairCockpitAdmirationCanvas{width:100%!important;height:220px!important;max-height:220px!important}
 .v3Panel:has(#repairCockpitAdmirationCanvas){height:auto!important;min-height:320px!important}
 .issueWizardGrid select,.issueWizardGrid input,.issueWizardGrid textarea{width:100%}
+
+/* v3.3.3 workflow simplification + casual tracker */
+#snapshotView .exampleCards,#snapshotView #exampleCards,#snapshotView .examples,#snapshotView .sampleCards,#snapshotView [class*="example"],#snapshotView .example-card,#snapshotView .demoCard,#snapshotView [id*="example"]{display:none!important}
+#frontWorkflow333{display:block!important;background:linear-gradient(135deg,#ffffff,#eaf6f7);border:1px solid var(--line);border-radius:22px;padding:18px;margin:12px 0;box-shadow:0 10px 25px rgba(31,80,90,.06)}
+#frontWorkflow333 h3{margin-top:0}#frontWorkflow333 ol{margin:8px 0 14px 20px}#snapshotView .heroWizard{display:none!important}#openRelationshipSnapshotBtn{display:inline-block!important}
+.workspaceTwoColumn{display:grid;grid-template-columns:minmax(0,1fr) minmax(360px,.9fr);gap:14px;align-items:start}@media(max-width:1000px){.workspaceTwoColumn{grid-template-columns:1fr}}
+.workspaceLeftStack,.workspaceRightStack{display:grid;gap:12px}.casualScaleNA{display:flex;align-items:center;gap:10px;margin:10px 0}.casualScaleNA input[type="checkbox"]{width:auto}.casualTrackerPill{display:inline-flex;align-items:center;background:#e7f1f3;color:#174f58;border:1px solid var(--line);border-radius:999px;padding:4px 8px;margin:3px;font-size:12px;font-weight:800}
+#workspaceRelationshipTypeSelect,#workspaceIssueExampleSelect,#loadSelectedIssueExampleBtn{display:none!important}#loadOneYearAllModulesBtn,#loadBossScenarioBtn,#loadBoundaryScenarioBtn,#loadPetScenarioBtn{display:none!important}
