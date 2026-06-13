@@ -437,3 +437,22 @@ body:not(.showWorkspace) #repairCockpitView{display:none!important}
 .v3Panel:has(#repairCockpitAdmirationCanvas){min-height:0!important}
 .outputCanvas canvas{max-width:100%;height:auto}
 .selfRadarWrap{background:#fff;border:1px solid var(--line);border-radius:18px;padding:12px;margin:12px 0}
+
+/* v3.3.2 consolidation + graph popouts */
+#snapshotView .exampleCards,#snapshotView #exampleCards,#snapshotView .examples,#snapshotView .sampleCards,#snapshotView [class*="example"]{display:none!important}
+#openSnapshotWizardBtn{display:none!important}
+#snapshotView .heroWizard button:not(#openRelationshipSnapshotBtn){display:none!important}
+#openRelationshipSnapshotBtn{display:inline-block!important}
+.graphPopoutOverlay{position:fixed;inset:0;background:rgba(16,31,36,.62);z-index:1000000;display:flex;align-items:center;justify-content:center;padding:18px}
+.graphPopoutOverlay.hidden{display:none!important}
+.graphPopoutCard{background:#fff;border-radius:24px;border:1px solid var(--line);box-shadow:0 30px 90px rgba(0,0,0,.35);width:min(1180px,96vw);max-height:94vh;overflow:auto;padding:18px}
+.graphPopoutHeader{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);margin-bottom:12px}
+.graphPopoutCard canvas{width:100%;height:auto}
+.graphPopBtn{font-size:12px!important;padding:6px 10px!important;background:#e7f1f3!important;color:#174f58!important;margin:4px 0 8px 0}
+.roleGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:800px){.roleGrid{grid-template-columns:1fr}}
+.roleCard{background:#f7fbfc;border:1px solid var(--line);border-radius:14px;padding:12px}
+.roleCard b{display:block;color:#174f58;margin-bottom:4px}
+#repairCockpitAdmirationCanvas{width:100%!important;height:220px!important;max-height:220px!important}
+.v3Panel:has(#repairCockpitAdmirationCanvas){height:auto!important;min-height:320px!important}
+.issueWizardGrid select,.issueWizardGrid input,.issueWizardGrid textarea{width:100%}

@@ -1,10 +1,10 @@
 <!doctype html><html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Relationship Intelligence v3.3.1</title>
+<title>Relationship Intelligence v3.3.2</title>
 <link rel="manifest" href="manifest.json"><link rel="stylesheet" href="styles.css">
 <meta name="theme-color" content="#815b33"></head>
 <body>
-<header><h1>Relationship Intelligence <span>v3.3.1</span></h1>
+<header><h1>Relationship Intelligence <span>v3.3.2</span></h1>
 <div class="sub">Relational Dynamics Engine: trajectory, repair, reciprocity, embeddedness, loops, archetypes, and vector alignment.</div>
 <div id="status">Loading app…</div></header>
 <nav class="tabs"><button id="tabSnapshot" class="tab active">New Snapshot</button><button id="tabRepairCockpit" class="tab">Workspace</button><button id="tabCards" class="tab">Cards</button><button id="tabDashboard" class="tab">Dashboard</button><button id="tabEcosystem" class="tab">Ecosystem</button><button id="tabPerson" class="tab">Card Detail</button><button id="tabMe" class="tab">Self / Galaxy</button><button id="tabDiagnostics" class="tab">Diagnostics</button></nav>
@@ -38,7 +38,7 @@
 </div>
 <div class="snapshotEntry">
 <label>Which card?</label><select id="snapshotCardSelect"></select>
-<button id="snapshotNewCardBtn" type="button" class="secondary">+ New quick card</button>
+<button id="snapshotNewCardBtn" type="button" class="secondary">+ New relationship</button>
 <div id="snapshotNewCardFields" class="hidden">
 <label>New card name</label><input id="snapshotNewName" placeholder="Example: Boss, Sarah, Dad, Max">
 <label>Category</label><select id="snapshotNewCategory"><option>Romantic</option><option>Situationship</option><option>Dating relationship</option><option>Long-term partner</option><option>Fiancé / Fiancée</option><option>Husband</option><option>Wife</option><option>Co-parent</option><option>Ex-partner</option><option>Friend</option><option>Work</option><option>Family</option><option>Mentor</option><option>Activity / teammate</option><option>Boundary</option><option>Child</option><option>Pet</option><option>Other</option></select>
@@ -239,7 +239,7 @@
 <select id="repairCockpitProfileSelect"></select>
 </div>
 
-<div id="repairCockpitSourceStrip" class="v3SourceStrip"></div><div id="workspaceRelationshipSummary" class="workspaceSummary"></div><div class="exampleEvolveBar"><button id="loadOneYearAllModulesBtn" type="button">Load 1-year full workspace example</button><button id="loadBossScenarioBtn" type="button">Boss scenario</button><button id="loadBoundaryScenarioBtn" type="button">Boundary scenario</button><button id="loadPetScenarioBtn" type="button">Pet scenario</button></div><div id="repairExampleBar" class="exampleBar"><button type="button" data-example="appreciation">Appreciation conflict</button><button type="button" data-example="sharedReality">Shared reality drift</button><button type="button" data-example="boss">Boss expectations</button><button type="button" data-example="boundary">Boundary pressure</button><button type="button" data-example="pursueWithdraw">Pursue / withdraw</button></div>
+<div id="repairCockpitSourceStrip" class="v3SourceStrip"></div><div id="workspaceRelationshipSummary" class="workspaceSummary"></div><div class="issueControls"><label>Relationship type<select id="workspaceRelationshipTypeSelect"></select></label><label>Load issue example<select id="workspaceIssueExampleSelect"></select></label><button id="loadSelectedIssueExampleBtn" type="button" class="secondary">Load selected issue</button></div><div class="exampleEvolveBar"><button id="loadOneYearAllModulesBtn" type="button">Load 1-year full workspace example</button><button id="loadBossScenarioBtn" type="button">Boss scenario</button><button id="loadBoundaryScenarioBtn" type="button">Boundary scenario</button><button id="loadPetScenarioBtn" type="button">Pet scenario</button></div><div id="repairExampleBar" class="exampleBar"><button type="button" data-example="appreciation">Appreciation conflict</button><button type="button" data-example="sharedReality">Shared reality drift</button><button type="button" data-example="boss">Boss expectations</button><button type="button" data-example="boundary">Boundary pressure</button><button type="button" data-example="pursueWithdraw">Pursue / withdraw</button></div>
 
 <div class="v3Grid">
   <div class="v3Panel wide">
@@ -340,6 +340,21 @@
     <div class="wizardNav">
       <button id="saveIssueWizardBtn" type="button">Create issue card</button>
     </div>
+  </div>
+</div>
+
+
+<div id="relationshipSnapshotOverlay" class="issueWizardOverlay hidden">
+  <div class="issueWizardCard">
+    <div class="issueWizardHeader"><div><h2>New Relationship / Snapshot</h2><p class="small">Create a relationship if needed, then log one event or recurring issue.</p></div><button id="closeRelationshipSnapshotBtn" type="button" class="secondary">Close</button></div>
+    <div id="relationshipSnapshotBody"></div>
+    <div class="wizardNav"><button id="saveRelationshipSnapshotBtn" type="button">Save relationship snapshot</button></div>
+  </div>
+</div>
+<div id="graphPopoutOverlay" class="graphPopoutOverlay hidden">
+  <div class="graphPopoutCard">
+    <div class="graphPopoutHeader"><h2 id="graphPopoutTitle">Graph</h2><button id="closeGraphPopoutBtn" type="button" class="secondary">Close</button></div>
+    <canvas id="graphPopoutCanvas" width="1100" height="700"></canvas>
   </div>
 </div>
 
