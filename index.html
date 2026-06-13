@@ -1,10 +1,10 @@
 <!doctype html><html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Relationship Intelligence v3.2.2</title>
+<title>Relationship Intelligence v3.3.0</title>
 <link rel="manifest" href="manifest.json"><link rel="stylesheet" href="styles.css">
 <meta name="theme-color" content="#815b33"></head>
 <body>
-<header><h1>Relationship Intelligence <span>v3.2.2</span></h1>
+<header><h1>Relationship Intelligence <span>v3.3.0</span></h1>
 <div class="sub">Relational Dynamics Engine: trajectory, repair, reciprocity, embeddedness, loops, archetypes, and vector alignment.</div>
 <div id="status">Loading app…</div></header>
 <nav class="tabs"><button id="tabSnapshot" class="tab active">New Snapshot</button><button id="tabRepairCockpit" class="tab">Workspace</button><button id="tabCards" class="tab">Cards</button><button id="tabDashboard" class="tab">Dashboard</button><button id="tabEcosystem" class="tab">Ecosystem</button><button id="tabPerson" class="tab">Card Detail</button><button id="tabMe" class="tab">Self / Galaxy</button><button id="tabDiagnostics" class="tab">Diagnostics</button></nav>
@@ -243,7 +243,7 @@
 
 <div class="v3Grid">
   <div class="v3Panel wide">
-    <h3>Translation loop</h3>
+    <h3>Issue Translation</h3><div class="guide"><b>Purpose:</b> translate one specific romantic event or recurring issue into what each person may have meant, heard, needed, and how to repair the loop.</div><div class="issueControls"><label>Tracked issue / event<select id="issueCardSelector"></select></label><button id="newIssueCardBtn" type="button" class="secondary">+ New issue card</button></div>
     <p class="small">Event → story → threatened need → reaction → partner interpretation → escalation or repair.</p>
     <div id="repairCockpitLoop" class="loopGraphic"></div>
   </div>
@@ -266,7 +266,7 @@
   </div>
 
   <div class="v3Panel wide">
-    <h3>Therapy response strategy</h3>
+    <h3>Therapy / growth exercises</h3>
     <div id="repairCockpitStrategy"></div>
 <div id="workspaceProfileDashboard" class="workspaceSection">
   <h3>Profile dashboard</h3>
@@ -283,7 +283,7 @@
     <div style="grid-column:1/-1"><h4>Slider trajectory over time</h4><div class="outputCanvas"><canvas id="sliderTimelineCanvas" width="820" height="420"></canvas></div><div id="sliderTimelineSummary" class="analysisBox"></div></div>
     <div style="grid-column:1/-1"><h4>Peace × Respect trajectory</h4><div class="outputCanvas"><canvas id="workspacePeaceRespectCanvas" width="820" height="420"></canvas></div></div>
   </div>
-</div><h3>Action response strategy</h3><div id="repairCockpitActionStrategy"></div>
+</div><h3>Immediate action response</h3><div id="repairCockpitActionStrategy"></div>
   </div>
 </div>
 </section>

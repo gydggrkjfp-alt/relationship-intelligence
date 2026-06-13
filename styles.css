@@ -397,3 +397,23 @@ body:not(.showWorkspace) #repairCockpitView{display:none!important}
 #snapshotView .exampleCards,#snapshotView #exampleCards,#snapshotView .examples,#snapshotView .sampleCards{display:none!important}
 #repairCockpitAdmirationCanvas{max-height:240px!important}
 #repairCockpitAdmirationText{margin-top:4px!important}
+
+/* v3.3.0 issue-card translation engine */
+.issueControls{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:end;margin:10px 0}
+@media(max-width:700px){.issueControls{grid-template-columns:1fr}}
+.issueSummaryHero{background:linear-gradient(135deg,#ffffff,#ecf8f7);border:1px solid var(--line);border-radius:18px;padding:14px;margin:10px 0}
+.issueSummaryHero h4{margin:0 0 8px 0;color:#174f58}
+.issuePills{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.issuePill{background:#e6f3f4;border:1px solid var(--line);border-radius:999px;padding:4px 9px;font-size:12px;font-weight:800}
+.translationTwoCol{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:800px){.translationTwoCol{grid-template-columns:1fr}}
+.translationCard{background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px;margin:8px 0}
+.translationCard b{color:#174f58}
+.reviewRow{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.reviewRow button{font-size:12px;padding:6px 9px;background:#e7f1f3!important;color:#174f58!important}
+.loopChain{display:grid;gap:8px;margin:10px 0}
+.chainStep{background:#f7fbfc;border:1px solid var(--line);border-radius:14px;padding:10px}
+.chainArrow{text-align:center;font-weight:900;color:#256b72}
+.exerciseList{display:grid;gap:10px}
+.exerciseCard{background:#f7fbfc;border:1px solid var(--line);border-radius:14px;padding:10px}
+.exerciseCard b{display:block;color:#174f58;margin-bottom:4px}

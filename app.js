@@ -1,4 +1,4 @@
-const STORAGE_KEY='relationship_intelligence_pwa_v322';
+const STORAGE_KEY='relationship_intelligence_pwa_v330';
 const greenDefs=[['warmth','Warmth','Emotional warmth, ease, affection.'],['kindness','Kindness','Basic goodness toward you and others.'],['respect','Baseline respect','General respect signal from the core profile.'],['reciprocity','Reciprocity','Interest and effort move both directions.'],['curiosity','Curiosity','They actually want to know you.'],['stability','Emotional stability','Grounded enough to build with.'],['peace','Peace after contact','Afterward you feel peaceful, not anxious or humiliated.'],['attraction','Attraction','Physical / romantic pull.']];
 const riskDefs=[['chaos','Chaos / drama','Volatility, crisis, or confusing energy.'],['trauma','Early trauma dumping','Heavy disclosure before trust exists.'],['entitlement','Entitlement','Expects without appreciating.'],['family','Family disrespect','Contempt toward family/parents.'],['social','Social-media validation','Attention-seeking or comparison energy.'],['inconsistent','Inconsistent communication','Words and effort fluctuate in a destabilizing way.']];
 const respectDefs=[['opinion','Values your opinions','Does this person take your perspective seriously?'],['appreciation','Expresses appreciation','Does this person notice and value your effort?'],['commitments','Keeps commitments','Does they follow through reliably?'],['proud','Proud to be associated','Would this person speak well of you to others?'],['time','Respects your time','Is this person considerate with scheduling and effort?'],['boundaries','Respects boundaries','Does this person honor limits without punishment?']];
@@ -2735,4 +2735,134 @@ if(oldRender322&&!window.__render322){window.__render322=true;window.renderRepai
 const oldSafe322=window.safeUpdate;
 if(oldSafe322&&!window.__safe322){window.__safe322=true;window.safeUpdate=function(){let r=oldSafe322();try{refreshSelect322();workspaceSummary322();renderLoop322();bindScenario322();}catch(e){}return r;}}
 document.addEventListener('DOMContentLoaded',()=>setTimeout(()=>{ensureCard322();patchWizardSelect322();bindScenario322();refreshSelect322();workspaceSummary322();renderLoop322();},700));
+
+
+
+/* v3.3.0 romantic issue-card translation engine */
+const issueTypes330=[
+ 'Appreciation / usefulness','Respect / public image','Communication / shared reality','Commitment / future direction',
+ 'Passion / sexual disconnect','Social media / outside validation','Planning / logistics','Household labor',
+ 'Emotional distance','Criticism / correction','Jealousy / insecurity','Trust / honesty','Affection / reassurance'
+];
+function currentProfile330(){return typeof rcCurrentProfile==='function'?rcCurrentProfile():(typeof currentProfile==='function'?currentProfile():state.profiles?.[0]);}
+function ensureIssueStore330(p){p.issues=p.issues||[];return p.issues;}
+function currentIssue330(){
+ let p=currentProfile330(); if(!p)return null;
+ ensureIssueStore330(p);
+ let sel=$('issueCardSelector');
+ if(sel&&sel.value){
+   let found=p.issues.find(i=>i.id===sel.value);
+   if(found)return found;
+ }
+ if(p.issues.length)return p.issues[p.issues.length-1];
+ let snap=(p.snapshots||[]).slice(-1)[0];
+ let issue={id:typeof uid==='function'?uid():String(Date.now()),title:snap?.domain||'Current relationship issue',type:snap?.domain||'Communication / shared reality',polarity:'Negative',aggrieved:'Both',recurrence:'Unclear',event:snap?.note||p.evidence||'No event entered yet.',story:snap?.story||p.story||'',heard:snap?.heard||'',created:new Date().toISOString(),history:[]};
+ p.issues.push(issue); saveState&&saveState(); return issue;
+}
+function issueTemplate330(issue){
+ let type=issue.type||'Communication / shared reality';
+ let manNeed='respect, usefulness, sexual confidence, loyalty, and feeling that his effort matters';
+ let womanNeed='safety, closeness, reassurance, inclusion, commitment, and feeling cherished';
+ let his='He may be interpreting the event as a signal about respect, usefulness, loyalty, or whether his effort counts.';
+ let hers='She may be interpreting the event as a signal about safety, closeness, commitment, or whether she is emotionally alone.';
+ let loop=['Event happens','One partner attaches painful meaning','The hurt partner protects themselves','The other partner interprets the protection as rejection or attack','Both start responding to the loop instead of the original event'];
+ let action=['Pause the argument and name the exact event.','Ask what the other person heard you saying.','Make one concrete request without making the person the problem.'];
+ let exercises=[['Ten-minute shared reality check','Each person answers: what happened, what I heard, what I needed, and what I can do differently next time.'],['Repair attempt audit','Each partner names one repair attempt they missed or rejected.'],['Appreciation before problem-solving','Name one real thing the other person did right, then schedule correction/problem-solving separately.']];
+ if(type.includes('Appreciation')||type.includes('Criticism')){
+   his='He may feel: “My effort is invisible, and when I try I only get corrected.”';
+   hers='She may feel: “I am carrying standards and details alone, and I need things done in a way that actually helps me.”';
+   loop=['He tries or provides something','She corrects or improves it too quickly','He hears “I failed / I am not useful”','He withdraws or stops initiating','She experiences withdrawal as laziness or lack of care'];
+   action=['Do not pair appreciation and correction in the same breath.','Name effort specifically and let it stand alone.','Later, ask for a concrete comfort/outcome request: “It helps me feel calm when…”'];
+   exercises=[['Effort-recognition ritual','For one week, each partner names one specific useful thing the other did each day.'],['Correction separation rule','No correction within five minutes of receiving help/gift/effort unless safety requires it.'],['Comfort-language rewrite','Turn “you did it wrong” into “this would help me feel cared for/calm.”']];
+ }
+ if(type.includes('Communication')){
+   his='He may feel accused of failing even if he thought he was simply handling something privately.';
+   hers='She may feel excluded from his inner world and afraid they are living parallel lives.';
+   loop=['One person handles something privately','The other discovers it later','Discovery becomes “we are not partners”','The private person feels criticized and shares even less','Distance increases'];
+   action=['Use a shared-reality check-in.','Ask: what changed this week, what decisions are pending, what are you carrying alone?','Create one default update habit.'];
+   exercises=[['Weekly state-of-us meeting','15 minutes: logistics, emotional weather, upcoming decisions, appreciation.'],['Decision threshold rule','Agree what kinds of decisions require a heads-up before action.'],['Inner-world question','Each asks: “What is one thing you have been carrying that I may not know?”']];
+ }
+ if(type.includes('Social media')||type.includes('public')){
+   his='He may feel publicly exposed, disrespected, or unprotected by the woman who should preserve his dignity.';
+   hers='She may feel unheard privately and seek outside validation or pressure through public/social channels.';
+   loop=['Private hurt goes unresolved','One partner vents publicly or indirectly','The other feels humiliated or betrayed','Trust and attraction drop','The next conflict becomes less safe'];
+   action=['Take the issue offline immediately.','Agree: no public humiliation, subtweets, screenshots, or friend-court trials during active conflict.','Repair public disrespect with private accountability and, if needed, public correction.'];
+   exercises=[['No-public-court rule','For 30 days, neither partner discusses active conflict in a way that damages the other’s dignity.'],['Private-before-public agreement','If hurt, bring it privately first unless safety is at stake.'],['Reputation repair','Name one way to protect the partner’s dignity in social settings.']];
+ }
+ if(type.includes('Passion')||type.includes('sexual')){
+   his='He may feel undesired, rejected, or replaced by duty/roommate energy.';
+   hers='She may feel emotionally unsafe, pressured, unseen, or not warmed up relationally.';
+   loop=['Emotional distance or pressure appears','Sex becomes symbolic of acceptance/rejection','One pursues while the other avoids','Both attach painful meanings','Desire becomes loaded instead of playful'];
+   action=['Stop litigating sex during rejection moments.','Talk about conditions for desire when calm.','Separate affection, flirtation, and sexual expectation.'];
+   exercises=[['Desire conditions map','Each partner lists what increases desire, kills desire, and makes intimacy feel safe.'],['Non-demand affection week','Increase touch/flirtation without making every touch a bid for sex.'],['Reconnection date','A low-pressure date with no conflict agenda.']];
+ }
+ return {his,hers,manNeed,womanNeed,loop,action,exercises};
+}
+function renderIssueSelector330(){
+ let p=currentProfile330(); if(!p)return;
+ ensureIssueStore330(p);
+ let sel=$('issueCardSelector'); if(!sel)return;
+ if(!p.issues.length)currentIssue330();
+ sel.innerHTML=p.issues.map(i=>`<option value="${i.id}">${escapeHTML(i.title||i.type||'Issue')}</option>`).join('');
+ sel.onchange=()=>renderTranslation330();
+}
+function renderTranslation330(){
+ let p=currentProfile330(), issue=currentIssue330(), el=$('repairCockpitLoop'); if(!p||!issue||!el)return;
+ let t=issueTemplate330(issue);
+ let severity=issue.recurrence==='Core relationship issue'?'high':issue.recurrence==='Recurring pattern'?'recurring':'event';
+ el.innerHTML=`<div class="issueSummaryHero"><h4>${escapeHTML(issue.title||issue.type)}</h4>
+ <div><b>Event:</b> ${escapeHTML(issue.event||'No event described yet.')}</div>
+ <div><b>Resolution target:</b> ${escapeHTML(issue.resolution||'Understand what each person heard, identify the threatened need, and choose a concrete repair action.')}</div>
+ <div class="issuePills"><span class="issuePill">${escapeHTML(issue.polarity||'Negative')}</span><span class="issuePill">Aggrieved: ${escapeHTML(issue.aggrieved||'Both')}</span><span class="issuePill">${escapeHTML(issue.recurrence||'Unclear')}</span><span class="issuePill">${escapeHTML(issue.type||'Issue')}</span></div></div>
+ <div class="translationTwoCol">
+  <div class="translationCard"><b>Possible male-side meaning</b><p>${escapeHTML(t.his)}</p><div class="reviewRow"><button>Accurate</button><button>Partial</button><button>Wrong / edit later</button></div></div>
+  <div class="translationCard"><b>Possible female-side meaning</b><p>${escapeHTML(t.hers)}</p><div class="reviewRow"><button>Accurate</button><button>Partial</button><button>Wrong / edit later</button></div></div>
+ </div>
+ <div class="translationCard"><b>Needs underneath</b><p><b>Man:</b> ${escapeHTML(t.manNeed)}.</p><p><b>Woman:</b> ${escapeHTML(t.womanNeed)}.</p></div>
+ <h4>Escalation loop</h4><div class="loopChain">${t.loop.map((x,i)=>`<div class="chainStep">${i+1}. ${escapeHTML(x)}</div>${i<t.loop.length-1?'<div class="chainArrow">↓</div>':''}`).join('')}</div>
+ <div class="translationCard"><b>Loop breaker summary</b><p>This appears to be a <b>${escapeHTML(issue.type||'relationship')}</b> issue with <b>${escapeHTML(severity)}</b> recurrence. The repair should address the emotional meaning, not only the surface behavior.</p></div>`;
+ renderAction330(t); renderTherapy330(t);
+}
+function renderAction330(t){
+ let el=$('repairCockpitActionStrategy'); if(!el)return;
+ el.innerHTML=`<div class="actionList">${t.action.map(a=>`<div class="actionItem"><b>Action</b>${escapeHTML(a)}</div>`).join('')}</div>`;
+}
+function renderTherapy330(t){
+ let el=$('repairCockpitStrategy'); if(!el)return;
+ el.innerHTML=`<div class="exerciseList">${t.exercises.map(e=>`<div class="exerciseCard"><b>${escapeHTML(e[0])}</b>${escapeHTML(e[1])}</div>`).join('')}</div>`;
+}
+function newIssueCard330(){
+ let p=currentProfile330(); if(!p)return; ensureIssueStore330(p);
+ let title=prompt('Name this issue card','Appreciation / usefulness issue')||'Relationship issue';
+ let type=prompt('Issue type', issueTypes330.join(', '))||'Communication / shared reality';
+ let event=prompt('What happened?','Describe the specific event')||'';
+ let issue={id:typeof uid==='function'?uid():String(Date.now()),title,type,polarity:'Negative',aggrieved:'Both',recurrence:'First time',event,story:'',heard:'',created:new Date().toISOString(),history:[]};
+ p.issues.push(issue); saveState&&saveState(); renderIssueSelector330(); let sel=$('issueCardSelector'); if(sel)sel.value=issue.id; renderTranslation330();
+}
+function createIssueFromSnapshot330(){
+ let p=currentProfile330(); if(!p)return; ensureIssueStore330(p);
+ let s=(p.snapshots||[]).slice(-1)[0]; if(!s)return;
+ let issue={id:typeof uid==='function'?uid():String(Date.now()),title:s.domain||'Relationship event',type:s.domain||'Communication / shared reality',event:s.note||'',story:s.story||'',heard:s.heard||'',polarity:s.polarity||'Negative',aggrieved:s.aggrieved||'Both',recurrence:s.recurrence||'Unclear',created:new Date().toISOString(),history:[s]};
+ p.issues.push(issue); saveState&&saveState();
+}
+const oldSaveWiz330=window.saveWizardSnapshot;
+if(oldSaveWiz330&&!window.__saveWiz330){
+ window.__saveWiz330=true;
+ window.saveWizardSnapshot=function(){let r=oldSaveWiz330();try{createIssueFromSnapshot330();renderIssueSelector330();renderTranslation330();}catch(e){}return r;};
+}
+function bindIssue330(){
+ let n=$('newIssueCardBtn'); if(n)n.onclick=newIssueCard330;
+ renderIssueSelector330(); renderTranslation330();
+}
+const oldRenderRc330=window.renderRepairCockpit;
+if(oldRenderRc330&&!window.__renderRc330){
+ window.__renderRc330=true;
+ window.renderRepairCockpit=function(){let r=oldRenderRc330();try{bindIssue330();}catch(e){console.warn(e)}return r;};
+}
+const oldSafe330=window.safeUpdate;
+if(oldSafe330&&!window.__safe330){
+ window.__safe330=true;
+ window.safeUpdate=function(){let r=oldSafe330();try{bindIssue330();}catch(e){}return r;};
+}
+document.addEventListener('DOMContentLoaded',()=>setTimeout(()=>{bindIssue330();},800));
 

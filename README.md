@@ -1,11 +1,10 @@
-# Relationship Intelligence v3.2.2
+# Relationship Intelligence v3.3.0
 
-Fixes:
-- Workspace card selector refreshes outputs
-- Snapshot Wizard dropdown includes Create new quick card
-- Adds relationship summary at top of Workspace
-- Translation Loop starts with event + resolution summary
-- Adds full one-year example across all Workspace modules
-- Adds boss, boundary, and pet scenario loaders in Workspace
-- Populates he-said/she-heard examples
-- Reduces blank space under Admiration Symmetry
+Major romantic issue-card rebuild:
+- Reframes translation loop as a specific issue/event tracker
+- Adds issue selector and New Issue Card button in Workspace
+- Adds romantic event categories and concrete male/female-side meanings
+- Adds full-sentence needs underneath
+- Adds clear escalation chain
+- Splits Therapy/Growth Exercises from Immediate Action Response
+- Converts wizard snapshots into issue cards
