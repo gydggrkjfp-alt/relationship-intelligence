@@ -1,9 +1,7 @@
-# Relationship Intelligence v3.3.7
+# Relationship Intelligence v3.3.8
 
 Changes:
-- Wrong/Partial interpretation ratings now show alternative meanings
-- Selecting an alternative rewrites downstream needs, role shift, action, and therapy exercise
-- Adds custom corrected interpretation input
-- Adds low/high meaning labels for all casual tracker sliders
-- Adds one-click N/A for all male-specific and female-specific casual sliders
-- Save Tracker Snapshot now feeds a casual tracker trajectory graph
+- Renames Profile Dashboard to Qualities as a Couple
+- Splits Casual Relationship Tracker into sex-specific traits and personal feelings
+- Adds female-specific, male-specific, and personal relationship sliders
+- Adds couple-quality sliders: positivity together, division of labor, teamwork, outside relationships, shared goals, repair culture, admiration, intimacy, stability, and values

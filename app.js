@@ -1,4 +1,4 @@
-const STORAGE_KEY='relationship_intelligence_pwa_v337';
+const STORAGE_KEY='relationship_intelligence_pwa_v338';
 const greenDefs=[['warmth','Warmth','Emotional warmth, ease, affection.'],['kindness','Kindness','Basic goodness toward you and others.'],['respect','Baseline respect','General respect signal from the core profile.'],['reciprocity','Reciprocity','Interest and effort move both directions.'],['curiosity','Curiosity','They actually want to know you.'],['stability','Emotional stability','Grounded enough to build with.'],['peace','Peace after contact','Afterward you feel peaceful, not anxious or humiliated.'],['attraction','Attraction','Physical / romantic pull.']];
 const riskDefs=[['chaos','Chaos / drama','Volatility, crisis, or confusing energy.'],['trauma','Early trauma dumping','Heavy disclosure before trust exists.'],['entitlement','Entitlement','Expects without appreciating.'],['family','Family disrespect','Contempt toward family/parents.'],['social','Social-media validation','Attention-seeking or comparison energy.'],['inconsistent','Inconsistent communication','Words and effort fluctuate in a destabilizing way.']];
 const respectDefs=[['opinion','Values your opinions','Does this person take your perspective seriously?'],['appreciation','Expresses appreciation','Does this person notice and value your effort?'],['commitments','Keeps commitments','Does they follow through reliably?'],['proud','Proud to be associated','Would this person speak well of you to others?'],['time','Respects your time','Is this person considerate with scheduling and effort?'],['boundaries','Respects boundaries','Does this person honor limits without punishment?']];
@@ -4333,5 +4333,102 @@ document.addEventListener('DOMContentLoaded',()=>setTimeout(()=>{cleanupSnapshot
   const oldTrans=window.renderTranslation331;
   if(oldTrans&&!window.__trans337){window.__trans337=true;window.renderTranslation331=function(){const r=oldTrans();setTimeout(refresh,70);return r;};}
   document.addEventListener('DOMContentLoaded',()=>setTimeout(refresh,900));
+})();
+
+
+
+/* v3.3.8 casual tracker redesign + couple qualities */
+(function(){
+ const $id=id=>document.getElementById(id);
+ const esc=s=>typeof escapeHTML==='function'?escapeHTML(String(s??'')):String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+ const casualDims338={
+  female:[
+   ['femaleResolutionLearning','Resolution / learning from previous relationships','Low: repeats old patterns without insight.','High: shows reflection, growth, and changed behavior.'],
+   ['femaleEmotionalMaturity','Emotional maturity','Low: reactive, unstable, blame-heavy, or hard to repair with.','High: regulated, honest, reflective, and repair-capable.'],
+   ['femaleSocialMediaBehavior','Behavior on social media','Low: attention-seeking, conflict-posting, validation-driven.','High: dignified, private, loyal, and not governed by online approval.'],
+   ['femaleBuildsUp','Builds up vs emasculates','Low: criticizes, mocks, diminishes, or competes with him.','High: respects, encourages, appreciates, and strengthens him.'],
+   ['femaleOptimism','Complaining vs optimism','Low: chronic complaining, negativity, resentment framing.','High: constructive, grateful, optimistic, solution-oriented.'],
+   ['femaleGatekeeping','Gatekeeps relationship during problems','Low: tells friends/social media one-sided conflict stories.','High: protects privacy, dignity, and the couple during problems.']
+  ],
+  male:[
+   ['malePlansDates','Plans dates / creates momentum','Low: passive, vague, rarely plans or initiates.','High: plans, initiates, creates experiences, moves things forward.'],
+   ['maleMotivationPassion','Motivation / passion','Low: flat, directionless, low drive, low life-force.','High: motivated, purposeful, passionate, actively building.'],
+   ['maleSafeEnvironment','Creates a safe environment','Low: chaotic, unstable, unsafe, emotionally unpredictable.','High: steady, protective, calm, secure, reliable.'],
+   ['maleEmotionalLeadership','Emotional leadership','Low: avoids hard talks or collapses under conflict.','High: can lead repair, name issues, and stay grounded.'],
+   ['maleFollowThrough','Follow-through','Low: says things but does not reliably act.','High: keeps promises and makes words visible through behavior.'],
+   ['maleCommitmentClarity','Commitment clarity','Low: vague, avoidant, noncommittal, keeps options open.','High: clear, intentional, protective of the relationship.']
+  ],
+  personal:[
+   ['personalExcitement','Excitement / attraction','Low: little excitement, chemistry, or romantic pull.','High: strong excitement, attraction, and desire to move closer.'],
+   ['personalPeace','Personal peace','Low: you feel anxious, chaotic, or less yourself.','High: you feel calm, clear, and more yourself.'],
+   ['personalLifestyleFit','Social and lifestyle fit','Low: your lives, friends, routines, or values clash.','High: your lives fit naturally and practically.'],
+   ['personalTrust','Trust in the trajectory','Low: you doubt where this is going or whether it is good for you.','High: you trust the direction and feel good continuing.'],
+   ['personalCuriosity','Curiosity / desire to know them','Low: little curiosity beyond attraction or convenience.','High: genuine desire to learn, understand, and spend time together.'],
+   ['personalEnergyGain','Energy after contact','Low: drained, confused, depleted, or ruminating.','High: energized, encouraged, peaceful, or inspired.']
+  ]
+ };
+ const coupleQualities338=[
+  ['positivityTogether','Positivity brought out together','Low: the pair brings out criticism, negativity, insecurity, or regression.','High: the pair brings out warmth, humor, gratitude, ambition, and better behavior.'],
+  ['divisionLabor','Division of labor is balanced','Low: one person carries the work, logistics, emotional labor, or planning.','High: labor feels fair, visible, and cooperatively handled.'],
+  ['teamwork','Good teamwork is achieved','Low: problems become person-versus-person.','High: problems become us-versus-the-problem.'],
+  ['outsideRelationships','Positive relationships with other people','Low: the couple damages friendships/family ties or becomes socially isolating.','High: the couple supports healthy family, friends, and community.'],
+  ['sharedGoals','Shared goals','Low: future direction, values, lifestyle, or priorities diverge.','High: both move in a compatible direction with explicit shared goals.'],
+  ['repairCulture','Repair culture','Low: conflict creates punishment, avoidance, contempt, or scorekeeping.','High: conflict leads to repair, clarity, and better agreements.'],
+  ['admirationSymmetry','Admiration symmetry','Low: admiration, respect, or appreciation flows one-way.','High: both people admire and appreciate each other.'],
+  ['intimacyVitality','Intimacy vitality','Low: roommate energy, avoidance, duty, or pressure.','High: affection, playfulness, desire, and closeness are alive.'],
+  ['practicalStability','Practical stability','Low: money, chores, schedules, or logistics create chronic strain.','High: practical life feels organized, stable, and manageable.'],
+  ['valuesAlignment','Values alignment','Low: moral, lifestyle, or family values clash.','High: values are compatible enough to build around.']
+ ];
+ function prof(){return typeof rcCurrentProfile==='function'?rcCurrentProfile():(typeof currentProfile==='function'?currentProfile():state.profiles?.[0]);}
+ function ensure(){state.profiles=state.profiles||[];if(!state.profiles.length){let p={id:typeof uid==='function'?uid():String(Date.now()),name:'New relationship',rtype:'Dating / early relationship',snapshots:[],issues:[],casual:{},casualHistory:[],profileSliders:{},coupleQualities:{}};state.profiles.push(p);state.currentId=p.id;if(typeof saveState==='function')saveState();}let p=prof()||state.profiles[0];p.casual=p.casual||{};p.casualHistory=p.casualHistory||[];p.coupleQualities=p.coupleQualities||{};p.profileSliders=p.profileSliders||{};return p;}
+ function range(id,label,low,high,val,na){return `<label style="grid-column:1/-1">${esc(label)} <span id="${id}_val">${na?'N/A':(val??5)}</span><div class="casualSliderHelp337"><span>${esc(low)}</span><span>${esc(high)}</span></div><input id="${id}" type="range" min="0" max="10" value="${val??5}" ${na?'disabled':''}><span class="casualScaleNA"><input id="${id}_na" type="checkbox" ${na?'checked':''}> N/A</span></label>`;}
+ function openCasual(){
+  const p=ensure(), body=$id('casualTrackerWizardBody'); if(!body)return;
+  body.innerHTML=`<div class="issueWizardGrid">
+   <label style="grid-column:1/-1">Relationship<select id="casualProfileSelect">${state.profiles.map(x=>`<option value="${x.id}" ${x.id===state.currentId?'selected':''}>${esc(x.name||'Untitled')} — ${esc(x.rtype||'Relationship')}</option>`).join('')}</select></label>
+   <div class="naToggleRow337" style="grid-column:1/-1"><button type="button" id="femaleNAAll338">Mark all female-specific N/A</button><button type="button" id="maleNAAll338">Mark all male-specific N/A</button><button type="button" id="clearNAAll338">Clear all N/A</button></div>
+   <div class="casualSection338" style="grid-column:1/-1"><h3>Sex-specific traits in the other person</h3><div class="sliderGroupLabel338">Female-specific traits</div>${casualDims338.female.map(([k,l,lo,hi])=>range('casual_'+k,l,lo,hi,p.casual[k],p.casual[k+'_na'])).join('')}<div class="sliderGroupLabel338">Male-specific traits</div>${casualDims338.male.map(([k,l,lo,hi])=>range('casual_'+k,l,lo,hi,p.casual[k],p.casual[k+'_na'])).join('')}</div>
+   <div class="casualSection338" style="grid-column:1/-1"><h3>How you personally feel about the relationship</h3>${casualDims338.personal.map(([k,l,lo,hi])=>range('casual_'+k,l,lo,hi,p.casual[k],p.casual[k+'_na'])).join('')}</div>
+  </div>`;
+  bindCasualInputs(); $id('casualTrackerOverlay')?.classList.remove('hidden');
+ }
+ function bindCasualInputs(){
+  const all=[...casualDims338.female,...casualDims338.male,...casualDims338.personal];
+  all.forEach(([k])=>{const input=$id('casual_'+k), val=$id('casual_'+k+'_val'), na=$id('casual_'+k+'_na'); if(input&&val)input.oninput=()=>val.textContent=input.value; if(na&&input&&val)na.onchange=()=>{input.disabled=na.checked;val.textContent=na.checked?'N/A':input.value;};});
+  const setGroup=(group,checked)=>casualDims338[group].forEach(([k])=>{const cb=$id('casual_'+k+'_na'), input=$id('casual_'+k), val=$id('casual_'+k+'_val'); if(cb)cb.checked=checked;if(input)input.disabled=checked;if(val)val.textContent=checked?'N/A':input?.value;});
+  const f=$id('femaleNAAll338'), m=$id('maleNAAll338'), c=$id('clearNAAll338'); if(f)f.onclick=()=>setGroup('female',true); if(m)m.onclick=()=>setGroup('male',true); if(c)c.onclick=()=>{setGroup('female',false);setGroup('male',false);};
+ }
+ function saveCasual(){
+  let p=ensure(); const snap={created:new Date().toISOString()}, all=[...casualDims338.female,...casualDims338.male,...casualDims338.personal];
+  all.forEach(([k])=>{const na=$id('casual_'+k+'_na')?.checked, input=$id('casual_'+k); p.casual[k+'_na']=!!na; if(!na&&input){p.casual[k]=Number(input.value);snap[k]=Number(input.value);}else snap[k]=null;});
+  p.casualHistory.push(snap); if(typeof saveState==='function')saveState(); $id('casualTrackerOverlay')?.classList.add('hidden'); renderCasualBars(); if(typeof drawCasualTrajectory==='function')drawCasualTrajectory(); if(typeof safeUpdate==='function')safeUpdate();
+ }
+ function renderCasualBars(){
+  const el=$id('casualTrackerBars'), p=ensure(); if(!el)return;
+  const groups=[['Female-specific traits',casualDims338.female],['Male-specific traits',casualDims338.male],['Your personal feeling',casualDims338.personal]];
+  el.innerHTML=groups.map(([title,dims])=>`<div class="casualSection338"><h4>${esc(title)}</h4>${dims.map(([k,label])=>{if(p.casual[k+'_na'])return `<span class="casualTrackerPill">${esc(label)}: N/A</span>`; const v=Number(p.casual[k]??5)*10; return `<div class="barRow"><b>${esc(label)}</b><div class="barTrack"><div class="barFill" style="width:${Math.max(0,Math.min(100,v))}%"></div></div><span>${Math.round(v)}</span></div>`;}).join('')}</div>`).join('');
+ }
+ function renderCoupleQualities(){
+  const p=ensure(), dash=$id('profileBarDashboard'), panel=$id('workspaceProfileDashboard');
+  if(panel){let h=panel.querySelector('h3');if(h)h.textContent='Qualities as a Couple';let para=panel.querySelector('p.small');if(para)para.textContent='These sliders evaluate the couple as a pair: teamwork, shared direction, positivity, repair, and how well the relationship functions together.'; if(!panel.querySelector('.coupleQualitiesNote338'))panel.insertAdjacentHTML('afterbegin','<div class="coupleQualitiesNote338"><b>Couple-level lens:</b> this is not rating one person. It asks what happens when the two people are together.</div>');}
+  if(!dash)return; const vals=Object.keys(p.coupleQualities||{}).length?p.coupleQualities:p.profileSliders||{};
+  dash.innerHTML=coupleQualities338.map(([k,label])=>{const v=Number(vals[k]??7)*10;return `<div class="barRow"><b>${esc(label)}</b><div class="barTrack"><div class="barFill" style="width:${Math.max(0,Math.min(100,v))}%"></div></div><span>${Math.round(v)}</span></div>`;}).join('');
+ }
+ function openCouple(){
+  const p=ensure(), body=$id('casualTrackerWizardBody'); if(!body)return;
+  body.innerHTML=`<div class="issueWizardGrid"><div class="casualSection338" style="grid-column:1/-1"><h3>Qualities as a Couple</h3><p class="small">Rate the pair, not just one person.</p>${coupleQualities338.map(([k,label,lo,hi])=>{const val=p.coupleQualities[k]??7;return `<label style="grid-column:1/-1">${esc(label)} <span id="couple_${k}_val">${val}</span><div class="casualSliderHelp337"><span>${esc(lo)}</span><span>${esc(hi)}</span></div><input id="couple_${k}" type="range" min="0" max="10" value="${val}"></label>`;}).join('')}</div></div>`;
+  coupleQualities338.forEach(([k])=>{const input=$id('couple_'+k), val=$id('couple_'+k+'_val'); if(input&&val)input.oninput=()=>val.textContent=input.value;});
+  const save=$id('saveCasualTrackerWizardBtn'); if(save)save.onclick=()=>{p.coupleQualities=p.coupleQualities||{};coupleQualities338.forEach(([k])=>{const input=$id('couple_'+k);if(input)p.coupleQualities[k]=Number(input.value);});if(typeof saveState==='function')saveState();$id('casualTrackerOverlay')?.classList.add('hidden');renderCoupleQualities();if(typeof safeUpdate==='function')safeUpdate();};
+  $id('casualTrackerOverlay')?.classList.remove('hidden');
+ }
+ function bind(){
+  const casual=$id('openCasualTrackerWizardBtn'); if(casual){casual.onclick=openCasual; casual.textContent='Open Casual Tracker Wizard';}
+  const save=$id('saveCasualTrackerWizardBtn'); if(save&&!save.dataset.coupleMode)save.onclick=saveCasual;
+  const couple=$id('openSliderWizardBtn'); if(couple){couple.textContent='Open Couple Qualities Wizard';couple.onclick=openCouple;}
+  renderCasualBars(); renderCoupleQualities();
+ }
+ const oldRender=window.renderRepairCockpit; if(oldRender&&!window.__render338){window.__render338=true;window.renderRepairCockpit=function(){const r=oldRender();setTimeout(bind,120);setTimeout(bind,450);return r;};}
+ const oldSafe=window.safeUpdate; if(oldSafe&&!window.__safe338){window.__safe338=true;window.safeUpdate=function(){const r=oldSafe();setTimeout(bind,120);return r;};}
+ document.addEventListener('DOMContentLoaded',()=>setTimeout(bind,900));
 })();
 

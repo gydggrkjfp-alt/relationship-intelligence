@@ -810,3 +810,9 @@ button[data-scenario],
 .naToggleRow337 button{background:#e7f1f3!important;color:#174f58!important}
 #casualTrajectory337{margin-top:14px}
 #casualTrajectoryCanvas337{display:block;max-width:100%;height:auto}
+
+/* v3.3.8 casual tracker split + couple qualities */
+.casualSection338{background:#fff;border:1px solid var(--line);border-radius:18px;padding:12px;margin:12px 0}
+.casualSection338 h3{margin-top:0;color:#174f58}
+.sliderGroupLabel338{display:inline-flex;background:#e7f1f3;border:1px solid var(--line);border-radius:999px;padding:4px 9px;margin:6px 0 8px;font-size:12px;font-weight:900;color:#174f58}
+.coupleQualitiesNote338{background:#f7fbfc;border:1px solid var(--line);border-radius:14px;padding:10px;margin:8px 0 12px}
