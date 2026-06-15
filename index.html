@@ -1,10 +1,10 @@
 <!doctype html><html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Relationship Intelligence v3.3.8</title>
+<title>Relationship Intelligence v3.3.9</title>
 <link rel="manifest" href="manifest.json"><link rel="stylesheet" href="styles.css">
 <meta name="theme-color" content="#815b33"></head>
 <body>
-<header><h1>Relationship Intelligence <span>v3.3.8</span></h1>
+<header><h1>Relationship Intelligence <span>v3.3.9</span></h1>
 <div class="sub">Relational Dynamics Engine: trajectory, repair, reciprocity, embeddedness, loops, archetypes, and vector alignment.</div>
 <div id="status">Loading app…</div></header>
 <nav class="tabs"><button id="tabSnapshot" class="tab active">New Snapshot</button><button id="tabRepairCockpit" class="tab">Workspace</button><button id="tabCards" class="tab">Cards</button><button id="tabDashboard" class="tab">Dashboard</button><button id="tabEcosystem" class="tab">Ecosystem</button><button id="tabPerson" class="tab">Card Detail</button><button id="tabMe" class="tab">Self / Galaxy</button><button id="tabDiagnostics" class="tab">Diagnostics</button></nav>
@@ -235,7 +235,23 @@
         <div id="repairCockpitStrategy"></div>
       </div>
 
-      <div class="workspaceSection" id="rolePanel335">
+      
+<div class="workspaceSection" id="expertThinkPanel339">
+  <h3>What Does the Expert Think?</h3>
+  <p class="small">Select an expert lens for the current issue. This applies a modeled lens inspired by public frameworks, not a literal review by that expert.</p>
+  <div class="expertControls339">
+    <label>Expert category<select id="expertCategorySelect339"></select></label>
+    <label>Expert / mode<select id="expertModeSelect339"></select></label>
+  </div>
+  <div class="expertButtonRow339">
+    <button id="renderExpertLensBtn339" type="button">Apply expert lens</button>
+    <button id="mostAlignedExpertBtn339" type="button" class="secondary">Most aligned expert</button>
+    <button id="likelyDisagreeExpertBtn339" type="button" class="secondary">Expert likely to disagree</button>
+  </div>
+  <div id="expertOutput339" class="expertOutput339"></div>
+</div>
+
+<div class="workspaceSection" id="rolePanel335">
         <h3>Role / paradigm shift</h3>
         <div id="repairCockpitActionStrategy"></div>
       </div>

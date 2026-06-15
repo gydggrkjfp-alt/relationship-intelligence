@@ -1,7 +1,8 @@
-# Relationship Intelligence v3.3.8
+# Relationship Intelligence v3.3.9
 
-Changes:
-- Renames Profile Dashboard to Qualities as a Couple
-- Splits Casual Relationship Tracker into sex-specific traits and personal feelings
-- Adds female-specific, male-specific, and personal relationship sliders
-- Adds couple-quality sliders: positivity together, division of labor, teamwork, outside relationships, shared goals, repair culture, admiration, intimacy, stability, and values
+Adds:
+- Workspace module: What Does the Expert Think?
+- Expert categories and selectable modes
+- Most aligned expert button
+- Expert likely to disagree button
+- Expert lens cards with interpretation, advice, exercise, and blind spots

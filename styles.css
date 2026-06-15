@@ -816,3 +816,16 @@ button[data-scenario],
 .casualSection338 h3{margin-top:0;color:#174f58}
 .sliderGroupLabel338{display:inline-flex;background:#e7f1f3;border:1px solid var(--line);border-radius:999px;padding:4px 9px;margin:6px 0 8px;font-size:12px;font-weight:900;color:#174f58}
 .coupleQualitiesNote338{background:#f7fbfc;border:1px solid var(--line);border-radius:14px;padding:10px;margin:8px 0 12px}
+
+/* v3.3.9 expert lens module */
+.expertControls339{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0}
+@media(max-width:800px){.expertControls339{grid-template-columns:1fr}}
+.expertButtonRow339{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.expertButtonRow339 button{font-size:13px}
+.expertOutput339{display:grid;gap:10px;margin-top:10px}
+.expertCard339{background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px}
+.expertCard339 b{color:#174f58}
+.expertPills339{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.expertPill339{background:#e7f1f3;border:1px solid var(--line);border-radius:999px;padding:4px 9px;font-size:12px;font-weight:900;color:#174f58}
+.expertDisagree339{border-left:6px solid #c88a1d}
+.expertAligned339{border-left:6px solid #2f855a}
