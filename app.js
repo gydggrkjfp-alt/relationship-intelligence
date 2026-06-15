@@ -4476,3 +4476,155 @@ const oldTrans=window.renderTranslation331;if(oldTrans&&!window.__trans339){wind
 document.addEventListener('DOMContentLoaded',()=>setTimeout(bind,900));
 })();
 
+
+
+(function(){
+function currentProfile340(){
+ return typeof rcCurrentProfile==='function'
+ ? rcCurrentProfile()
+ : (typeof currentProfile==='function'?currentProfile():state.profiles?.[0]);
+}
+
+function updateHero340(){
+ const p=currentProfile340();
+ const n=document.getElementById('relationshipHeroName340');
+ const t=document.getElementById('relationshipHeroType340');
+ const m=document.getElementById('relationshipHeroMeta340');
+ if(!p||!n)return;
+ n.textContent=p.name||'Unnamed relationship';
+ t.textContent=(p.rtype||'Relationship').toUpperCase();
+ m.textContent=`${(p.snapshots||[]).length} snapshots • ${(p.issues||[]).length} issues`;
+}
+
+function simulate340(){
+ const p=currentProfile340();
+ if(!p)return;
+ if(!p.demoBuilt340 && (p.name||'').toLowerCase().includes('one year')){
+   p.demoBuilt340=true;
+   p.coupleTrajectory340=[];
+   p.casualHistory=[];
+   for(let i=0;i<12;i++){
+     p.coupleTrajectory340.push({
+       peace:58+i*2.2,
+       respect:62+i*1.9,
+       teamwork:55+i*2.4,
+       intimacy:50+i*2.8
+     });
+     p.casualHistory.push({
+       personalExcitement:7+Math.sin(i/2),
+       personalPeace:6+i*.2,
+       personalTrust:5.5+i*.3,
+       personalEnergyGain:6+i*.15
+     });
+   }
+   p.coupleQualities={
+     positivityTogether:9,
+     teamwork:9,
+     sharedGoals:9,
+     admirationSymmetry:9,
+     intimacyVitality:8
+   };
+   p.casual=p.casual||{};
+   p.casual.femaleEmotionalMaturity=9;
+   p.casual.femaleBuildsUp=9;
+   p.casual.femaleSocialMediaBehavior_na=true;
+   p.casual.malePlansDates_na=true;
+   if(typeof saveState==='function')saveState();
+ }
+}
+
+function ensureTraj340(){
+ if(document.getElementById('trajectoryCharts340'))return;
+ const div=document.createElement('div');
+ div.id='trajectoryCharts340';
+ div.className='workspaceSection';
+ div.innerHTML=`
+ <div class="dualTrajectory340">
+   <div class="outputCanvas">
+     <h4>Couple trajectory</h4>
+     <canvas id="coupleTrajectoryCanvas340" width="600" height="320"></canvas>
+   </div>
+   <div class="outputCanvas">
+     <h4>Personal feeling trajectory</h4>
+     <canvas id="personalTrajectoryCanvas340" width="600" height="320"></canvas>
+   </div>
+ </div>`;
+ document.body.appendChild(div);
+}
+
+function drawSimple340(id, series){
+ const c=document.getElementById(id);
+ if(!c)return;
+ const ctx=c.getContext('2d');
+ const w=c.width,h=c.height,pad=50;
+ ctx.clearRect(0,0,w,h);
+ ctx.fillStyle='#fff';
+ ctx.fillRect(0,0,w,h);
+ ctx.strokeStyle='#d7e1e5';
+ for(let y=0;y<=100;y+=25){
+   const py=h-pad-(y/100)*(h-2*pad);
+   ctx.beginPath();
+   ctx.moveTo(pad,py);
+   ctx.lineTo(w-pad,py);
+   ctx.stroke();
+ }
+ const colors=['#256b72','#c2413a','#2f855a','#c88a1d'];
+ series.forEach((s,si)=>{
+   ctx.beginPath();
+   s.data.forEach((v,i)=>{
+      const x=pad+(i/Math.max(1,s.data.length-1))*(w-2*pad);
+      const y=h-pad-(v/100)*(h-2*pad);
+      if(i===0)ctx.moveTo(x,y); else ctx.lineTo(x,y);
+   });
+   ctx.strokeStyle=colors[si%colors.length];
+   ctx.lineWidth=2.5;
+   ctx.stroke();
+   ctx.fillStyle=colors[si%colors.length];
+   ctx.fillText(s.name,pad+si*90,20);
+ });
+}
+
+function renderTraj340(){
+ const p=currentProfile340();
+ if(!p)return;
+ drawSimple340('coupleTrajectoryCanvas340',[
+   {name:'Peace',data:(p.coupleTrajectory340||[]).map(x=>x.peace)},
+   {name:'Respect',data:(p.coupleTrajectory340||[]).map(x=>x.respect)},
+   {name:'Teamwork',data:(p.coupleTrajectory340||[]).map(x=>x.teamwork)},
+   {name:'Intimacy',data:(p.coupleTrajectory340||[]).map(x=>x.intimacy)}
+ ]);
+ drawSimple340('personalTrajectoryCanvas340',[
+   {name:'Excitement',data:(p.casualHistory||[]).map(x=>(x.personalExcitement||5)*10)},
+   {name:'Peace',data:(p.casualHistory||[]).map(x=>(x.personalPeace||5)*10)},
+   {name:'Trust',data:(p.casualHistory||[]).map(x=>(x.personalTrust||5)*10)},
+   {name:'Energy',data:(p.casualHistory||[]).map(x=>(x.personalEnergyGain||5)*10)}
+ ]);
+}
+
+function simplifyExperts340(){
+ const cat=document.getElementById('expertCategorySelect339');
+ if(cat&&cat.parentElement)cat.parentElement.style.display='none';
+ const disagree=document.getElementById('likelyDisagreeExpertBtn339');
+ if(disagree)disagree.click();
+}
+
+function refresh340(){
+ updateHero340();
+ simulate340();
+ ensureTraj340();
+ renderTraj340();
+ simplifyExperts340();
+}
+
+document.addEventListener('DOMContentLoaded',()=>setTimeout(refresh340,1200));
+
+const oldSafe=window.safeUpdate;
+if(oldSafe&&!window.__v340safe){
+ window.__v340safe=true;
+ window.safeUpdate=function(){
+   const r=oldSafe();
+   setTimeout(refresh340,200);
+   return r;
+ }
+}
+})();

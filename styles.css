@@ -829,3 +829,38 @@ button[data-scenario],
 .expertPill339{background:#e7f1f3;border:1px solid var(--line);border-radius:999px;padding:4px 9px;font-size:12px;font-weight:900;color:#174f58}
 .expertDisagree339{border-left:6px solid #c88a1d}
 .expertAligned339{border-left:6px solid #2f855a}
+
+.relationshipHero340{
+background:linear-gradient(135deg,#174f58,#256b72);
+border-radius:24px;
+padding:28px;
+margin:0 0 20px 0;
+text-align:center;
+color:#fff;
+}
+.relationshipHeroType340{
+font-size:13px;
+font-weight:900;
+letter-spacing:2px;
+opacity:.8;
+margin-bottom:8px;
+}
+.relationshipHeroName340{
+font-size:44px;
+font-weight:900;
+line-height:1.1;
+}
+.relationshipHeroMeta340{
+margin-top:10px;
+font-size:15px;
+opacity:.9;
+}
+.dualTrajectory340{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:16px;
+}
+@media(max-width:900px){
+.dualTrajectory340{grid-template-columns:1fr}
+.relationshipHeroName340{font-size:32px}
+}
