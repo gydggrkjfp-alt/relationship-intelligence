@@ -7,11 +7,11 @@
 
 <!doctype html><html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Relationship Intelligence v3.4.0</title>
+<title>Relationship Intelligence v3.4.2</title>
 <link rel="manifest" href="manifest.json"><link rel="stylesheet" href="styles.css">
 <meta name="theme-color" content="#815b33"></head>
 <body>
-<header><h1>Relationship Intelligence <span>v3.4.0</span></h1>
+<header><h1>Relationship Intelligence <span>v3.4.2</span></h1>
 <div class="sub">Relational Dynamics Engine: trajectory, repair, reciprocity, embeddedness, loops, archetypes, and vector alignment.</div>
 <div id="status">Loading app…</div></header>
 <nav class="tabs"><button id="tabSnapshot" class="tab active">New Snapshot</button><button id="tabRepairCockpit" class="tab">Workspace</button><button id="tabCards" class="tab">Cards</button><button id="tabDashboard" class="tab">Dashboard</button><button id="tabEcosystem" class="tab">Ecosystem</button><button id="tabPerson" class="tab">Card Detail</button><button id="tabMe" class="tab">Self / Galaxy</button><button id="tabDiagnostics" class="tab">Diagnostics</button></nav>
@@ -224,7 +224,12 @@
           <label>Tracked issue / event<select id="issueCardSelector"></select></label>
           <button id="newIssueCardBtn" type="button" class="secondary">+ New issue card</button>
         </div>
-        <div id="repairCockpitLoop" class="loopGraphic"></div>
+        <div id="issueHero342" class="issueHero342">
+  <div class="issueHeroLabel342">CURRENT EVENT / ISSUE BEING ANALYZED</div>
+  <div id="issueHeroTitle342" class="issueHeroTitle342">No issue selected</div>
+  <div id="issueHeroMeta342" class="issueHeroMeta342">Choose or create an event so every module analyzes the same thing.</div>
+</div>
+<div id="repairCockpitLoop" class="loopGraphic"></div>
       </div>
 
       <div class="workspaceSection" id="conversationBuilderPanel335">
@@ -288,7 +293,18 @@
         <div id="repairCockpitAdmirationText" class="small"></div>
       </div>
 
-      <div id="snapshotTimeline336" class="workspaceSection"><h3>Snapshot timeline</h3><p class="small">Shows logged events over time. Positive events, negative events, and mixed events become markers that explain changes in the graphs.</p><div id="snapshotTimelineBody336"></div></div><div id="workspaceGraphicalOutputs" class="workspaceSection">
+      <div id="snapshotTimeline336" class="workspaceSection"><h3>Snapshot timeline</h3><p class="small">Shows logged events over time. Positive events, negative events, and mixed events become markers that explain changes in the graphs.</p><div id="snapshotTimelineBody336"></div></div><div id="trajectoryCharts342" class="workspaceSection">
+  <h3>Relationship trajectories</h3>
+  <div class="dualTrajectory342">
+    <div class="outputCanvas"><h4>Couple trajectory</h4><canvas id="coupleTrajectoryCanvas342" width="700" height="360"></canvas></div>
+    <div class="outputCanvas"><h4>Personal feeling trajectory</h4><canvas id="personalTrajectoryCanvas342" width="700" height="360"></canvas></div>
+  </div>
+  <div class="dualTrajectory342" style="margin-top:14px">
+    <div class="outputCanvas"><h4>Female-specific traits trajectory</h4><canvas id="femaleTraitTrajectoryCanvas342" width="700" height="360"></canvas></div>
+    <div class="outputCanvas"><h4>Male-specific traits trajectory</h4><canvas id="maleTraitTrajectoryCanvas342" width="700" height="360"></canvas></div>
+  </div>
+</div>
+<div id="workspaceGraphicalOutputs" class="workspaceSection">
         <h3>Graphical outputs</h3>
         <div class="graphGrid">
           <div><h4>Peace × Respect Matrix</h4><div id="workspaceMatrix" class="matrixGrid"></div></div>

@@ -864,3 +864,17 @@ gap:16px;
 .dualTrajectory340{grid-template-columns:1fr}
 .relationshipHeroName340{font-size:32px}
 }
+
+/* v3.4.2 */
+.issueHero342{background:linear-gradient(135deg,#f0fdf4,#fff);border:1px solid #99d6ad;border-left:8px solid #2f855a;border-radius:20px;padding:18px;margin:12px 0 14px;text-align:center;box-shadow:0 8px 24px rgba(47,133,90,.10)}
+.issueHero342.negative{background:linear-gradient(135deg,#fff7ed,#fff);border-color:#f2c17d;border-left-color:#c88a1d}
+.issueHeroLabel342{font-size:12px;font-weight:950;letter-spacing:1.8px;color:#166534;text-transform:uppercase;margin-bottom:6px}
+.issueHero342.negative .issueHeroLabel342{color:#9a5d00}
+.issueHeroTitle342{font-size:32px;line-height:1.15;font-weight:950;color:#1f2933}
+.issueHeroMeta342{font-size:14px;margin-top:8px;color:#475569}
+.dualTrajectory342{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:950px){.dualTrajectory342{grid-template-columns:1fr}}
+#trajectoryCharts342 canvas{max-width:100%;height:auto}
+.positiveTranslation342{background:#f0fdf4;border:1px solid #99d6ad;border-radius:16px;padding:12px;margin:10px 0}
+.positiveTranslation342 b{color:#166534}
+.diagnosticStale342{display:none!important}
