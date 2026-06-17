@@ -3091,10 +3091,10 @@ document.addEventListener('DOMContentLoaded',()=>setTimeout(()=>{addDefaultSelf3
 /* v3.3.2 relationship/snapshot modal, examples, role response, popout graphs, diagnostics */
 const relationshipTypes332=['Romantic: woman evaluating man','Romantic: man evaluating woman','Marriage / long-term','Dating / early relationship','Boundary','Work','Friend','Family','Pet'];
 const issueExamples332={
- 'Romantic: woman evaluating man':[['Appreciation / usefulness','Annie’s perfectionism','She corrects how he helps immediately, and he starts feeling that his effort does not count.'],['Communication / shared reality','Parallel lives drift','He makes decisions privately and she finds out later, making her feel excluded from the partnership.'],['Commitment / future direction','Future ambiguity','She wants clarity about where the relationship is going, while he avoids defining the next step.']],
- 'Romantic: man evaluating woman':[['Respect / public image','Public disrespect','She jokes or posts about him in a way that makes him feel diminished in public.'],['Social media / outside validation','Social media validation loop','Her posting and friend feedback seem to compete with the private relationship reality.'],['Passion / sexual disconnect','Roommate energy','He feels undesired and starts interpreting low intimacy as rejection.']],
- 'Marriage / long-term':[['Household labor','Trash fight loop','A repeated chore becomes symbolic of respect, usefulness, fairness, and feeling alone.'],['Communication / shared reality','Decision without discussion','One partner submits or makes a major plan without discussing it as a partnership.'],['Affection / reassurance','No soft landing','Daily logistics crowd out affection, reassurance, and repair.']],
- 'Boundary':[['Respect / public image','Guilt access pressure','A person uses guilt after a clear no and tries to pull the user back into overexplaining.'],['Trust / honesty','Boundary testing','The other person keeps testing whether the boundary is real.'],['Communication / shared reality','Overexplaining trap','The user explains too much and the boundary becomes a negotiation.']],
+ 'Romantic: woman evaluating man':[['Appreciation / usefulness','Appreciation','She corrects how he helps immediately, and he starts feeling that his effort does not count.'],['Appreciation / usefulness','Positive appreciation loop','She praises a thoughtful plan clearly, and he feels more motivated to initiate again.'],['Communication / shared reality','Parallel lives drift','He makes decisions privately and she finds out later, making her feel excluded from the partnership.'],['Commitment / future direction','Future ambiguity','She wants clarity about where the relationship is going, while he avoids defining the next step.']],
+ 'Romantic: man evaluating woman':[['Respect / public image','Public disrespect','She jokes or posts about him in a way that makes him feel diminished in public.'],['Appreciation / usefulness','Warm encouragement','She notices his effort in real time and the interaction becomes warmer and easier.'],['Social media / outside validation','Social media validation loop','Her posting and friend feedback seem to compete with the private relationship reality.'],['Passion / sexual disconnect','Roommate energy','He feels undesired and starts interpreting low intimacy as rejection.']],
+ 'Marriage / long-term':[['Household labor','Trash fight loop','A repeated chore becomes symbolic of respect, usefulness, fairness, and feeling alone.'],['Communication / shared reality','Decision without discussion','One partner submits or makes a major plan without discussing it as a partnership.'],['Affection / reassurance','No soft landing','Daily logistics crowd out affection, reassurance, and repair.'],['Appreciation / usefulness','Specific gratitude','One partner names exactly what the other did and why it helped the household feel more like a team.']],
+ 'Boundary':[['Respect / public image','Guilt access pressure','A person uses guilt after a clear no and tries to pull the user back into overexplaining.'],['Trust / honesty','Boundary testing','The other person keeps testing whether the boundary is real.'],['Communication / shared reality','Overexplaining trap','The user explains too much and the boundary becomes a negotiation.'],['Boundary / pressure','Clean no','The user states a short no without overexplaining, and the next task is holding the line.']],
  'Work':[['Communication / shared reality','Moving target boss','Expectations change but feedback treats the original plan as failure.'],['Respect / public image','Public correction','Boss criticizes in front of others and creates status pressure.'],['Planning / logistics','Priority fog','Too many priorities are assigned with no ranking.']],
  'Pet':[['Affection / reassurance','Comfort routine','The pet provides major calm and grounding after stress.'],['Planning / logistics','Care burden','Costs and care are stressful but meaningful.'],['Commitment / future direction','Life structure','The pet shapes daily routine, travel, and household structure.']]
 };
@@ -3110,7 +3110,7 @@ function openRelationshipSnapshot332(){
  <label style="grid-column:1/-1">Relationship name<input id="relSnapName" placeholder="Example: Annie, Jane Doe, Wife, Girlfriend"></label>
  <label>Issue type<select id="relSnapIssueType">${issueOpts332()}</select></label><label>Positive or negative?<select id="relSnapPolarity"><option>Negative</option><option>Positive</option><option>Mixed</option></select></label>
  <label>Who feels aggrieved?<select id="relSnapAggrieved"><option>Woman</option><option>Man</option><option>Both</option><option>Unclear</option></select></label><label>Recurring?<select id="relSnapRecurrence"><option>First time</option><option>Occasional</option><option>Recurring pattern</option><option>Core relationship issue</option></select></label>
- <label style="grid-column:1/-1">Issue name<input id="relSnapIssueName" placeholder="Example: Annie’s perfectionism"></label>
+ <label style="grid-column:1/-1">Issue / event name<input id="relSnapIssueName" placeholder="Example: Appreciation"></label>
  <label style="grid-column:1/-1">Specific event<textarea id="relSnapEvent" placeholder="What happened? Facts first."></textarea></label>
  <label style="grid-column:1/-1">Story / interpretation<textarea id="relSnapStory" placeholder="What did it seem to mean?"></textarea></label></div>`;
  let prof=$('relSnapProfile'), name=$('relSnapName'), type=$('relSnapType');
@@ -3163,7 +3163,7 @@ document.addEventListener('DOMContentLoaded',()=>setTimeout(()=>{bindRelationshi
 
 /* v3.3.3 workflow, examples, casual tracker, workspace layout */
 const exampleRelationships333={
- 'Romantic: woman evaluating man':[['Appreciation / usefulness','Annie’s perfectionism','She corrects how he helps immediately, and he starts feeling that his effort does not count.'],['Communication / shared reality','Parallel lives drift','He makes decisions privately and she finds out later, making her feel excluded from the partnership.'],['Commitment / future direction','Future ambiguity','She wants clarity about where the relationship is going, while he avoids defining the next step.']],
+ 'Romantic: woman evaluating man':[['Appreciation / usefulness','Appreciation','She corrects how he helps immediately, and he starts feeling that his effort does not count.'],['Communication / shared reality','Parallel lives drift','He makes decisions privately and she finds out later, making her feel excluded from the partnership.'],['Commitment / future direction','Future ambiguity','She wants clarity about where the relationship is going, while he avoids defining the next step.']],
  'Romantic: man evaluating woman':[['Respect / public image','Public disrespect','She jokes or posts about him in a way that makes him feel diminished in public.'],['Social media / outside validation','Social media validation loop','Her posting and friend feedback seem to compete with the private relationship reality.'],['Passion / sexual disconnect','Roommate energy','He feels undesired and starts interpreting low intimacy as rejection.']],
  'Marriage / long-term':[['Household labor','Trash fight loop','A repeated chore becomes symbolic of respect, usefulness, fairness, and feeling alone.'],['Communication / shared reality','Decision without discussion','One partner makes a major plan without discussing it as a partnership.'],['Affection / reassurance','No soft landing','Daily logistics crowd out affection, reassurance, and repair.']],
  'Dating / early relationship':[['Communication / shared reality','Early inconsistency','One person is warm in person but inconsistent over text, creating uncertainty.'],['Affection / reassurance','Green flag follow-through','They follow through on plans, ask questions, and show reciprocal interest.'],['Respect / public image','First status signal','The person either includes you socially or keeps you vague and hidden.']],
@@ -3196,7 +3196,8 @@ document.addEventListener('DOMContentLoaded',()=>setTimeout(()=>{cleanupSnapshot
     : String(s ?? '').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 
   const examples334 = [
-    ['Appreciation conflict', 'Appreciation / usefulness', 'Annie’s perfectionism', 'She corrects how he helps immediately, and he starts feeling that his effort does not count.', 'Romantic: woman evaluating man'],
+    ['Appreciation', 'Appreciation / usefulness', 'Appreciation', 'She corrects how he helps immediately, and he starts feeling that his effort does not count.', 'Romantic: woman evaluating man'],
+    ['Positive appreciation loop', 'Appreciation / usefulness', 'Positive appreciation loop', 'She praises a thoughtful plan clearly, and he feels more motivated to initiate again.', 'Romantic: woman evaluating man'],
     ['Shared reality drift', 'Communication / shared reality', 'Parallel lives drift', 'He makes decisions privately and she finds out later, making her feel excluded from the partnership.', 'Marriage / long-term'],
     ['Future ambiguity', 'Commitment / future direction', 'Future ambiguity', 'She wants clarity about where the relationship is going, while he avoids defining the next step.', 'Romantic: woman evaluating man'],
     ['Public disrespect', 'Respect / public image', 'Public disrespect', 'She jokes or posts about him in a way that makes him feel diminished in public.', 'Romantic: man evaluating woman'],
@@ -3486,7 +3487,10 @@ document.addEventListener('DOMContentLoaded',()=>setTimeout(()=>{cleanupSnapshot
     : String(s ?? '').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 
   const examples335 = [
-    {label:'Appreciation conflict', type:'Appreciation / usefulness', title:'Annie’s perfectionism', event:'She corrects how he helps immediately, and he starts feeling that his effort does not count.', rtype:'Romantic: woman evaluating man', aggrieved:'Man'},
+    {label:'Appreciation', type:'Appreciation / usefulness', title:'Appreciation', event:'She corrects how he helps immediately, and he starts feeling that his effort does not count.', rtype:'Romantic: woman evaluating man', aggrieved:'Man'},
+    {label:'Positive appreciation loop', type:'Appreciation / usefulness', title:'Positive appreciation loop', event:'She praises a thoughtful plan clearly, and he feels more motivated to initiate again.', rtype:'Romantic: woman evaluating man', aggrieved:'Man', polarity:'Positive'},
+    {label:'Clean boundary', type:'Boundary / pressure', title:'Clean boundary', event:'The user gives a short no without overexplaining, and the next step is holding the line calmly.', rtype:'Boundary', aggrieved:'User'},
+    {label:'Specific gratitude', type:'Appreciation / usefulness', title:'Specific gratitude', event:'One partner names exactly what the other did and why it helped the relationship feel more cooperative.', rtype:'Marriage / long-term', aggrieved:'Both', polarity:'Positive'},
     {label:'Shared reality drift', type:'Communication / shared reality', title:'Parallel lives drift', event:'He makes decisions privately and she finds out later, making her feel excluded from the partnership.', rtype:'Marriage / long-term', aggrieved:'Woman'},
     {label:'Future ambiguity', type:'Commitment / future direction', title:'Future ambiguity', event:'She wants clarity about where the relationship is going, while he avoids defining the next step.', rtype:'Romantic: woman evaluating man', aggrieved:'Woman'},
     {label:'Public disrespect', type:'Respect / public image', title:'Public disrespect', event:'She jokes or posts about him in a way that makes him feel diminished in public.', rtype:'Romantic: man evaluating woman', aggrieved:'Man'},
@@ -3554,7 +3558,7 @@ document.addEventListener('DOMContentLoaded',()=>setTimeout(()=>{cleanupSnapshot
           title: item.title,
           event: item.event,
           story: item.event,
-          polarity: 'Negative',
+          polarity: item.polarity || 'Negative',
           aggrieved: item.aggrieved,
           recurrence: 'Recurring pattern',
           ratings: {},
@@ -3568,7 +3572,7 @@ document.addEventListener('DOMContentLoaded',()=>setTimeout(()=>{cleanupSnapshot
           domain: item.type,
           note: item.event,
           story: item.event,
-          polarity: 'Negative',
+          polarity: item.polarity || 'Negative',
           aggrieved: item.aggrieved,
           recurrence: 'Recurring pattern',
           peace: 60,
@@ -3784,7 +3788,7 @@ document.addEventListener('DOMContentLoaded',()=>setTimeout(()=>{cleanupSnapshot
         ["Month 2","Mixed","Texting ambiguity","Warm in person but slower over text, creating mild uncertainty.",68,72,50,"Communication / shared reality"],
         ["Month 3","Positive","Repair after awkwardness","An awkward misunderstanding is named quickly and handled without punishment.",76,80,70,"Communication / shared reality"],
         ["Month 5","Positive","Social inclusion","She introduces him to friends and treats him warmly in public.",82,84,72,"Respect / public image"],
-        ["Month 7","Mixed","Expectation check","They realize one person wants more planning clarity, but discuss it directly.",78,86,78,"Planning / logistics"],
+        ["Month 7","Mixed","Planning clarity","They realize one person wants more planning clarity, and they discuss it directly.",78,86,78,"Planning / logistics"],
         ["Month 9","Positive","Mutual effort rhythm","Both start initiating dates and checking in.",86,88,82,"Reciprocity"],
         ["Month 12","Positive","Stable warmth","The relationship feels calmer, respectful, and increasingly trustworthy.",90,90,86,"Affection / reassurance"]
       ]
@@ -4342,6 +4346,16 @@ document.addEventListener('DOMContentLoaded',()=>setTimeout(()=>{cleanupSnapshot
  const $id=id=>document.getElementById(id);
  const esc=s=>typeof escapeHTML==='function'?escapeHTML(String(s??'')):String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
  const casualDims338={
+  general:[
+   ['warmth','Warmth','Low: cold, distant, flat, or emotionally unrewarding.','High: warm, affectionate, emotionally inviting.'],
+   ['respect','Respect','Low: dismissive, belittling, careless, or status-lowering.','High: respectful, considerate, and dignity-preserving.'],
+   ['peace','Peace after contact','Low: anxious, tense, dysregulated, or ruminating.','High: calm, clear, grounded, and emotionally safe.'],
+   ['reciprocity','Reciprocity','Low: effort and interest feel one-sided.','High: effort, curiosity, and initiation move both directions.'],
+   ['attraction','Attraction','Low: little romantic or physical pull.','High: strong romantic or physical pull.'],
+   ['clarity','Clarity','Low: vague intentions, mixed signals, unclear plans.','High: intentions, expectations, and plans are explicit.'],
+   ['followThrough','Follow-through','Low: words and plans often fail to become action.','High: consistently does what they say.'],
+   ['socialFit','Social / lifestyle fit','Low: lifestyles, friends, values, or routines clash.','High: lives fit naturally and practically.']
+  ],
   female:[
    ['femaleResolutionLearning','Resolution / learning from previous relationships','Low: repeats old patterns without insight.','High: shows reflection, growth, and changed behavior.'],
    ['femaleEmotionalMaturity','Emotional maturity','Low: reactive, unstable, blame-heavy, or hard to repair with.','High: regulated, honest, reflective, and repair-capable.'],
@@ -4387,25 +4401,26 @@ document.addEventListener('DOMContentLoaded',()=>setTimeout(()=>{cleanupSnapshot
   body.innerHTML=`<div class="issueWizardGrid">
    <label style="grid-column:1/-1">Relationship<select id="casualProfileSelect">${state.profiles.map(x=>`<option value="${x.id}" ${x.id===state.currentId?'selected':''}>${esc(x.name||'Untitled')} — ${esc(x.rtype||'Relationship')}</option>`).join('')}</select></label>
    <div class="naToggleRow337" style="grid-column:1/-1"><button type="button" id="femaleNAAll338">Mark all female-specific N/A</button><button type="button" id="maleNAAll338">Mark all male-specific N/A</button><button type="button" id="clearNAAll338">Clear all N/A</button></div>
-   <div class="casualSection338" style="grid-column:1/-1"><h3>Sex-specific traits in the other person</h3><div class="sliderGroupLabel338">Female-specific traits</div>${casualDims338.female.map(([k,l,lo,hi])=>range('casual_'+k,l,lo,hi,p.casual[k],p.casual[k+'_na'])).join('')}<div class="sliderGroupLabel338">Male-specific traits</div>${casualDims338.male.map(([k,l,lo,hi])=>range('casual_'+k,l,lo,hi,p.casual[k],p.casual[k+'_na'])).join('')}</div>
    <div class="casualSection338" style="grid-column:1/-1"><h3>How you personally feel about the relationship</h3>${casualDims338.personal.map(([k,l,lo,hi])=>range('casual_'+k,l,lo,hi,p.casual[k],p.casual[k+'_na'])).join('')}</div>
+   <div class="casualSection338" style="grid-column:1/-1"><h3>General partner signals</h3><p class="small">These feed the warmth/respect/peace/reciprocity/attraction/clarity trajectory.</p>${casualDims338.general.map(([k,l,lo,hi])=>range('casual_'+k,l,lo,hi,p.casual[k],p.casual[k+'_na'])).join('')}</div>
+   <div class="casualSection338" style="grid-column:1/-1"><h3>Optional sex-specific / context signals</h3><div class="sliderGroupLabel338">Female-specific traits</div>${casualDims338.female.map(([k,l,lo,hi])=>range('casual_'+k,l,lo,hi,p.casual[k],p.casual[k+'_na'])).join('')}<div class="sliderGroupLabel338">Male-specific traits</div>${casualDims338.male.map(([k,l,lo,hi])=>range('casual_'+k,l,lo,hi,p.casual[k],p.casual[k+'_na'])).join('')}</div>
   </div>`;
   bindCasualInputs(); $id('casualTrackerOverlay')?.classList.remove('hidden');
  }
  function bindCasualInputs(){
-  const all=[...casualDims338.female,...casualDims338.male,...casualDims338.personal];
+  const all=[...casualDims338.general,...casualDims338.female,...casualDims338.male,...casualDims338.personal];
   all.forEach(([k])=>{const input=$id('casual_'+k), val=$id('casual_'+k+'_val'), na=$id('casual_'+k+'_na'); if(input&&val)input.oninput=()=>val.textContent=input.value; if(na&&input&&val)na.onchange=()=>{input.disabled=na.checked;val.textContent=na.checked?'N/A':input.value;};});
   const setGroup=(group,checked)=>casualDims338[group].forEach(([k])=>{const cb=$id('casual_'+k+'_na'), input=$id('casual_'+k), val=$id('casual_'+k+'_val'); if(cb)cb.checked=checked;if(input)input.disabled=checked;if(val)val.textContent=checked?'N/A':input?.value;});
   const f=$id('femaleNAAll338'), m=$id('maleNAAll338'), c=$id('clearNAAll338'); if(f)f.onclick=()=>setGroup('female',true); if(m)m.onclick=()=>setGroup('male',true); if(c)c.onclick=()=>{setGroup('female',false);setGroup('male',false);};
  }
  function saveCasual(){
-  let p=ensure(); const snap={created:new Date().toISOString()}, all=[...casualDims338.female,...casualDims338.male,...casualDims338.personal];
+  let p=ensure(); const snap={created:new Date().toISOString()}, all=[...casualDims338.general,...casualDims338.female,...casualDims338.male,...casualDims338.personal];
   all.forEach(([k])=>{const na=$id('casual_'+k+'_na')?.checked, input=$id('casual_'+k); p.casual[k+'_na']=!!na; if(!na&&input){p.casual[k]=Number(input.value);snap[k]=Number(input.value);}else snap[k]=null;});
   p.casualHistory.push(snap); if(typeof saveState==='function')saveState(); $id('casualTrackerOverlay')?.classList.add('hidden'); renderCasualBars(); if(typeof drawCasualTrajectory==='function')drawCasualTrajectory(); if(typeof safeUpdate==='function')safeUpdate();
  }
  function renderCasualBars(){
   const el=$id('casualTrackerBars'), p=ensure(); if(!el)return;
-  const groups=[['Female-specific traits',casualDims338.female],['Male-specific traits',casualDims338.male],['Your personal feeling',casualDims338.personal]];
+  const groups=[['General partner signals',casualDims338.general],['Your personal feeling',casualDims338.personal],['Female-specific traits',casualDims338.female],['Male-specific traits',casualDims338.male]];
   el.innerHTML=groups.map(([title,dims])=>`<div class="casualSection338"><h4>${esc(title)}</h4>${dims.map(([k,label])=>{if(p.casual[k+'_na'])return `<span class="casualTrackerPill">${esc(label)}: N/A</span>`; const v=Number(p.casual[k]??5)*10; return `<div class="barRow"><b>${esc(label)}</b><div class="barTrack"><div class="barFill" style="width:${Math.max(0,Math.min(100,v))}%"></div></div><span>${Math.round(v)}</span></div>`;}).join('')}</div>`).join('');
  }
  function renderCoupleQualities(){
@@ -4657,7 +4672,7 @@ document.addEventListener('DOMContentLoaded',()=>setTimeout(refresh,900));
 })();
 
 
-/* v3.4.3 connected relationship context + advisor lenses */
+/* v3.4.4 connected relationship context + advisor lenses */
 (function(){
 const $id=id=>document.getElementById(id);
 const esc=s=>typeof escapeHTML==='function'?escapeHTML(String(s??'')):String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
@@ -4907,6 +4922,19 @@ function bind343(){
  if(a)a.onclick=renderSelected343;
  if(b)b.onclick=renderBest343;
  if(c)c.onclick=renderChallenge343;
+ document.querySelectorAll('[data-thinker343]').forEach(btn=>{
+  if(btn.dataset.bound343)return;
+  btn.dataset.bound343='1';
+  btn.onclick=()=>{
+   const cat=$id('expertCategorySelect339'), mode=$id('expertModeSelect339');
+   if(cat&&mode){
+    cat.value='Philosophical Lenses';
+    cat.onchange();
+    mode.value=btn.dataset.thinker343;
+    renderSelected343();
+   }
+  };
+ });
  const out=$id('expertOutput339'), ctx=context343();
  if(out&&(!out.innerHTML.trim()||out.dataset.issueId!==(ctx.issue?.id||'')))renderBest343();
  const cat=$id('expertCategorySelect339'); if(cat?.parentElement)cat.parentElement.style.display='';

@@ -1,9 +1,9 @@
-const CACHE='relationship-intelligence-v343d';
+const CACHE='relationship-intelligence-v344';
 const ASSETS=[
   './',
   './index.html',
   './styles.css',
-  './app.js?v=343d',
+  './app.js?v=344',
   './manifest.json'
 ];
 
@@ -23,7 +23,7 @@ self.addEventListener('activate',event=>{
 self.addEventListener('fetch',event=>{
   const requestUrl=new URL(event.request.url);
   if(requestUrl.pathname.endsWith('/app.js')){
-    event.respondWith(fetch(event.request).catch(()=>caches.match('./app.js?v=343d')));
+    event.respondWith(fetch(event.request).catch(()=>caches.match('./app.js?v=344')));
     return;
   }
   event.respondWith(caches.match(event.request).then(response=>response||fetch(event.request)));

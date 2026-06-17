@@ -7,11 +7,11 @@
 
 <!doctype html><html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Relationship Intelligence v3.4.2</title>
+<title>Relationship Intelligence v3.4.4</title>
 <link rel="manifest" href="manifest.json"><link rel="stylesheet" href="styles.css">
 <meta name="theme-color" content="#815b33"></head>
 <body>
-<header><h1>Relationship Intelligence <span>v3.4.2</span></h1>
+<header><h1>Relationship Intelligence <span>v3.4.4</span></h1>
 <div class="sub">Relational Dynamics Engine: trajectory, repair, reciprocity, embeddedness, loops, archetypes, and vector alignment.</div>
 <div id="status">Loading app…</div></header>
 <nav class="tabs"><button id="tabSnapshot" class="tab active">New Snapshot</button><button id="tabRepairCockpit" class="tab">Workspace</button><button id="tabMe" class="tab">Self / Galaxy</button><button id="tabDiagnostics" class="tab">Diagnostics</button><button id="tabCards" class="tab hidden" type="button">Cards</button><button id="tabDashboard" class="tab hidden" type="button">Dashboard</button><button id="tabEcosystem" class="tab hidden" type="button">Ecosystem</button><button id="tabPerson" class="tab hidden" type="button">Card Detail</button></nav>
@@ -218,8 +218,8 @@
     <div class="workspaceLeft335">
 
       <div class="workspaceSection" id="issueTranslationPanel335">
-        <h3>Issue Translation</h3>
-        <div class="guide"><b>Purpose:</b> translate one specific event or recurring issue into what each person may have meant, heard, needed, and how to repair the loop.</div>
+        <h3>Issue / Event Translation</h3>
+        <div class="guide"><b>Purpose:</b> translate one specific event, recurring issue, or positive moment into what each person may have meant, heard, needed, and how to respond.</div>
         <div class="issueControls">
           <label>Tracked issue / event<select id="issueCardSelector"></select></label>
           <button id="newIssueCardBtn" type="button" class="secondary">+ New issue card</button>
@@ -252,6 +252,13 @@
   <h3>Expert Lens: Best Fit and Challenge View</h3>
   <p class="small">Select an expert lens for the current issue. These are modeled framework-style lenses, not literal reviews by those people.</p>
   <div id="expertContext339" class="expertContext339"></div>
+  <div id="thinkerShortcuts343" class="thinkerShortcuts343">
+    <span class="small"><b>Thinker shortcuts:</b></span>
+    <button type="button" class="secondary" data-thinker343="Marcus Aurelius stoic lens">Marcus</button>
+    <button type="button" class="secondary" data-thinker343="Aristotle virtue/friendship lens">Aristotle</button>
+    <button type="button" class="secondary" data-thinker343="bell hooks love ethic lens">bell hooks</button>
+    <button type="button" class="secondary" data-thinker343="Jane Austen character lens">Jane Austen</button>
+  </div>
   <div class="expertControls339">
     <label>Expert category<select id="expertCategorySelect339"></select></label>
     <label>Expert / mode<select id="expertModeSelect339"></select></label>
@@ -392,4 +399,4 @@
 
 
 <div id="casualTrackerOverlay" class="issueWizardOverlay hidden"><div class="issueWizardCard"><div class="issueWizardHeader"><div><h2>Casual Relationship Tracker Wizard</h2><p class="small">Track impressions, gender-specific signals, and general relational fit. Use N/A when a dimension does not apply.</p></div><button id="closeCasualTrackerWizardBtn" type="button" class="secondary">Close</button></div><div id="casualTrackerWizardBody"></div><div class="wizardNav"><button id="saveCasualTrackerWizardBtn" type="button">Save tracker snapshot</button></div></div></div>
-<script src="app.js?v=343d"></script></body></html>
+<script src="app.js?v=344"></script></body></html>
