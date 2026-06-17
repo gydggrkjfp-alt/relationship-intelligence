@@ -3,8 +3,8 @@
   "short_name": "RI",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#f7f4ee",
-  "theme_color": "#815b33",
-  "description": "Private local-first relationship discernment tracker.",
+  "background_color": "#f6f9fa",
+  "theme_color": "#256b72",
+  "description": "Private local-first relationship intelligence workspace with snapshots, repair tools, and connected advisor lenses.",
   "icons": []
 }

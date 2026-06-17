@@ -231,8 +231,8 @@ const roleDefs=[['needed','Being needed','Feeling useful and meaningfully relied
 const tendencyDefs=[['movesFast','Move too quickly','You may escalate before enough evidence exists.'],['scarcity','Scarcity mindset','You may overvalue attention because opportunities feel rare.'],['peoplePleaser','People pleasing','You may avoid speaking up or tolerate too much.'],['rescuer','Rescuer pattern','You may mistake being needed for being loved.'],['idealizer','Over-romanticize potential','You may fall for possibility instead of evidence.'],['conflictAvoidant','Conflict avoidant','You may avoid hard conversations.'],['attractionOverride','Attraction override','You may let attraction outrank peace.'],['fearRejection','Fear rejection','You may accept poor fit to avoid losing connection.']];
 let state=loadState();let currentFilter='All';function $(id){return document.getElementById(id)}
 function defaultMe(){let needs={};needDefs.forEach(([k])=>needs[k]=5);let roles={};maleRoleDefs.concat(femaleRoleDefs).forEach(([k])=>roles[k]=5);return{name:'',datingLens:'Man evaluating women',needs,roles,socialStandards:{},deficiencies:{},blindSpots:{},patterns:{},tendencies:{},philosophy:''}}
-function loadState(){try{let raw=localStorage.getItem(STORAGE_KEY);if(raw)return JSON.parse(raw);for(let key of ['relationship_intelligence_pwa_v15','relationship_intelligence_pwa_v14','relationship_intelligence_pwa_v13','relationship_intelligence_pwa_v12','relationship_intelligence_pwa_v11_2','relationship_intelligence_pwa_v11','relationship_intelligence_pwa_v10','relationship_intelligence_pwa_v8','relationship_intelligence_pwa_v7','relationship_intelligence_pwa_v6','relationship_intelligence_pwa_v5','relationship_intelligence_pwa_v4','relationship_intelligence_pwa_v3','relationship_intelligence_pwa_v2','relationship_intelligence_pwa_v1']){let old=localStorage.getItem(key);if(old)return migrate(JSON.parse(old));}}catch(e){}return{currentId:null,profiles:[],me:defaultMe()}}
-function migrate(s){s.me=s.me||defaultMe();s.me.roles=s.me.roles||{};maleRoleDefs.concat(femaleRoleDefs).forEach(([k])=>{if(s.me.roles[k]===undefined)s.me.roles[k]=5});s.me.socialStandards=s.me.socialStandards||{};if(typeof socialStandardsDefs!=='undefined')socialStandardsDefs.forEach(([k])=>{if(s.me.socialStandards[k]===undefined)s.me.socialStandards[k]=5});s.me.deficiencies=s.me.deficiencies||{};s.me.blindSpots=s.me.blindSpots||{};s.me.patterns=s.me.patterns||{};s.profiles=(s.profiles||[]).map(p=>{p={...p,evidence:p.evidence||'',interpretation:p.interpretation||'',hesitation:p.hesitation||'',socialNotes:p.socialNotes||'',pronounContext:p.pronounContext||'Neutral / person',desiredOutcome:p.desiredOutcome||'Explore slowly',rtype:p.rtype==='Potential romantic partner'?'Romantic prospect':(p.rtype||'Romantic prospect')};p.social=p.social||{};p.respect=p.respect||{};Object.values(adaptiveRiskDefs).flat().forEach(([k,,,,good])=>{if(p.social[k]===undefined)p.social[k]=good?5:3});respectDefs.forEach(([k])=>{if(p.respect[k]===undefined)p.respect[k]=5});p.snapshots=p.snapshots||[];p.quick=p.quick||{};return p});return s}
+function loadState(){try{let raw=localStorage.getItem(STORAGE_KEY);if(raw)return migrate(JSON.parse(raw));for(let key of ['relationship_intelligence_pwa_v15','relationship_intelligence_pwa_v14','relationship_intelligence_pwa_v13','relationship_intelligence_pwa_v12','relationship_intelligence_pwa_v11_2','relationship_intelligence_pwa_v11','relationship_intelligence_pwa_v10','relationship_intelligence_pwa_v8','relationship_intelligence_pwa_v7','relationship_intelligence_pwa_v6','relationship_intelligence_pwa_v5','relationship_intelligence_pwa_v4','relationship_intelligence_pwa_v3','relationship_intelligence_pwa_v2','relationship_intelligence_pwa_v1']){let old=localStorage.getItem(key);if(old)return migrate(JSON.parse(old));}}catch(e){}return{currentId:null,profiles:[],me:defaultMe()}}
+function migrate(s){s.me=s.me||defaultMe();s.me.roles=s.me.roles||{};maleRoleDefs.concat(femaleRoleDefs).forEach(([k])=>{if(s.me.roles[k]===undefined)s.me.roles[k]=5});s.me.socialStandards=s.me.socialStandards||{};if(typeof socialStandardsDefs!=='undefined')socialStandardsDefs.forEach(([k])=>{if(s.me.socialStandards[k]===undefined)s.me.socialStandards[k]=5});s.me.deficiencies=s.me.deficiencies||{};s.me.blindSpots=s.me.blindSpots||{};s.me.patterns=s.me.patterns||{};s.profiles=(s.profiles||[]).map(p=>{p={...p,evidence:p.evidence||'',interpretation:p.interpretation||'',hesitation:p.hesitation||'',socialNotes:p.socialNotes||'',pronounContext:p.pronounContext||'Neutral / person',desiredOutcome:p.desiredOutcome||'Explore slowly',rtype:p.rtype==='Potential romantic partner'?'Romantic prospect':(p.rtype||'Romantic prospect')};p.green=p.green||{};greenDefs.forEach(([k])=>{if(p.green[k]===undefined)p.green[k]=5});p.risk=p.risk||{};riskDefs.forEach(([k])=>{if(p.risk[k]===undefined)p.risk[k]=3});p.social=p.social||{};p.respect=p.respect||{};Object.values(adaptiveRiskDefs).flat().forEach(([k,,,,good])=>{if(p.social[k]===undefined)p.social[k]=good?5:3});respectDefs.forEach(([k])=>{if(p.respect[k]===undefined)p.respect[k]=5});p.snapshots=p.snapshots||[];p.issues=p.issues||[];p.quick=p.quick||{};p.casual=p.casual||{};p.casualHistory=p.casualHistory||[];p.profileSliders=p.profileSliders||{};p.sliderHistory=p.sliderHistory||[];p.coupleQualities=p.coupleQualities||{};p.coupleTrajectory342=p.coupleTrajectory342||[];p.coupleTrajectory340=p.coupleTrajectory340||[];return p});return s}
 function saveState(){localStorage.setItem(STORAGE_KEY,JSON.stringify(state));$('status').textContent='Autosaved locally'}
 function uid(){return'p_'+Date.now()+'_'+Math.random().toString(16).slice(2)}
 function blankProfile(){let p={id:uid(),name:'',pronounContext:'Neutral / person',rtype:'Romantic prospect',met:'Soccer',desiredOutcome:'Explore slowly',socialNotes:'',impression:'',evidence:'',interpretation:'',hesitation:'',notes:'',green:{},risk:{},respect:{},social:{},snapshots:[],quick:{}};greenDefs.forEach(([k])=>p.green[k]=5);riskDefs.forEach(([k])=>p.risk[k]=3);respectDefs.forEach(([k])=>p.respect[k]=5);Object.values(adaptiveRiskDefs).flat().forEach(([k,,,,good])=>{if(p.social[k]===undefined)p.social[k]=good?5:3});return p}
@@ -3100,7 +3100,7 @@ const issueExamples332={
 };
 function esc332(s){return typeof escapeHTML==='function'?escapeHTML(String(s??'')):String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
 function p332(){return typeof rcCurrentProfile==='function'?rcCurrentProfile():(typeof currentProfile==='function'?currentProfile():state.profiles?.[0]);}
-function ensureProfiles332(){state.profiles=state.profiles||[];if(!state.profiles.length){let p={id:typeof uid==='function'?uid():String(Date.now()),name:'New relationship',rtype:'Dating / early relationship',snapshots:[],issues:[],profileSliders:{},future:{}};state.profiles.push(p);state.currentId=p.id;saveState&&saveState();}}
+function ensureProfiles332(){state.profiles=state.profiles||[];if(!state.profiles.length){let p=typeof blankProfile==='function'?blankProfile():{id:typeof uid==='function'?uid():String(Date.now()),name:'New relationship',rtype:'Dating / early relationship'};Object.assign(p,{name:p.name||'New relationship',rtype:p.rtype||'Dating / early relationship',snapshots:p.snapshots||[],issues:p.issues||[],profileSliders:p.profileSliders||{},future:p.future||{},casual:p.casual||{},casualHistory:p.casualHistory||[],coupleQualities:p.coupleQualities||{}});state.profiles.push(p);state.currentId=p.id;saveState&&saveState();}}
 function issueOpts332(){let arr=(typeof issueOptions331!=='undefined'?issueOptions331:['Appreciation / usefulness','Respect / public image','Communication / shared reality','Commitment / future direction','Passion / sexual disconnect','Social media / outside validation','Planning / logistics','Household labor','Emotional distance','Criticism / correction','Jealousy / insecurity','Trust / honesty','Affection / reassurance']);return arr.map(x=>`<option>${esc332(x)}</option>`).join('');}
 function openRelationshipSnapshot332(){
  ensureProfiles332();let body=$('relationshipSnapshotBody'); if(!body)return;
@@ -3119,7 +3119,7 @@ function openRelationshipSnapshot332(){
 }
 function saveRelationshipSnapshot332(){
  ensureProfiles332();let profileId=$('relSnapProfile')?.value,p;
- if(profileId==='__new__'){p={id:typeof uid==='function'?uid():String(Date.now()),name:$('relSnapName')?.value||'New relationship',rtype:$('relSnapType')?.value||'Dating / early relationship',snapshots:[],issues:[],profileSliders:{},future:{}};state.profiles.push(p);}
+ if(profileId==='__new__'){p=typeof blankProfile==='function'?blankProfile():{id:typeof uid==='function'?uid():String(Date.now())};Object.assign(p,{name:$('relSnapName')?.value||'New relationship',rtype:$('relSnapType')?.value||'Dating / early relationship',snapshots:p.snapshots||[],issues:p.issues||[],profileSliders:p.profileSliders||{},future:p.future||{},casual:p.casual||{},casualHistory:p.casualHistory||[],coupleQualities:p.coupleQualities||{}});state.profiles.push(p);}
  else{p=state.profiles.find(x=>x.id===profileId)||state.profiles[0];p.name=$('relSnapName')?.value||p.name||'Relationship';p.rtype=$('relSnapType')?.value||p.rtype||'Dating / early relationship';}
  state.currentId=p.id;p.snapshots=p.snapshots||[];p.issues=p.issues||[];
  let snap={id:typeof uid==='function'?uid():String(Date.now()+1),label:$('relSnapIssueName')?.value||'Snapshot',created:new Date().toISOString(),note:$('relSnapEvent')?.value||'',story:$('relSnapStory')?.value||'',domain:$('relSnapIssueType')?.value||'Communication / shared reality',polarity:$('relSnapPolarity')?.value||'Negative',aggrieved:$('relSnapAggrieved')?.value||'Both',recurrence:$('relSnapRecurrence')?.value||'First time',peace:55,respect:55,repair:45,energy:55,reciprocity:55,embedded:50,alignment:50};
@@ -4603,9 +4603,10 @@ function renderTraj340(){
 
 function simplifyExperts340(){
  const cat=document.getElementById('expertCategorySelect339');
- if(cat&&cat.parentElement)cat.parentElement.style.display='none';
- const disagree=document.getElementById('likelyDisagreeExpertBtn339');
- if(disagree)disagree.click();
+ if(cat&&cat.parentElement)cat.parentElement.style.display='';
+ const out=document.getElementById('expertOutput339');
+ const best=document.getElementById('mostAlignedExpertBtn339');
+ if(best&&out&&!out.innerHTML.trim())best.click();
 }
 
 function refresh340(){
@@ -4655,3 +4656,325 @@ document.addEventListener('change',e=>{if(e.target&&e.target.id==='issueCardSele
 document.addEventListener('DOMContentLoaded',()=>setTimeout(refresh,900));
 })();
 
+
+/* v3.4.3 connected relationship context + advisor lenses */
+(function(){
+const $id=id=>document.getElementById(id);
+const esc=s=>typeof escapeHTML==='function'?escapeHTML(String(s??'')):String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+
+const advisorModes343={
+"Attachment / Repair":{
+"Sue Johnson / EFT lens":{tags:["attachment","safety","reassurance","distance","protest","withdraw"],bestFor:["Communication / shared reality","Emotional distance","Affection / reassurance","Commitment / future direction"],lens:"Reads the event as a protest or withdrawal around safety, importance, and emotional availability.",advice:"Slow the loop down until each person can name the vulnerable fear below the surface behavior.",exercise:"Each person completes: When this happened, the scary story I told myself was ___, and what I needed was ___.",miss:"Can underweight incentives, respect, or whether behavior has become unacceptable."},
+"Gottman stability lens":{tags:["repair","criticism","contempt","defensiveness","stonewalling"],bestFor:["Criticism / correction","Respect / public image","Communication / shared reality","Household labor"],lens:"Reads the event through process quality: criticism, defensiveness, contempt, stonewalling, and whether repair attempts land.",advice:"Turn global judgments into one specific complaint and one repairable request.",exercise:"Soft start-up: I feel ___ about ___, and I need ___, followed by one concrete request.",miss:"Can miss desire, polarity, status pressure, or broader cultural incentives."},
+"Esther Perel desire/security lens":{tags:["desire","autonomy","security","resentment","passion"],bestFor:["Passion / sexual disconnect","Commitment / future direction","Emotional distance","Social media / outside validation"],lens:"Looks for tension between closeness and freedom, security and aliveness, admiration and resentment.",advice:"Ask whether the pattern is safe but dull, exciting but unsafe, or resentful because desire is not protected.",exercise:"Each person names what makes them feel close, free, controlled, and taken for granted.",miss:"Can be too tolerant of ambiguity when clear boundaries are needed."}
+},
+"Masculine / Feminine Dynamics":{
+"Orion Taraban incentive/respect lens":{tags:["respect","incentive","usefulness","admiration","selection"],bestFor:["Appreciation / usefulness","Respect / public image","Social media / outside validation","Commitment / future direction"],lens:"Reads the event through incentives: what behavior is rewarded, ignored, punished, or demanded.",advice:"Notice whether effort produces appreciation, cooperation, and desire, or teaches one person that investment does not pay off.",exercise:"Incentive audit: list what each person rewards, punishes, ignores, and demands.",miss:"Can underweight attachment panic, tenderness, or trauma history."},
+"Alison Armstrong usefulness/polarity lens":{tags:["appreciation","provision","usefulness","comfort","correction"],bestFor:["Appreciation / usefulness","Criticism / correction","Household labor","Planning / logistics"],lens:"Reads correction, appreciation, and comfort as translation problems between intention and impact.",advice:"Make appreciation visible before improvement requests. Translate criticism into the comfort or support being requested.",exercise:"Rewrite: You did this wrong -> It helps me feel ___ when ___.",miss:"Can sound too gendered if the actual roles do not match the pattern."},
+"Louise Perry modern dating culture lens":{tags:["social media","commitment","ambiguity","sexual","outside validation"],bestFor:["Social media / outside validation","Commitment / future direction","Trust / honesty","Passion / sexual disconnect"],lens:"Reads the event through modern dating incentives: options, ambiguity, outside validation, weak norms, and unclear commitment.",advice:"Clarify whether the relationship is moving toward stability or being pulled into ambiguity and audience approval.",exercise:"Norms agreement: exclusivity, public respect, social media boundaries, sexual expectations, and commitment.",miss:"Can be less useful when the couple already has strong norms and mainly needs emotional repair."}
+},
+"Philosophical Lenses":{
+"Marcus Aurelius stoic lens":{tags:["control","rejection","peace","rumination","discipline"],bestFor:["Jealousy / insecurity","Trust / honesty","Emotional distance","Boundary"],lens:"Separates the event from the story attached to it, then asks what action preserves character and peace.",advice:"Do not bargain with what is outside your control. Choose one composed, honest next action.",exercise:"Facts vs judgments: write what happened, what you are adding to it, and what is actually yours to do.",miss:"Can sound emotionally spare if tenderness or reassurance is the main need."},
+"Aristotle virtue/friendship lens":{tags:["virtue","habit","friendship","character","compatibility"],bestFor:["Commitment / future direction","Communication / shared reality","Respect / public image","Planning / logistics"],lens:"Reads the relationship as a pattern of habits: what kind of people the two of you become together.",advice:"Look less at intensity and more at repeated character, fairness, courage, generosity, and practical friendship.",exercise:"Habit audit: after contact, do I become clearer, kinder, braver, steadier, or smaller?",miss:"Can underweight raw attraction, nervous-system activation, or urgent safety concerns."},
+"bell hooks love ethic lens":{tags:["care","honesty","domination","mutuality","respect"],bestFor:["Respect / public image","Trust / honesty","Communication / shared reality","Boundary"],lens:"Reads the event through care, respect, knowledge, responsibility, trust, and whether control is replacing love.",advice:"Do not call domination, neglect, or dishonesty love. Ask for care that is concrete and mutual.",exercise:"Love ethic check: where did care, respect, trust, responsibility, and honesty show up or disappear?",miss:"Can be less specific about dating-stage ambiguity or attraction dynamics."},
+"Jane Austen character lens":{tags:["courtship","signals","manners","character","social"],bestFor:["Dating / early relationship","Respect / public image","Social media / outside validation","Commitment / future direction"],lens:"Reads courtship signals, manners, consistency, and social behavior as evidence of character.",advice:"Do not be dazzled by charm alone. Watch how the person behaves when pride, status, embarrassment, or inconvenience enters.",exercise:"Character evidence list: charm, consistency, humility, regard for others, and repair after awkwardness.",miss:"Can be too subtle if the issue requires direct boundary action."}
+},
+"Trauma / Nervous System":{
+"Gabor Mate trauma-pattern lens":{tags:["trauma","trigger","childhood","compulsion","abandonment"],bestFor:["Jealousy / insecurity","Trust / honesty","Emotional distance","Conflict escalation"],lens:"Reads the reaction as possibly larger than the event because an old survival pattern is activated.",advice:"Ask what old pain this resembles, then check whether the present evidence actually supports that intensity.",exercise:"Trigger split: present facts on one side, old familiar feeling on the other.",miss:"Can underweight ordinary bad behavior, incentives, and accountability."},
+"Brene Brown shame/vulnerability lens":{tags:["shame","vulnerability","courage","trust","story"],bestFor:["Trust / honesty","Communication / shared reality","Affection / reassurance","Criticism / correction"],lens:"Reads the hidden driver as shame: feeling exposed, not enough, or afraid to ask directly.",advice:"Replace blame with a brave, specific disclosure of the fear underneath the protective behavior.",exercise:"The story I am making up is ___, and the vulnerable part is ___.",miss:"Can be too soft when boundaries, consequences, or proof through action are needed."}
+}
+};
+
+function normalizeProfile343(p){
+ if(!p)return p;
+ p.snapshots=p.snapshots||[];
+ p.issues=p.issues||[];
+ p.casual=p.casual||{};
+ p.casualHistory=p.casualHistory||[];
+ p.profileSliders=p.profileSliders||{};
+ p.sliderHistory=p.sliderHistory||[];
+ p.coupleQualities=p.coupleQualities||{};
+ p.coupleTrajectory342=p.coupleTrajectory342||[];
+ p.coupleTrajectory340=p.coupleTrajectory340||[];
+ return p;
+}
+
+function profile343(opts={}){
+ state.profiles=state.profiles||[];
+ if(!state.profiles.length&&opts.ensureProfile){
+  const p=typeof blankProfile==='function'?blankProfile():{id:String(Date.now()),name:'New relationship',rtype:'Dating / early relationship'};
+  state.profiles.push(p);
+  state.currentId=p.id;
+ }
+ const sel=$id('repairCockpitProfileSelect');
+ const selected=sel&&sel.value?state.profiles.find(p=>p.id===sel.value):null;
+ const current=selected||state.profiles.find(p=>p.id===state.currentId)||state.profiles[0]||null;
+ return normalizeProfile343(current);
+}
+
+function issue343(p,opts={}){
+ p=normalizeProfile343(p);
+ if(!p)return null;
+ const sel=$id('issueCardSelector');
+ let found=sel&&sel.value?(p.issues||[]).find(i=>i.id===sel.value):null;
+ if(!found&&typeof currentIssue331==='function'&&!opts.skipLegacy){
+  try{found=currentIssue331();}catch(e){}
+ }
+ if(!found)found=(p.issues||[])[(p.issues||[]).length-1]||null;
+ if(!found&&opts.ensureIssue){
+  found={id:typeof uid==='function'?uid():String(Date.now()),title:'Untitled issue',type:'Communication / shared reality',event:'',story:'',polarity:'Mixed',aggrieved:'Unclear',recurrence:'First time',ratings:{},history:[]};
+  p.issues.push(found);
+ }
+ return found;
+}
+
+function context343(opts={}){
+ const p=profile343(opts);
+ const i=issue343(p,opts);
+ const latest=(p?.snapshots||[])[(p?.snapshots||[]).length-1]||null;
+ let m={peaceIndex:0,respectIndex:0,personalized:0,repair:0,reciprocityDyn:0,embedded:0,alignment:0};
+ try{if(p&&typeof metrics==='function')m={...m,...metrics(p)}}catch(e){}
+ const text=[p?.name,p?.rtype,p?.desiredOutcome,p?.evidence,p?.interpretation,p?.hesitation,p?.notes,latest?.note,latest?.story,i?.type,i?.title,i?.event,i?.story,i?.polarity,i?.aggrieved,i?.recurrence].filter(Boolean).join(' ');
+ const positive=/positive|appreciat|hype|encourag|builds up|thoughtful|green flag|comfort routine/i.test([i?.polarity,i?.type,i?.title,i?.event,i?.story].join(' '));
+ const ctx={profile:p,issue:i,latestSnapshot:latest,metrics:m,text,isPositive:positive};
+ ctx.safetyFlags=safetyFlags343(ctx);
+ return ctx;
+}
+
+function safetyFlags343(ctx){
+ const t=String(ctx.text||'').toLowerCase();
+ const checks=[
+  ['Safety first','hit|hurt|threat|afraid|scared|unsafe|violence|violent|restraining'],
+  ['Boundary pressure','no contact|blocked|stalk|track|followed|show up|wont leave me alone|keeps pushing|pressure'],
+  ['Sexual pressure','sexual pressure|coerc|intoxicated|drunk|come over|nudes|explicit'],
+  ['Self-harm crisis','self harm|suicide|kill myself|kill himself|kill herself'],
+  ['Public humiliation','humiliate|revenge|expose|blackmail|shame publicly']
+ ];
+ return checks.filter(([,pat])=>new RegExp(pat).test(t)).map(([label])=>label);
+}
+
+function rows343(){
+ const rows=[];
+ Object.entries(advisorModes343).forEach(([cat,modes])=>Object.entries(modes).forEach(([name,data])=>rows.push({cat,name,...data})));
+ return rows;
+}
+
+function score343(row,ctx){
+ const t=String(ctx.text||'').toLowerCase();
+ let s=0;
+ (row.bestFor||[]).forEach(x=>{if(String(ctx.issue?.type||'').toLowerCase()===x.toLowerCase())s+=12; if(t.includes(x.toLowerCase()))s+=7;});
+ (row.tags||[]).forEach(x=>{if(t.includes(x.toLowerCase()))s+=3;});
+ if(ctx.isPositive&&(row.name.includes('Alison')||row.name.includes('Aristotle')))s+=6;
+ if((ctx.metrics?.respectIndex||0)<50&&(row.name.includes('Orion')||row.name.includes('bell hooks')||row.name.includes('Gottman')))s+=5;
+ if((ctx.metrics?.peaceIndex||0)<45&&(row.name.includes('Marcus')||row.name.includes('Sue')||row.name.includes('Gabor')))s+=5;
+ if(/social media|outside validation|options|ambiguous/i.test(t)&&row.name.includes('Louise'))s+=7;
+ if(/desire|sexual|passion|roommate/i.test(t)&&row.name.includes('Perel'))s+=7;
+ if(/criticism|correction|contempt/i.test(t)&&row.name.includes('Gottman'))s+=7;
+ if(/appreciat|useful|effort|thoughtful/i.test(t)&&row.name.includes('Alison'))s+=8;
+ if(ctx.safetyFlags.length&&(row.name.includes('bell hooks')||row.name.includes('Gottman')))s+=5;
+ return s;
+}
+
+function aligned343(ctx){return rows343().sort((a,b)=>score343(b,ctx)-score343(a,ctx))[0];}
+function challenge343(ctx){
+ const a=aligned343(ctx);
+ const pairs={
+  "Sue Johnson / EFT lens":"Orion Taraban incentive/respect lens",
+  "Orion Taraban incentive/respect lens":"Gabor Mate trauma-pattern lens",
+  "Alison Armstrong usefulness/polarity lens":"Brene Brown shame/vulnerability lens",
+  "Esther Perel desire/security lens":"Jordan Peterson responsibility lens",
+  "Gottman stability lens":"Esther Perel desire/security lens",
+  "Marcus Aurelius stoic lens":"Sue Johnson / EFT lens",
+  "bell hooks love ethic lens":"Louise Perry modern dating culture lens",
+  "Jane Austen character lens":"Gabor Mate trauma-pattern lens"
+ };
+ return rows343().find(r=>r.name===(pairs[a?.name]||''))||rows343().sort((x,y)=>score343(x,ctx)-score343(y,ctx))[0];
+}
+
+function why343(row,ctx){
+ const parts=[];
+ if(ctx.issue?.type)parts.push(`The selected event is categorized as ${ctx.issue.type}.`);
+ const matched=(row.tags||[]).filter(tag=>String(ctx.text||'').toLowerCase().includes(tag.toLowerCase())).slice(0,3);
+ if(matched.length)parts.push(`It matches signals around ${matched.join(', ')}.`);
+ if((ctx.metrics?.peaceIndex||0)<50)parts.push(`Peace is low enough that interpretation should slow down before escalation.`);
+ if((ctx.metrics?.respectIndex||0)<55)parts.push(`Respect is uncertain, so warmth or attraction should not overrule boundaries.`);
+ if(ctx.isPositive)parts.push(`This appears to be a positive loop, so the goal is reinforcement, not repair.`);
+ return parts.join(' ')||'This lens gives a useful second read on the active relationship event.';
+}
+
+function next343(row,ctx){
+ if(ctx.safetyFlags.length)return 'Prioritize safety and support over repair. Do not use a relationship-optimization conversation if it could increase danger.';
+ if(ctx.isPositive)return 'Name the behavior, name its effect, and repeat the ritual without adding correction in the same breath.';
+ if((ctx.metrics?.respectIndex||0)<45)return 'Pause escalation. Ask for one concrete respect behavior and watch whether actions change.';
+ if(/boundary|no contact|guilt/i.test(ctx.text||''))return 'State the boundary once, keep it short, and do not turn the boundary into a debate.';
+ if(/commit|future|ambig/i.test(ctx.text||''))return 'Ask one direct clarity question with a real timeline instead of continuing to infer from mixed signals.';
+ return row.advice;
+}
+
+function confidence343(row,ctx){
+ let n=score343(row,ctx);
+ if((ctx.issue?.event||'').length>30)n+=8;
+ if((ctx.profile?.snapshots||[]).length>1)n+=5;
+ if(ctx.issue?.recurrence&&ctx.issue.recurrence!=='First time')n+=4;
+ return n>=24?'High fit':n>=12?'Moderate fit':'Exploratory fit';
+}
+
+function contextHTML343(ctx){
+ const p=ctx.profile,i=ctx.issue,m=ctx.metrics;
+ if(!p)return '<b>No relationship selected.</b>';
+ return `<b>Active analysis context</b><div class="contextGrid343">
+  <div class="contextTile343"><b>Relationship</b>${esc(p.name||'Untitled')}</div>
+  <div class="contextTile343"><b>Event</b>${esc(i?.title||i?.type||'No issue selected')}</div>
+  <div class="contextTile343"><b>Type</b>${esc(i?.type||p.rtype||'Unclear')}</div>
+  <div class="contextTile343"><b>Scores</b>Peace ${Math.round(m.peaceIndex||0)} / Respect ${Math.round(m.respectIndex||0)}</div>
+ </div>`;
+}
+
+function card343(row,label,ctx,cls=''){
+ const safety=ctx.safetyFlags.length?`<div class="expertSafety339"><b>Safety override:</b> ${esc(ctx.safetyFlags.join(', '))}. Prioritize immediate safety, trusted support, and clear boundaries before repair or persuasion.</div>`:'';
+ const event=ctx.issue?.event||ctx.latestSnapshot?.note||ctx.profile?.evidence||'No event has been described yet.';
+ const score=confidence343(row,ctx);
+ const positive=ctx.isPositive?' expertPositive339':'';
+ return `<div class="expertCard339 ${cls}${positive}">
+  <b>${esc(label)}: ${esc(row.name)}</b><span class="expertConfidence339">${esc(score)}</span>
+  <div class="expertPills339"><span class="expertPill339">${esc(row.cat)}</span>${(row.tags||[]).slice(0,5).map(t=>`<span class="expertPill339">${esc(t)}</span>`).join('')}</div>
+  ${safety}
+  <div class="expertSection343"><b>Current issue</b>${esc(String(event).slice(0,520))}</div>
+  <div class="expertSection343"><b>Why this lens fits</b>${esc(why343(row,ctx))}</div>
+  <div class="expertSection343"><b>What it may be seeing</b>${esc(row.lens)}</div>
+  <div class="expertSection343"><b>What to try next</b>${esc(next343(row,ctx))}</div>
+  <div class="expertSection343"><b>Exercise</b>${esc(row.exercise)}</div>
+  <div class="expertSection343"><b>Use caution if</b>${esc(row.miss)}</div>
+ </div>`;
+}
+
+function populate343(){
+ const cat=$id('expertCategorySelect339'), mode=$id('expertModeSelect339');
+ if(!cat||!mode)return;
+ const prevCat=cat.value, prevMode=mode.value;
+ cat.innerHTML=Object.keys(advisorModes343).map(c=>`<option>${esc(c)}</option>`).join('');
+ cat.value=advisorModes343[prevCat]?prevCat:Object.keys(advisorModes343)[0];
+ function fill(){
+  const modes=advisorModes343[cat.value]||{};
+  mode.innerHTML=Object.keys(modes).map(m=>`<option>${esc(m)}</option>`).join('');
+  if(modes[prevMode])mode.value=prevMode;
+ }
+ cat.onchange=fill;
+ fill();
+}
+
+function renderContext343(){
+ const el=$id('expertContext339'); if(el)el.innerHTML=contextHTML343(context343());
+}
+
+function renderSelected343(){
+ const ctx=context343(), cat=$id('expertCategorySelect339')?.value, name=$id('expertModeSelect339')?.value, data=advisorModes343[cat]?.[name], out=$id('expertOutput339');
+ if(data&&out)out.innerHTML=card343({cat,name,...data},'Selected lens',ctx);
+ renderContext343();
+}
+
+function renderBest343(){
+ const ctx=context343(), row=aligned343(ctx), out=$id('expertOutput339');
+ if(row&&out){out.innerHTML=card343(row,'Best fit',ctx,'expertAligned339');out.dataset.issueId=ctx.issue?.id||'';}
+ const cat=$id('expertCategorySelect339'), mode=$id('expertModeSelect339');
+ if(cat&&mode&&row){cat.value=row.cat;cat.onchange();mode.value=row.name;}
+ renderContext343();
+}
+
+function renderChallenge343(){
+ const ctx=context343(), first=aligned343(ctx), second=challenge343(ctx), out=$id('expertOutput339');
+ if(out)out.innerHTML=card343(first,'Best fit',ctx,'expertAligned339')+card343(second,'Challenge view',ctx,'expertDisagree339');
+ renderContext343();
+}
+
+function showWorkspace343(){
+ try{
+  document.body.classList.add('showWorkspace');
+  if(typeof showRepairCockpit==='function')showRepairCockpit();
+  else{
+   ['snapshotView','meView','diagnosticsView','cardsView','dashboardView','ecosystemView','personView'].forEach(id=>$id(id)?.classList.add('hidden'));
+   $id('repairCockpitView')?.classList.remove('hidden');
+   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+   $id('tabRepairCockpit')?.classList.add('active');
+  }
+ }catch(e){}
+}
+
+function bind343(){
+ populate343();
+ renderContext343();
+ const a=$id('renderExpertLensBtn339'), b=$id('mostAlignedExpertBtn339'), c=$id('likelyDisagreeExpertBtn339');
+ if(a)a.onclick=renderSelected343;
+ if(b)b.onclick=renderBest343;
+ if(c)c.onclick=renderChallenge343;
+ const out=$id('expertOutput339'), ctx=context343();
+ if(out&&(!out.innerHTML.trim()||out.dataset.issueId!==(ctx.issue?.id||'')))renderBest343();
+ const cat=$id('expertCategorySelect339'); if(cat?.parentElement)cat.parentElement.style.display='';
+ addWorkspaceBands343();
+}
+
+function addWorkspaceBands343(){
+ const issue=$id('issueTranslationPanel335'), casual=$id('casualRelationshipTracker');
+ if(issue&&!$id('currentEventBand343'))issue.insertAdjacentHTML('beforebegin','<div id="currentEventBand343" class="workspaceBand343">Current Event</div>');
+ if(casual&&!$id('relationshipTrackingBand343'))casual.insertAdjacentHTML('beforebegin','<div id="relationshipTrackingBand343" class="workspaceBand343">Relationship-Level Tracking</div>');
+}
+
+window.relationshipContext=window.relationshipContext343=context343;
+window.normalizeRelationshipProfile=window.normalizeRelationshipProfile343=normalizeProfile343;
+
+if(typeof rcCurrentProfile==='function'&&!window.__rcContext343){
+ window.__rcContext343=true;
+ const old=rcCurrentProfile;
+ window.rcCurrentProfile=rcCurrentProfile=function(){return profile343({ensureProfile:true})||old();};
+}
+
+if(typeof currentIssue331==='function'&&!window.__issueContext343){
+ window.__issueContext343=true;
+ const old=currentIssue331;
+ window.currentIssue331=currentIssue331=function(){return issue343(profile343({ensureProfile:true}),{skipLegacy:true,ensureIssue:true})||old();};
+}
+
+if(typeof openRelationshipSnapshot332==='function'&&!window.__openRel343){
+ window.__openRel343=true;
+ const oldOpen=openRelationshipSnapshot332;
+ window.openRelationshipSnapshot332=openRelationshipSnapshot332=function(){
+  const r=oldOpen();
+  setTimeout(()=>{
+   const body=$id('relationshipSnapshotBody');
+   if(body&&!$id('relSnapGuide343'))body.insertAdjacentHTML('afterbegin','<div id="relSnapGuide343" class="guide"><b>One event powers every module.</b> Save this once, then Workspace will connect translation, expert lenses, role patterns, repair exercises, and graphs to the same context.</div>');
+   const save=$id('saveRelationshipSnapshotBtn'); if(save)save.textContent='Save and open Workspace';
+  },40);
+  return r;
+ };
+}
+
+if(typeof saveRelationshipSnapshot332==='function'&&!window.__saveRel343){
+ window.__saveRel343=true;
+ const oldSave=saveRelationshipSnapshot332;
+ window.saveRelationshipSnapshot332=saveRelationshipSnapshot332=function(){
+  const before=(profile343({ensureProfile:true})?.issues||[]).map(i=>i.id).join('|');
+  const r=oldSave();
+  setTimeout(()=>{
+   const ctx=context343({ensureProfile:true});
+   const sel=$id('issueCardSelector');
+   const latest=(ctx.profile?.issues||[]).find(i=>!before.includes(i.id))||(ctx.profile?.issues||[])[(ctx.profile?.issues||[]).length-1];
+   const latestValue=sel?.options?.length?sel.options[sel.options.length-1].value:latest?.id;
+   if(sel&&latestValue){sel.value=latestValue;sel.dispatchEvent(new Event('change',{bubbles:true}));}
+   showWorkspace343();
+   renderContext343();
+   if($id('status'))$id('status').textContent='Snapshot saved. Workspace is analyzing this event.';
+  },120);
+  return r;
+ };
+}
+
+if(typeof renderRepairCockpit==='function'&&!window.__render343){
+ window.__render343=true;
+ const oldRender=renderRepairCockpit;
+ window.renderRepairCockpit=renderRepairCockpit=function(){const r=oldRender();setTimeout(bind343,80);return r;};
+}
+
+document.addEventListener('change',e=>{if(e.target&&['issueCardSelector','repairCockpitProfileSelect','expertCategorySelect339','expertModeSelect339'].includes(e.target.id))setTimeout(bind343,60);});
+document.addEventListener('DOMContentLoaded',()=>setTimeout(bind343,1000));
+setTimeout(bind343,1400);
+})();

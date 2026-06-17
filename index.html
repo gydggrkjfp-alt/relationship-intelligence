@@ -14,7 +14,7 @@
 <header><h1>Relationship Intelligence <span>v3.4.2</span></h1>
 <div class="sub">Relational Dynamics Engine: trajectory, repair, reciprocity, embeddedness, loops, archetypes, and vector alignment.</div>
 <div id="status">Loading app…</div></header>
-<nav class="tabs"><button id="tabSnapshot" class="tab active">New Snapshot</button><button id="tabRepairCockpit" class="tab">Workspace</button><button id="tabCards" class="tab">Cards</button><button id="tabDashboard" class="tab">Dashboard</button><button id="tabEcosystem" class="tab">Ecosystem</button><button id="tabPerson" class="tab">Card Detail</button><button id="tabMe" class="tab">Self / Galaxy</button><button id="tabDiagnostics" class="tab">Diagnostics</button></nav>
+<nav class="tabs"><button id="tabSnapshot" class="tab active">New Snapshot</button><button id="tabRepairCockpit" class="tab">Workspace</button><button id="tabMe" class="tab">Self / Galaxy</button><button id="tabDiagnostics" class="tab">Diagnostics</button><button id="tabCards" class="tab hidden" type="button">Cards</button><button id="tabDashboard" class="tab hidden" type="button">Dashboard</button><button id="tabEcosystem" class="tab hidden" type="button">Ecosystem</button><button id="tabPerson" class="tab hidden" type="button">Card Detail</button></nav>
 
 
 
@@ -249,16 +249,17 @@
 
       
 <div class="workspaceSection" id="expertThinkPanel339">
-  <h3>What Does the Expert Think?</h3>
-  <p class="small">Select an expert lens for the current issue. This applies a modeled lens inspired by public frameworks, not a literal review by that expert.</p>
+  <h3>Expert Lens: Best Fit and Challenge View</h3>
+  <p class="small">Select an expert lens for the current issue. These are modeled framework-style lenses, not literal reviews by those people.</p>
+  <div id="expertContext339" class="expertContext339"></div>
   <div class="expertControls339">
     <label>Expert category<select id="expertCategorySelect339"></select></label>
     <label>Expert / mode<select id="expertModeSelect339"></select></label>
   </div>
   <div class="expertButtonRow339">
-    <button id="renderExpertLensBtn339" type="button">Apply expert lens</button>
-    <button id="mostAlignedExpertBtn339" type="button" class="secondary">Most aligned expert</button>
-    <button id="likelyDisagreeExpertBtn339" type="button" class="secondary">Expert likely to disagree</button>
+    <button id="renderExpertLensBtn339" type="button">Apply selected lens</button>
+    <button id="mostAlignedExpertBtn339" type="button" class="secondary">Best fit</button>
+    <button id="likelyDisagreeExpertBtn339" type="button" class="secondary">Challenge view</button>
   </div>
   <div id="expertOutput339" class="expertOutput339"></div>
 </div>
@@ -377,9 +378,9 @@
 
 <div id="relationshipSnapshotOverlay" class="issueWizardOverlay hidden">
   <div class="issueWizardCard">
-    <div class="issueWizardHeader"><div><h2>New Relationship / Snapshot</h2><p class="small">Create a relationship if needed, then log one event or recurring issue.</p></div><button id="closeRelationshipSnapshotBtn" type="button" class="secondary">Close</button></div>
+    <div class="issueWizardHeader"><div><h2>New Relationship / Snapshot</h2><p class="small">Create one relationship card and one event. Workspace will use the same event for translation, expert lenses, role patterns, repair exercises, and graphs.</p></div><button id="closeRelationshipSnapshotBtn" type="button" class="secondary">Close</button></div>
     <div id="relationshipSnapshotBody"></div>
-    <div class="wizardNav"><button id="saveRelationshipSnapshotBtn" type="button">Save relationship snapshot</button></div>
+    <div class="wizardNav"><button id="saveRelationshipSnapshotBtn" type="button">Save and open Workspace</button></div>
   </div>
 </div>
 <div id="graphPopoutOverlay" class="graphPopoutOverlay hidden">
@@ -391,4 +392,4 @@
 
 
 <div id="casualTrackerOverlay" class="issueWizardOverlay hidden"><div class="issueWizardCard"><div class="issueWizardHeader"><div><h2>Casual Relationship Tracker Wizard</h2><p class="small">Track impressions, gender-specific signals, and general relational fit. Use N/A when a dimension does not apply.</p></div><button id="closeCasualTrackerWizardBtn" type="button" class="secondary">Close</button></div><div id="casualTrackerWizardBody"></div><div class="wizardNav"><button id="saveCasualTrackerWizardBtn" type="button">Save tracker snapshot</button></div></div></div>
-<script src="app.js"></script></body></html>
+<script src="app.js?v=343d"></script></body></html>

@@ -878,3 +878,15 @@ gap:16px;
 .positiveTranslation342{background:#f0fdf4;border:1px solid #99d6ad;border-radius:16px;padding:12px;margin:10px 0}
 .positiveTranslation342 b{color:#166534}
 .diagnosticStale342{display:none!important}
+
+/* v3.4.3 connected advisor lenses */
+.expertContext339{background:#f7fbfc;border:1px solid var(--line);border-radius:16px;padding:12px;margin:10px 0}
+.expertContext339 .contextGrid343{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin-top:8px}
+.expertContext339 .contextTile343{background:#fff;border:1px solid var(--line);border-radius:12px;padding:9px}
+.expertContext339 .contextTile343 b{display:block;color:#174f58;font-size:12px;margin-bottom:3px}
+.expertCard339 .expertSection343{background:#f7fbfc;border:1px solid var(--line);border-radius:14px;padding:10px;margin:9px 0}
+.expertCard339 .expertSection343 b{display:block;margin-bottom:4px}
+.expertSafety339{background:#fff0ee;border:1px solid #efb3ac;border-left:6px solid #c2413a;border-radius:14px;padding:10px;margin:9px 0}
+.expertPositive339{border-left-color:#2f855a!important;background:linear-gradient(180deg,#fff,#f3fbf7)}
+.expertConfidence339{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:999px;background:#fff;padding:4px 9px;font-size:12px;font-weight:900;color:#174f58;margin-left:6px}
+.workspaceBand343{font-size:12px;text-transform:uppercase;letter-spacing:.08em;font-weight:950;color:#174f58;background:#e7f1f3;border:1px solid var(--line);border-radius:999px;padding:7px 10px;margin:10px 0 4px;display:inline-flex}
