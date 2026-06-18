@@ -1,4 +1,10 @@
-# Relationship Intelligence v3.4.4
+# Relationship Intelligence v3.4.5
+
+v3.4.5:
+- Adds a modern dating and relationship science advisor category.
+- Adds contextual lenses based on Logan Ury, Eli Finkel, David Buss, and Scott Stanley.
+- Connects modern dating shortcuts to early-dating, app-choice, mating-strategy, jealousy, and commitment-clarity issues.
+- Adds framework cautions to avoid stereotyping or treating general research as a diagnosis.
 
 v3.4.4:
 - Restores general partner-signal sliders for warmth, respect, peace, reciprocity, attraction, clarity, follow-through, and social fit.

@@ -4672,7 +4672,7 @@ document.addEventListener('DOMContentLoaded',()=>setTimeout(refresh,900));
 })();
 
 
-/* v3.4.4 connected relationship context + advisor lenses */
+/* v3.4.5 connected relationship context + advisor lenses */
 (function(){
 const $id=id=>document.getElementById(id);
 const esc=s=>typeof escapeHTML==='function'?escapeHTML(String(s??'')):String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
@@ -4693,6 +4693,12 @@ const advisorModes343={
 "Aristotle virtue/friendship lens":{tags:["virtue","habit","friendship","character","compatibility"],bestFor:["Commitment / future direction","Communication / shared reality","Respect / public image","Planning / logistics"],lens:"Reads the relationship as a pattern of habits: what kind of people the two of you become together.",advice:"Look less at intensity and more at repeated character, fairness, courage, generosity, and practical friendship.",exercise:"Habit audit: after contact, do I become clearer, kinder, braver, steadier, or smaller?",miss:"Can underweight raw attraction, nervous-system activation, or urgent safety concerns."},
 "bell hooks love ethic lens":{tags:["care","honesty","domination","mutuality","respect"],bestFor:["Respect / public image","Trust / honesty","Communication / shared reality","Boundary"],lens:"Reads the event through care, respect, knowledge, responsibility, trust, and whether control is replacing love.",advice:"Do not call domination, neglect, or dishonesty love. Ask for care that is concrete and mutual.",exercise:"Love ethic check: where did care, respect, trust, responsibility, and honesty show up or disappear?",miss:"Can be less specific about dating-stage ambiguity or attraction dynamics."},
 "Jane Austen character lens":{tags:["courtship","signals","manners","character","social"],bestFor:["Dating / early relationship","Respect / public image","Social media / outside validation","Commitment / future direction"],lens:"Reads courtship signals, manners, consistency, and social behavior as evidence of character.",advice:"Do not be dazzled by charm alone. Watch how the person behaves when pride, status, embarrassment, or inconvenience enters.",exercise:"Character evidence list: charm, consistency, humility, regard for others, and repair after awkwardness.",miss:"Can be too subtle if the issue requires direct boundary action."}
+},
+"Modern Dating / Relationship Science":{
+"Logan Ury behavioral dating lens":{tags:["early dating","spark","slow burn","dater tendencies","post-date","green flags","behavioral science"],bestFor:["Dating / early relationship","Commitment / future direction","Communication / shared reality","Trust / honesty"],lens:"Distinguishes instant chemistry and checklist judgments from the lived experience of being with this person, including slow-burn potential and repeated dating habits.",advice:"Treat the first interpretation as a hypothesis. Review observed behavior and how you felt during the date before letting spark, an instant ick, or a profile checklist decide.",exercise:"Post-date review: What side of me came out? Did I feel heard, curious, at ease, and interested in learning more?",miss:"Can become too optimization-oriented for abuse, trauma, or an established relationship that needs deeper repair."},
+"Eli Finkel online dating lens":{tags:["online dating","apps","choice overload","evaluation","expectations","options","swiping"],bestFor:["Dating / early relationship","Social media / outside validation","Commitment / future direction","Communication / shared reality"],lens:"Looks at how app design, abundant options, profile comparison, and high expectations can keep people in an evaluation mindset instead of building a relationship.",advice:"Move from profile comparison to real interaction. Reduce option churn and evaluate the developing relationship process, not an imagined marketplace of alternatives.",exercise:"Choice reset: briefly pause new swipes, focus on a small number of real conversations, and record what actually happens in person.",miss:"Does not by itself explain an individual's attachment pattern, character, compatibility, or safety."},
+"David Buss mating strategy lens":{tags:["mating strategy","jealousy","deception","short-term","long-term","mate preferences","sexual conflict"],bestFor:["Trust / honesty","Commitment / future direction","Jealousy / insecurity","Passion / sexual disconnect"],lens:"Tests whether conflict may involve mismatched short- and long-term strategies, jealousy triggers, deception, or different expectations about exclusivity and investment.",advice:"Clarify intent, exclusivity, investment, and relationship horizon directly. Use actual behavior as evidence instead of turning group averages into a story about this person.",exercise:"Strategy alignment audit: each person states the desired relationship horizon, exclusivity, investment, and what would make them leave.",miss:"Population averages and sex differences are not destiny. This lens must not stereotype people or excuse dishonesty, coercion, or disrespect."},
+"Scott Stanley commitment clarity lens":{tags:["commitment","ambiguity","sliding","deciding","dedication","constraints","cohabitation"],bestFor:["Commitment / future direction","Planning / logistics","Communication / shared reality","Dating / early relationship"],lens:"Looks for places where a couple accumulated constraints or expectations by drifting forward without making a clear, mutual decision.",advice:"Decide rather than drift. Define the relationship status, current expectations, the next meaningful step, and a realistic timeline.",exercise:"Sliding-versus-deciding audit: list what was explicitly chosen together and what happened through inertia or convenience.",miss:"Clarity alone cannot create compatibility, desire, mutual effort, or safety."}
 },
 "Trauma / Nervous System":{
 "Gabor Mate trauma-pattern lens":{tags:["trauma","trigger","childhood","compulsion","abandonment"],bestFor:["Jealousy / insecurity","Trust / honesty","Emotional distance","Conflict escalation"],lens:"Reads the reaction as possibly larger than the event because an old survival pattern is activated.",advice:"Ask what old pain this resembles, then check whether the present evidence actually supports that intensity.",exercise:"Trigger split: present facts on one side, old familiar feeling on the other.",miss:"Can underweight ordinary bad behavior, incentives, and accountability."},
@@ -4786,6 +4792,10 @@ function score343(row,ctx){
  if(/desire|sexual|passion|roommate/i.test(t)&&row.name.includes('Perel'))s+=7;
  if(/criticism|correction|contempt/i.test(t)&&row.name.includes('Gottman'))s+=7;
  if(/appreciat|useful|effort|thoughtful/i.test(t)&&row.name.includes('Alison'))s+=8;
+ if(/first date|early dating|spark|slow burn|\\bick\\b|post-date|green flag/i.test(t)&&row.name.includes('Logan Ury'))s+=9;
+ if(/dating app|online dating|swip|profile|choice overload|too many options|option churn/i.test(t)&&row.name.includes('Eli Finkel'))s+=9;
+ if(/jealous|deceiv|deception|short-term|long-term|mating|sexual conflict/i.test(t)&&row.name.includes('David Buss'))s+=9;
+ if(/commit|ambigu|cohabit|drift|sliding|deciding|define the relationship/i.test(t)&&row.name.includes('Scott Stanley'))s+=9;
  if(ctx.safetyFlags.length&&(row.name.includes('bell hooks')||row.name.includes('Gottman')))s+=5;
  return s;
 }
@@ -4801,7 +4811,11 @@ function challenge343(ctx){
   "Gottman stability lens":"Esther Perel desire/security lens",
   "Marcus Aurelius stoic lens":"Sue Johnson / EFT lens",
   "bell hooks love ethic lens":"Louise Perry modern dating culture lens",
-  "Jane Austen character lens":"Gabor Mate trauma-pattern lens"
+  "Jane Austen character lens":"Eli Finkel online dating lens",
+  "Logan Ury behavioral dating lens":"David Buss mating strategy lens",
+  "Eli Finkel online dating lens":"Jane Austen character lens",
+  "David Buss mating strategy lens":"bell hooks love ethic lens",
+  "Scott Stanley commitment clarity lens":"Esther Perel desire/security lens"
  };
  return rows343().find(r=>r.name===(pairs[a?.name]||''))||rows343().sort((x,y)=>score343(x,ctx)-score343(y,ctx))[0];
 }
@@ -4926,9 +4940,10 @@ function bind343(){
   if(btn.dataset.bound343)return;
   btn.dataset.bound343='1';
   btn.onclick=()=>{
+   populate343();
    const cat=$id('expertCategorySelect339'), mode=$id('expertModeSelect339');
    if(cat&&mode){
-    cat.value='Philosophical Lenses';
+    cat.value=btn.dataset.advisorCategory343||'Philosophical Lenses';
     cat.onchange();
     mode.value=btn.dataset.thinker343;
     renderSelected343();
@@ -4999,7 +5014,7 @@ if(typeof saveRelationshipSnapshot332==='function'&&!window.__saveRel343){
 if(typeof renderRepairCockpit==='function'&&!window.__render343){
  window.__render343=true;
  const oldRender=renderRepairCockpit;
- window.renderRepairCockpit=renderRepairCockpit=function(){const r=oldRender();setTimeout(bind343,80);return r;};
+ window.renderRepairCockpit=renderRepairCockpit=function(){const r=oldRender();setTimeout(bind343,80);setTimeout(bind343,700);return r;};
 }
 
 document.addEventListener('change',e=>{if(e.target&&['issueCardSelector','repairCockpitProfileSelect','expertCategorySelect339','expertModeSelect339'].includes(e.target.id))setTimeout(bind343,60);});
