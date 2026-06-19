@@ -1,9 +1,9 @@
-const CACHE='relationship-intelligence-v345-modern2';
+const CACHE='relationship-intelligence-v346-workspace2';
 const ASSETS=[
   './',
   './index.html',
   './styles.css',
-  './app.js?v=345-modern2',
+  './app.js?v=346-workspace2',
   './manifest.json'
 ];
 
@@ -23,7 +23,7 @@ self.addEventListener('activate',event=>{
 self.addEventListener('fetch',event=>{
   const requestUrl=new URL(event.request.url);
   if(requestUrl.pathname.endsWith('/app.js')){
-    event.respondWith(fetch(event.request).catch(()=>caches.match('./app.js?v=345-modern2')));
+    event.respondWith(fetch(event.request).catch(()=>caches.match('./app.js?v=346-workspace2')));
     return;
   }
   event.respondWith(caches.match(event.request).then(response=>response||fetch(event.request)));

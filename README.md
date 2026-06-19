@@ -1,4 +1,12 @@
-# Relationship Intelligence v3.4.5
+# Relationship Intelligence v3.4.6
+
+v3.4.6:
+- Condenses the Workspace entry into a compact profile and latest-issue summary with two relationship avatars.
+- Moves profile and issue examples into compact controls within Issue / Event Translation.
+- Prioritizes Issue / Event Translation and Expert Interpretation at the top of the Workspace.
+- Adds profile-specific issue timestamps and resolved/reopened lifecycle tracking.
+- Adds provenance, avatars, and consequence/tradeoff sections to guidance cards.
+- Adds clearly labeled popular-media and red-pill contrasts without treating them as expert authority.
 
 v3.4.5:
 - Adds a modern dating and relationship science advisor category.

@@ -1,17 +1,10 @@
-
-<div id="relationshipHero340" class="relationshipHero340">
- <div class="relationshipHeroType340" id="relationshipHeroType340">RELATIONSHIP</div>
- <div class="relationshipHeroName340" id="relationshipHeroName340">No profile loaded</div>
- <div class="relationshipHeroMeta340" id="relationshipHeroMeta340">Workspace ready</div>
-</div>
-
 <!doctype html><html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Relationship Intelligence v3.4.5</title>
+<title>Relationship Intelligence v3.4.6</title>
 <link rel="manifest" href="manifest.json"><link rel="stylesheet" href="styles.css">
 <meta name="theme-color" content="#815b33"></head>
 <body>
-<header><h1>Relationship Intelligence <span>v3.4.5</span></h1>
+<header><h1>Relationship Intelligence <span>v3.4.6</span></h1>
 <div class="sub">Relational Dynamics Engine: trajectory, repair, reciprocity, embeddedness, loops, archetypes, and vector alignment.</div>
 <div id="status">Loading app…</div></header>
 <nav class="tabs"><button id="tabSnapshot" class="tab active">New Snapshot</button><button id="tabRepairCockpit" class="tab">Workspace</button><button id="tabMe" class="tab">Self / Galaxy</button><button id="tabDiagnostics" class="tab">Diagnostics</button><button id="tabCards" class="tab hidden" type="button">Cards</button><button id="tabDashboard" class="tab hidden" type="button">Dashboard</button><button id="tabEcosystem" class="tab hidden" type="button">Ecosystem</button><button id="tabPerson" class="tab hidden" type="button">Card Detail</button></nav>
@@ -201,28 +194,40 @@
 
 <main id="repairCockpitView" class="single hidden">
 <section>
-  <h2>Workspace</h2>
-  <div class="guide"><b>Purpose:</b> choose a relationship, load or create a specific issue, then use the left side for interpretation/repair and the right side for graphs.</div>
-
-  <div class="detailSwitcher">
-    <label>Choose relationship</label>
-    <select id="repairCockpitProfileSelect"></select>
+  <div class="workspaceTop346">
+    <div class="coupleAvatars346" aria-label="People in this relationship">
+      <span id="workspaceAvatarMe346" class="coupleAvatar346 coupleAvatarMe346">ME</span>
+      <span id="workspaceAvatarPartner346" class="coupleAvatar346 coupleAvatarPartner346">?</span>
+    </div>
+    <div id="workspaceCompactSummary346" class="workspaceCompactSummary346">
+      <b>Workspace</b><span>Choose a relationship to begin.</span>
+    </div>
+    <div class="workspaceTopActions346">
+      <label class="srOnly346" for="repairCockpitProfileSelect">Relationship profile</label>
+      <select id="repairCockpitProfileSelect" aria-label="Relationship profile"></select>
+      <button id="toggleProfileExamples346" type="button" class="iconButton346 secondary" title="Example profiles" aria-label="Example profiles">Profiles</button>
+    </div>
   </div>
 
   <div id="repairCockpitSourceStrip" class="v3SourceStrip"></div>
   <div id="workspaceRelationshipSummary" class="workspaceSummary"></div>
 
-  <div id="profileExampleLoader336" class="simpleIssueExamples"></div><div id="simpleIssueExamples334" class="simpleIssueExamples"></div>
-
   <div class="workspaceShell335">
     <div class="workspaceLeft335">
 
       <div class="workspaceSection" id="issueTranslationPanel335">
-        <h3>Issue / Event Translation</h3>
-        <div class="guide"><b>Purpose:</b> translate one specific event, recurring issue, or positive moment into what each person may have meant, heard, needed, and how to respond.</div>
+        <div class="moduleHeading346"><div><span class="moduleStep346">1</span><h3>Issue / Event Translation</h3><p>Issues and positive events saved to this relationship profile.</p></div></div>
+        <div id="profileExamplesTray346" class="compactTray346 hidden">
+          <div id="profileExampleLoader336" class="simpleIssueExamples"></div>
+        </div>
+        <div id="simpleIssueExamples334" class="simpleIssueExamples"></div>
         <div class="issueControls">
-          <label>Tracked issue / event<select id="issueCardSelector"></select></label>
+          <label>Issue or event for this profile<select id="issueCardSelector"></select></label>
           <button id="newIssueCardBtn" type="button" class="secondary">+ New issue card</button>
+        </div>
+        <div class="issueMetaRow346">
+          <span id="issueTimestamp346" class="issueTimestamp346">No timestamp</span>
+          <button id="toggleIssueResolved346" type="button" class="issueStatus346 unresolved">Unresolved</button>
         </div>
         <div id="issueHero342" class="issueHero342">
   <div class="issueHeroLabel342">CURRENT EVENT / ISSUE BEING ANALYZED</div>
@@ -249,7 +254,7 @@
 
       
 <div class="workspaceSection" id="expertThinkPanel339">
-  <h3>Expert Lens: Best Fit and Challenge View</h3>
+  <div class="moduleHeading346"><div><span class="moduleStep346">2</span><h3>Expert Interpretation</h3><p>Best-fit guidance, a challenge view, and clearly labeled cultural contrasts.</p></div></div>
   <p class="small">Select an expert lens for the current issue. These are modeled framework-style lenses, not literal reviews by those people.</p>
   <div id="expertContext339" class="expertContext339"></div>
   <div id="thinkerShortcuts343" class="thinkerShortcuts343">
@@ -404,4 +409,4 @@
 
 
 <div id="casualTrackerOverlay" class="issueWizardOverlay hidden"><div class="issueWizardCard"><div class="issueWizardHeader"><div><h2>Casual Relationship Tracker Wizard</h2><p class="small">Track impressions, gender-specific signals, and general relational fit. Use N/A when a dimension does not apply.</p></div><button id="closeCasualTrackerWizardBtn" type="button" class="secondary">Close</button></div><div id="casualTrackerWizardBody"></div><div class="wizardNav"><button id="saveCasualTrackerWizardBtn" type="button">Save tracker snapshot</button></div></div></div>
-<script src="app.js?v=345-modern2"></script></body></html>
+<script src="app.js?v=346-workspace2"></script></body></html>

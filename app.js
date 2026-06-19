@@ -4484,7 +4484,7 @@ function populate(){let cat=$id('expertCategorySelect339'),mode=$id('expertModeS
 function selected(){let cat=$id('expertCategorySelect339')?.value,name=$id('expertModeSelect339')?.value,e=expertModes339[cat]?.[name],out=$id('expertOutput339');if(e&&out)out.innerHTML=card({cat,name,...e},'Selected expert lens');}
 function renderAligned(){let e=aligned(),out=$id('expertOutput339');if(out)out.innerHTML=card(e,'Most aligned expert','expertAligned339');let cat=$id('expertCategorySelect339'),mode=$id('expertModeSelect339');if(cat&&mode){cat.value=e.cat;cat.onchange();mode.value=e.name;}}
 function renderDisagree(){let out=$id('expertOutput339');if(out)out.innerHTML=card(aligned(),'Current strongest lens','expertAligned339')+card(disagree(),'Expert likely to disagree','expertDisagree339');}
-function bind(){populate();let a=$id('renderExpertLensBtn339'),b=$id('mostAlignedExpertBtn339'),c=$id('likelyDisagreeExpertBtn339');if(a)a.onclick=selected;if(b)b.onclick=renderAligned;if(c)c.onclick=renderDisagree;let out=$id('expertOutput339');if(out&&!out.innerHTML.trim())renderAligned();}
+function bind(){if(window.__advisor343Active)return;populate();let a=$id('renderExpertLensBtn339'),b=$id('mostAlignedExpertBtn339'),c=$id('likelyDisagreeExpertBtn339');if(a)a.onclick=selected;if(b)b.onclick=renderAligned;if(c)c.onclick=renderDisagree;let out=$id('expertOutput339');if(out&&!out.innerHTML.trim())renderAligned();}
 const oldRender=window.renderRepairCockpit;if(oldRender&&!window.__render339){window.__render339=true;window.renderRepairCockpit=function(){const r=oldRender();setTimeout(bind,120);setTimeout(bind,450);return r;};}
 const oldSafe=window.safeUpdate;if(oldSafe&&!window.__safe339){window.__safe339=true;window.safeUpdate=function(){const r=oldSafe();setTimeout(bind,120);return r;};}
 const oldTrans=window.renderTranslation331;if(oldTrans&&!window.__trans339){window.__trans339=true;window.renderTranslation331=function(){const r=oldTrans();setTimeout(bind,120);return r;};}
@@ -4674,6 +4674,7 @@ document.addEventListener('DOMContentLoaded',()=>setTimeout(refresh,900));
 
 /* v3.4.5 connected relationship context + advisor lenses */
 (function(){
+window.__advisor343Active=true;
 const $id=id=>document.getElementById(id);
 const esc=s=>typeof escapeHTML==='function'?escapeHTML(String(s??'')):String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 
@@ -4699,6 +4700,10 @@ const advisorModes343={
 "Eli Finkel online dating lens":{tags:["online dating","apps","choice overload","evaluation","expectations","options","swiping"],bestFor:["Dating / early relationship","Social media / outside validation","Commitment / future direction","Communication / shared reality"],lens:"Looks at how app design, abundant options, profile comparison, and high expectations can keep people in an evaluation mindset instead of building a relationship.",advice:"Move from profile comparison to real interaction. Reduce option churn and evaluate the developing relationship process, not an imagined marketplace of alternatives.",exercise:"Choice reset: briefly pause new swipes, focus on a small number of real conversations, and record what actually happens in person.",miss:"Does not by itself explain an individual's attachment pattern, character, compatibility, or safety."},
 "David Buss mating strategy lens":{tags:["mating strategy","jealousy","deception","short-term","long-term","mate preferences","sexual conflict"],bestFor:["Trust / honesty","Commitment / future direction","Jealousy / insecurity","Passion / sexual disconnect"],lens:"Tests whether conflict may involve mismatched short- and long-term strategies, jealousy triggers, deception, or different expectations about exclusivity and investment.",advice:"Clarify intent, exclusivity, investment, and relationship horizon directly. Use actual behavior as evidence instead of turning group averages into a story about this person.",exercise:"Strategy alignment audit: each person states the desired relationship horizon, exclusivity, investment, and what would make them leave.",miss:"Population averages and sex differences are not destiny. This lens must not stereotype people or excuse dishonesty, coercion, or disrespect."},
 "Scott Stanley commitment clarity lens":{tags:["commitment","ambiguity","sliding","deciding","dedication","constraints","cohabitation"],bestFor:["Commitment / future direction","Planning / logistics","Communication / shared reality","Dating / early relationship"],lens:"Looks for places where a couple accumulated constraints or expectations by drifting forward without making a clear, mutual decision.",advice:"Decide rather than drift. Define the relationship status, current expectations, the next meaningful step, and a realistic timeline.",exercise:"Sliding-versus-deciding audit: list what was explicitly chosen together and what happened through inertia or convenience.",miss:"Clarity alone cannot create compatibility, desire, mutual effort, or safety."}
+},
+"Cultural Voices (contrast only)":{
+"Call Her Daddy-style pop-culture lens":{tags:["dating culture","leverage","desirability","standards","entertainment"],bestFor:["Dating / early relationship","Social media / outside validation","Commitment / future direction"],lens:"Summarizes a recurring popular-media dating viewpoint that may emphasize leverage, desirability, strong standards, and avoiding overinvestment.",advice:"Use the protective insight without turning intimacy into a contest: keep standards, ask directly, and judge consistent behavior rather than trying to control the power balance.",exercise:"Contrast audit: write the protective benefit of the advice, then the cost if both people use the same strategy against each other.",miss:"Entertainment-oriented advice can reward strategic behavior, one-sided framing, or audience approval. It is not individualized clinical guidance.",sourceClass:"Popular-media perspective",evidenceTier:"Speculative / cultural",avatar:"CHD",consequence:"May reduce premature overinvestment, but can also increase testing, distrust, performance, and indirect communication."},
+"Red-pill internet rhetoric lens":{tags:["status","sexual market","dominance","red pill","gender strategy"],bestFor:["Dating / early relationship","Respect / public image","Jealousy / insecurity","Commitment / future direction"],lens:"Summarizes an ideological internet framing that interprets dating mainly through status, sexual-market bargaining, dominance, and generalized claims about men and women.",advice:"Treat any useful observation about incentives as a hypothesis about behavior, not a rule about a sex. Return to consent, reciprocity, evidence, and the actual person.",exercise:"Individual-evidence test: replace every claim about men or women with the observed behavior of this person. Discard claims that no longer hold.",miss:"This framing is speculative at the individual level and can intensify stereotypes, contempt, coercive expectations, and adversarial relationships.",sourceClass:"Ideological internet perspective",evidenceTier:"Speculative / caution",avatar:"RP",consequence:"May create a temporary sense of certainty or self-protection, while increasing suspicion, rigid gender scripts, and tolerance for controlling behavior."}
 },
 "Trauma / Nervous System":{
 "Gabor Mate trauma-pattern lens":{tags:["trauma","trigger","childhood","compulsion","abandonment"],bestFor:["Jealousy / insecurity","Trust / honesty","Emotional distance","Conflict escalation"],lens:"Reads the reaction as possibly larger than the event because an old survival pattern is activated.",advice:"Ask what old pain this resembles, then check whether the present evidence actually supports that intensity.",exercise:"Trigger split: present facts on one side, old familiar feeling on the other.",miss:"Can underweight ordinary bad behavior, incentives, and accountability."},
@@ -4796,6 +4801,9 @@ function score343(row,ctx){
  if(/dating app|online dating|swip|profile|choice overload|too many options|option churn/i.test(t)&&row.name.includes('Eli Finkel'))s+=9;
  if(/jealous|deceiv|deception|short-term|long-term|mating|sexual conflict/i.test(t)&&row.name.includes('David Buss'))s+=9;
  if(/commit|ambigu|cohabit|drift|sliding|deciding|define the relationship/i.test(t)&&row.name.includes('Scott Stanley'))s+=9;
+ if(/dating culture|leverage|desirab|standards|overinvest/i.test(t)&&row.name.includes('Call Her Daddy'))s+=4;
+ if(/red pill|sexual market|dominance|status game|gender strategy/i.test(t)&&row.name.includes('Red-pill'))s+=3;
+ if(row.cat==='Cultural Voices (contrast only)')s-=18;
  if(ctx.safetyFlags.length&&(row.name.includes('bell hooks')||row.name.includes('Gottman')))s+=5;
  return s;
 }
@@ -4864,8 +4872,12 @@ function card343(row,label,ctx,cls=''){
  const event=ctx.issue?.event||ctx.latestSnapshot?.note||ctx.profile?.evidence||'No event has been described yet.';
  const score=confidence343(row,ctx);
  const positive=ctx.isPositive?' expertPositive339':'';
- return `<div class="expertCard339 ${cls}${positive}">
-  <b>${esc(label)}: ${esc(row.name)}</b><span class="expertConfidence339">${esc(score)}</span>
+ const cultural=row.cat==='Cultural Voices (contrast only)';
+ const sourceClass=row.sourceClass||(row.cat==='Attachment / Repair'||row.cat==='Modern Dating / Relationship Science'||row.cat==='Trauma / Nervous System'?'Research-informed framework':row.cat==='Philosophical Lenses'?'Philosophical / literary perspective':'Interpretive practitioner perspective');
+ const initials=row.avatar||row.name.split(/\s+/).slice(0,2).map(x=>x[0]).join('').toUpperCase();
+ const consequence=row.consequence||'Possible benefit: a new interpretation and a concrete experiment. Cost: this lens can overfit the story; reassess it against behavior and the result of the next interaction.';
+ return `<div class="expertCard339 ${cls}${positive}${cultural?' expertCultural346':''}">
+  <div class="expertIdentity346"><span class="expertAvatar346" aria-hidden="true">${esc(initials)}</span><div><b>${esc(label)}: ${esc(row.name)}</b><span class="expertProvenance346">${esc(sourceClass)}${row.evidenceTier?' · '+esc(row.evidenceTier):''}</span></div><span class="expertConfidence339">${esc(score)}</span></div>
   <div class="expertPills339"><span class="expertPill339">${esc(row.cat)}</span>${(row.tags||[]).slice(0,5).map(t=>`<span class="expertPill339">${esc(t)}</span>`).join('')}</div>
   ${safety}
   <div class="expertSection343"><b>Current issue</b>${esc(String(event).slice(0,520))}</div>
@@ -4873,6 +4885,7 @@ function card343(row,label,ctx,cls=''){
   <div class="expertSection343"><b>What it may be seeing</b>${esc(row.lens)}</div>
   <div class="expertSection343"><b>What to try next</b>${esc(next343(row,ctx))}</div>
   <div class="expertSection343"><b>Exercise</b>${esc(row.exercise)}</div>
+  <div class="expertConsequence346"><b>Likely consequences and tradeoffs</b><br>${esc(consequence)}</div>
   <div class="expertSection343"><b>Use caution if</b>${esc(row.miss)}</div>
  </div>`;
 }
@@ -4898,7 +4911,12 @@ function renderContext343(){
 
 function renderSelected343(){
  const ctx=context343(), cat=$id('expertCategorySelect339')?.value, name=$id('expertModeSelect339')?.value, data=advisorModes343[cat]?.[name], out=$id('expertOutput339');
- if(data&&out)out.innerHTML=card343({cat,name,...data},'Selected lens',ctx);
+ if(data&&out){
+  const selected={cat,name,...data};
+  out.innerHTML=cat==='Cultural Voices (contrast only)'
+   ? card343(aligned343(ctx),'Research-supported comparison',ctx,'expertAligned339')+card343(selected,'Cultural contrast',ctx,'expertDisagree339')
+   : card343(selected,'Selected lens',ctx);
+ }
  renderContext343();
 }
 
@@ -5020,4 +5038,76 @@ if(typeof renderRepairCockpit==='function'&&!window.__render343){
 document.addEventListener('change',e=>{if(e.target&&['issueCardSelector','repairCockpitProfileSelect','expertCategorySelect339','expertModeSelect339'].includes(e.target.id))setTimeout(bind343,60);});
 document.addEventListener('DOMContentLoaded',()=>setTimeout(bind343,1000));
 setTimeout(bind343,1400);
+})();
+
+/* v3.4.6 compact workspace and profile-specific issue lifecycle */
+(function(){
+const $346=id=>document.getElementById(id);
+const esc346=s=>typeof escapeHTML==='function'?escapeHTML(String(s??'')):String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function profile346(){
+ const selected=$346('repairCockpitProfileSelect')?.value;
+ return (state.profiles||[]).find(p=>p.id===selected)||(state.profiles||[]).find(p=>p.id===state.currentId)||(state.profiles||[])[0]||null;
+}
+function normalizeIssues346(p){
+ if(!p)return;
+ p.issues=p.issues||[];
+ p.issues.forEach((i,index)=>{
+  const historyDate=(i.history||[]).map(h=>h?.created).find(Boolean);
+  i.created=i.created||i.createdAt||historyDate||(p.snapshots||[])[index]?.created||new Date(0).toISOString();
+  i.updatedAt=i.updatedAt||i.created;
+  i.status=i.status==='resolved'?'resolved':'unresolved';
+  i.resolvedAt=i.status==='resolved'?(i.resolvedAt||i.updatedAt):null;
+  i.history=Array.isArray(i.history)?i.history:[];
+  i.ratings=i.ratings||{};
+ });
+}
+function selectedIssue346(p){
+ normalizeIssues346(p);
+ const id=$346('issueCardSelector')?.value;
+ return p?.issues?.find(i=>i.id===id)||p?.issues?.slice().sort((a,b)=>new Date(b.created)-new Date(a.created))[0]||null;
+}
+function shortDate346(value){
+ const d=new Date(value);return Number.isNaN(d.getTime())?'Date unknown':d.toLocaleString([],{month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit'});
+}
+function initials346(value,fallback){
+ const x=String(value||'').trim().split(/\s+/).filter(Boolean).slice(0,2).map(v=>v[0]).join('').toUpperCase();return x||fallback;
+}
+function renderIssueOptions346(p,issue){
+ const sel=$346('issueCardSelector');if(!sel||!p)return;
+ const selected=issue?.id||sel.value;
+ const sorted=(p.issues||[]).map((i,index)=>({i,index})).sort((a,b)=>new Date(b.i.created)-new Date(a.i.created)||b.index-a.index);
+ sel.innerHTML=sorted.map(({i})=>`<option value="${esc346(i.id)}" ${i.id===selected?'selected':''}>${i.status==='resolved'?'Resolved':'Open'} · ${esc346(i.title||i.type||'Issue')} · ${esc346(shortDate346(i.created))}</option>`).join('');
+}
+function renderCompact346(){
+ const p=profile346();if(!p)return;
+ normalizeIssues346(p);
+ const issue=selectedIssue346(p),m=typeof metrics==='function'?metrics(p):{};
+ const recent=issue?.title||issue?.type||(p.snapshots||[]).at(-1)?.title||(p.snapshots||[]).at(-1)?.note||'No issue or event recorded';
+ const title=p.name||'Untitled relationship';
+ const summary=$346('workspaceCompactSummary346');
+ if(summary)summary.innerHTML=`<b>${esc346(title)}</b><span>${esc346(p.rtype||'Relationship')} · Peace ${Math.round(m.peaceIndex||0)} · Respect ${Math.round(m.respectIndex||0)} · Latest: ${esc346(recent)}</span>`;
+ const meName=state.me?.name||state.me?.myName||'Me';
+ if($346('workspaceAvatarMe346'))$346('workspaceAvatarMe346').textContent=initials346(meName,'ME');
+ if($346('workspaceAvatarPartner346'))$346('workspaceAvatarPartner346').textContent=initials346(title,'?');
+ renderIssueOptions346(p,issue);
+ const stamp=$346('issueTimestamp346');if(stamp)stamp.textContent=issue?`Added ${shortDate346(issue.created)} · Updated ${shortDate346(issue.updatedAt)}`:'No issue selected';
+ const btn=$346('toggleIssueResolved346');if(btn){const done=issue?.status==='resolved';btn.textContent=done?'Resolved · Reopen':'Unresolved · Mark resolved';btn.classList.toggle('unresolved',!done);btn.disabled=!issue;}
+ const heroMeta=$346('issueHeroMeta342');if(heroMeta&&issue)heroMeta.textContent=`${issue.status==='resolved'?'Resolved':'Unresolved'} · ${shortDate346(issue.created)} · Saved to ${title}`;
+ const simple=$346('simpleIssueExamples334');if(simple){const button=simple.querySelector('button');if(button)button.textContent='Add example to this profile';}
+}
+function toggleResolved346(){
+ const p=profile346(),issue=selectedIssue346(p);if(!issue)return;
+ const now=new Date().toISOString(),done=issue.status==='resolved';
+ issue.status=done?'unresolved':'resolved';issue.updatedAt=now;issue.resolvedAt=done?null:now;
+ issue.history=issue.history||[];issue.history.push({id:typeof uid==='function'?uid():String(Date.now()),created:now,kind:done?'reopened':'resolved',note:''});
+ if(typeof saveState==='function')saveState();renderCompact346();
+}
+function bind346(){
+ const toggle=$346('toggleIssueResolved346');if(toggle)toggle.onclick=toggleResolved346;
+ const profiles=$346('toggleProfileExamples346'),tray=$346('profileExamplesTray346');if(profiles&&tray)profiles.onclick=()=>{tray.classList.toggle('hidden');profiles.setAttribute('aria-expanded',String(!tray.classList.contains('hidden')));};
+ renderCompact346();
+}
+if(typeof renderRepairCockpit==='function'&&!window.__render346){window.__render346=true;const old=renderRepairCockpit;renderRepairCockpit=function(){const r=old();setTimeout(bind346,120);setTimeout(bind346,760);return r;};}
+document.addEventListener('change',e=>{if(['repairCockpitProfileSelect','issueCardSelector'].includes(e.target?.id))setTimeout(bind346,80);});
+document.addEventListener('DOMContentLoaded',()=>setTimeout(bind346,1200));setTimeout(bind346,1500);
 })();
