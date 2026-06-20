@@ -1,11 +1,16 @@
-# Relationship Intelligence v3.4.7
+# Relationship Intelligence v3.4.8
+
+v3.4.8:
+- Deletes the interaction-pattern display entirely.
+- Adds four expert-diagnosis examples covering healthy digital boundaries, successful money repair, covert phone monitoring, and AI-assisted conflict outsourcing.
 
 v3.4.7:
 - Consolidates all useful Workspace trends into Relationship Changes Over Time.
 - Removes redundant casual, slider-history, and Peace/Respect trajectory displays.
 - Groups partner, personal, and couple sliders into one condensed Relationship Measures module.
 - Renames charts around the questions they answer instead of their underlying data structures.
-- Demotes the generic escalation loop to a compact optional interaction-pattern summary.
+- Removes the generic interaction-pattern/escalation-loop display.
+- Adds healthy digital-boundary and money-repair examples plus covert phone-monitoring and AI-conflict-judge examples.
 - Replaces generic expert summaries with framework-specific interpretations, challenges, questions, experiments, and failure signals.
 - Removes redundant expert context and lens-routing explanations.
 

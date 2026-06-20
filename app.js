@@ -3026,8 +3026,6 @@ function renderTranslation331(){
     <div class="translationCard"><b>Possible male-side meaning</b><p>${escape331(t.male)}</p><div class="reviewRow">${ratingBtn331(issue,'male','Accurate')}${ratingBtn331(issue,'male','Partial')}${ratingBtn331(issue,'male','Wrong')}</div></div>
     <div class="translationCard"><b>Possible female-side meaning</b><p>${escape331(t.female)}</p><div class="reviewRow">${ratingBtn331(issue,'female','Accurate')}${ratingBtn331(issue,'female','Partial')}${ratingBtn331(issue,'female','Wrong')}</div></div>
   </div>
-  <h4 class="loopSectionTitle">Escalation loop</h4>
-  <div class="clearLoopGrid">${t.steps.map((s,i)=>`<div class="clearLoopCard"><b>${i+1}. ${escape331(s.split('.')[0])}</b>${escape331(s)}</div>`).join('')}</div>
   <div class="translationCard"><b>Loop breaker</b><p>${escape331(t.action)}</p></div>`;
   let act=$('repairCockpitActionStrategy'); if(act)act.innerHTML=`<div class="actionList"><div class="actionItem"><b>Immediate action</b>${escape331(t.action)}</div></div>`;
   let th=$('repairCockpitStrategy'); if(th)th.innerHTML=`<div class="exerciseList"><div class="exerciseCard"><b>${escape331(t.exercise[0])}</b>${escape331(t.exercise[1])}</div></div>`;
@@ -3494,7 +3492,11 @@ document.addEventListener('DOMContentLoaded',()=>setTimeout(()=>{cleanupSnapshot
     {label:'Shared reality drift', type:'Communication / shared reality', title:'Parallel lives drift', event:'He makes decisions privately and she finds out later, making her feel excluded from the partnership.', rtype:'Marriage / long-term', aggrieved:'Woman'},
     {label:'Future ambiguity', type:'Commitment / future direction', title:'Future ambiguity', event:'She wants clarity about where the relationship is going, while he avoids defining the next step.', rtype:'Romantic: woman evaluating man', aggrieved:'Woman'},
     {label:'Public disrespect', type:'Respect / public image', title:'Public disrespect', event:'She jokes or posts about him in a way that makes him feel diminished in public.', rtype:'Romantic: man evaluating woman', aggrieved:'Man'},
-    {label:'Roommate energy', type:'Passion / sexual disconnect', title:'Roommate energy', event:'He feels undesired and starts interpreting low intimacy as rejection.', rtype:'Romantic: man evaluating woman', aggrieved:'Man'}
+    {label:'Roommate energy', type:'Passion / sexual disconnect', title:'Roommate energy', event:'He feels undesired and starts interpreting low intimacy as rejection.', rtype:'Romantic: man evaluating woman', aggrieved:'Man'},
+    {label:'Healthy phone boundaries', type:'Trust / honesty', title:'Mutual digital privacy agreement', event:'After talking about jealousy, both partners agree that neither will inspect the other person’s phone. They answer reasonable questions directly and feel more trusted rather than less connected.', rtype:'Marriage / long-term', aggrieved:'Both', polarity:'Positive', recurrence:'Healthy agreement'},
+    {label:'Money conflict repaired well', type:'Planning / logistics', title:'Constructive repair after money stress', event:'A surprise expense starts a tense argument. Both partners pause, return later, acknowledge fear without blaming, disclose the numbers, and agree on a spending threshold that requires a joint decision.', rtype:'Marriage / long-term', aggrieved:'Both', polarity:'Positive', recurrence:'Successful repair'},
+    {label:'Secret phone monitoring', type:'Trust / honesty', title:'Covert phone monitoring', event:'One partner repeatedly checks the other person’s location, messages, and app activity without consent, then treats ordinary gaps in information as proof of betrayal and demands more access.', rtype:'Marriage / long-term', aggrieved:'Both', recurrence:'Recurring pattern'},
+    {label:'AI as the conflict judge', type:'Communication / shared reality', title:'Outsourcing arguments to AI', event:'During disagreements, one partner pastes private messages into an AI tool, presents its answer as an objective verdict, and uses it to prove the other person is wrong instead of discussing context or listening.', rtype:'Marriage / long-term', aggrieved:'Both', recurrence:'Recurring pattern'}
   ];
 
   function currentProfile335(){
@@ -3560,7 +3562,7 @@ document.addEventListener('DOMContentLoaded',()=>setTimeout(()=>{cleanupSnapshot
           story: item.event,
           polarity: item.polarity || 'Negative',
           aggrieved: item.aggrieved,
-          recurrence: 'Recurring pattern',
+          recurrence: item.recurrence || 'Recurring pattern',
           ratings: {},
           created: new Date().toISOString(),
           history: []
@@ -5141,26 +5143,13 @@ document.addEventListener('change',e=>{if(['repairCockpitProfileSelect','issueCa
 document.addEventListener('DOMContentLoaded',()=>setTimeout(bind346,1200));setTimeout(bind346,1500);
 })();
 
-/* v3.4.7 compact interaction pattern and consolidated Workspace cleanup */
+/* v3.4.7 consolidated Workspace cleanup */
 (function(){
 const $347=id=>document.getElementById(id);
-function compactPattern347(){
+function removeInteractionPattern347(){
  const root=$347('repairCockpitLoop');if(!root)return;
- const grid=root.querySelector('.clearLoopGrid,.loopChain');
- if(grid&&!root.querySelector('.compactPattern347')){
-  const steps=[...grid.querySelectorAll('.clearLoopCard,.chainStep')].map(x=>(x.textContent||'').replace(/^\s*\d+\.\s*/,'').trim()).filter(Boolean);
-  const heading=grid.previousElementSibling;
-  const details=document.createElement('details');details.className='compactPattern347';
-  details.innerHTML=`<summary>Interaction pattern (optional)</summary><p>${steps.map((s,i)=>`${i?'<span class="patternArrow347">→</span> ':''}${typeof escapeHTML==='function'?escapeHTML(s):s}`).join(' ')}</p>`;
-  if(heading&&/loop|pattern/i.test(heading.textContent||''))heading.remove();
-  grid.replaceWith(details);
- }
- const nodes=[...root.querySelectorAll(':scope > .loopNode')];
- if(nodes.length&&!root.querySelector('.compactPattern347')){
-  const details=document.createElement('details');details.className='compactPattern347';
-  details.innerHTML=`<summary>Interaction pattern (optional)</summary><p>${nodes.map((n,i)=>`${i?'<span class="patternArrow347">→</span> ':''}${typeof escapeHTML==='function'?escapeHTML((n.textContent||'').trim()):n.textContent}`).join(' ')}</p>`;
-  root.querySelectorAll(':scope > .loopNode,:scope > .loopArrow').forEach(n=>n.remove());root.appendChild(details);
- }
+ root.querySelectorAll('.compactPattern347,.clearLoopGrid,.loopChain,:scope > .loopNode,:scope > .loopArrow').forEach(n=>n.remove());
+ root.querySelectorAll('h4').forEach(h=>{if(/interaction pattern|escalation loop|positive reinforcement loop/i.test(h.textContent||''))h.remove();});
 }
 function cleanupWorkspace347(){
  $347('trajectoryCharts340')?.remove();
@@ -5169,9 +5158,9 @@ function cleanupWorkspace347(){
  const partnerBtn=$347('openCasualTrackerWizardBtn');if(partnerBtn)partnerBtn.textContent='Partner & Personal Measures';
  const coupleBtn=$347('openSliderWizardBtn');if(coupleBtn)coupleBtn.textContent='Couple Measures';
  const source=$347('repairCockpitSourceStrip');if(source)source.setAttribute('aria-label','Relationship score summary');
- compactPattern347();
+ removeInteractionPattern347();
 }
-if(typeof renderTranslation331==='function'&&!window.__translation347){window.__translation347=true;const old=renderTranslation331;renderTranslation331=function(){const r=old();setTimeout(compactPattern347,0);return r;};}
+if(typeof renderTranslation331==='function'&&!window.__translation347){window.__translation347=true;const old=renderTranslation331;renderTranslation331=function(){const r=old();setTimeout(removeInteractionPattern347,0);return r;};}
 if(typeof renderRepairCockpit==='function'&&!window.__workspace347){window.__workspace347=true;const old=renderRepairCockpit;renderRepairCockpit=function(){const r=old();setTimeout(cleanupWorkspace347,100);setTimeout(cleanupWorkspace347,800);return r;};}
 document.addEventListener('DOMContentLoaded',()=>setTimeout(cleanupWorkspace347,1700));setTimeout(cleanupWorkspace347,1900);
 })();
