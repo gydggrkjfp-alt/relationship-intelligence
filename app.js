@@ -350,7 +350,30 @@ function dynamicArchetype(p,m){
 function metrics(p){let g=avg(p.green,greenDefs),r=avg(p.risk,riskDefs),respect=respectIndex(p);let base=Math.max(0,Math.min(100,g*10-r*4));let personalized=base;personalized+=(respect-50)*.22;personalized+=(p.green.warmth-5)*(need('needWarmth')-5)*.7;personalized+=(p.green.respect-5)*(need('needRespect')-5)*.9;personalized+=(p.green.reciprocity-5)*(need('needAppreciation')-5)*.55;personalized+=(p.green.stability-5)*(need('needStability')-5)*.8;personalized+=(p.green.curiosity-5)*(need('needIntellect')-5)*.55;personalized-=p.risk.chaos*(need('needStability')/10)*2.2;personalized-=p.risk.family*(need('needFamily')/10)*1.4;personalized+=(socialHealth(p)-50)*.22;if(tendency('scarcity')&&p.green.attraction>=7)personalized-=6;if(tendency('attractionOverride')&&p.green.attraction>=8&&p.green.peace<=5)personalized-=10;if(tendency('rescuer')&&p.risk.trauma>=7)personalized-=9;if(tendency('peoplePleaser')&&(p.risk.entitlement>=6||respect<55))personalized-=8;if(tendency('movesFast')&&p.green.attraction>=7&&p.risk.chaos>=6)personalized-=8;personalized=Math.round(Math.max(0,Math.min(100,personalized)));let peaceIndex=Math.round(Math.max(0,Math.min(100,personalized)));return{greenAvg:g,riskAvg:r,base:Math.round(base),personalized,peaceIndex,respectIndex:respect,social:socialHealth(p)}}
 function safeUpdate(){try{updateReadout()}catch(e){$('status').textContent='Calculation error: '+e.message;console.error(e)}}
 function updateReadout(){let p=currentProfile(),m=metrics(p);$('meterFill').style.width=m.personalized+'%';$('peaceIndex').textContent=m.peaceIndex;$('respectIndex').textContent=m.respectIndex;$('peacePhrase').textContent=m.peaceIndex>=75?'Calming, respectful, emotionally low-cost.':m.peaceIndex>=55?'Worth exploring, but watch whether calm increases.':m.peaceIndex>=35?'Exciting but not yet peaceful. Slow down.':'Low peace signal. Attraction may be masking emotional cost.';$('respectPhrase').textContent=m.respectIndex>=80?'Strong respect signal: appreciation, reliability, and boundaries look healthy.':m.respectIndex>=60?'Moderate respect signal. Watch consistency over time.':m.respectIndex>=40?'Respect is uncertain. Do not let warmth or attraction compensate too much.':'Low respect signal. This is a major long-term risk.';updateMatrix(m);updateSocialReadout(p,m);updateAttachmentOutput(p,m);updateAdmirationOutput(p,m);updateIntegrationOutput(p,m);updateMarriageSystemOutput(p,m);updateTranslationEngine(p,m);updateAccuracyOutput(p,m);updateRepairPlanOutput(p,m);updateResponseMode(p,m);updateStrategy(p,m);updateAvatar(p,m);let title='Proceed carefully',cls='',text='Keep learning without outrunning the evidence.';if(m.personalized>=70&&m.peaceIndex>=65&&m.respectIndex>=65){title='Worth continuing to explore';cls='good';text='For your profile, this currently aligns with peace, respect, and low emotional cost.'}else if(m.personalized<=40||m.peaceIndex<40||m.respectIndex<40){title='Likely mismatch or boundaries needed';cls='bad';text='For your profile, this may cost too much peace or respect.'}if((p.rtype||'').includes('Do not date')){title='Boundaries-first relationship';cls='';text='This is not for romance escalation. Organize around clarity and boundaries.'}$('readout').className='readout '+cls;$('readout').innerHTML=`<b>${title}</b><br>Personalized Score: <b>${m.personalized}/100</b><br><span class='small'>General: ${m.base}/100 · Repair: ${m.repair}/100 · Reciprocity: ${m.reciprocityDyn}/100 · Grounding: ${m.embedded}/100 · Alignment: ${m.alignment}/100</span><br>${text}`;updateBiasWarnings(p,m);updateGuidance(p,m);updateAI(p,m);drawRadar(p,m);renderTimeline(p);renderCards();bindDemoButtons();$('status').textContent='App loaded. Autosave active.'}
-function updateMatrix(m){let hiP=m.peaceIndex>=60,hiR=m.respectIndex>=60;let active=hiP&&hiR?'exceptional':hiP&&!hiR?'comfort':!hiP&&hiR?'work':'risk';$('matrix').innerHTML=`<div class='quad ${active==='comfort'?'active':''}'><b>High Peace / Low Respect</b><span class='small'>Comfort without full partnership.</span></div><div class='quad ${active==='exceptional'?'active':''}'><b>High Peace / High Respect</b><span class='small'>Long-term potential.</span></div><div class='quad ${active==='risk'?'active':''}'><b>Low Peace / Low Respect</b><span class='small'>Proceed carefully.</span></div><div class='quad ${active==='work'?'active':''}'><b>Low Peace / High Respect</b><span class='small'>Foundation exists, but emotional cost is high.</span></div>`}
+function peaceRespectMatrixHtml357(m){
+ const clamp=v=>Math.max(0,Math.min(100,Number.isFinite(Number(v))?Math.round(Number(v)):50));
+ const peace=clamp(m?.peaceIndex),respect=clamp(m?.respectIndex),highPeace=peace>=60,highRespect=respect>=60;
+ const zone=highPeace&&highRespect?'Secure footing':highPeace?'Comfort without equality':highRespect?'Respectful but costly':'High concern';
+ const summary=highPeace&&highRespect?'Calm and mutual regard are both present. Look for consistency over time.':highPeace?'The relationship feels calm, but respect needs stronger evidence.':highRespect?'Mutual regard may exist, but the relationship is still costing too much peace.':'Both emotional ease and mutual regard need attention before deeper investment.';
+ const markerClass=`${respect>76?' markerLeft357':''}${peace>84?' markerDown357':''}`;
+ return `<div class="prMatrix357" role="img" aria-label="Peace and respect matrix. Current relationship: Peace ${peace} out of 100, Respect ${respect} out of 100, in the ${zone} zone.">
+  <div class="prMatrixTop357"><div><span>Current position</span><b>${zone}</b></div><div class="prMatrixScores357"><span><b>${peace}</b> Peace</span><span><b>${respect}</b> Respect</span></div></div>
+  <div class="prChart357">
+   <div class="prYAxis357" aria-hidden="true"><span>High peace</span><b>Peace</b><span>Low peace</span></div>
+   <div class="prPlot357" style="--peace:${peace}%;--respect:${respect}%" aria-hidden="true">
+    <div class="prZone357 prCalm357"><b>Comfort without equality</b><span>Calm, limited regard</span></div>
+    <div class="prZone357 prSecure357"><b>Secure footing</b><span>Calm and respected</span></div>
+    <div class="prZone357 prConcern357"><b>High concern</b><span>Costly and diminished</span></div>
+    <div class="prZone357 prCostly357"><b>Respectful but costly</b><span>Regard, limited ease</span></div>
+    <span class="prThresholdV357"></span><span class="prThresholdH357"></span>
+    <div class="prMarker357${markerClass}"><span></span><b>You are here</b></div>
+   </div>
+   <div class="prXAxis357" aria-hidden="true"><span>Low respect</span><b>Respect</b><span>High respect</span></div>
+  </div>
+  <p class="prMatrixSummary357">${summary}</p>
+ </div>`;
+}
+function updateMatrix(m){let el=$('matrix');if(el)el.innerHTML=peaceRespectMatrixHtml357(m)}
 function updateSocialReadout(p,m){let line=m.social>=75?'The surrounding social environment looks supportive.':m.social>=55?'The social environment is mixed; observe her friends and norms.':m.social>=35?'The social environment may create pressure, comparison, or instability.':'High social-environment risk: contempt, status pressure, or peer policing may affect compatibility.';$('socialReadout').innerHTML=`<p><b>Social Environment Score:</b> ${m.social}/100</p><p>${line}</p><p class='small'>This tracks whether her close social world seems to reward respect, commitment, and stable partnership versus comparison, contempt, and status games.</p>`}
 function updateBiasWarnings(p,m){let w=[];if(tendency('scarcity')&&p.green.attraction>=7)w.push(['Scarcity warning','Interest is meaningful, but not evidence they is good for you.']);if(tendency('attractionOverride')&&p.green.attraction>=8&&m.peaceIndex<=55)w.push(['Attraction override','Attraction is outrunning peace/respect.']);if(tendency('rescuer')&&p.risk.trauma>=7)w.push(['Rescuer warning','Do not confuse being needed with being loved.']);if(tendency('peoplePleaser')&&m.respectIndex<60)w.push(['People-pleasing warning','Low respect requires earlier boundary-setting.']);if(p.social.statusPressure>=7)w.push(['Status-pressure warning','Status comparison may affect expectations.']);if(p.hesitation&&p.hesitation.trim().length>20)w.push(['Hesitation note present','Your written hesitation may contain signal that sliders miss. Re-read it before escalating.']);if(!w.length)w.push(['No major blind spot triggered','Current inputs do not strongly trigger selected warnings.']);$('biasWarnings').innerHTML=w.map(([a,b],i)=>`<div class='warning ${i===0&&w.length>1?'dangerWarn':''}'><b>${a}:</b> ${b}</div>`).join('')}
 function updateGuidance(p,m){let tips=[];if(m.respectIndex<55)tips.push('Respect is not optional. Warmth without respect often becomes confusing or humiliating.');if(m.peaceIndex<45)tips.push('Low peace after contact matters. Your body may be noticing emotional cost.');if(p.risk.trauma>=7)tips.push('Early heavy disclosure can create false intimacy. Compassion is fine; pacing still matters.');if(p.social.friendsSupport<=3)tips.push('Watch how her close friends talk about committed relationships.');if(!tips.length)tips.push('Keep collecting concrete observations. One interaction is evidence, not a verdict.');$('guidance').innerHTML=tips.map(t=>`<div class='guide'>${t}</div>`).join('')}
@@ -1851,9 +1874,7 @@ function drawDashboardPeaceRespect(p){
   pts.forEach((pt,i)=>{let x=pad+(pt.respect/100)*(w-2*pad),y=h-pad-(pt.peace/100)*(h-2*pad);ctx.beginPath();ctx.arc(x,y,7,0,Math.PI*2);ctx.fillStyle='#815b33';ctx.fill();ctx.fillStyle='#3f3832';ctx.font='11px sans-serif';ctx.fillText(String(i+1),x+9,y-8);});
 }
 function dashboardMatrixHtml(p){
-  let m=dashboardMetricSet(p), peace=m.peaceIndex||0, respect=m.respectIndex||0;
-  let q=peace>=60&&respect>=60?'High Peace / High Respect':peace>=60?'High Peace / Low Respect':respect>=60?'Low Peace / High Respect':'Low Peace / Low Respect';
-  return `<div class="matrixCell activeMatrix"><b>${q}</b><br>${q==='High Peace / High Respect'?'Long-term potential.':q==='High Peace / Low Respect'?'Comfort without full partnership.':q==='Low Peace / High Respect'?'Respect exists, but nervous system cost is high.':'Low calm and low respect; proceed carefully.'}</div>`;
+  return peaceRespectMatrixHtml357(dashboardMetricSet(p));
 }
 function renderDashboard(){
   populateDashboardSelect();
@@ -2483,9 +2504,7 @@ function bindSliderWizard(){
 }
 function matrix320(p){
  let m=window.safeMetricSet?safeMetricSet(p):(window.dashboardMetricSet?dashboardMetricSet(p):{peaceIndex:50,respectIndex:50});
- let peace=m.peaceIndex||50, respect=m.respectIndex||50;
- let q=peace>=60&&respect>=60?'High Peace / High Respect':peace>=60?'High Peace / Low Respect':respect>=60?'Low Peace / High Respect':'Low Peace / Low Respect';
- return `<div class="matrixCell activeMatrix"><b>${q}</b><br>${q==='High Peace / High Respect'?'Long-term potential.':q==='High Peace / Low Respect'?'Comfort without enough respect.':q==='Low Peace / High Respect'?'Respect exists, but nervous-system cost is high.':'Low calm and low respect; proceed carefully.'}</div>`;
+ return peaceRespectMatrixHtml357(m);
 }
 function drawRadar320(canvasId,p){
  let c=$(canvasId); if(!c||!p)return; let ctx=c.getContext('2d'),w=c.width,h=c.height,cx=w/2,cy=h/2,r=Math.min(w,h)*.33;
@@ -3446,22 +3465,6 @@ document.addEventListener('DOMContentLoaded',()=>setTimeout(()=>{cleanupSnapshot
       const block = el.closest('.workspaceSection,.v3Panel,.card') || el;
       if (block.parentNode !== left) left.appendChild(block);
     });
-
-    // If therapy/action are raw divs, wrap labels for readability.
-    const therapy = $id('repairCockpitStrategy');
-    if (therapy && !therapy.dataset.titled334) {
-      therapy.dataset.titled334 = '1';
-      if (!therapy.previousElementSibling || !/therapy|growth/i.test(therapy.previousElementSibling.textContent || '')) {
-        therapy.insertAdjacentHTML('beforebegin','<h3>Therapy / growth exercises</h3>');
-      }
-    }
-    const action = $id('repairCockpitActionStrategy');
-    if (action && !action.dataset.titled334) {
-      action.dataset.titled334 = '1';
-      if (!action.previousElementSibling || !/role|paradigm|action/i.test(action.previousElementSibling.textContent || '')) {
-        action.insertAdjacentHTML('beforebegin','<h3>Role / paradigm shift</h3>');
-      }
-    }
 
     // Prevent graph grid side-by-side overlap.
     const gg = graph.querySelector('.graphGrid');
@@ -5312,6 +5315,7 @@ function cleanupWorkspace347(){
  ['sliderTimelineCanvas','workspacePeaceRespectCanvas'].forEach(id=>$347(id)?.closest('.graphGrid>div')?.remove());
  const left=$347('repairCockpitView')?.querySelector('.workspaceLeft335');
  [['therapyPanel335','repairCockpitStrategy'],['rolePanel335','repairCockpitActionStrategy']].forEach(([panelId,contentId])=>{const panel=$347(panelId),content=$347(contentId);if(panel&&content&&content.parentElement!==panel)panel.appendChild(content);if(left&&panel&&panel.parentElement!==left)left.appendChild(panel);});
+ ['therapyPanel335','rolePanel335'].forEach(id=>$347(id)?.querySelectorAll(':scope > h3').forEach(h=>h.remove()));
  document.querySelectorAll('.workspaceTwoColumn334:empty,.workspaceTwoColumn:empty,.workspaceLeft334:empty,.workspaceRight334:empty').forEach(e=>e.remove());
  const partnerBtn=$347('openCasualTrackerWizardBtn');if(partnerBtn)partnerBtn.textContent='Partner & Personal Measures';
  const coupleBtn=$347('openSliderWizardBtn');if(coupleBtn)coupleBtn.textContent='Couple Measures';
@@ -5322,6 +5326,77 @@ if(typeof renderTranslation331==='function'&&!window.__translation347){window.__
 if(typeof renderRepairCockpit==='function'&&!window.__workspace347){window.__workspace347=true;const old=renderRepairCockpit;renderRepairCockpit=function(){const r=old();setTimeout(cleanupWorkspace347,100);setTimeout(cleanupWorkspace347,800);return r;};}
 document.addEventListener('DOMContentLoaded',()=>setTimeout(cleanupWorkspace347,1700));setTimeout(cleanupWorkspace347,1900);
 document.addEventListener('change',e=>{if(e.target?.id==='issueCardSelector')setTimeout(cleanupWorkspace347,260);});
+})();
+
+/* v3.5.8 interactive relationship evidence timeline */
+(function(){
+const $358=id=>document.getElementById(id);
+const esc358=s=>typeof escapeHTML==='function'?escapeHTML(String(s??'')):String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const traitOptions358=['Warmth','Follow-through','Responsibility','Respect','Honesty','Affection','Teamwork','Steadiness','Curiosity','Generosity','Accountability','Healthy boundaries','Inconsistency','Avoidance','Dismissiveness','Control'];
+const concernTraits358=new Set(['Inconsistency','Avoidance','Dismissiveness','Control']);
+const outcomeMeta358={
+ unreviewed:['Not reviewed',0],ongoing:['Ongoing',-.2],resolved_good:['Resolved well',1],resolved_partial:['Partly resolved',.4],resolved_bad:['Resolved poorly',-1],positive_repeated:['Positive pattern repeated',.8]
+};
+function profile358(){const id=$358('repairCockpitProfileSelect')?.value||state.currentId;return (state.profiles||[]).find(p=>p.id===id)||(state.profiles||[])[0]||null;}
+function polarity358(s){const explicit=String(s.polarity||'').toLowerCase();if(['positive','negative','mixed'].includes(explicit))return explicit;const avg=(Number(s.peace||50)+Number(s.respect||50)+Number(s.repair||50))/3;return avg>=65?'positive':avg<52?'negative':'mixed';}
+function statusLabel358(status){return (outcomeMeta358[status]||outcomeMeta358.unreviewed)[0];}
+function shortDate358(value,label){if(label)return label;const d=new Date(value);return Number.isNaN(d.getTime())?'Date unknown':d.toLocaleDateString([],{month:'short',day:'numeric',year:'numeric'});}
+function outcomeOptions358(selected){return Object.entries(outcomeMeta358).map(([value,[label]])=>`<option value="${value}" ${value===selected?'selected':''}>${label}</option>`).join('');}
+function recurrenceOptions358(selected){const rows=[['not_checked','Not checked yet'],['no','No similar event since'],['similar_good','Yes, with a better outcome'],['similar_same','Yes, similar pattern'],['similar_worse','Yes, and it was worse'],['unsure','Unsure']];return rows.map(([v,l])=>`<option value="${v}" ${v===selected?'selected':''}>${l}</option>`).join('');}
+function renderTraits358(){
+ const p=profile358(),strip=$358('repairCockpitSourceStrip');if(!p||!strip)return;
+ strip.querySelector('.relationshipTraits358')?.remove();
+ const counts={};(p.snapshots||[]).forEach(s=>(s.traits358||[]).forEach(t=>counts[t]=(counts[t]||0)+1));
+ const traits=Object.keys(counts).sort((a,b)=>counts[b]-counts[a]||a.localeCompare(b));p.relationshipTraits358=traits;
+ if(!traits.length)return;
+ strip.insertAdjacentHTML('beforeend',`<div class="relationshipTraits358"><span>Relationship descriptors</span><div>${traits.slice(0,8).map(t=>`<span class="relationshipTrait358 ${concernTraits358.has(t)?'concern':''}">${esc358(t)}${counts[t]>1?` <b>${counts[t]}</b>`:''}</span>`).join('')}</div></div>`);
+}
+function recalcAdjustments358(p){
+ const total={peace:0,respect:0,repair:0};
+ (p.snapshots||[]).forEach(s=>{const f=s.followUp358;if(!f?.applyMeasures)return;const effect=(outcomeMeta358[f.status]||outcomeMeta358.unreviewed)[1];total.peace+=effect*4;total.respect+=effect*3.5;total.repair+=effect*7;});
+ p.eventAdjustment358={peace:Math.max(-15,Math.min(15,Math.round(total.peace))),respect:Math.max(-15,Math.min(15,Math.round(total.respect))),repair:Math.max(-18,Math.min(18,Math.round(total.repair)))};
+}
+function adjustProfileSliders358(p,s,nextEffect){
+ p.profileSliders=p.profileSliders||{};const previous=Number(s.followUp358?.appliedSliderEffect||0),diff=nextEffect-previous,clamp=v=>Math.max(1,Math.min(10,Math.round(v*10)/10));
+ if(diff){p.profileSliders.peace=clamp(Number(p.profileSliders.peace??5)+diff*.4);p.profileSliders.respect=clamp(Number(p.profileSliders.respect??5)+diff*.35);p.profileSliders.repair=clamp(Number(p.profileSliders.repair??5)+diff*.7);}
+}
+function renderEventTimeline358(openIndex){
+ const el=$358('snapshotTimelineBody336'),p=profile358();if(!el||!p)return;
+ const snaps=(p.snapshots||[]).map((s,index)=>({s,index})).sort((a,b)=>new Date(b.s.created||0)-new Date(a.s.created||0));
+ if(!snaps.length){el.innerHTML='<p class="small">No events recorded yet.</p>';return;}
+ el.innerHTML=`<div class="eventEvidenceList358">${snaps.map(({s,index},order)=>{
+  const pol=polarity358(s),follow=s.followUp358||{},status=follow.status||(pol==='positive'?'unreviewed':'ongoing'),traits=s.traits358||[],recap=s.eventSummary||s.note||s.event||'No event recap was recorded.',context=s.story||'',resolution=follow.note||s.resolution||'';
+  return `<details class="eventEvidence358 ${pol}" data-event-index358="${index}" ${(openIndex===index||openIndex===undefined&&order===0)?'open':''}>
+   <summary><span class="eventDot358"></span><span class="eventSummary358"><b>${esc358(s.title||s.domain||'Relationship event')}</b><span>${esc358(shortDate358(s.created,s.label))}</span></span><span class="eventState358 ${esc358(status)}">${esc358(statusLabel358(status))}</span><span class="eventScores358">P ${Math.round(Number(s.peace)||0)} · R ${Math.round(Number(s.respect)||0)}</span></summary>
+   <div class="eventDetails358">
+    <div class="eventRecap358"><div><b>Event recap</b><p>${esc358(recap)}</p></div>${context?`<div><b>Context recorded at the time</b><p>${esc358(context)}</p></div>`:''}${resolution?`<div><b>Follow-up evidence</b><p>${esc358(resolution)}</p></div>`:''}</div>
+    <div class="eventReviewGrid358">
+     <label>Outcome<select data-field358="status">${outcomeOptions358(status)}</select></label>
+     <label>Similar event since<select data-field358="recurrence">${recurrenceOptions358(follow.recurrence||'not_checked')}</select></label>
+    </div>
+    <label class="eventNote358">What happened afterward<textarea data-field358="note" placeholder="Accountability, apology, changed behavior, recurrence, or new evidence...">${esc358(follow.note||'')}</textarea></label>
+    <fieldset class="eventTraits358"><legend>Traits this event supports</legend><div>${traitOptions358.map(t=>`<label class="traitChoice358 ${concernTraits358.has(t)?'concern':''}"><input type="checkbox" value="${esc358(t)}" ${traits.includes(t)?'checked':''}><span>${esc358(t)}</span></label>`).join('')}</div><label class="customTrait358">Other descriptor<input data-field358="customTrait" value="${esc358(follow.customTrait||'')}" placeholder="Example: playful"></label></fieldset>
+    <div class="eventSaveRow358"><label><input type="checkbox" data-field358="applyMeasures" ${follow.applyMeasures?'checked':''}> Update relationship measures from this outcome</label><button type="button" data-save-event358="${index}">Save follow-up</button></div>
+   </div>
+  </details>`;
+ }).join('')}</div>`;
+ renderTraits358();
+}
+function saveFollowUp358(index){
+ const p=profile358(),s=p?.snapshots?.[index],card=$358('snapshotTimelineBody336')?.querySelector(`[data-event-index358="${index}"]`);if(!p||!s||!card)return;
+ const get=name=>card.querySelector(`[data-field358="${name}"]`),status=get('status')?.value||'unreviewed',apply=!!get('applyMeasures')?.checked,effect=apply?(outcomeMeta358[status]||outcomeMeta358.unreviewed)[1]:0;
+ adjustProfileSliders358(p,s,effect);
+ const checked=[...card.querySelectorAll('.traitChoice358 input:checked')].map(x=>x.value),custom=String(get('customTrait')?.value||'').trim();if(custom&&!checked.includes(custom))checked.push(custom);
+ s.traits358=checked;s.followUp358={status,recurrence:get('recurrence')?.value||'not_checked',note:String(get('note')?.value||'').trim(),customTrait:custom,applyMeasures:apply,appliedSliderEffect:effect,updatedAt:new Date().toISOString()};
+ recalcAdjustments358(p);if(typeof saveState==='function')saveState();if(typeof safeUpdate==='function')safeUpdate();if(typeof renderRepairCockpit==='function')renderRepairCockpit();
+ setTimeout(()=>{renderEventTimeline358(index);const statusEl=$358('status');if(statusEl)statusEl.textContent='Event follow-up saved. Relationship evidence updated.';},180);
+}
+document.addEventListener('click',e=>{const btn=e.target.closest?.('[data-save-event358]');if(btn)saveFollowUp358(Number(btn.dataset.saveEvent358));});
+if(typeof safeMetricSet==='function'&&!window.__eventMetrics358){window.__eventMetrics358=true;const oldSafe358=safeMetricSet;safeMetricSet=function(p){const m=oldSafe358(p),a=p?.eventAdjustment358||{};return {...m,peaceIndex:Math.max(0,Math.min(100,Math.round((m.peaceIndex||0)+(a.peace||0)))),respectIndex:Math.max(0,Math.min(100,Math.round((m.respectIndex||0)+(a.respect||0)))),repair:Math.max(0,Math.min(100,Math.round((m.repair||0)+(a.repair||0))))};};}
+if(typeof renderRcSourceStrip==='function'&&!window.__traits358){window.__traits358=true;const oldSource358=renderRcSourceStrip;renderRcSourceStrip=function(){const r=oldSource358();renderTraits358();return r;};}
+if(typeof renderRepairCockpit==='function'&&!window.__timeline358){window.__timeline358=true;const oldCockpit358=renderRepairCockpit;renderRepairCockpit=function(){const r=oldCockpit358();setTimeout(()=>renderEventTimeline358(),220);setTimeout(()=>renderEventTimeline358(),1050);return r;};}
+document.addEventListener('change',e=>{if(e.target?.id==='repairCockpitProfileSelect')setTimeout(()=>renderEventTimeline358(),120);});
+document.addEventListener('DOMContentLoaded',()=>setTimeout(()=>renderEventTimeline358(),2300));setTimeout(()=>renderEventTimeline358(),2500);
 })();
 
 /* v3.5.0 evidence-aware meaning translation */

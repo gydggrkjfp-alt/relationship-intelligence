@@ -1,4 +1,15 @@
-# Relationship Intelligence v3.5.6
+# Relationship Intelligence v3.5.8
+
+v3.5.8:
+- Rebuilds the event timeline as expandable evidence cards with full event recaps.
+- Adds outcome, recurrence, follow-up notes, and reversible relationship-measure adjustments.
+- Lets each event support positive or cautionary relationship descriptors displayed beside the top status bars.
+
+v3.5.7:
+- Rebuilds the Peace and Respect Matrix as a responsive, high-resolution quadrant graphic.
+- Places the current relationship at its exact Peace and Respect scores with a prominent marker.
+- Uses one shared matrix renderer across Workspace, Dashboard, and the main analysis view.
+- Removes the vestigial Therapy / Growth Exercises and Role / Paradigm Shift display headings.
 
 v3.5.6:
 - Gives Marcus Aurelius and Aristotle separate, issue-specific reasoning for surveillance, appreciation, communication, commitment, intimacy, public conflict, responsibility, trust, closeness, boundaries, and positive events.
