@@ -1,10 +1,10 @@
 <!doctype html><html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Relationship Intelligence v3.4.6</title>
+<title>Relationship Intelligence v3.4.7</title>
 <link rel="manifest" href="manifest.json"><link rel="stylesheet" href="styles.css">
 <meta name="theme-color" content="#815b33"></head>
 <body>
-<header><h1>Relationship Intelligence <span>v3.4.6</span></h1>
+<header><h1>Relationship Intelligence <span>v3.4.7</span></h1>
 <div class="sub">Relational Dynamics Engine: trajectory, repair, reciprocity, embeddedness, loops, archetypes, and vector alignment.</div>
 <div id="status">Loading app…</div></header>
 <nav class="tabs"><button id="tabSnapshot" class="tab active">New Snapshot</button><button id="tabRepairCockpit" class="tab">Workspace</button><button id="tabMe" class="tab">Self / Galaxy</button><button id="tabDiagnostics" class="tab">Diagnostics</button><button id="tabCards" class="tab hidden" type="button">Cards</button><button id="tabDashboard" class="tab hidden" type="button">Dashboard</button><button id="tabEcosystem" class="tab hidden" type="button">Ecosystem</button><button id="tabPerson" class="tab hidden" type="button">Card Detail</button></nav>
@@ -256,7 +256,6 @@
 <div class="workspaceSection" id="expertThinkPanel339">
   <div class="moduleHeading346"><div><span class="moduleStep346">2</span><h3>Expert Interpretation</h3><p>Best-fit guidance, a challenge view, and clearly labeled cultural contrasts.</p></div></div>
   <p class="small">Select an expert lens for the current issue. These are modeled framework-style lenses, not literal reviews by those people.</p>
-  <div id="expertContext339" class="expertContext339"></div>
   <div id="thinkerShortcuts343" class="thinkerShortcuts343">
     <span class="small"><b>Thinker shortcuts:</b></span>
     <button type="button" class="secondary" data-advisor-category343="Philosophical Lenses" data-thinker343="Marcus Aurelius stoic lens">Marcus</button>
@@ -286,18 +285,15 @@
         <div id="repairCockpitActionStrategy"></div>
       </div>
 
-      <div id="casualRelationshipTracker" class="workspaceSection">
-        <h3>Casual Relationship Tracker</h3>
-        <p class="small">For early dating, low-stakes relationships, or periodic check-ins on an existing relationship. Track general impressions without forcing the app into problem-solving mode.</p>
-        <button id="openCasualTrackerWizardBtn" type="button">Open Casual Tracker Wizard</button>
-        <div id="casualTrackerBars" class="barDashboard"></div><div id="casualTrajectory337" class="outputCanvas"><h4>Casual tracker trajectory</h4><canvas id="casualTrajectoryCanvas337" width="820" height="420"></canvas><p class="small">Each Save Tracker Snapshot adds a new point so you can see whether impressions are improving, fading, or stabilizing.</p></div>
-      </div>
-
-      <div id="workspaceProfileDashboard" class="workspaceSection">
-        <h3>Qualities as a Couple</h3>
-        <p class="small">These sliders evaluate the couple as a pair: teamwork, shared direction, positivity, repair, and how well the relationship functions together.</p>
-        <button id="openSliderWizardBtn" type="button">Open Couple Qualities Wizard</button>
-        <div id="profileBarDashboard" class="barDashboard"></div>
+      <div id="relationshipMeasures347" class="workspaceSection">
+        <h3>Relationship Measures</h3>
+        <p class="small">Current partner behavior, personal experience, and couple-level scores.</p>
+        <div class="measureActions347">
+          <button id="openCasualTrackerWizardBtn" type="button">Partner & Personal Measures</button>
+          <button id="openSliderWizardBtn" type="button" class="secondary">Couple Measures</button>
+        </div>
+        <details class="measureDetails347"><summary>Current partner and personal scores</summary><div id="casualTrackerBars" class="barDashboard"></div></details>
+        <details class="measureDetails347"><summary>Current couple scores</summary><div id="profileBarDashboard" class="barDashboard"></div></details>
       </div>
 
     </div>
@@ -311,24 +307,26 @@
         <div id="repairCockpitAdmirationText" class="small"></div>
       </div>
 
-      <div id="snapshotTimeline336" class="workspaceSection"><h3>Snapshot timeline</h3><p class="small">Shows logged events over time. Positive events, negative events, and mixed events become markers that explain changes in the graphs.</p><div id="snapshotTimelineBody336"></div></div><div id="trajectoryCharts342" class="workspaceSection">
-  <h3>Relationship trajectories</h3>
+      <div id="relationshipTrends347" class="workspaceSection">
+      <h3>Relationship Changes Over Time</h3>
+      <p class="small">Events and longer-term movement in relationship health, personal experience, and optional partner signals.</p>
+      <details id="snapshotTimeline336" class="trendDetails347"><summary>Event timeline</summary><div id="snapshotTimelineBody336"></div></details>
+      <div id="trajectoryCharts342" class="trajectoryGroup347">
   <div class="dualTrajectory342">
-    <div class="outputCanvas"><h4>Couple trajectory</h4><canvas id="coupleTrajectoryCanvas342" width="700" height="360"></canvas></div>
-    <div class="outputCanvas"><h4>Personal feeling trajectory</h4><canvas id="personalTrajectoryCanvas342" width="700" height="360"></canvas></div>
+    <div class="outputCanvas"><h4>Relationship Health</h4><canvas id="coupleTrajectoryCanvas342" width="700" height="360"></canvas></div>
+    <div class="outputCanvas"><h4>Your Experience</h4><canvas id="personalTrajectoryCanvas342" width="700" height="360"></canvas></div>
   </div>
-  <div class="dualTrajectory342" style="margin-top:14px">
-    <div class="outputCanvas"><h4>Female-specific traits trajectory</h4><canvas id="femaleTraitTrajectoryCanvas342" width="700" height="360"></canvas></div>
-    <div class="outputCanvas"><h4>Male-specific traits trajectory</h4><canvas id="maleTraitTrajectoryCanvas342" width="700" height="360"></canvas></div>
+  <details class="trendDetails347"><summary>Optional partner-signal trends</summary><div class="dualTrajectory342 optionalTrends347">
+    <div class="outputCanvas"><h4>Emotional & Social Signals</h4><canvas id="femaleTraitTrajectoryCanvas342" width="700" height="360"></canvas></div>
+    <div class="outputCanvas"><h4>Initiative & Commitment Signals</h4><canvas id="maleTraitTrajectoryCanvas342" width="700" height="360"></canvas></div>
+  </div></details>
   </div>
 </div>
 <div id="workspaceGraphicalOutputs" class="workspaceSection">
-        <h3>Graphical outputs</h3>
+        <h3>Current Relationship Snapshot</h3>
         <div class="graphGrid">
-          <div><h4>Peace × Respect Matrix</h4><div id="workspaceMatrix" class="matrixGrid"></div></div>
-          <div><h4>Radar</h4><div class="outputCanvas"><canvas id="workspaceRadarCanvas" width="520" height="360"></canvas></div></div>
-          <div><h4>Slider trajectory over time</h4><div class="outputCanvas"><canvas id="sliderTimelineCanvas" width="820" height="420"></canvas></div><div id="sliderTimelineSummary" class="analysisBox"></div></div>
-          <div><h4>Peace × Respect trajectory</h4><div class="outputCanvas"><canvas id="workspacePeaceRespectCanvas" width="820" height="420"></canvas></div></div>
+          <div><h4>Peace & Respect Position</h4><div id="workspaceMatrix" class="matrixGrid"></div></div>
+          <div><h4>Relationship Shape</h4><div class="outputCanvas"><canvas id="workspaceRadarCanvas" width="520" height="360"></canvas></div></div>
         </div>
       </div>
 
@@ -409,4 +407,4 @@
 
 
 <div id="casualTrackerOverlay" class="issueWizardOverlay hidden"><div class="issueWizardCard"><div class="issueWizardHeader"><div><h2>Casual Relationship Tracker Wizard</h2><p class="small">Track impressions, gender-specific signals, and general relational fit. Use N/A when a dimension does not apply.</p></div><button id="closeCasualTrackerWizardBtn" type="button" class="secondary">Close</button></div><div id="casualTrackerWizardBody"></div><div class="wizardNav"><button id="saveCasualTrackerWizardBtn" type="button">Save tracker snapshot</button></div></div></div>
-<script src="app.js?v=346-workspace2"></script></body></html>
+<script src="app.js?v=347-consolidated"></script></body></html>

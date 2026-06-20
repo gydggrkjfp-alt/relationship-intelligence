@@ -1,9 +1,9 @@
-const CACHE='relationship-intelligence-v346-workspace2';
+const CACHE='relationship-intelligence-v347-consolidated';
 const ASSETS=[
   './',
   './index.html',
   './styles.css',
-  './app.js?v=346-workspace2',
+  './app.js?v=347-consolidated',
   './manifest.json'
 ];
 
@@ -23,7 +23,7 @@ self.addEventListener('activate',event=>{
 self.addEventListener('fetch',event=>{
   const requestUrl=new URL(event.request.url);
   if(requestUrl.pathname.endsWith('/app.js')){
-    event.respondWith(fetch(event.request).catch(()=>caches.match('./app.js?v=346-workspace2')));
+    event.respondWith(fetch(event.request).catch(()=>caches.match('./app.js?v=347-consolidated')));
     return;
   }
   event.respondWith(caches.match(event.request).then(response=>response||fetch(event.request)));

@@ -1,4 +1,13 @@
-# Relationship Intelligence v3.4.6
+# Relationship Intelligence v3.4.7
+
+v3.4.7:
+- Consolidates all useful Workspace trends into Relationship Changes Over Time.
+- Removes redundant casual, slider-history, and Peace/Respect trajectory displays.
+- Groups partner, personal, and couple sliders into one condensed Relationship Measures module.
+- Renames charts around the questions they answer instead of their underlying data structures.
+- Demotes the generic escalation loop to a compact optional interaction-pattern summary.
+- Replaces generic expert summaries with framework-specific interpretations, challenges, questions, experiments, and failure signals.
+- Removes redundant expert context and lens-routing explanations.
 
 v3.4.6:
 - Condenses the Workspace entry into a compact profile and latest-issue summary with two relationship avatars.

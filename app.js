@@ -4857,14 +4857,41 @@ function confidence343(row,ctx){
 }
 
 function contextHTML343(ctx){
- const p=ctx.profile,i=ctx.issue,m=ctx.metrics;
- if(!p)return '<b>No relationship selected.</b>';
- return `<b>Active analysis context</b><div class="contextGrid343">
-  <div class="contextTile343"><b>Relationship</b>${esc(p.name||'Untitled')}</div>
-  <div class="contextTile343"><b>Event</b>${esc(i?.title||i?.type||'No issue selected')}</div>
-  <div class="contextTile343"><b>Type</b>${esc(i?.type||p.rtype||'Unclear')}</div>
-  <div class="contextTile343"><b>Scores</b>Peace ${Math.round(m.peaceIndex||0)} / Respect ${Math.round(m.respectIndex||0)}</div>
- </div>`;
+ return '';
+}
+
+function expertDepth347(row,ctx){
+ const type=ctx.issue?.type||'relationship issue';
+ const event=String(ctx.issue?.event||ctx.latestSnapshot?.note||ctx.profile?.evidence||'the event described').slice(0,240);
+ const name=row.name||'';
+ const base={
+  frame:`This lens treats ${type.toLowerCase()} as a pattern to test against behavior, not a verdict about either person.`,
+  challenge:'Do not confuse the first emotionally convincing interpretation with the only plausible explanation.',
+  question:`What observable behavior after “${event}” would confirm or disconfirm your interpretation?`,
+  experiment:row.exercise,
+  failure:'Reassess this lens if the next interaction produces no clearer behavior, agreement, or reduction in confusion.'
+ };
+ const entries=[
+  ['Sue Johnson',{frame:`The surface topic is ${type.toLowerCase()}, but the attachment question is likely “When I reach for you under stress, are you emotionally available or am I alone?” The important sequence is not who started it; it is how protest and withdrawal make each person’s fear look true.`,challenge:'Stop arguing the content long enough to identify the softer fear underneath pursuit, criticism, silence, or distance.',question:'What did each person fear the event meant about their importance, safety, or ability to reach the other?',experiment:'Ten minutes, no rebuttals: each person completes “When that happened, I told myself ___; I protected myself by ___; what I needed to know was ___.”',failure:'If vulnerability is mocked, punished, or used as ammunition, attachment disclosure is not the next intervention; boundaries and safety are.'}],
+  ['Gottman',{frame:`The predictive information is in the process around ${type.toLowerCase()}: whether the complaint stays specific, whether contempt appears, whether either person can accept influence, and whether repair attempts are noticed.`,challenge:'Replace character prosecution with one observable complaint. “You are selfish” cannot be repaired; a specific missed agreement can.',question:'Which interaction habit did the damage: harsh start-up, defensiveness, contempt, stonewalling, or a rejected repair attempt?',experiment:'Retry the opening in this form: “I feel ___ about this specific event ___; I need ___; would you be willing to ___?” Then record whether the response contains curiosity, responsibility, or counterattack.',failure:'Repeated contempt, refusal of influence, or failed repair despite specific requests is stronger evidence than a good explanation after the fact.'}],
+  ['Esther Perel',{frame:`This may not be only a communication problem. ${type} can expose a conflict between closeness and autonomy, security and aliveness, or being needed and feeling desired.`,challenge:'Do not assume that more disclosure or more closeness automatically creates desire. Sometimes pressure for reassurance removes the freedom desire needs.',question:'What is each person protecting here: certainty, freedom, admiration, erotic dignity, or relief from obligation?',experiment:'Each person names one condition that creates closeness and one that creates aliveness. Choose one change that increases connection without increasing surveillance or pressure.',failure:'If “freedom” repeatedly becomes secrecy, betrayal, or exemption from agreements, this lens is being used to romanticize avoidance.'}],
+  ['Orion Taraban',{frame:`Read ${type.toLowerCase()} as an incentive loop: which behavior receives appreciation, access, effort, silence, punishment, or rescue? Repeated rewards often predict the next behavior better than stated intentions.`,challenge:'A relationship cannot sustainably demand investment while making investment feel costly, invisible, or strategically foolish.',question:'After this event, what behavior became more rewarding for each person: honesty, effort, withdrawal, testing, or withholding?',experiment:'List what each person currently rewards, punishes, ignores, and demands. Change one incentive without threatening or manipulating.',failure:'If incentive language starts excusing contempt, coercion, or treating affection as payment, discard the framing.'}],
+  ['Alison Armstrong',{frame:`The likely translation error is between intended contribution and received impact. One person may be offering usefulness while the other is asking for comfort, precision, or emotional presence.`,challenge:'Correction delivered inside the thank-you moment often erases the felt value of the contribution, even when the correction is technically valid.',question:'Was the unmet need recognition, comfort, competent execution, or shared responsibility, and did the request actually name it?',experiment:'Let appreciation stand alone. Later, translate the improvement request into the comfort or outcome it would create: “It helps me feel ___ when ___.”',failure:'If appreciation becomes compulsory praise for chronically poor follow-through, this lens is masking accountability.'}],
+  ['Louise Perry',{frame:`This event may be downstream of weak or conflicting norms: ambiguity about exclusivity, public respect, sexual expectations, online attention, or what commitment actually obligates.`,challenge:'Chemistry and private affection cannot compensate indefinitely for a relationship whose public and practical rules remain undefined.',question:'Which norm did each person assume existed, and was it ever explicitly agreed?',experiment:'Write a five-line agreement covering exclusivity, public dignity, online boundaries, sexual expectations, and the next commitment decision.',failure:'If one person benefits from permanent ambiguity and resists every clarifying agreement, more interpretation is unlikely to solve it.'}],
+  ['Marcus Aurelius',{frame:`Separate ${type.toLowerCase()} into the event, your judgment about the event, and the part of your response that remains under your control. Pain may be real without every prediction attached to it being true.`,challenge:'Rumination can masquerade as problem-solving while keeping your character dependent on another person’s next move.',question:'What is the most honest, self-respecting action available even if the other person does not respond as hoped?',experiment:'Write three lines: facts without adjectives; the judgment you added; one action consistent with honesty, courage, and restraint.',failure:'Stoicism is being misused if composure becomes emotional suppression or tolerance of repeated mistreatment.'}],
+  ['Aristotle',{frame:`The central question is what repeated handling of ${type.toLowerCase()} is turning both people into. Relationships are partly schools of character: habits of fairness, courage, generosity, truthfulness, and practical friendship accumulate.`,challenge:'Intensity is not evidence of flourishing. Judge the repeated habits the relationship rewards.',question:'After these interactions, do you become clearer, kinder, braver, steadier, and more truthful, or more evasive and diminished?',experiment:'Choose one virtue missing from the event and define its behavioral form for each person at the next occurrence.',failure:'A beautiful account of virtue means little when repeated conduct remains unfair, cowardly, or dishonest.'}],
+  ['bell hooks',{frame:`Love is being evaluated here as a practice of care, respect, knowledge, responsibility, trust, and commitment, not merely a feeling. ${type} matters because domination and neglect can coexist with strong attachment.`,challenge:'Do not rename control, humiliation, dishonesty, or chronic disregard as love because the bond feels intense.',question:'Which element of loving practice disappeared in this event, and what concrete action would restore it?',experiment:'Audit the event across care, respect, trust, responsibility, knowledge, and commitment. Ask for one observable repair in the weakest category.',failure:'If one person demands empathy while refusing responsibility or mutuality, the language of love is concealing power.'}],
+  ['Jane Austen',{frame:`Treat this event as character evidence under pressure. Charm is cheap when conditions are favorable; inconvenience, embarrassment, status threat, and correction reveal manners and judgment.`,challenge:'Do not let an appealing explanation outweigh a repeated behavioral pattern.',question:'What did this person do when pride or inconvenience entered, and was the response humble, consistent, and considerate?',experiment:'Record the event as evidence in five columns: charm, consistency, humility, regard for others, and repair.',failure:'If the analysis depends on imagined potential rather than observed conduct, courtship fantasy has overtaken character assessment.'}],
+  ['Logan Ury',{frame:`The useful data is not only whether this produced a spark or an ick. Ask what side of you appeared, how your body felt during the interaction, and whether curiosity and ease increased after real contact.`,challenge:'Instant certainty can be a dating habit rather than accurate compatibility detection.',question:'Did the interaction make you feel heard, curious, relaxed, respected, and interested in another data point?',experiment:'Do a post-interaction review before swiping or seeking outside opinions. Separate observed behavior, felt experience, and prediction.',failure:'Slow-burn advice should not be used to override disrespect, dread, coercion, or a clear lack of interest.'}],
+  ['Eli Finkel',{frame:`The evaluation may be distorted by an imagined marketplace of alternatives. App abundance can keep people comparing profiles instead of learning whether an actual relationship process works.`,challenge:'A person cannot compete fairly with a composite fantasy assembled from dozens of profiles.',question:'Are you responding to this person’s behavior or to the possibility that a frictionless alternative might be one swipe away?',experiment:'Pause option churn briefly and evaluate a small number of real interactions using the same behavioral criteria.',failure:'Reducing choice overload cannot manufacture attraction, character, or compatibility that is consistently absent.'}],
+  ['David Buss',{frame:`Test whether ${type.toLowerCase()} reflects different relationship horizons, exclusivity assumptions, jealousy triggers, or levels of intended investment. Use strategy as a question, never as a stereotype.`,challenge:'Population averages do not tell you this individual’s motives; direct agreements and repeated behavior do.',question:'Are both people pursuing the same time horizon, exclusivity level, and investment strategy?',experiment:'Each person privately states the intended relationship horizon, exclusivity, investment, and exit conditions; then compare answers directly.',failure:'Discard the lens if it becomes a justification for suspicion, coercion, or claims that sex determines character.'}],
+  ['Scott Stanley',{frame:`Look for sliding: expectations, dependence, cohabitation, or constraints accumulating without an explicit mutual decision. ${type} may be the bill arriving for choices nobody clearly made.`,challenge:'Inertia is not commitment, and difficulty leaving is not the same as dedication.',question:'What was explicitly decided together, and what became true through convenience, pressure, or avoidance?',experiment:'Name the current status, obligations, next decision, and decision date. Each person must be free to answer honestly.',failure:'Clarity that produces no aligned action is information about commitment, not a reason for another indefinite discussion.'}],
+  ['Gabor Mate',{frame:`The intensity around ${type.toLowerCase()} may contain two realities: what is happening now and an older pain the event resembles. Compassion requires distinguishing them without excusing present behavior.`,challenge:'Understanding the origin of a reaction does not remove responsibility for its impact.',question:'Which part of the reaction belongs to current evidence, and which part has the emotional age of an earlier wound?',experiment:'Make two columns: present facts and familiar old feeling. Regulate first, then address the present behavior specifically.',failure:'Trauma language is harmful when it turns accountability into diagnosis or asks the harmed person to absorb repeated damage.'}],
+  ['Brene Brown',{frame:`Shame may be converting a vulnerable fear into blame, perfectionism, defensiveness, or withdrawal. The useful move is precise disclosure, not compulsory oversharing.`,challenge:'“You made me feel” often hides the riskier sentence: “I am afraid this means I am not enough or do not matter.”',question:'What would feel exposing to admit here if blame were unavailable?',experiment:'Use: “The story I am making up is ___; the vulnerable part is ___; the specific reality-check I need is ___.”',failure:'Vulnerability is not repair when it is used to avoid apology, boundaries, or changed behavior.'}],
+  ['Call Her Daddy',{frame:'The popular-media instinct is to protect leverage, maintain standards, and avoid overinvesting before reciprocity is proven. That can be useful protection, but it can also turn honest uncertainty into performance and power management.',challenge:'Ask whether the advice improves discernment or merely helps one person feel less exposed by becoming more strategic.',question:'What would direct, dignified communication reveal that a test, delay, or power move would obscure?',experiment:'Keep the standard, remove the game: state the expectation once and judge the behavioral response.',failure:'If both people follow leverage-first advice, expect more ambiguity, testing, audience-oriented choices, and less trust.'}],
+  ['Red-pill',{frame:'The ideological frame reduces the event to status, bargaining power, and generalized sex differences. Its attraction is certainty; its cost is that it can stop seeing the individual in front of you.',challenge:'Replace every claim about men or women with a claim about this person’s observed behavior. See what survives.',question:'What evidence exists at the individual level, and what part of the conclusion came from a group stereotype?',experiment:'Run an individual-evidence audit using actions, agreements, consistency, consent, and reciprocity only.',failure:'If the framework increases contempt, dominance, coercive expectations, or tolerance for disrespect, it is degrading judgment rather than improving it.'}]
+ ];
+ const hit=entries.find(([key])=>name.includes(key));return hit?{...base,...hit[1]}:base;
 }
 
 function card343(row,label,ctx,cls=''){
@@ -4873,6 +4900,7 @@ function card343(row,label,ctx,cls=''){
  const score=confidence343(row,ctx);
  const positive=ctx.isPositive?' expertPositive339':'';
  const cultural=row.cat==='Cultural Voices (contrast only)';
+ const depth=expertDepth347(row,ctx);
  const sourceClass=row.sourceClass||(row.cat==='Attachment / Repair'||row.cat==='Modern Dating / Relationship Science'||row.cat==='Trauma / Nervous System'?'Research-informed framework':row.cat==='Philosophical Lenses'?'Philosophical / literary perspective':'Interpretive practitioner perspective');
  const initials=row.avatar||row.name.split(/\s+/).slice(0,2).map(x=>x[0]).join('').toUpperCase();
  const consequence=row.consequence||'Possible benefit: a new interpretation and a concrete experiment. Cost: this lens can overfit the story; reassess it against behavior and the result of the next interaction.';
@@ -4881,10 +4909,11 @@ function card343(row,label,ctx,cls=''){
   <div class="expertPills339"><span class="expertPill339">${esc(row.cat)}</span>${(row.tags||[]).slice(0,5).map(t=>`<span class="expertPill339">${esc(t)}</span>`).join('')}</div>
   ${safety}
   <div class="expertSection343"><b>Current issue</b>${esc(String(event).slice(0,520))}</div>
-  <div class="expertSection343"><b>Why this lens fits</b>${esc(why343(row,ctx))}</div>
-  <div class="expertSection343"><b>What it may be seeing</b>${esc(row.lens)}</div>
-  <div class="expertSection343"><b>What to try next</b>${esc(next343(row,ctx))}</div>
-  <div class="expertSection343"><b>Exercise</b>${esc(row.exercise)}</div>
+  <div class="expertSection343"><b>Framework-specific read</b>${esc(depth.frame)}</div>
+  <div class="expertSection343"><b>What this lens would challenge</b>${esc(depth.challenge)}</div>
+  <div class="expertSection343"><b>Question to answer</b>${esc(depth.question)}</div>
+  <div class="expertSection343"><b>Concrete experiment</b>${esc(depth.experiment)}</div>
+  <div class="expertSection343"><b>Failure signal</b>${esc(depth.failure)}</div>
   <div class="expertConsequence346"><b>Likely consequences and tradeoffs</b><br>${esc(consequence)}</div>
   <div class="expertSection343"><b>Use caution if</b>${esc(row.miss)}</div>
  </div>`;
@@ -5110,4 +5139,39 @@ function bind346(){
 if(typeof renderRepairCockpit==='function'&&!window.__render346){window.__render346=true;const old=renderRepairCockpit;renderRepairCockpit=function(){const r=old();setTimeout(bind346,120);setTimeout(bind346,760);return r;};}
 document.addEventListener('change',e=>{if(['repairCockpitProfileSelect','issueCardSelector'].includes(e.target?.id))setTimeout(bind346,80);});
 document.addEventListener('DOMContentLoaded',()=>setTimeout(bind346,1200));setTimeout(bind346,1500);
+})();
+
+/* v3.4.7 compact interaction pattern and consolidated Workspace cleanup */
+(function(){
+const $347=id=>document.getElementById(id);
+function compactPattern347(){
+ const root=$347('repairCockpitLoop');if(!root)return;
+ const grid=root.querySelector('.clearLoopGrid,.loopChain');
+ if(grid&&!root.querySelector('.compactPattern347')){
+  const steps=[...grid.querySelectorAll('.clearLoopCard,.chainStep')].map(x=>(x.textContent||'').replace(/^\s*\d+\.\s*/,'').trim()).filter(Boolean);
+  const heading=grid.previousElementSibling;
+  const details=document.createElement('details');details.className='compactPattern347';
+  details.innerHTML=`<summary>Interaction pattern (optional)</summary><p>${steps.map((s,i)=>`${i?'<span class="patternArrow347">→</span> ':''}${typeof escapeHTML==='function'?escapeHTML(s):s}`).join(' ')}</p>`;
+  if(heading&&/loop|pattern/i.test(heading.textContent||''))heading.remove();
+  grid.replaceWith(details);
+ }
+ const nodes=[...root.querySelectorAll(':scope > .loopNode')];
+ if(nodes.length&&!root.querySelector('.compactPattern347')){
+  const details=document.createElement('details');details.className='compactPattern347';
+  details.innerHTML=`<summary>Interaction pattern (optional)</summary><p>${nodes.map((n,i)=>`${i?'<span class="patternArrow347">→</span> ':''}${typeof escapeHTML==='function'?escapeHTML((n.textContent||'').trim()):n.textContent}`).join(' ')}</p>`;
+  root.querySelectorAll(':scope > .loopNode,:scope > .loopArrow').forEach(n=>n.remove());root.appendChild(details);
+ }
+}
+function cleanupWorkspace347(){
+ $347('trajectoryCharts340')?.remove();
+ $347('casualTrajectory337')?.remove();
+ ['sliderTimelineCanvas','workspacePeaceRespectCanvas'].forEach(id=>$347(id)?.closest('.graphGrid>div')?.remove());
+ const partnerBtn=$347('openCasualTrackerWizardBtn');if(partnerBtn)partnerBtn.textContent='Partner & Personal Measures';
+ const coupleBtn=$347('openSliderWizardBtn');if(coupleBtn)coupleBtn.textContent='Couple Measures';
+ const source=$347('repairCockpitSourceStrip');if(source)source.setAttribute('aria-label','Relationship score summary');
+ compactPattern347();
+}
+if(typeof renderTranslation331==='function'&&!window.__translation347){window.__translation347=true;const old=renderTranslation331;renderTranslation331=function(){const r=old();setTimeout(compactPattern347,0);return r;};}
+if(typeof renderRepairCockpit==='function'&&!window.__workspace347){window.__workspace347=true;const old=renderRepairCockpit;renderRepairCockpit=function(){const r=old();setTimeout(cleanupWorkspace347,100);setTimeout(cleanupWorkspace347,800);return r;};}
+document.addEventListener('DOMContentLoaded',()=>setTimeout(cleanupWorkspace347,1700));setTimeout(cleanupWorkspace347,1900);
 })();
