@@ -2181,21 +2181,37 @@ function rcAdmirationValues(p){
 function drawRcAdmiration(){
   let c=$('repairCockpitAdmirationCanvas'); if(!c)return;
   let p=rcCurrentProfile(); if(!p)return;
-  let a=rcAdmirationValues(p), ctx=c.getContext('2d'),w=c.width,h=c.height;
-  ctx.clearRect(0,0,w,h);ctx.fillStyle='#fff';ctx.fillRect(0,0,w,h);
-  ctx.font='15px -apple-system,BlinkMacSystemFont,Segoe UI,Arial';ctx.fillStyle='#3f3832';
-  ctx.fillText('You → Them',40,48);ctx.fillText('Them → You',w-160,48);
-  let midY=h/2,left=80,right=w-80;
-  ctx.strokeStyle='#ded6c9';ctx.lineWidth=12;ctx.lineCap='round';
-  ctx.beginPath();ctx.moveTo(left,midY-35);ctx.lineTo(right,midY-35);ctx.stroke();
-  ctx.beginPath();ctx.moveTo(right,midY+35);ctx.lineTo(left,midY+35);ctx.stroke();
-  ctx.strokeStyle='#815b33';ctx.beginPath();ctx.moveTo(left,midY-35);ctx.lineTo(left+(right-left)*(a.userToThem/100),midY-35);ctx.stroke();
-  ctx.strokeStyle='#4d7a52';ctx.beginPath();ctx.moveTo(right,midY+35);ctx.lineTo(right-(right-left)*(a.themToUser/100),midY+35);ctx.stroke();
-  ctx.fillStyle='#3f3832';ctx.font='30px -apple-system,BlinkMacSystemFont,Segoe UI,Arial';
-  ctx.fillText(String(a.userToThem),left+(right-left)*(a.userToThem/100)-12,midY-55);
-  ctx.fillText(String(a.themToUser),right-(right-left)*(a.themToUser/100)-12,midY+78);
+  let a=rcAdmirationValues(p), host=c.parentElement;
+  let w=Math.max(280,Math.min(520,(host?.clientWidth||520)-4)),h=220,dpr=Math.min(3,Math.max(1,window.devicePixelRatio||1));
+  c.style.width=w+'px';c.style.height=h+'px';c.width=Math.round(w*dpr);c.height=Math.round(h*dpr);
+  c.setAttribute('role','img');
+  c.setAttribute('aria-label',`Admiration symmetry: you toward them ${a.userToThem} out of 100; them toward you ${a.themToUser} out of 100; ${a.imbalance} point difference.`);
+  let ctx=c.getContext('2d');ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,w,h);
+  const font='-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif';
+  const rounded=(x,y,width,height,r,color)=>{r=Math.min(r,height/2,width/2);ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+width,y,x+width,y+height,r);ctx.arcTo(x+width,y+height,x,y+height,r);ctx.arcTo(x,y+height,x,y,r);ctx.arcTo(x,y,x+width,y,r);ctx.closePath();ctx.fillStyle=color;ctx.fill();};
+  const clamp=v=>Math.max(0,Math.min(100,Number(v)||0));
+  rounded(0,0,w,h,10,'#fbfcfc');
+  ctx.fillStyle='#17262a';ctx.font=`700 13px ${font}`;ctx.fillText('Mutual admiration',20,27);
+  ctx.fillStyle='#66757a';ctx.font=`11px ${font}`;ctx.textAlign='right';ctx.fillText('0–100',w-20,27);ctx.textAlign='left';
+  const drawBar=(label,value,y,color)=>{
+    const score=clamp(value),x=20,scoreW=48,barW=w-x*2-scoreW,barY=y+10;
+    ctx.fillStyle='#31454a';ctx.font=`600 12px ${font}`;ctx.fillText(label,x,y);
+    ctx.textAlign='right';ctx.fillStyle=color;ctx.font=`800 14px ${font}`;ctx.fillText(String(score),w-20,y+4);ctx.textAlign='left';
+    rounded(x,barY,barW,14,7,'#e4ebeb');
+    if(score>0){let grad=ctx.createLinearGradient(x,0,x+barW,0);grad.addColorStop(0,color);grad.addColorStop(1,color==='#176a70'?'#39a0a3':'#dc8b76');rounded(x,barY,Math.max(14,barW*score/100),14,7,grad);}
+  };
+  drawBar('Your admiration for them',a.userToThem,58,'#176a70');
+  drawBar('Their admiration for you',a.themToUser,116,'#bd654f');
+  ctx.strokeStyle='#d8e2e3';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(20,164.5);ctx.lineTo(w-20,164.5);ctx.stroke();
+  const balanced=a.imbalance<15,moderate=a.imbalance<25;
+  const status=balanced?'Balanced':moderate?'Some imbalance':'Strong imbalance';
+  const statusColor=balanced?'#287a4b':moderate?'#9a6800':'#a43d35';
+  ctx.fillStyle='#66757a';ctx.font=`600 11px ${font}`;ctx.fillText('Difference',20,190);
+  ctx.fillStyle='#17262a';ctx.font=`800 16px ${font}`;ctx.fillText(`${a.imbalance} pts`,20,209);
+  const pillW=Math.max(86,ctx.measureText(status).width+26);rounded(w-20-pillW,180,pillW,28,14,statusColor);ctx.fillStyle='#fff';ctx.font=`700 11px ${font}`;ctx.textAlign='center';ctx.fillText(status,w-20-pillW/2,198);ctx.textAlign='left';
   let txt=$('repairCockpitAdmirationText');
-  if(txt)txt.innerHTML=a.imbalance>=25?'<b>Pattern:</b> admiration appears asymmetric. Watch pursuit/withdrawal, resentment, or overfunctioning.':'<b>Pattern:</b> admiration appears relatively balanced.';
+  if(txt)txt.innerHTML=a.imbalance>=25?'<b>Worth discussing:</b> admiration may be flowing unevenly. Compare recognition, curiosity, effort, and respect.':a.imbalance>=15?'Some imbalance is present, but it is not severe at the current scores.':'Admiration appears reasonably mutual at the current scores.';
+  if(host&&!host.__admirationResize349&&window.ResizeObserver){host.__admirationResize349=new ResizeObserver(()=>{cancelAnimationFrame(host.__admirationFrame349);host.__admirationFrame349=requestAnimationFrame(drawRcAdmiration);});host.__admirationResize349.observe(host);}
 }
 function renderRcStrategy(){
   let el=$('repairCockpitStrategy'); if(!el)return;

@@ -1,4 +1,8 @@
-# Relationship Intelligence v3.4.8
+# Relationship Intelligence v3.4.9
+
+v3.4.9:
+- Replaces the low-resolution admiration arrows with a responsive high-DPI symmetry chart.
+- Adds crisp directional score bars, a difference score, balance status, and accessible chart text.
 
 v3.4.8:
 - Deletes the interaction-pattern display entirely.
