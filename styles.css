@@ -928,3 +928,10 @@ gap:16px;
 #repairCockpitAdmirationCanvas{display:block!important;width:100%!important;max-width:520px!important;height:220px!important;max-height:220px!important;margin:0 auto!important;border:1px solid #d8e2e3;border-radius:10px;background:#fbfcfc;image-rendering:auto}
 #repairCockpitAdmirationText{max-width:520px;margin:7px auto 0!important;padding:0!important;color:#66757a;line-height:1.4}
 #admirationPanel335>p.small{margin:0 0 8px}
+
+/* v3.5.0 evidence-aware meaning hypotheses */
+.hypothesisNote350{margin:8px 0;padding:8px 9px;border-left:3px solid #176a70;background:#f3f7f7;color:#526469;font-size:11px;line-height:1.45}.translationNext350{border-left:3px solid #2f855a!important}
+
+/* v3.5.1 expert identities */
+.expertAbout350{display:flex;align-items:center;gap:9px;padding:8px;margin:6px 0;border:1px solid var(--ws-line);background:#f7fbfc}.expertAbout350 .expertAvatar346{flex:0 0 32px;width:32px;height:32px}.expertAbout350>div{min-width:0}.expertAbout350 b{display:block;color:#174f58;font-size:12px}.expertAbout350 p{margin:2px 0 0;color:#526469;font-size:11px;line-height:1.4}.expertBio350{display:block;margin-top:3px;color:#526469;font-size:11px;line-height:1.4}
+.expertResponse351{margin-top:8px;border-top:1px solid var(--ws-line);padding-top:8px}.expertResponse351 p{margin:0 0 9px;line-height:1.55}.expertResponse351 p:last-child{margin-bottom:0}.expertResponse351 p:nth-child(4){padding:8px;border-left:3px solid #2f855a;background:#f3fbf7}.expertResponse351 p:nth-child(6){padding:8px;border-left:3px solid #c88a1d;background:#fff8e8}

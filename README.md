@@ -1,4 +1,21 @@
-# Relationship Intelligence v3.4.9
+# Relationship Intelligence v3.5.2
+
+v3.5.2:
+- Audits possible meanings for him and her across every issue category.
+- Replaces generic gender assumptions with event-specific hypotheses and supporting/contradicting evidence checks.
+- Makes positive trust and repair events use their own meanings instead of the appreciation fallback.
+- Removes the redundant expert “challenge” section and capitalizes Bell Hooks throughout the UI.
+- Rewrites expert output as complete, framework-faithful prose rather than fragmented system headings.
+
+v3.5.1:
+- Adds compact expert avatars, biographies, and source-type labels before analysis.
+- Rewrites expert-card section titles in direct, human-readable language.
+- Removes the redundant “What this framework challenges” section from expert cards.
+
+v3.5.0:
+- Replaces generic male/female meaning fallbacks with category-specific, evidence-aware hypotheses.
+- Covers commitment, trust, jealousy, planning, household labor, emotional distance, affection, and boundaries explicitly.
+- Adds “fits if / less likely if” checks and makes positive-event translations issue-specific.
 
 v3.4.9:
 - Replaces the low-resolution admiration arrows with a responsive high-DPI symmetry chart.

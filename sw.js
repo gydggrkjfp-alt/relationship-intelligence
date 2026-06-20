@@ -1,9 +1,9 @@
-const CACHE='relationship-intelligence-v349-admiration';
+const CACHE='relationship-intelligence-v352-meaning-audit';
 const ASSETS=[
   './',
   './index.html',
   './styles.css',
-  './app.js?v=349-admiration',
+  './app.js?v=352-meaning-audit',
   './manifest.json'
 ];
 
@@ -23,7 +23,7 @@ self.addEventListener('activate',event=>{
 self.addEventListener('fetch',event=>{
   const requestUrl=new URL(event.request.url);
   if(requestUrl.pathname.endsWith('/app.js')){
-    event.respondWith(fetch(event.request).catch(()=>caches.match('./app.js?v=349-admiration')));
+    event.respondWith(fetch(event.request).catch(()=>caches.match('./app.js?v=352-meaning-audit')));
     return;
   }
   event.respondWith(caches.match(event.request).then(response=>response||fetch(event.request)));
