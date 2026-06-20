@@ -1,9 +1,9 @@
-const CACHE='relationship-intelligence-v352-meaning-audit';
+const CACHE='relationship-intelligence-v356-philosopher-routing';
 const ASSETS=[
   './',
   './index.html',
-  './styles.css',
-  './app.js?v=352-meaning-audit',
+  './styles.css?v=356-philosopher-routing',
+  './app.js?v=356-philosopher-routing',
   './manifest.json'
 ];
 
@@ -23,7 +23,7 @@ self.addEventListener('activate',event=>{
 self.addEventListener('fetch',event=>{
   const requestUrl=new URL(event.request.url);
   if(requestUrl.pathname.endsWith('/app.js')){
-    event.respondWith(fetch(event.request).catch(()=>caches.match('./app.js?v=352-meaning-audit')));
+    event.respondWith(fetch(event.request).catch(()=>caches.match('./app.js?v=356-philosopher-routing')));
     return;
   }
   event.respondWith(caches.match(event.request).then(response=>response||fetch(event.request)));

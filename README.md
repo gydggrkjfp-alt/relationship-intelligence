@@ -1,4 +1,24 @@
-# Relationship Intelligence v3.5.2
+# Relationship Intelligence v3.5.6
+
+v3.5.6:
+- Gives Marcus Aurelius and Aristotle separate, issue-specific reasoning for surveillance, appreciation, communication, commitment, intimacy, public conflict, responsibility, trust, closeness, boundaries, and positive events.
+- Uses the reported issue or example event directly in each philosophical analysis, question, experiment, and limitation.
+- Labels generated expert applications as modeled analysis rather than fabricated direct quotations.
+
+v3.5.5:
+- Restores therapy and role content to their intended full-width modules after legacy layout passes.
+- Removes narrow, stretched exercise cards and enforces compact content-sized rows.
+- Makes the Marcus Aurelius lens specific to surveillance, consent, access security, boundaries, and safety planning.
+
+v3.5.4:
+- Adds a dedicated Evan Stark coercive-control safety lens.
+- Hard-routes covert phone, location, message, and app monitoring away from modern-dating advice.
+- Penalizes early-dating optimization lenses for surveillance, safety flags, and established marriages.
+- Adds a cache-busted stylesheet so the new relationship status bars render immediately.
+
+v3.5.3:
+- Replaces the Peace, Respect, and Repair pills with compact relationship-vital-sign bars.
+- Adds plain-language statuses and accessible progress values while removing duplicated scores under the profile name.
 
 v3.5.2:
 - Audits possible meanings for him and her across every issue category.
