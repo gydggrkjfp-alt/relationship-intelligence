@@ -1,4 +1,15 @@
-# Relationship Intelligence v3.5.9
+# Relationship Intelligence v3.6.1
+
+v3.6.1:
+- Removes repeated relationship-stage boilerplate from individual expert responses.
+- Integrates the former therapy exercise and immediate-action cards beneath the expert analysis as one plain-English behavior takeaway.
+- Adds issue-specific Stop, Start, Make it stick, Evidence, optional practice, and durability/values checks across all expert crux categories.
+- Adds a general relationship posture centered on kindness, lower anxiety, and judging change by repeated conduct rather than temporary compliance.
+
+v3.6.0:
+- Adds tap, hover, and keyboard-focus definitions for therapy and relationship terminology inside expert responses.
+- Includes plain-language explanations for flooding, criticism, defensiveness, stonewalling, repair bids, attachment, autonomy, mental load, shame, vulnerability, and related terms.
+- Rewrites the abstract long-term relationship modifier in more concrete language.
 
 v3.5.9:
 - Replaces static expert speeches with a selected-issue-only crux recognition engine.

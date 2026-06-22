@@ -18,6 +18,20 @@ assert.ok(engine.score(row('Call Her Daddy-style pop-culture lens'),ctx('First d
 assert.ok(engine.score(row('Red-pill internet rhetoric lens'),ctx('First date spark uncertainty','Dating / early relationship'))<0);
 const unsafeGottman=engine.compose(row('Gottman stability lens'),ctx('My partner secretly tracks my location without consent','Trust / honesty'));
 assert.match(unsafeGottman.experiment,/Do not run this lens/);
+const marriedCtx=ctx('After 20 years married we stopped thanking each other for ordinary contributions','Appreciation / usefulness','Negative','Married','Recurring');
+const marriedGottman=engine.compose(row('Gottman stability lens'),marriedCtx);
+const marriedAristotle=engine.compose(row('Aristotle virtue/friendship lens'),marriedCtx);
+assert.doesNotMatch(marriedGottman.frame,/routines, roles, resources|screening/i);
+assert.doesNotMatch(marriedAristotle.frame,/routines, roles, resources|screening/i);
+const appreciationPlan=engine.behaviorPlan(marriedCtx);
+assert.equal(appreciationPlan.stage,'married');
+assert.match(appreciationPlan.start,/specific contribution/i);
+assert.match(appreciationPlan.repeat,/familiarity/i);
+assert.match(appreciationPlan.evidence,/spontaneous and reliable/i);
+assert.match(appreciationPlan.culture,/deeper belief|values conflict/i);
+const surveillancePlan=engine.behaviorPlan(ctx('My partner secretly checks my phone without consent','Trust / honesty'));
+assert.match(surveillancePlan.stop,/nonconsensual monitoring/i);
+assert.match(surveillancePlan.evidence,/without interrogation, punishment, or escalation/i);
 const names=['Sue Johnson / EFT lens','Gottman stability lens','Esther Perel desire/security lens','Evan Stark coercive-control lens','Scott Stanley commitment clarity lens','Logan Ury behavioral dating lens','Eli Finkel online dating lens','David Buss mating strategy lens','Gabor Mate trauma-pattern lens','Brene Brown shame/vulnerability lens','Alison Armstrong usefulness/polarity lens','Orion Taraban incentive/respect lens','Louise Perry modern dating culture lens','Marcus Aurelius stoic lens','Aristotle virtue/friendship lens','Bell Hooks love ethic lens','Jane Austen character lens'];
 for(const name of names){const trust=engine.compose(row(name),ctx('We disagree about a lie and whether trust can recover','Trust / honesty'));const labor=engine.compose(row(name),ctx('The household planning and invisible labor remain unequal','Household labor'));assert.ok(trust?.frame&&trust?.question&&trust?.experiment&&trust?.failure,`${name} missing complete output`);assert.notEqual(trust.frame,labor.frame,`${name} repeated the same frame across cruxes`);}
 console.log('expert-engine tests passed');

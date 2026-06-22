@@ -2449,6 +2449,45 @@ document.addEventListener('DOMContentLoaded',()=>setTimeout(()=>{bind();drawGala
 setTimeout(()=>{bind();drawGalaxy();},800);
 })();
 
+/* v3.6.1 durable behavior takeaway */
+(function(){
+const $361=id=>document.getElementById(id);
+const esc361=s=>typeof escapeHTML==='function'?escapeHTML(String(s??'')):String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function getContext361(){
+ if(typeof context343==='function')return context343();
+ const profile=typeof profile331==='function'?profile331():null,issue=typeof currentIssue331==='function'?currentIssue331():null;
+ return{profile,issue};
+}
+function ensure361(){
+ const panel=$361('expertThinkPanel339'),output=$361('expertOutput339');if(!panel||!output)return null;
+ let box=$361('expertTakeaway361');if(!box){box=document.createElement('section');box.id='expertTakeaway361';box.className='expertTakeaway361';output.insertAdjacentElement('afterend',box);}
+ return box;
+}
+function render361(){
+ const box=ensure361(),engine=window.RelationshipExpertEngine359;if(!box||!engine?.behaviorPlan)return;
+ const ctx=getContext361();if(!ctx?.issue){box.innerHTML='';box.classList.add('hidden');return;}
+ const p=engine.behaviorPlan(ctx),stage={early:'Early dating',ambiguous:'Ambiguous relationship',committed:'Committed relationship',married:'Marriage / long-term partnership',boundary:'Boundary context',nonromantic:'Non-romantic relationship'}[p.stage]||'Relationship',recurrence={first:'First reported event',occasional:'Occasional pattern',recurring:'Recurring pattern',core:'Structural pattern'}[p.recurrence]||'Pattern under review';
+ const safety=/coercive control|surveillance/i.test(p.crux),posture=safety?'Kindness does not require compliance with monitoring or control. Prioritize autonomy, private support, and the safest observable next step; do not use calmness as a test of whether the concern is legitimate.':'Choose warmth over scorekeeping, curiosity over mind-reading, and steadiness over urgency. Calm the immediate anxiety before acting, then judge progress by repeated conduct rather than one perfect conversation or a short burst of effort.';
+ box.classList.remove('hidden');
+ box.innerHTML=`<div class="behaviorHead361"><div><span>Plain-English takeaway</span><h4>From insight to behavior</h4></div><div class="behaviorTags361"><span>${esc361(stage)}</span><span>${esc361(recurrence)}</span></div></div>
+ <p class="relationshipPosture361"><b>${safety?'Safety posture':'Relationship posture'}:</b> ${esc361(posture)}</p>
+ <div class="behaviorGrid361">
+  <div class="behaviorStop361"><b>Stop</b><p>${esc361(p.stop)}</p></div>
+  <div class="behaviorStart361"><b>Start</b><p>${esc361(p.start)}</p></div>
+  <div class="behaviorRepeat361"><b>Make it stick</b><p>${esc361(p.repeat)}</p></div>
+  <div class="behaviorEvidence361"><b>Evidence it is working</b><p>${esc361(p.evidence)}</p></div>
+ </div>
+ <details class="behaviorDurability361"><summary>Practice and durability check</summary><div><p><b>Optional structured practice:</b> ${esc361(p.practice)}</p><p><b>When change does not last:</b> ${esc361(p.culture)}</p></div></details>`;
+}
+function bind361(){
+ ensure361();render361();
+ const out=$361('expertOutput339');if(out&&!out.dataset.behaviorObserver361){out.dataset.behaviorObserver361='1';new MutationObserver(()=>render361()).observe(out,{childList:true,subtree:true});}
+}
+document.addEventListener('change',e=>{if(['repairCockpitProfileSelect','issueCardSelector'].includes(e.target?.id))setTimeout(render361,180);});
+document.addEventListener('click',e=>{if(e.target?.closest?.('#renderExpertLensBtn339,#mostAlignedExpertBtn339,#likelyDisagreeExpertBtn339,[data-thinker343]'))setTimeout(render361,100);});
+document.addEventListener('DOMContentLoaded',()=>setTimeout(bind361,1800));setTimeout(bind361,2100);
+})();
+
 
 
 /* v3.2.0 workspace/profile dashboard consolidation */
@@ -5404,6 +5443,60 @@ if(typeof renderRcSourceStrip==='function'&&!window.__traits358){window.__traits
 if(typeof renderRepairCockpit==='function'&&!window.__timeline358){window.__timeline358=true;const oldCockpit358=renderRepairCockpit;renderRepairCockpit=function(){const r=oldCockpit358();setTimeout(()=>renderEventTimeline358(),220);setTimeout(()=>renderEventTimeline358(),1050);return r;};}
 document.addEventListener('change',e=>{if(e.target?.id==='repairCockpitProfileSelect')setTimeout(()=>renderEventTimeline358(),120);});
 document.addEventListener('DOMContentLoaded',()=>setTimeout(()=>renderEventTimeline358(),2300));setTimeout(()=>renderEventTimeline358(),2500);
+})();
+
+/* v3.6.0 plain-language relationship glossary */
+(function(){
+const terms360={
+ 'accept influence':'Treat your partner as having a valid perspective and let it affect the decision, rather than automatically resisting.',
+ 'attachment':'The pattern of safety, closeness, and reassurance people seek from important relationships.',
+ 'autonomy':'The ability to make your own choices, retain privacy, and remain a separate person inside a relationship.',
+ 'boundary':'A clear limit describing what you will participate in and what action you will take if the limit is crossed.',
+ 'coercive control':'A repeated pattern that restricts another person\'s freedom through monitoring, intimidation, isolation, humiliation, or control of ordinary choices.',
+ 'complaint':'A statement about one specific behavior or event that can potentially be changed.',
+ 'contempt':'Communicating disgust or superiority through mockery, insults, sneering, or treating a partner as beneath you.',
+ 'criticism':'Attacking someone\'s character or personality instead of describing a specific behavior and request.',
+ 'defensiveness':'Protecting yourself by denying responsibility, making excuses, changing the subject, or counterattacking.',
+ 'differentiation':'Staying emotionally connected while still having your own views, preferences, identity, and limits.',
+ 'emotional regulation':'The ability to experience strong emotion without losing control of your behavior or ability to think.',
+ 'escalation':'A conflict becoming more intense through harsher language, louder emotion, threats, withdrawal, or retaliation.',
+ 'flooding':'Becoming so emotionally and physically overwhelmed that listening, reasoning, and responding constructively become difficult.',
+ 'gridlock':'A recurring conflict that stays stuck because it touches deeper values, identities, fears, or life dreams.',
+ 'harsh startup':'Beginning a difficult conversation with blame, accusation, sarcasm, or contempt, making defensiveness more likely.',
+ 'invisible labor':'Planning, remembering, anticipating, coordinating, and emotional work that is necessary but often unnoticed.',
+ 'mental load':'The ongoing work of noticing what must happen, remembering it, planning it, and making sure it gets done.',
+ 'nervous system':'The body\'s threat-and-safety response, including tension, racing heart, shutdown, agitation, and calm.',
+ 'own impact':'Acknowledge how your behavior affected the other person even when harm was not your intention.',
+ 'primary emotion':'The more vulnerable feeling underneath a protective reaction, such as fear, hurt, loneliness, or shame beneath anger.',
+ 'protest behavior':'Criticism, pursuit, testing, or other intensified behavior used to seek reassurance when connection feels threatened.',
+ 'pursue-withdraw':'A cycle in which one person presses for connection or answers while the other retreats, causing each person to intensify their side.',
+ 'reciprocity':'Whether attention, effort, care, and investment move in both directions rather than mainly one way.',
+ 'repair bid':'Any attempt to lower conflict intensity or reconnect, such as apologizing, taking responsibility, asking to restart, or using gentle humor.',
+ 'repair landed':'The other person noticed and accepted an attempt to calm the conflict or reconnect.',
+ 'repair':'What happens after hurt or conflict: accountability, clarification, apology, changed behavior, and reconnection.',
+ 'reassurance':'Words or behavior that communicate reliability, care, commitment, or continued connection.',
+ 'relationship horizon':'The kind and expected duration of relationship each person intends, such as casual dating, exclusivity, or long-term partnership.',
+ 'shame':'The painful belief that a mistake or rejection means something is fundamentally wrong with you.',
+ 'soft startup':'Beginning with a specific event, your feeling, and a concrete request instead of blame or character attack.',
+ 'stonewalling':'Emotionally or physically disengaging from a conflict without communicating a plan to calm down and return.',
+ 'vulnerability':'Openly sharing a real feeling, fear, need, or uncertainty without knowing exactly how it will be received.'
+};
+const escaped360=s=>s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+const ordered360=Object.keys(terms360).sort((a,b)=>b.length-a.length);
+const matcher360=new RegExp(`\\b(${ordered360.map(escaped360).join('|')})\\b`,'gi');
+function enhance360(root){
+ if(!root||root.dataset.glossary360==='1')return;root.dataset.glossary360='1';
+ const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);const nodes=[];let node;
+ while(node=walker.nextNode()){if(node.parentElement?.closest('.therapyTerm360,.termDefinition360,button,select,textarea'))continue;if(matcher360.test(node.nodeValue||''))nodes.push(node);matcher360.lastIndex=0;}
+ nodes.forEach(textNode=>{const text=textNode.nodeValue,frag=document.createDocumentFragment();let last=0;matcher360.lastIndex=0;let match;
+  while(match=matcher360.exec(text)){if(match.index>last)frag.append(text.slice(last,match.index));const key=match[0].toLowerCase(),button=document.createElement('button');button.type='button';button.className='therapyTerm360';button.textContent=match[0];button.dataset.term=key;button.dataset.definition=terms360[key];button.setAttribute('aria-label',`${match[0]}: ${terms360[key]}`);frag.append(button);last=match.index+match[0].length;}
+  if(last<text.length)frag.append(text.slice(last));textNode.replaceWith(frag);
+ });
+}
+function scan360(){document.querySelectorAll('#expertOutput339 .expertResponse351').forEach(enhance360);}
+document.addEventListener('click',e=>{const term=e.target.closest?.('.therapyTerm360');if(!term)return;const card=term.closest('.expertCard339');if(!card)return;let panel=card.querySelector(':scope > .termDefinition360');if(!panel){panel=document.createElement('div');panel.className='termDefinition360';panel.setAttribute('role','status');panel.setAttribute('aria-live','polite');card.append(panel);}panel.innerHTML=`<b>${term.textContent}</b><span>${term.dataset.definition}</span>`;panel.classList.add('visible');card.querySelectorAll('.therapyTerm360.active').forEach(x=>x.classList.remove('active'));term.classList.add('active');});
+document.addEventListener('DOMContentLoaded',()=>{setTimeout(scan360,1100);const out=document.getElementById('expertOutput339');if(out)new MutationObserver(()=>setTimeout(scan360,0)).observe(out,{childList:true,subtree:true});});
+setTimeout(scan360,1500);
 })();
 
 /* v3.5.0 evidence-aware meaning translation */
