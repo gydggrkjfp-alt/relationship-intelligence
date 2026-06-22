@@ -1,9 +1,10 @@
-const CACHE='relationship-intelligence-v358-event-evidence3';
+const CACHE='relationship-intelligence-v359-expert-crux';
 const ASSETS=[
   './',
   './index.html',
-  './styles.css?v=358-event-evidence3',
-  './app.js?v=358-event-evidence3',
+  './styles.css?v=359-expert-crux',
+  './expert-engine.js?v=359-expert-crux',
+  './app.js?v=359-expert-crux',
   './manifest.json'
 ];
 
@@ -23,7 +24,7 @@ self.addEventListener('activate',event=>{
 self.addEventListener('fetch',event=>{
   const requestUrl=new URL(event.request.url);
   if(requestUrl.pathname.endsWith('/app.js')){
-    event.respondWith(fetch(event.request).catch(()=>caches.match('./app.js?v=358-event-evidence3')));
+    event.respondWith(fetch(event.request).catch(()=>caches.match('./app.js?v=359-expert-crux')));
     return;
   }
   event.respondWith(caches.match(event.request).then(response=>response||fetch(event.request)));

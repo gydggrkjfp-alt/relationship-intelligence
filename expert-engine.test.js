@@ -1,0 +1,23 @@
+const assert=require('node:assert/strict');
+const engine=require('./expert-engine.js');
+const ctx=(event,type='Communication / shared reality',polarity='Negative',rtype='Dating / early relationship',recurrence='First time')=>({profile:{rtype},issue:{id:event,type,title:type,event,polarity,recurrence}});
+const row=name=>({name});
+
+assert.equal(engine.analyze(ctx('My partner secretly checks my phone location without consent','Trust / honesty')).crux,'safety_control');
+assert.equal(engine.rank([row('Logan Ury behavioral dating lens'),row('Evan Stark coercive-control lens')],ctx('My partner secretly checks my phone without consent'))[0].name,'Evan Stark coercive-control lens');
+assert.equal(engine.analyze(ctx('He never appreciates thoughtful effort','Appreciation / usefulness','Mixed')).polarity,'negative');
+assert.equal(engine.analyze(ctx('We thanked each other and repaired the disagreement well','Appreciation / usefulness','Positive')).polarity,'positive');
+assert.equal(engine.analyze(ctx('We keep arguing about invisible household labor and planning','Household labor')).crux,'responsibility_fairness');
+assert.equal(engine.analyze(ctx('We have never decided whether we are exclusive or building a future','Commitment / future direction')).crux,'commitment_clarity');
+assert.equal(engine.rank([row('Logan Ury behavioral dating lens'),row('Esther Perel desire/security lens')],ctx('After 20 years married we feel like roommates and have little desire','Passion / sexual disconnect','Negative','Married'))[0].name,'Esther Perel desire/security lens');
+const marcusTrust=engine.compose(row('Marcus Aurelius stoic lens'),ctx('I found a lie and do not know whether trust can recover','Trust / honesty'));
+const marcusLabor=engine.compose(row('Marcus Aurelius stoic lens'),ctx('I carry every household task and deadline','Household labor'));
+assert.notEqual(marcusTrust.frame,marcusLabor.frame);
+assert.match(engine.compose(row('Gottman stability lens'),ctx('We repaired the conflict by apologizing and coming back calmly','Communication / shared reality','Positive')).frame,/repair/i);
+assert.ok(engine.score(row('Call Her Daddy-style pop-culture lens'),ctx('First date spark uncertainty','Dating / early relationship'))<0);
+assert.ok(engine.score(row('Red-pill internet rhetoric lens'),ctx('First date spark uncertainty','Dating / early relationship'))<0);
+const unsafeGottman=engine.compose(row('Gottman stability lens'),ctx('My partner secretly tracks my location without consent','Trust / honesty'));
+assert.match(unsafeGottman.experiment,/Do not run this lens/);
+const names=['Sue Johnson / EFT lens','Gottman stability lens','Esther Perel desire/security lens','Evan Stark coercive-control lens','Scott Stanley commitment clarity lens','Logan Ury behavioral dating lens','Eli Finkel online dating lens','David Buss mating strategy lens','Gabor Mate trauma-pattern lens','Brene Brown shame/vulnerability lens','Alison Armstrong usefulness/polarity lens','Orion Taraban incentive/respect lens','Louise Perry modern dating culture lens','Marcus Aurelius stoic lens','Aristotle virtue/friendship lens','Bell Hooks love ethic lens','Jane Austen character lens'];
+for(const name of names){const trust=engine.compose(row(name),ctx('We disagree about a lie and whether trust can recover','Trust / honesty'));const labor=engine.compose(row(name),ctx('The household planning and invisible labor remain unequal','Household labor'));assert.ok(trust?.frame&&trust?.question&&trust?.experiment&&trust?.failure,`${name} missing complete output`);assert.notEqual(trust.frame,labor.frame,`${name} repeated the same frame across cruxes`);}
+console.log('expert-engine tests passed');

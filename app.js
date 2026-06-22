@@ -4833,6 +4833,8 @@ function context343(opts={}){
  const positive=/positive|appreciat|hype|encourag|builds up|thoughtful|green flag|comfort routine/i.test([i?.polarity,i?.type,i?.title,i?.event,i?.story].join(' '));
  const ctx={profile:p,issue:i,latestSnapshot:latest,metrics:m,text,isPositive:positive};
  ctx.safetyFlags=safetyFlags343(ctx);
+ const engine=window.RelationshipExpertEngine359;
+ if(engine){ctx.analysis=engine.analyze(ctx);ctx.isPositive=ctx.analysis.polarity==='positive';ctx.safetyFlags=ctx.analysis.safetyLevel==='acute'?['Safety / coercive-control concern']:ctx.analysis.safetyLevel==='caution'?['Boundary / autonomy concern']:[];}
  return ctx;
 }
 
@@ -4856,6 +4858,7 @@ function rows343(){
 }
 
 function score343(row,ctx){
+ const engine=window.RelationshipExpertEngine359;if(engine)return engine.score(row,ctx);
  const t=String(ctx.text||'').toLowerCase();
  let s=0;
  (row.bestFor||[]).forEach(x=>{if(String(ctx.issue?.type||'').toLowerCase()===x.toLowerCase())s+=12; if(t.includes(x.toLowerCase()))s+=7;});
@@ -4885,6 +4888,7 @@ function score343(row,ctx){
 }
 
 function aligned343(ctx){
+ const engine=window.RelationshipExpertEngine359;if(engine)return engine.rank(rows343(),ctx)[0];
  const t=String(ctx.text||'');
  if(/without consent|covert|secret phone monitoring|surveill|check(?:s|ing)? (?:the )?(?:other person.s )?(?:phone|location|messages|app activity)|demand(?:s|ing)? (?:a )?(?:password|location sharing|phone access)/i.test(t))return rows343().find(r=>r.name==='Evan Stark coercive-control lens');
  return rows343().sort((a,b)=>score343(b,ctx)-score343(a,ctx))[0];
@@ -4906,7 +4910,8 @@ function challenge343(ctx){
   "Scott Stanley commitment clarity lens":"Esther Perel desire/security lens"
   ,"Evan Stark coercive-control lens":"Bell Hooks love ethic lens"
  };
- return rows343().find(r=>r.name===(pairs[a?.name]||''))||rows343().sort((x,y)=>score343(x,ctx)-score343(y,ctx))[0];
+ const available=rows343().filter(r=>r.cat!=='Cultural Voices (contrast only)');
+ return available.find(r=>r.name===(pairs[a?.name]||''))||available.filter(r=>r.name!==a?.name).sort((x,y)=>score343(y,ctx)-score343(x,ctx))[0];
 }
 
 function why343(row,ctx){
@@ -4930,6 +4935,7 @@ function next343(row,ctx){
 }
 
 function confidence343(row,ctx){
+ const engine=window.RelationshipExpertEngine359;if(engine)return engine.fitLabel(row,ctx);
  let n=score343(row,ctx);
  if((ctx.issue?.event||'').length>30)n+=8;
  if((ctx.profile?.snapshots||[]).length>1)n+=5;
@@ -4977,6 +4983,7 @@ function philosopherIssue356(who,ctx,type,event){
 }
 
 function expertDepth347(row,ctx){
+ const robust=window.RelationshipExpertEngine359?.compose(row,ctx);if(robust)return robust;
  const type=ctx.issue?.type||'relationship issue';
  const event=String(ctx.issue?.event||ctx.latestSnapshot?.note||ctx.profile?.evidence||'the event described').slice(0,240);
  const surveillance=/without consent|covert|monitor|surveill|check(?:s|ing)? (?:the )?(?:other person.s )?(?:phone|location|messages|app activity)|password|location sharing/i.test(`${type} ${event}`);
@@ -5055,7 +5062,7 @@ function card343(row,label,ctx,cls=''){
  const identity=expertIdentity350(row.name,row),initials=identity.avatar;
  const consequence=row.consequence||'This perspective can offer a useful interpretation and a concrete experiment. It can also overfit the story, so reassess it against behavior and the result of the next interaction.';
  const sentence=s=>/[.!?][”"']?$/.test(String(s||'').trim())?String(s||'').trim():String(s||'').trim()+'.';
- const fullLimitation=/^Can\s/i.test(row.miss||'')?`This perspective can ${String(row.miss).replace(/^Can\s+/i,'').replace(/^./,x=>x.toLowerCase())}`:sentence(row.miss);
+ const fullLimitation=depth.limitation||(/^Can\s/i.test(row.miss||'')?`This perspective can ${String(row.miss).replace(/^Can\s+/i,'').replace(/^./,x=>x.toLowerCase())}`:sentence(row.miss));
  const fullTradeoff=/^May\s/i.test(consequence)?`This framing may ${String(consequence).replace(/^May\s+/i,'').replace(/^./,x=>x.toLowerCase())}`:sentence(consequence);
  return `<div class="expertCard339 ${cls}${positive}${cultural?' expertCultural346':''}">
  <div class="expertIdentity346"><span class="expertAvatar346" aria-hidden="true">${esc(initials)}</span><div><b>${esc(label)}: ${esc(row.name)}</b><span class="expertProvenance346">${esc(sourceClass)}${row.evidenceTier?' · '+esc(row.evidenceTier):''}</span><span class="expertBio350">${esc(identity.description)}</span></div><span class="expertConfidence339">${esc(score)}</span></div>
@@ -5063,13 +5070,13 @@ function card343(row,label,ctx,cls=''){
   <div class="expertPills339"><span class="expertPill339">${esc(row.cat)}</span>${(row.tags||[]).slice(0,5).map(t=>`<span class="expertPill339">${esc(t)}</span>`).join('')}</div>
   ${safety}
   <div class="expertResponse351">
-   <p>${esc(`This framework is responding to the following event: ${sentence(String(event).slice(0,520))}`)}</p>
-   <p>${esc(sentence(depth.frame))}</p>
-   <p>${esc(sentence(depth.question))}</p>
-   <p>${esc(`A useful experiment would be this: ${sentence(depth.experiment)}`)}</p>
-   <p>${esc(sentence(depth.failure))}</p>
-   <p>${esc(sentence(fullTradeoff))}</p>
-   <p>${esc(sentence(fullLimitation))}</p>
+   <div class="expertEvent359"><b>Event analyzed</b><p>${esc(sentence(String(event).slice(0,520)))}</p></div>
+   <div class="expertFinding359"><b>Crux this lens sees</b><p>${esc(sentence(depth.frame))}</p></div>
+   <div class="expertEvidence359"><b>What else could explain it</b><p>${esc(sentence(depth.challenge))}</p><b>Evidence that would change the read</b><p>${esc(sentence(depth.evidence||'Look for repeated observable behavior, direct clarification, and the result of the next interaction.'))}</p></div>
+   <div class="expertQuestion359"><b>Question to answer</b><p>${esc(sentence(depth.question))}</p></div>
+   <div class="expertAction359"><b>Next test</b><p>${esc(sentence(depth.experiment))}</p></div>
+   <div class="expertStop359"><b>Stop condition</b><p>${esc(sentence(depth.failure))}</p></div>
+   <div class="expertLimit359"><b>Limitation</b><p>${esc(sentence(fullLimitation))}</p></div>
   </div>
  </div>`;
 }

@@ -1,4 +1,10 @@
-# Relationship Intelligence v3.5.8
+# Relationship Intelligence v3.5.9
+
+v3.5.9:
+- Replaces static expert speeches with a selected-issue-only crux recognition engine.
+- Classifies safety, boundaries, trust, dignity, labor, commitment, communication, attachment, intimacy, appreciation, dating evaluation, and positive repair independently.
+- Adds expert-specific capability routing, relationship-stage and recurrence modifiers, safety overrides, alternative explanations, evidence tests, and stop conditions.
+- Prevents cultural contrast modes from appearing as Best Fit or Challenge View and adds regression tests for routing and response differentiation.
 
 v3.5.8:
 - Rebuilds the event timeline as expandable evidence cards with full event recaps.
