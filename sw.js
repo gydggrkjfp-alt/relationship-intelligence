@@ -1,10 +1,10 @@
-const CACHE='relationship-intelligence-v361-durable-behavior';
+const CACHE='relationship-intelligence-v363-diagnostics-cleanup';
 const ASSETS=[
   './',
   './index.html',
-  './styles.css?v=361-durable-behavior',
-  './expert-engine.js?v=361-durable-behavior',
-  './app.js?v=361-durable-behavior',
+  './styles.css?v=363-diagnostics-cleanup',
+  './expert-engine.js?v=363-diagnostics-cleanup',
+  './app.js?v=363-diagnostics-cleanup',
   './manifest.json'
 ];
 
@@ -24,7 +24,7 @@ self.addEventListener('activate',event=>{
 self.addEventListener('fetch',event=>{
   const requestUrl=new URL(event.request.url);
   if(requestUrl.pathname.endsWith('/app.js')){
-    event.respondWith(fetch(event.request).catch(()=>caches.match('./app.js?v=361-durable-behavior')));
+    event.respondWith(fetch(event.request).catch(()=>caches.match('./app.js?v=363-diagnostics-cleanup')));
     return;
   }
   event.respondWith(caches.match(event.request).then(response=>response||fetch(event.request)));

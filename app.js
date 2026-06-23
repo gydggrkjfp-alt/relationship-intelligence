@@ -2449,7 +2449,7 @@ document.addEventListener('DOMContentLoaded',()=>setTimeout(()=>{bind();drawGala
 setTimeout(()=>{bind();drawGalaxy();},800);
 })();
 
-/* v3.6.1 durable behavior takeaway */
+/* v3.6.2 durable behavior and values takeaway */
 (function(){
 const $361=id=>document.getElementById(id);
 const esc361=s=>typeof escapeHTML==='function'?escapeHTML(String(s??'')):String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -2471,13 +2471,14 @@ function render361(){
  box.classList.remove('hidden');
  box.innerHTML=`<div class="behaviorHead361"><div><span>Plain-English takeaway</span><h4>From insight to behavior</h4></div><div class="behaviorTags361"><span>${esc361(stage)}</span><span>${esc361(recurrence)}</span></div></div>
  <p class="relationshipPosture361"><b>${safety?'Safety posture':'Relationship posture'}:</b> ${esc361(posture)}</p>
+ <div class="valuesUnderTest362"><div><b>Values under test</b><p>${esc361(p.valueTension||'This issue may be clarifying what the relationship needs to value in practice.')}</p></div><div class="valueChips362">${(p.values||[]).map(v=>`<span>${esc361(v)}</span>`).join('')}</div><p><b>Shared goal:</b> ${esc361(p.valueGoal||'Choose the value you want the relationship to practice, then judge the behavior by that standard.')}</p></div>
  <div class="behaviorGrid361">
   <div class="behaviorStop361"><b>Stop</b><p>${esc361(p.stop)}</p></div>
   <div class="behaviorStart361"><b>Start</b><p>${esc361(p.start)}</p></div>
   <div class="behaviorRepeat361"><b>Make it stick</b><p>${esc361(p.repeat)}</p></div>
   <div class="behaviorEvidence361"><b>Evidence it is working</b><p>${esc361(p.evidence)}</p></div>
  </div>
- <details class="behaviorDurability361"><summary>Practice and durability check</summary><div><p><b>Optional structured practice:</b> ${esc361(p.practice)}</p><p><b>When change does not last:</b> ${esc361(p.culture)}</p></div></details>`;
+ <details class="behaviorDurability361"><summary>Practice, values, and durability check</summary><div><p><b>Optional structured practice:</b> ${esc361(p.practice)}</p><p><b>Value reflection:</b> ${esc361(p.valueReflection||'What shared belief would make this behavior feel meaningful rather than performative?')}</p><p><b>When change does not last:</b> ${esc361(p.culture)}</p></div></details>`;
 }
 function bind361(){
  ensure361();render361();
@@ -3268,7 +3269,7 @@ function renderRoleResponse332(){
 }
 function fixAdmiration332(){let c=$('repairCockpitAdmirationCanvas'); if(c){c.width=520;c.height=250;try{if(typeof drawRcAdmiration==='function')drawRcAdmiration();}catch(e){}}}
 function graphPopout332(id,title){let src=$(id),dst=$('graphPopoutCanvas');if(!src||!dst)return;let ctx=dst.getContext('2d');ctx.clearRect(0,0,dst.width,dst.height);ctx.fillStyle='#fff';ctx.fillRect(0,0,dst.width,dst.height);ctx.drawImage(src,0,0,dst.width,dst.height);$('graphPopoutTitle').textContent=title||'Graph';$('graphPopoutOverlay')?.classList.remove('hidden');}
-function bindGraphPopouts332(){[['workspaceRadarCanvas','Radar'],['sliderTimelineCanvas','Slider trajectory'],['workspacePeaceRespectCanvas','Peace / Respect over time'],['selfRadarCanvas','Self radar']].forEach(([id,title])=>{let c=$(id);if(c&&!c.dataset.pop332){c.dataset.pop332='1';c.insertAdjacentHTML('beforebegin',`<button class="graphPopBtn" type="button" data-graph="${id}" data-title="${title}">Open larger</button>`);}});document.querySelectorAll('.graphPopBtn').forEach(b=>b.onclick=()=>graphPopout332(b.dataset.graph,b.dataset.title));let close=$('closeGraphPopoutBtn');if(close)close.onclick=()=>$('graphPopoutOverlay')?.classList.add('hidden');}
+function bindGraphPopouts332(){[['workspaceRadarCanvas','Radar'],['sliderTimelineCanvas','Slider trajectory'],['coupleTrajectoryCanvas342','Peace / Respect trajectory'],['selfRadarCanvas','Self radar']].forEach(([id,title])=>{let c=$(id);if(c&&!c.dataset.pop332){c.dataset.pop332='1';c.insertAdjacentHTML('beforebegin',`<button class="graphPopBtn" type="button" data-graph="${id}" data-title="${title}">Open larger</button>`);}});document.querySelectorAll('.graphPopBtn').forEach(b=>b.onclick=()=>graphPopout332(b.dataset.graph,b.dataset.title));let close=$('closeGraphPopoutBtn');if(close)close.onclick=()=>$('graphPopoutOverlay')?.classList.add('hidden');}
 function updateDiagnostics332(){let out=$('diagnosticsOutput');if(!out)return;let extra=$('diagExtra332');if(!extra){out.insertAdjacentHTML('afterend','<div id="diagExtra332" class="analysisBox"></div>');extra=$('diagExtra332');}let p=p332();let checks=[['profiles exist',!!(state.profiles&&state.profiles.length)],['current profile selected',!!p],['snapshots array',!!(p&&Array.isArray(p.snapshots))],['issues array',!!(p&&Array.isArray(p.issues))],['issue selector',!!$('issueCardSelector')],['relationship/snapshot modal',!!$('relationshipSnapshotOverlay')],['issue wizard modal',!!$('issueWizardOverlay')],['rating buttons',document.querySelectorAll('.rateBtn').length>0],['workspace radar canvas',!!$('workspaceRadarCanvas')],['peace/respect time canvas',!!$('workspacePeaceRespectCanvas')],['admiration canvas',!!$('repairCockpitAdmirationCanvas')],['self radar target',!!$('selfRadarCanvas')||!!document.querySelector('#meView')]];extra.innerHTML='<h3>Expanded diagnostics</h3>'+checks.map(([n,ok])=>`<div class="${ok?'diagnosticPass':'diagnosticFail'}"><b>${ok?'PASS':'FAIL'}:</b> ${esc332(n)}</div>`).join('');}
 const oldRender332=window.renderRepairCockpit;if(oldRender332&&!window.__render332){window.__render332=true;window.renderRepairCockpit=function(){let r=oldRender332();try{populateWorkspaceIssueExamples332();renderRoleResponse332();fixAdmiration332();bindGraphPopouts332();}catch(e){}return r;};}
 const oldSafe332=window.safeUpdate;if(oldSafe332&&!window.__safe332){window.__safe332=true;window.safeUpdate=function(){let r=oldSafe332();try{populateWorkspaceIssueExamples332();renderRoleResponse332();fixAdmiration332();bindGraphPopouts332();updateDiagnostics332();}catch(e){}return r;};}
@@ -5523,4 +5524,20 @@ window.renderTranslation331=renderTranslation331=renderTranslation350;
 if(typeof renderRepairCockpit==='function'&&!window.__translation350){window.__translation350=true;const old=renderRepairCockpit;renderRepairCockpit=function(){const r=old();setTimeout(renderTranslation350,180);setTimeout(renderTranslation350,900);return r;};}
 document.addEventListener('change',e=>{if(e.target?.id==='issueCardSelector')setTimeout(renderTranslation350,140);});
 document.addEventListener('DOMContentLoaded',()=>setTimeout(renderTranslation350,2100));
+})();
+
+/* v3.6.3 diagnostics cleanup for current peace/respect visuals */
+(function(){
+const id362=x=>document.getElementById(x);
+function currentPeaceRespectVisual362(){return !!(id362('coupleTrajectoryCanvas342')||id362('dashboardPeaceRespectCanvas')||document.querySelector('.prMatrix357'));}
+function cleanDiagnostics362(){
+ const stale=id362('diagExtra332');
+ if(stale){
+  stale.classList.add('diagnosticStale342');
+  if(currentPeaceRespectVisual362())stale.innerHTML=stale.innerHTML.replace(/<div class="diagnosticFail"><b>FAIL:<\/b> peace\/respect time canvas<\/div>/,'<div class="diagnosticPass"><b>PASS:</b> peace/respect trajectory or matrix</div>');
+ }
+}
+const oldDiag362=window.runDiagnostics;
+if(oldDiag362&&!window.__diag362){window.__diag362=true;window.runDiagnostics=function(){const r=oldDiag362();setTimeout(cleanDiagnostics362,150);return r;};}
+document.addEventListener('DOMContentLoaded',()=>setTimeout(cleanDiagnostics362,2300));
 })();

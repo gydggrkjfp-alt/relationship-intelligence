@@ -32,6 +32,11 @@ assert.match(appreciationPlan.culture,/deeper belief|values conflict/i);
 const surveillancePlan=engine.behaviorPlan(ctx('My partner secretly checks my phone without consent','Trust / honesty'));
 assert.match(surveillancePlan.stop,/nonconsensual monitoring/i);
 assert.match(surveillancePlan.evidence,/without interrogation, punishment, or escalation/i);
+assert.deepEqual(surveillancePlan.values,['Autonomy','Safety','Trust without control']);
+assert.match(surveillancePlan.valueGoal,/without making privacy, refusal, or outside support punishable/i);
+const laborValues=engine.valuesUnderTest(ctx('We keep fighting about money, invisible labor, planning, and follow-through','Household labor','Negative','Married','Recurring'));
+assert.deepEqual(laborValues.values,['Fairness','Reliability','Shared stewardship']);
+assert.match(laborValues.discovery,/hypothesis/i);
 const names=['Sue Johnson / EFT lens','Gottman stability lens','Esther Perel desire/security lens','Evan Stark coercive-control lens','Scott Stanley commitment clarity lens','Logan Ury behavioral dating lens','Eli Finkel online dating lens','David Buss mating strategy lens','Gabor Mate trauma-pattern lens','Brene Brown shame/vulnerability lens','Alison Armstrong usefulness/polarity lens','Orion Taraban incentive/respect lens','Louise Perry modern dating culture lens','Marcus Aurelius stoic lens','Aristotle virtue/friendship lens','Bell Hooks love ethic lens','Jane Austen character lens'];
 for(const name of names){const trust=engine.compose(row(name),ctx('We disagree about a lie and whether trust can recover','Trust / honesty'));const labor=engine.compose(row(name),ctx('The household planning and invisible labor remain unequal','Household labor'));assert.ok(trust?.frame&&trust?.question&&trust?.experiment&&trust?.failure,`${name} missing complete output`);assert.notEqual(trust.frame,labor.frame,`${name} repeated the same frame across cruxes`);}
 console.log('expert-engine tests passed');

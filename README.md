@@ -1,4 +1,15 @@
-# Relationship Intelligence v3.6.1
+# Relationship Intelligence v3.6.3
+
+v3.6.3:
+- Cleans up a stale diagnostics failure for the removed Peace/Respect time canvas.
+- Treats the current Peace/Respect trajectory canvas, dashboard canvas, or high-resolution matrix as the valid diagnostic target.
+- Bumps service-worker cache keys so Safari receives the updated diagnostics code.
+
+v3.6.2:
+- Adds a values-under-test layer to the expert takeaway so advice names likely value tensions without assigning the user's worldview.
+- Connects behavior recommendations to shared goals such as autonomy, dignity, gratitude, fairness, commitment, repair, consent, and secure connection.
+- Adds value reflection prompts for durability, because behavior change is fragile when it is not tied to a shared belief, value, or goal.
+- Treats values as hypotheses discovered through repeated conflict, repair, and life-stage decisions.
 
 v3.6.1:
 - Removes repeated relationship-stage boilerplate from individual expert responses.
