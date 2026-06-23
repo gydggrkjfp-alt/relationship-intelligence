@@ -1,4 +1,9 @@
-# Relationship Intelligence v3.6.4
+# Relationship Intelligence v3.6.5
+
+v3.6.5:
+- Adds visible feedback under Issue / Event Translation meaning cards after Accurate, Partial, or Wrong is clicked.
+- Adds a private text-insult branch so respect/dignity issues do not get described as public joking when the event is private meanness over text.
+- Bumps service-worker cache keys so Safari receives the translation feedback fix.
 
 v3.6.4:
 - Rebuilds the Issue / Event Translation renderer around the expert-engine crux classifier instead of older broad templates.

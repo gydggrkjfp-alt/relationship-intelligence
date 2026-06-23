@@ -931,6 +931,7 @@ gap:16px;
 
 /* v3.5.0 evidence-aware meaning hypotheses */
 .hypothesisNote350{margin:8px 0;padding:8px 9px;border-left:3px solid #176a70;background:#f3f7f7;color:#526469;font-size:11px;line-height:1.45}.translationNext350{border-left:3px solid #2f855a!important}
+.meaningFeedback365{margin-top:7px;padding:7px 8px;border-radius:4px;background:#f7faf9;border-left:3px solid #6c8f96;color:#3f5257;font-size:11px;line-height:1.4}.meaningFeedback365 b{display:block;margin-bottom:2px;color:#244c53}.meaningFeedback365.partial{border-left-color:#c58a27;background:#fffaf0}.meaningFeedback365.wrong{border-left-color:#c85b52;background:#fff5f3}.meaningFeedback365.ok{border-left-color:#2f855a;background:#f2faf4}
 
 /* v3.5.1 expert identities */
 .expertAbout350{display:flex;align-items:center;gap:9px;padding:8px;margin:6px 0;border:1px solid var(--ws-line);background:#f7fbfc}.expertAbout350 .expertAvatar346{flex:0 0 32px;width:32px;height:32px}.expertAbout350>div{min-width:0}.expertAbout350 b{display:block;color:#174f58;font-size:12px}.expertAbout350 p{margin:2px 0 0;color:#526469;font-size:11px;line-height:1.4}.expertBio350{display:block;margin-top:3px;color:#526469;font-size:11px;line-height:1.4}

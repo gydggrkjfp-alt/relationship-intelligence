@@ -5638,11 +5638,35 @@ const meanings364={
   move:'Reinforce the exact behavior without turning it into debt. Track whether it appears again when no crisis is forcing it.'
  }
 };
+function eventText364(issue){
+ return [issue?.type,issue?.title,issue?.event,issue?.story,issue?.aggrieved]
+  .filter(Boolean).join(' ').toLowerCase();
+}
+function refinedMeaning364(issue,a){
+ const base={...(meanings364[a.crux]||meanings364.communication_process)};
+ const text=eventText364(issue);
+ const privateInsult=/\b(text|message|dm|private|one[- ]?on[- ]?one)\b/.test(text)&&/\b(insult|mean|cruel|contempt|belittl|mock|name[- ]?call|demean)\b/.test(text);
+ if(a.crux==='respect_dignity'&&privateInsult){
+  base.him='He may hear private insults or cruel texts as evidence that conflict turns into contempt when there is no audience. The injury is not public embarrassment; it is loss of emotional safety, respect, and confidence that private vulnerability will be handled with care.';
+  base.her='She may hear private insults or meanness as a direct dignity violation: the relationship becomes a place where anger can license cruelty. If she sent them, the key issue is whether she can own the impact without recasting contempt as honesty or stress.';
+  base.test='Look at the actual words, frequency, repair attempt, and whether the person stopped the insulting behavior after impact was named.';
+  base.move='Name the private dignity violation plainly. Set a rule that anger can describe the problem but cannot use insults, contempt, name-calling, or demeaning texts.';
+ }
+ return base;
+}
+function feedback364(issue,side){
+ const val=issue?.ratings?.[side];
+ if(!val)return '';
+ if(val==='Accurate')return '<div class="meaningFeedback365 ok"><b>Marked accurate.</b><span>Keep this hypothesis and test it against the next concrete behavior.</span></div>';
+ if(val==='Partial')return '<div class="meaningFeedback365 partial"><b>Marked partial.</b><span>Use this as a starting point, then edit the missing context in the event notes or choose a more specific issue category.</span></div>';
+ if(val==='Wrong')return '<div class="meaningFeedback365 wrong"><b>Marked wrong.</b><span>Treat this meaning as rejected. The next useful step is to write what it actually meant, then compare that meaning with the evidence check below.</span></div>';
+ return '';
+}
 function renderTranslation364(){
  const issue=issue364(),el=q364('repairCockpitLoop');
  if(!issue||!el)return;
  const a=analyzed364();
- const t=meanings364[a.crux]||meanings364.communication_process;
+ const t=refinedMeaning364(issue,a);
  const positive=String(issue.polarity||'').toLowerCase()==='positive'||a.polarity==='positive';
  const pills=[issue.polarity||'Mixed','Aggrieved: '+(issue.aggrieved||'Both'),issue.recurrence||'Unclear',issue.type||'Issue'];
  el.innerHTML=[
@@ -5654,8 +5678,8 @@ function renderTranslation364(){
   '</div>',
   '<div class="hypothesisNote350"><b>Interpretation check:</b> this now reads the event by crux, evidence, and pattern. Mark a side Partial or Wrong if it misses the lived meaning.</div>',
   '<div class="translationTwoCol">',
-  '<div class="translationCard"><b>Possible meaning for him</b><p>'+esc364(t.him)+'</p><div class="reviewRow">'+ratingBtn331(issue,'male','Accurate')+ratingBtn331(issue,'male','Partial')+ratingBtn331(issue,'male','Wrong')+'</div></div>',
-  '<div class="translationCard"><b>Possible meaning for her</b><p>'+esc364(t.her)+'</p><div class="reviewRow">'+ratingBtn331(issue,'female','Accurate')+ratingBtn331(issue,'female','Partial')+ratingBtn331(issue,'female','Wrong')+'</div></div>',
+  '<div class="translationCard"><b>Possible meaning for him</b><p>'+esc364(t.him)+'</p><div class="reviewRow">'+ratingBtn331(issue,'male','Accurate')+ratingBtn331(issue,'male','Partial')+ratingBtn331(issue,'male','Wrong')+'</div>'+feedback364(issue,'male')+'</div>',
+  '<div class="translationCard"><b>Possible meaning for her</b><p>'+esc364(t.her)+'</p><div class="reviewRow">'+ratingBtn331(issue,'female','Accurate')+ratingBtn331(issue,'female','Partial')+ratingBtn331(issue,'female','Wrong')+'</div>'+feedback364(issue,'female')+'</div>',
   '</div>',
   '<div class="translationCard translationNext350"><b>Evidence check</b><p>'+esc364(t.test)+'</p></div>',
   '<div class="translationCard translationNext350"><b>'+(positive?'How to reinforce it':'Most useful next step')+'</b><p>'+esc364(t.move)+'</p></div>'

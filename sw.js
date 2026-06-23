@@ -1,10 +1,10 @@
-const CACHE='relationship-intelligence-v364-meaning-crux';
+const CACHE='relationship-intelligence-v365-translation-feedback';
 const ASSETS=[
   './',
   './index.html',
-  './styles.css?v=364-meaning-crux',
-  './expert-engine.js?v=364-meaning-crux',
-  './app.js?v=364-meaning-crux',
+  './styles.css?v=365-translation-feedback',
+  './expert-engine.js?v=365-translation-feedback',
+  './app.js?v=365-translation-feedback',
   './manifest.json'
 ];
 
@@ -24,7 +24,7 @@ self.addEventListener('activate',event=>{
 self.addEventListener('fetch',event=>{
   const requestUrl=new URL(event.request.url);
   if(requestUrl.pathname.endsWith('/app.js')){
-    event.respondWith(fetch(event.request).catch(()=>caches.match('./app.js?v=364-meaning-crux')));
+    event.respondWith(fetch(event.request).catch(()=>caches.match('./app.js?v=365-translation-feedback')));
     return;
   }
   event.respondWith(caches.match(event.request).then(response=>response||fetch(event.request)));
