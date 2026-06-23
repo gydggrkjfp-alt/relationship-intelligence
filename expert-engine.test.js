@@ -8,6 +8,8 @@ assert.equal(engine.rank([row('Logan Ury behavioral dating lens'),row('Evan Star
 assert.equal(engine.analyze(ctx('He never appreciates thoughtful effort','Appreciation / usefulness','Mixed')).polarity,'negative');
 assert.equal(engine.analyze(ctx('We thanked each other and repaired the disagreement well','Appreciation / usefulness','Positive')).polarity,'positive');
 assert.equal(engine.analyze(ctx('We keep arguing about invisible household labor and planning','Household labor')).crux,'responsibility_fairness');
+assert.equal(engine.analyze(ctx('He never thanks me and corrects every thoughtful effort','Communication / shared reality')).crux,'appreciation_recognition');
+assert.equal(engine.analyze(ctx('After years together we feel like roommates and have no sex','Communication / shared reality')).crux,'desire_intimacy');
 assert.equal(engine.analyze(ctx('We have never decided whether we are exclusive or building a future','Commitment / future direction')).crux,'commitment_clarity');
 assert.equal(engine.rank([row('Logan Ury behavioral dating lens'),row('Esther Perel desire/security lens')],ctx('After 20 years married we feel like roommates and have little desire','Passion / sexual disconnect','Negative','Married'))[0].name,'Esther Perel desire/security lens');
 const marcusTrust=engine.compose(row('Marcus Aurelius stoic lens'),ctx('I found a lie and do not know whether trust can recover','Trust / honesty'));

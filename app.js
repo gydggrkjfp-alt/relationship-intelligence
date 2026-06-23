@@ -5541,3 +5541,144 @@ const oldDiag362=window.runDiagnostics;
 if(oldDiag362&&!window.__diag362){window.__diag362=true;window.runDiagnostics=function(){const r=oldDiag362();setTimeout(cleanDiagnostics362,150);return r;};}
 document.addEventListener('DOMContentLoaded',()=>setTimeout(cleanDiagnostics362,2300));
 })();
+
+/* v3.6.4 crux-specific issue/event meaning translation */
+(function(){
+const q364=id=>document.getElementById(id);
+const esc364=s=>typeof escapeHTML==='function'
+ ? escapeHTML(String(s??''))
+ : String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function profile364(){
+ if(typeof profile331==='function')return profile331();
+ if(typeof rcCurrentProfile==='function')return rcCurrentProfile();
+ return (state.profiles||[])[0];
+}
+function issue364(){
+ if(typeof currentIssue331==='function')return currentIssue331();
+ const p=profile364();
+ return p?.issues?.[p.issues.length-1]||null;
+}
+function analyzed364(){
+ const engine=window.RelationshipExpertEngine359;
+ const ctx={profile:profile364(),issue:issue364()};
+ if(engine?.analyze)return engine.analyze(ctx);
+ return {crux:'communication_process',label:'a meaning gap',polarity:'mixed'};
+}
+const meanings364={
+ safety_control:{
+  him:'If he is being monitored, he may hear that privacy itself is suspicious and peace depends on surrendering access. If he is monitoring, he may be turning anxiety into control instead of asking for proportionate reassurance.',
+  her:'If she is being monitored, she may hear that autonomy is conditional and that no amount of access will finally prove innocence. If she is monitoring, fear may be present, but fear does not create consent for covert access.',
+  test:'Check consent, reciprocity, revocability, retaliation risk, and whether refusal is treated as evidence of guilt.',
+  move:'Do not solve this as a misunderstanding first. Stop covert access, protect private support, and define reassurance that can happen without surveillance.'
+ },
+ boundary_autonomy:{
+  him:'He may hear the boundary as rejection, loss of influence, or proof that his needs do not matter. The hurt can be real, but it does not make repeated pressure appropriate.',
+  her:'She may hear continued persuasion after a clear no as evidence that calm requires surrendering her limit. The main evidence is whether the no is accepted without guilt, punishment, or another round of debate.',
+  test:'Look at the response after the limit was stated: acceptance, negotiation, guilt, escalation, or retaliation.',
+  move:'State the limit once in behavioral terms and watch the next response. The repair is respect for the limit, not a better argument about it.'
+ },
+ trust_evidence:{
+  him:'He may hear uncertainty as accusation, or he may presume that only access will make him feel safe. If he was lied to, he may be trying to separate a real breach from a fear story.',
+  her:'She may hear secrecy, changed stories, or demands for proof as a threat to emotional safety. If she is being questioned, the issue may be whether reassurance has become an endless moving standard.',
+  test:'Separate verified facts, explicit agreements, feared meanings, and the specific behavior that would actually rebuild trust.',
+  move:'Ask one proportionate factual question, name the agreement, and judge the next pattern of conduct without sliding into surveillance.'
+ },
+ respect_dignity:{
+  him:'He may hear public joking, contempt, screenshots, or friend-group commentary as proof that his dignity is not protected when someone is angry, funny, or seeking allies.',
+  her:'She may hear the event as dismissal, embarrassment, or being made small in front of others. If she went public, she may be seeking witnesses because private repair felt unavailable.',
+  test:'Ask whether the behavior would still feel acceptable if replayed calmly in front of both people and whether repair protected dignity afterward.',
+  move:'Move the conflict private, name the dignity violation, and set a clear rule for jokes, screenshots, friend commentary, and public conflict.'
+ },
+ responsibility_fairness:{
+  him:'He may hear oversight as lack of trust, or he may be missing the invisible work required to notice, plan, and finish the task without being managed.',
+  her:'She may hear the event as proof that she is the default risk manager, reminder system, or final owner of consequences even when the task is supposedly shared.',
+  test:'Identify who owns noticing, planning, execution, authority, standard, and cleanup when the task fails.',
+  move:'Assign one true owner, one observable standard, one consultation threshold, and one review date. Appreciation cannot substitute for ownership.'
+ },
+ commitment_clarity:{
+  him:'He may hear the commitment question as pressure to promise before he has chosen the obligations. Or he may want the relationship while avoiding the risk of naming a decision.',
+  her:'She may hear ambiguity as not being chosen while her time, expectations, body, finances, or future plans are still being used by the relationship.',
+  test:'Separate thoughtful pacing from drift: what has been explicitly chosen, what obligations have accumulated, and who benefits from ambiguity.',
+  move:'Name current status, obligations, the next decision, and the date by which continued ambiguity becomes an answer.'
+ },
+ communication_process:{
+  him:'He may hear questions as prosecution, correction, or a verdict that he cannot be trusted with his own account.',
+  her:'She may hear missing context, unilateral decisions, or changed explanations as exclusion from shared reality.',
+  test:'Find the first escalation move and separate event, interpretation, impact, repair bid, and unresolved decision.',
+  move:'Restate the event without motive language, check both accounts, and make one specific request before widening the argument.'
+ },
+ attachment_accessibility:{
+  him:'He may hear bids for closeness as pressure to perform emotion immediately, especially if disclosure has led to criticism before.',
+  her:'She may hear distance, silence, or delayed return as evidence that she is emotionally alone or no longer cherished.',
+  test:'Track the bid, the feared meaning, the protective response, and whether reconnection happens when promised.',
+  move:'Make one bounded reach and one reliable response: yes, no, or later with a concrete return time that is actually kept.'
+ },
+ desire_intimacy:{
+  him:'He may hear low initiation, rejection, or roommate energy as evidence that he is no longer desired rather than that stress, resentment, health, or pressure is blocking closeness.',
+  her:'She may hear pursuit as pressure if affection, safety, fairness, or nonsexual warmth are missing. Desire may shut down when closeness feels demanded rather than invited.',
+  test:'Separate consent, pressure, health, resentment, welcome affection, and the conditions that increase or kill desire.',
+  move:'Discuss desire outside initiation and name one welcome form of closeness, one inhibitor, and one support without bargaining for access.'
+ },
+ appreciation_recognition:{
+  him:'He may hear correction inside a thank-you moment as proof that his effort only counts when perfect, making initiative feel unrewarding or risky.',
+  her:'She may hear gratitude demands as pressure to ignore standards, unfinished work, or the fact that she still carries the mental load.',
+  test:'Separate contribution, intended benefit, actual impact, agreed standard, and whether recognition and correction were collapsed into one moment.',
+  move:'Let specific appreciation stand alone. Bring correction or standards later as a separate request with shared ownership.'
+ },
+ dating_evaluation:{
+  him:'He may experience the date or message as being judged against a fantasy composite, spark test, or moving checklist rather than his actual conduct.',
+  her:'She may be trying to protect herself from overinvesting, but anxiety, novelty, or comparison may be replacing direct evidence.',
+  test:'Separate observed behavior, felt experience, attraction, respect, follow-through, and imagined alternatives.',
+  move:'Use one consistent post-date review and choose either one proportionate additional date or a clear ending.'
+ },
+ positive_repair:{
+  him:'He may hear that his good behavior landed: effort, apology, steadiness, or follow-through was seen and made the relationship warmer.',
+  her:'She may hear that repair is possible because someone turned back toward the relationship instead of defending, disappearing, or escalating.',
+  test:'Name the helpful behavior, its effect, who initiated it, and whether it repeats under ordinary stress.',
+  move:'Reinforce the exact behavior without turning it into debt. Track whether it appears again when no crisis is forcing it.'
+ }
+};
+function renderTranslation364(){
+ const issue=issue364(),el=q364('repairCockpitLoop');
+ if(!issue||!el)return;
+ const a=analyzed364();
+ const t=meanings364[a.crux]||meanings364.communication_process;
+ const positive=String(issue.polarity||'').toLowerCase()==='positive'||a.polarity==='positive';
+ const pills=[issue.polarity||'Mixed','Aggrieved: '+(issue.aggrieved||'Both'),issue.recurrence||'Unclear',issue.type||'Issue'];
+ el.innerHTML=[
+  '<div class="issueSummaryHero">',
+  '<h4>'+esc364(issue.title||issue.type||'Relationship event')+'</h4>',
+  '<p><b>Specific event:</b> '+esc364(issue.event||issue.story||'No event described yet.')+'</p>',
+  '<p><b>'+(positive?'What may be working':'What kind of issue this is')+':</b> '+esc364(a.label||'meaning gap')+'. These are meaning hypotheses, not verdicts.</p>',
+  '<div class="issuePills">'+pills.map(x=>'<span class="issuePill">'+esc364(x)+'</span>').join('')+'</div>',
+  '</div>',
+  '<div class="hypothesisNote350"><b>Interpretation check:</b> this now reads the event by crux, evidence, and pattern. Mark a side Partial or Wrong if it misses the lived meaning.</div>',
+  '<div class="translationTwoCol">',
+  '<div class="translationCard"><b>Possible meaning for him</b><p>'+esc364(t.him)+'</p><div class="reviewRow">'+ratingBtn331(issue,'male','Accurate')+ratingBtn331(issue,'male','Partial')+ratingBtn331(issue,'male','Wrong')+'</div></div>',
+  '<div class="translationCard"><b>Possible meaning for her</b><p>'+esc364(t.her)+'</p><div class="reviewRow">'+ratingBtn331(issue,'female','Accurate')+ratingBtn331(issue,'female','Partial')+ratingBtn331(issue,'female','Wrong')+'</div></div>',
+  '</div>',
+  '<div class="translationCard translationNext350"><b>Evidence check</b><p>'+esc364(t.test)+'</p></div>',
+  '<div class="translationCard translationNext350"><b>'+(positive?'How to reinforce it':'Most useful next step')+'</b><p>'+esc364(t.move)+'</p></div>'
+ ].join('');
+ const act=q364('repairCockpitActionStrategy');
+ if(act)act.innerHTML='<div class="actionList"><div class="actionItem"><b>'+(positive?'Reinforcement':'Immediate action')+'</b>'+esc364(t.move)+'</div></div>';
+ const th=q364('repairCockpitStrategy');
+ if(th)th.innerHTML='<div class="exerciseList"><div class="exerciseCard"><b>Meaning evidence audit</b>'+esc364(t.test)+'</div></div>';
+ if(typeof bindRatings331==='function')bindRatings331();
+}
+window.renderTranslation331=renderTranslation331=renderTranslation364;
+if(typeof renderRepairCockpit==='function'&&!window.__translation364){
+ window.__translation364=true;
+ const old=renderRepairCockpit;
+ renderRepairCockpit=function(){
+  const r=old();
+  setTimeout(renderTranslation364,220);
+  setTimeout(renderTranslation364,900);
+  return r;
+ };
+}
+document.addEventListener('change',e=>{
+ if(e.target?.id==='issueCardSelector')setTimeout(renderTranslation364,120);
+});
+document.addEventListener('DOMContentLoaded',()=>setTimeout(renderTranslation364,2400));
+})();

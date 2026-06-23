@@ -1,4 +1,9 @@
-# Relationship Intelligence v3.6.3
+# Relationship Intelligence v3.6.4
+
+v3.6.4:
+- Rebuilds the Issue / Event Translation renderer around the expert-engine crux classifier instead of older broad templates.
+- Adds crux-specific possible meanings, evidence checks, and next steps for safety, boundaries, trust, respect, labor, commitment, communication, attachment, intimacy, appreciation, dating evaluation, and positive repair.
+- Reduces repeated he/she text by making the module respond to the selected event pattern rather than only the prompt label.
 
 v3.6.3:
 - Cleans up a stale diagnostics failure for the removed Peace/Respect time canvas.

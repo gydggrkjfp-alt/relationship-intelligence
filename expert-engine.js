@@ -81,6 +81,11 @@ function analyze(ctx){
  const pol=polarity(issue,text);if(pol==='positive')scores.positive_repair+=.8;
  const ranked=priority.map((id,index)=>({id,score:scores[id]||0,index})).sort((a,b)=>b.score-a.score||a.index-b.index);
  let id=ranked[0].score>0?ranked[0].id:(pol==='positive'?'positive_repair':'communication_process');
+ const body=[issue.title,issue.event,issue.story,issue.aggrieved,issue.recurrence].filter(Boolean).join(' ').toLowerCase();
+ if(id==='communication_process'){
+  const specific=priority.find(key=>key!=='communication_process'&&scores[key]>0&&(crux[key].p||[]).some(re=>re.test(body)));
+  if(specific)id=specific;
+ }
  if(pol==='positive'&&ranked[0].score<=.8)id='positive_repair';
  const secondary=ranked.find(x=>x.id!==id&&x.score>0)?.id||null,detail=String(issue.event||issue.story||issue.title||issue.type||'No detailed event was entered.').trim();
  return{crux:id,secondary,stage:classifyStage(ctx?.profile),recurrence:classifyRecurrence(issue.recurrence),polarity:pol,safetyLevel:id==='safety_control'?'acute':id==='boundary_autonomy'?'caution':'none',detail,text,confidence:Math.min(1,.25+ranked[0].score*.16+(detail.length>45?.16:0)+(issue.type?.length?.08:0)),scores,label:crux[id].label};
