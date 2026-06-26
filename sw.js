@@ -1,10 +1,10 @@
-const CACHE='relationship-intelligence-v367-bond-chemistry';
+const CACHE='relationship-intelligence-v368-slider-feel';
 const ASSETS=[
   './',
   './index.html',
-  './styles.css?v=367-bond-chemistry',
-  './expert-engine.js?v=367-bond-chemistry',
-  './app.js?v=367-bond-chemistry',
+  './styles.css?v=368-slider-feel',
+  './expert-engine.js?v=368-slider-feel',
+  './app.js?v=368-slider-feel',
   './manifest.json'
 ];
 
@@ -24,7 +24,7 @@ self.addEventListener('activate',event=>{
 self.addEventListener('fetch',event=>{
   const requestUrl=new URL(event.request.url);
   if(requestUrl.pathname.endsWith('/app.js')){
-    event.respondWith(fetch(event.request).catch(()=>caches.match('./app.js?v=367-bond-chemistry')));
+    event.respondWith(fetch(event.request).catch(()=>caches.match('./app.js?v=368-slider-feel')));
     return;
   }
   event.respondWith(caches.match(event.request).then(response=>response||fetch(event.request)));

@@ -1,4 +1,9 @@
-# Relationship Intelligence v3.6.7
+# Relationship Intelligence v3.6.8
+
+v3.6.8:
+- Upgrades range sliders across the app with colored tracks, larger thumbs, live meaning labels, and tick feedback so each notch feels more intentional.
+- Adds slider-specific microcopy for core signals such as warmth, respect, peace, reciprocity, attraction, clarity, repair, admiration, dopamine, activation, and bonding afterglow.
+- Adds stickier section context in long slider wizards so general partner signals, personal feelings, couple qualities, and bond chemistry stay easier to orient around while scrolling.
 
 v3.6.7:
 - Adds a Bond Chemistry module with a separate popout wizard for dopamine percentage, oxytocin percentage, heart-rate activation, bonding afterglow, and an interaction note.

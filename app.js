@@ -5859,3 +5859,101 @@ document.addEventListener('DOMContentLoaded',()=>setTimeout(bind367,2300));
 setTimeout(bind367,2600);
 document.addEventListener('change',e=>{if(e.target?.id==='repairCockpitProfileSelect')setTimeout(renderAll367,150);});
 })();
+
+/* v3.6.8 meaningful slider experience */
+(()=>{
+const $368=id=>document.getElementById(id);
+const esc368=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+let bound368=false;
+const words368=['Absent','Trace','Low','Uneven','Light','Mixed','Present','Strong','Very strong','Defining','Dominant'];
+const micro368={
+ warmth:['cold, little ease','friendly enough','warm, inviting, emotionally open'],
+ respect:['dismissive or diminishing','basic courtesy','consistently honors dignity and boundaries'],
+ peace:['tense or costly','mixed nervous-system effect','calm, steady, easier to be yourself'],
+ reciprocity:['one-way effort','some give and take','mutual investment is visible'],
+ attraction:['little pull','some interest','strong embodied pull'],
+ clarity:['confusing or vague','partly legible','clear, direct, reality-based'],
+ followThrough:['unreliable','inconsistent','does what they say they will do'],
+ socialFit:['isolating or awkward','mixed fit','fits your real life and people'],
+ repair:['punishment or avoidance after conflict','some repair','accountability turns into changed behavior'],
+ admiration:['unseen or taken for granted','some appreciation','active pride, gratitude, and regard'],
+ values:['values pull apart','values partly overlap','shared enough to build around'],
+ dopamine:['mostly bonding calm','mixed spark and bonding','mostly spark, chase, novelty, activation'],
+ afterglow:['no settled warmth after contact','some closeness','calm, affectionate, bonded after contact'],
+ activation:['flat or sleepy','noticeable charge','high spark, anticipation, nervous-system energy']
+};
+function key368(input){
+ const id=(input.id||'').toLowerCase();
+ return Object.keys(micro368).find(k=>id.includes(k.toLowerCase()))||'';
+}
+function phrase368(input,val){
+ const max=Number(input.max||10),min=Number(input.min||0),k=key368(input),scaled=max===100?Math.round(val/10):Math.round(val);
+ if(max===100&&input.id.includes('Dopamine'))return `${val}% dopamine / ${100-val}% oxytocin`;
+ return words368[Math.max(0,Math.min(10,scaled))]||String(val);
+}
+function microcopy368(input,val){
+ const k=key368(input),copy=micro368[k];
+ if(!copy)return 'Each notch should reflect observed behavior, not hope, fear, or one isolated mood.';
+ const max=Number(input.max||10),scaled=max===100?Math.round(val/10):Math.round(val);
+ if(scaled<=3)return copy[0];
+ if(scaled<=6)return copy[1];
+ return copy[2];
+}
+function colorClass368(input){
+ const id=(input.id||'').toLowerCase();
+ if(input.classList.contains('riskRange')||id.includes('risk')||id.includes('cost')||id.includes('trauma')||id.includes('threat'))return 'rangeRisk368';
+ if(id.includes('dopamine')||id.includes('bond')||id.includes('afterglow')||id.includes('activation'))return 'rangeBond368';
+ if(id.includes('clarity')||id.includes('future')||id.includes('practical')||id.includes('follow'))return 'rangeBlue368';
+ if(id.includes('attraction')||id.includes('warmth')||id.includes('intimacy'))return 'rangeWarm368';
+ return '';
+}
+function anchors368(input){
+ const wrap=input.closest('label,.slider,.snapshotEntry,.quickPanel');
+ const scale=wrap?.querySelector('.scaleLabels,.casualSliderHelp337,.scaleEnds');
+ if(scale){
+  const bits=[...scale.querySelectorAll('span,b')].map(x=>x.textContent.trim()).filter(Boolean);
+  if(bits.length>=2)return [bits[0],bits[bits.length-1]];
+ }
+ const max=Number(input.max||10);
+ if(max===100&&input.id.includes('Dopamine'))return ['More bonding / oxytocin','More spark / dopamine'];
+ return ['Low','High'];
+}
+function paint368(input){
+ const min=Number(input.min||0),max=Number(input.max||10),val=Number(input.value||0);
+ const pct=max===min?0:((val-min)/(max-min))*100;
+ input.style.setProperty('--pct',Math.max(0,Math.min(100,pct))+'%');
+ input.classList.add('meaningfulRange368');
+ const c=colorClass368(input); if(c)input.classList.add(c);
+ const parent=input.closest('label,.slider'); if(parent)parent.classList.add('meaningField368');
+ const marker=input.nextElementSibling?.classList?.contains('rangeMeaning368')?input.nextElementSibling:null;
+ if(marker){
+  const [lo,hi]=anchors368(input);
+  const active=Math.round((Number(input.max||10)===100?val/10:val));
+  marker.innerHTML=`<b>${esc368(lo)}</b><span>${esc368(phrase368(input,val))}</span><div class="rangeMicrocopy368">${esc368(microcopy368(input,val))}</div><div class="rangeTicks368" aria-hidden="true">${Array.from({length:11},(_,i)=>`<i class="${i<=active?'active':''}"></i>`).join('')}</div>`;
+ }
+ const safeId=window.CSS?.escape?CSS.escape(input.id):String(input.id||'').replace(/[^a-zA-Z0-9_-]/g,'\\$&');
+ const value=input.closest('label,.slider')?.querySelector(`#${safeId}_val,#${safeId}Val,.bubble`);
+ if(value)value.classList.add('meaningValue368');
+}
+function enhanceOne368(input){
+ if(!input||input.dataset.meaning368)return;
+ input.dataset.meaning368='1';
+ if(!input.nextElementSibling?.classList?.contains('rangeMeaning368'))input.insertAdjacentHTML('afterend','<div class="rangeMeaning368"></div>');
+ input.addEventListener('input',()=>paint368(input));
+ input.addEventListener('change',()=>paint368(input));
+ paint368(input);
+}
+function enhance368(root=document){
+ root.querySelectorAll?.('input[type="range"]').forEach(enhanceOne368);
+}
+function bind368(){
+ if(bound368)return;
+ bound368=true;
+ enhance368();
+ const obs=new MutationObserver(muts=>muts.forEach(m=>m.addedNodes.forEach(n=>{if(n.nodeType===1)enhance368(n);})));
+ obs.observe(document.body,{childList:true,subtree:true});
+ document.addEventListener('input',e=>{if(e.target?.matches?.('input[type="range"]'))paint368(e.target);},true);
+}
+document.addEventListener('DOMContentLoaded',()=>setTimeout(bind368,500));
+setTimeout(bind368,1800);
+})();
