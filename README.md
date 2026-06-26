@@ -1,4 +1,13 @@
-# Relationship Intelligence v3.6.8
+# Relationship Intelligence v3.7.0
+
+v3.7.0:
+- Moves Issue / Event Translation and Expert Interpretation into focused popout modules instead of showing both full panels at the top of the Workspace.
+- Adds a calmer personalized workspace launcher with the current profile, current event, status, and two clear actions.
+- Keeps the full tracker and expert functionality intact while reducing first-screen visual overload.
+
+v3.6.9:
+- Rebalances slider visual hierarchy so the rating name is the strongest element and low/high endpoint text is quieter.
+- Moves the live slider meaning into a centered supporting pill, reducing confusion while preserving the more tactile v3.6.8 input feel.
 
 v3.6.8:
 - Upgrades range sliders across the app with colored tracks, larger thumbs, live meaning labels, and tick feedback so each notch feels more intentional.

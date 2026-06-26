@@ -5929,15 +5929,29 @@ function paint368(input){
  if(marker){
   const [lo,hi]=anchors368(input);
   const active=Math.round((Number(input.max||10)===100?val/10:val));
-  marker.innerHTML=`<b>${esc368(lo)}</b><span>${esc368(phrase368(input,val))}</span><div class="rangeMicrocopy368">${esc368(microcopy368(input,val))}</div><div class="rangeTicks368" aria-hidden="true">${Array.from({length:11},(_,i)=>`<i class="${i<=active?'active':''}"></i>`).join('')}</div>`;
+  marker.innerHTML=`<span class="rangeLow368">${esc368(lo)}</span><span class="rangeNow368">${esc368(phrase368(input,val))}</span><span class="rangeHigh368">${esc368(hi)}</span><div class="rangeMicrocopy368">${esc368(microcopy368(input,val))}</div><div class="rangeTicks368" aria-hidden="true">${Array.from({length:11},(_,i)=>`<i class="${i<=active?'active':''}"></i>`).join('')}</div>`;
  }
  const safeId=window.CSS?.escape?CSS.escape(input.id):String(input.id||'').replace(/[^a-zA-Z0-9_-]/g,'\\$&');
  const value=input.closest('label,.slider')?.querySelector(`#${safeId}_val,#${safeId}Val,.bubble`);
  if(value)value.classList.add('meaningValue368');
+ const title=input.closest('.slider')?.querySelector('.sliderTop b')||input.closest('label')?.childNodes?.[0]?.parentElement;
+ if(title&&title.matches?.('b'))title.classList.add('meaningTitle368');
+}
+function titleize368(input){
+ const label=input.closest('label');
+ if(!label||label.dataset.title368||label.querySelector('.sliderTop,.sliderLabelText368'))return;
+ const node=[...label.childNodes].find(n=>n.nodeType===3&&n.textContent.trim());
+ if(!node)return;
+ const span=document.createElement('span');
+ span.className='sliderLabelText368';
+ span.textContent=node.textContent.trim();
+ node.replaceWith(span);
+ label.dataset.title368='1';
 }
 function enhanceOne368(input){
  if(!input||input.dataset.meaning368)return;
  input.dataset.meaning368='1';
+ titleize368(input);
  if(!input.nextElementSibling?.classList?.contains('rangeMeaning368'))input.insertAdjacentHTML('afterend','<div class="rangeMeaning368"></div>');
  input.addEventListener('input',()=>paint368(input));
  input.addEventListener('change',()=>paint368(input));
@@ -5956,4 +5970,71 @@ function bind368(){
 }
 document.addEventListener('DOMContentLoaded',()=>setTimeout(bind368,500));
 setTimeout(bind368,1800);
+})();
+
+/* v3.7.0 calm workspace launchers for issue and expert modules */
+(()=>{
+const $370=id=>document.getElementById(id);
+const esc370=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+function profile370(){
+ try{return typeof rcCurrentProfile==='function'?rcCurrentProfile():(typeof currentProfile==='function'?currentProfile():state?.profiles?.[0]);}catch(e){return null;}
+}
+function issue370(p){
+ const selected=$370('issueCardSelector')?.value;
+ const issues=p?.issues||[];
+ return issues.find(x=>x.id===selected)||issues[issues.length-1]||null;
+}
+function status370(p,i){
+ const name=p?.name||'this relationship';
+ const issue=i?.title||i?.event||i?.type||'No event selected yet';
+ const state=i?.resolved?'resolved':'active';
+ return {name,issue,state};
+}
+function ensure370(){
+ if(window.__workspacePopouts370)return;
+ const left=document.querySelector('.workspaceLeft335'),issue=$370('issueTranslationPanel335'),expert=$370('expertThinkPanel339');
+ if(!left||!issue||!expert)return;
+ window.__workspacePopouts370=true;
+ document.body.classList.add('modulePopouts370');
+ const hub=document.createElement('div');
+ hub.id='workspaceFocusHub370';
+ hub.className='workspaceFocusHub370 workspaceSection';
+ hub.innerHTML=`<div class="focusIntro370"><span class="focusKicker370">Relationship workspace</span><h3>Start with one clear read</h3><p id="focusSummary370">Choose an issue or event, then open only the module you need.</p></div><div class="focusActions370"><button id="openIssuePopout370" type="button">Translate issue or event</button><button id="openExpertPopout370" type="button" class="secondary">Ask expert lenses</button></div><div class="focusStatus370"><div><b>Current profile</b><span id="focusProfile370">Relationship</span></div><div><b>Current event</b><span id="focusIssue370">No event selected</span></div><div><b>Status</b><span id="focusState370">Active</span></div></div>`;
+ left.insertBefore(hub,issue);
+ document.body.insertAdjacentHTML('beforeend',`<div id="issuePopout370" class="workspacePopout370 hidden" role="dialog" aria-modal="true" aria-labelledby="issuePopoutTitle370"><div class="workspacePopoutCard370"><div class="workspacePopoutHeader370"><div><span>Module 1</span><h2 id="issuePopoutTitle370">Issue / Event Translation</h2><p>Use this when you want to understand what the event may mean, whether it is resolved, and what pattern it belongs to.</p></div><button type="button" class="secondary closePopout370" data-close370="issuePopout370">Close</button></div><div id="issuePopoutBody370"></div></div></div><div id="expertPopout370" class="workspacePopout370 hidden" role="dialog" aria-modal="true" aria-labelledby="expertPopoutTitle370"><div class="workspacePopoutCard370"><div class="workspacePopoutHeader370"><div><span>Module 2</span><h2 id="expertPopoutTitle370">Expert Interpretation</h2><p>Use this after choosing an event when you want a best-fit lens, a challenge view, or a cultural contrast.</p></div><button type="button" class="secondary closePopout370" data-close370="expertPopout370">Close</button></div><div id="expertPopoutBody370"></div></div></div>`);
+ $370('issuePopoutBody370')?.appendChild(issue);
+ $370('expertPopoutBody370')?.appendChild(expert);
+ bind370();
+ refresh370();
+}
+function open370(id){
+ refresh370();
+ $370(id)?.classList.remove('hidden');
+ document.body.classList.add('workspacePopoutOpen370');
+ const first=$370(id)?.querySelector('select,button,textarea,input');
+ setTimeout(()=>first?.focus?.(),40);
+}
+function close370(id){
+ $370(id)?.classList.add('hidden');
+ if(!document.querySelector('.workspacePopout370:not(.hidden)'))document.body.classList.remove('workspacePopoutOpen370');
+}
+function refresh370(){
+ const p=profile370(),i=issue370(p),s=status370(p,i);
+ const summary=$370('focusSummary370'),profile=$370('focusProfile370'),issue=$370('focusIssue370'),state=$370('focusState370');
+ if(summary)summary.textContent=i?`You are looking at ${s.name}. The current ${s.state} event is ready for translation or expert interpretation.`:`You are looking at ${s.name}. Add or select one event, then open a focused module when you want analysis.`;
+ if(profile)profile.textContent=s.name;
+ if(issue)issue.textContent=s.issue;
+ if(state)state.textContent=s.state==='resolved'?'Resolved':'Active / unresolved';
+}
+function bind370(){
+ const openIssue=$370('openIssuePopout370'),openExpert=$370('openExpertPopout370');
+ if(openIssue)openIssue.onclick=()=>open370('issuePopout370');
+ if(openExpert)openExpert.onclick=()=>open370('expertPopout370');
+ document.querySelectorAll('.closePopout370').forEach(b=>b.onclick=()=>close370(b.dataset.close370));
+ document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.workspacePopout370:not(.hidden)').forEach(x=>close370(x.id));});
+ document.addEventListener('change',e=>{if(['issueCardSelector','repairCockpitProfileSelect'].includes(e.target?.id))setTimeout(refresh370,80);});
+ document.addEventListener('click',e=>{if(e.target?.classList?.contains('workspacePopout370'))close370(e.target.id);});
+}
+document.addEventListener('DOMContentLoaded',()=>setTimeout(ensure370,2800));
+setTimeout(ensure370,3300);
 })();

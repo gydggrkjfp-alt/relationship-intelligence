@@ -1,10 +1,10 @@
-const CACHE='relationship-intelligence-v368-slider-feel';
+const CACHE='relationship-intelligence-v370-module-popouts';
 const ASSETS=[
   './',
   './index.html',
-  './styles.css?v=368-slider-feel',
-  './expert-engine.js?v=368-slider-feel',
-  './app.js?v=368-slider-feel',
+  './styles.css?v=370-module-popouts',
+  './expert-engine.js?v=370-module-popouts',
+  './app.js?v=370-module-popouts',
   './manifest.json'
 ];
 
@@ -24,7 +24,7 @@ self.addEventListener('activate',event=>{
 self.addEventListener('fetch',event=>{
   const requestUrl=new URL(event.request.url);
   if(requestUrl.pathname.endsWith('/app.js')){
-    event.respondWith(fetch(event.request).catch(()=>caches.match('./app.js?v=368-slider-feel')));
+    event.respondWith(fetch(event.request).catch(()=>caches.match('./app.js?v=370-module-popouts')));
     return;
   }
   event.respondWith(caches.match(event.request).then(response=>response||fetch(event.request)));
