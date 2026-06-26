@@ -1,10 +1,10 @@
 <!doctype html><html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Relationship Intelligence v3.6.5</title>
-<link rel="manifest" href="manifest.json"><link rel="stylesheet" href="styles.css?v=365-translation-feedback">
+<title>Relationship Intelligence v3.6.7</title>
+<link rel="manifest" href="manifest.json"><link rel="stylesheet" href="styles.css?v=367-bond-chemistry">
 <meta name="theme-color" content="#815b33"></head>
 <body>
-<header><h1>Relationship Intelligence <span>v3.6.5</span></h1>
+<header><h1>Relationship Intelligence <span>v3.6.7</span></h1>
 <div class="sub">Relational Dynamics Engine: trajectory, repair, reciprocity, embeddedness, loops, archetypes, and vector alignment.</div>
 <div id="status">Loading app…</div></header>
 <nav class="tabs"><button id="tabSnapshot" class="tab active">New Snapshot</button><button id="tabRepairCockpit" class="tab">Workspace</button><button id="tabMe" class="tab">Self / Galaxy</button><button id="tabDiagnostics" class="tab">Diagnostics</button><button id="tabCards" class="tab hidden" type="button">Cards</button><button id="tabDashboard" class="tab hidden" type="button">Dashboard</button><button id="tabEcosystem" class="tab hidden" type="button">Ecosystem</button><button id="tabPerson" class="tab hidden" type="button">Card Detail</button></nav>
@@ -286,12 +286,13 @@
 
       <div id="relationshipMeasures347" class="workspaceSection">
         <h3>Relationship Measures</h3>
-        <p class="small">Current partner behavior, personal experience, and couple-level scores.</p>
+        <p class="small">Edit general partner signal sliders, your personal experience sliders, and couple-level scores.</p>
         <div class="measureActions347">
-          <button id="openCasualTrackerWizardBtn" type="button">Partner & Personal Measures</button>
+          <button id="openCasualTrackerWizardBtn" type="button">Edit General Partner Signals</button>
           <button id="openSliderWizardBtn" type="button" class="secondary">Couple Measures</button>
+          <button id="openBondChemistryWizardBtn" type="button" class="secondary">Bond Chemistry</button>
         </div>
-        <details class="measureDetails347"><summary>Current partner and personal scores</summary><div id="casualTrackerBars" class="barDashboard"></div></details>
+        <details class="measureDetails347" open><summary>Current general partner and personal scores</summary><div id="casualTrackerBars" class="barDashboard"></div></details>
         <details class="measureDetails347"><summary>Current couple scores</summary><div id="profileBarDashboard" class="barDashboard"></div></details>
       </div>
 
@@ -299,9 +300,16 @@
 
     <div class="workspaceRight335">
 
+      <div class="workspaceSection" id="bondChemistryPanel367">
+        <h3>Bond chemistry</h3>
+        <p class="small">Tracks whether recent interactions feel more dopamine-driven, like thrill, novelty, pursuit, and elevated heart rate, or oxytocin-driven, like calm bonding, touch, safety, and post-contact warmth.</p>
+        <canvas id="bondChemistryCanvas367" width="520" height="220"></canvas>
+        <div id="bondChemistryText367" class="small"></div>
+      </div>
+
       <div class="workspaceSection" id="admirationPanel335">
         <h3>Admiration symmetry</h3>
-        <p class="small">Shows whether admiration, effort, and appreciation are flowing both ways.</p>
+        <p class="small">Shows whether admiration, effort, and appreciation are flowing both ways. It is fed by attraction, respect, curiosity, pride, reciprocity, investment, effort, and appreciation.</p>
         <canvas id="repairCockpitAdmirationCanvas" width="520" height="220"></canvas>
         <div id="repairCockpitAdmirationText" class="small"></div>
       </div>
@@ -314,6 +322,8 @@
   <div class="dualTrajectory342">
     <div class="outputCanvas"><h4>Relationship Health</h4><canvas id="coupleTrajectoryCanvas342" width="700" height="360"></canvas></div>
     <div class="outputCanvas"><h4>Your Experience</h4><canvas id="personalTrajectoryCanvas342" width="700" height="360"></canvas></div>
+    <div class="outputCanvas"><h4>Bond Chemistry</h4><canvas id="bondChemistryTrajectoryCanvas367" width="700" height="360"></canvas></div>
+    <div class="outputCanvas"><h4>Admiration Trajectory</h4><canvas id="admirationTrajectoryCanvas367" width="700" height="360"></canvas></div>
   </div>
   <details class="trendDetails347"><summary>Optional partner-signal trends</summary><div class="dualTrajectory342 optionalTrends347">
     <div class="outputCanvas"><h4>Emotional & Social Signals</h4><canvas id="femaleTraitTrajectoryCanvas342" width="700" height="360"></canvas></div>
@@ -406,4 +416,5 @@
 
 
 <div id="casualTrackerOverlay" class="issueWizardOverlay hidden"><div class="issueWizardCard"><div class="issueWizardHeader"><div><h2>Casual Relationship Tracker Wizard</h2><p class="small">Track impressions, gender-specific signals, and general relational fit. Use N/A when a dimension does not apply.</p></div><button id="closeCasualTrackerWizardBtn" type="button" class="secondary">Close</button></div><div id="casualTrackerWizardBody"></div><div class="wizardNav"><button id="saveCasualTrackerWizardBtn" type="button">Save tracker snapshot</button></div></div></div>
-<script src="expert-engine.js?v=365-translation-feedback"></script><script src="app.js?v=365-translation-feedback"></script></body></html>
+<div id="bondChemistryOverlay367" class="issueWizardOverlay hidden"><div class="issueWizardCard"><div class="issueWizardHeader"><div><h2>Bond Chemistry</h2><p class="small">Estimate whether the latest interaction was driven more by dopamine-style activation or oxytocin-style bonding. This is a reflective relationship signal, not a medical measure.</p></div><button id="closeBondChemistryWizardBtn367" type="button" class="secondary">Close</button></div><div id="bondChemistryWizardBody367"></div><div class="wizardNav"><button id="saveBondChemistryWizardBtn367" type="button">Save bond snapshot</button></div></div></div>
+<script src="expert-engine.js?v=367-bond-chemistry"></script><script src="app.js?v=367-bond-chemistry"></script></body></html>

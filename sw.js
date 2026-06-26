@@ -1,10 +1,10 @@
-const CACHE='relationship-intelligence-v365-translation-feedback';
+const CACHE='relationship-intelligence-v367-bond-chemistry';
 const ASSETS=[
   './',
   './index.html',
-  './styles.css?v=365-translation-feedback',
-  './expert-engine.js?v=365-translation-feedback',
-  './app.js?v=365-translation-feedback',
+  './styles.css?v=367-bond-chemistry',
+  './expert-engine.js?v=367-bond-chemistry',
+  './app.js?v=367-bond-chemistry',
   './manifest.json'
 ];
 
@@ -24,7 +24,7 @@ self.addEventListener('activate',event=>{
 self.addEventListener('fetch',event=>{
   const requestUrl=new URL(event.request.url);
   if(requestUrl.pathname.endsWith('/app.js')){
-    event.respondWith(fetch(event.request).catch(()=>caches.match('./app.js?v=365-translation-feedback')));
+    event.respondWith(fetch(event.request).catch(()=>caches.match('./app.js?v=367-bond-chemistry')));
     return;
   }
   event.respondWith(caches.match(event.request).then(response=>response||fetch(event.request)));

@@ -928,6 +928,7 @@ gap:16px;
 #repairCockpitAdmirationCanvas{display:block!important;width:100%!important;max-width:520px!important;height:220px!important;max-height:220px!important;margin:0 auto!important;border:1px solid #d8e2e3;border-radius:10px;background:#fbfcfc;image-rendering:auto}
 #repairCockpitAdmirationText{max-width:520px;margin:7px auto 0!important;padding:0!important;color:#66757a;line-height:1.4}
 #admirationPanel335>p.small{margin:0 0 8px}
+#bondChemistryCanvas367{display:block;width:100%;max-width:520px;height:220px;max-height:220px;margin:0 auto;border:1px solid #d8e2e3;border-radius:10px;background:#fbfcfc}.bondExplainer367{padding:9px;border:1px solid #d7e1e5;border-left:3px solid #26737a;border-radius:6px;background:#f7fbfb}.bondWizard367 input[type="range"]{width:100%}
 
 /* v3.5.0 evidence-aware meaning hypotheses */
 .hypothesisNote350{margin:8px 0;padding:8px 9px;border-left:3px solid #176a70;background:#f3f7f7;color:#526469;font-size:11px;line-height:1.45}.translationNext350{border-left:3px solid #2f855a!important}

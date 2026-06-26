@@ -1,4 +1,13 @@
-# Relationship Intelligence v3.6.5
+# Relationship Intelligence v3.6.7
+
+v3.6.7:
+- Adds a Bond Chemistry module with a separate popout wizard for dopamine percentage, oxytocin percentage, heart-rate activation, bonding afterglow, and an interaction note.
+- Adds a current dopamine/oxytocin balance graphic and a Bond Chemistry trajectory chart with separate dopamine and oxytocin lines.
+- Adds an Admiration Trajectory chart and expands the admiration module explanation with the inputs that feed the index.
+
+v3.6.6:
+- Renames the partner-signal entry point to Edit General Partner Signals so the warmth, respect, peace, reciprocity, attraction, clarity, follow-through, and social-fit sliders are easier to find.
+- Opens the current partner/personal score summary by default in Relationship Measures.
 
 v3.6.5:
 - Adds visible feedback under Issue / Event Translation meaning cards after Accurate, Partial, or Wrong is clicked.

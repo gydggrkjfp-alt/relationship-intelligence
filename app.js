@@ -4543,7 +4543,7 @@ document.addEventListener('DOMContentLoaded',()=>setTimeout(()=>{cleanupSnapshot
   $id('casualTrackerOverlay')?.classList.remove('hidden');
  }
  function bind(){
-  const casual=$id('openCasualTrackerWizardBtn'); if(casual){casual.onclick=openCasual; casual.textContent='Open Casual Tracker Wizard';}
+  const casual=$id('openCasualTrackerWizardBtn'); if(casual){casual.onclick=openCasual; casual.textContent='Edit General Partner Signals';}
   const save=$id('saveCasualTrackerWizardBtn'); if(save&&!save.dataset.coupleMode)save.onclick=saveCasual;
   const couple=$id('openSliderWizardBtn'); if(couple){couple.textContent='Open Couple Qualities Wizard';couple.onclick=openCouple;}
   renderCasualBars(); renderCoupleQualities();
@@ -5364,7 +5364,7 @@ function cleanupWorkspace347(){
  [['therapyPanel335','repairCockpitStrategy'],['rolePanel335','repairCockpitActionStrategy']].forEach(([panelId,contentId])=>{const panel=$347(panelId),content=$347(contentId);if(panel&&content&&content.parentElement!==panel)panel.appendChild(content);if(left&&panel&&panel.parentElement!==left)left.appendChild(panel);});
  ['therapyPanel335','rolePanel335'].forEach(id=>$347(id)?.querySelectorAll(':scope > h3').forEach(h=>h.remove()));
  document.querySelectorAll('.workspaceTwoColumn334:empty,.workspaceTwoColumn:empty,.workspaceLeft334:empty,.workspaceRight334:empty').forEach(e=>e.remove());
- const partnerBtn=$347('openCasualTrackerWizardBtn');if(partnerBtn)partnerBtn.textContent='Partner & Personal Measures';
+ const partnerBtn=$347('openCasualTrackerWizardBtn');if(partnerBtn)partnerBtn.textContent='Edit General Partner Signals';
  const coupleBtn=$347('openSliderWizardBtn');if(coupleBtn)coupleBtn.textContent='Couple Measures';
  const source=$347('repairCockpitSourceStrip');if(source)source.setAttribute('aria-label','Relationship score summary');
  removeInteractionPattern347();
@@ -5705,4 +5705,157 @@ document.addEventListener('change',e=>{
  if(e.target?.id==='issueCardSelector')setTimeout(renderTranslation364,120);
 });
 document.addEventListener('DOMContentLoaded',()=>setTimeout(renderTranslation364,2400));
+})();
+
+/* v3.6.7 bond chemistry and admiration trajectories */
+(function(){
+const b367=id=>document.getElementById(id);
+const esc367=s=>typeof escapeHTML==='function'
+ ? escapeHTML(String(s??''))
+ : String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const clamp367=v=>Math.max(0,Math.min(100,Math.round(Number(v)||0)));
+function profile367(){
+ if(typeof rcCurrentProfile==='function')return rcCurrentProfile();
+ if(typeof currentProfile==='function')return currentProfile();
+ return (state.profiles||[])[0]||null;
+}
+function ensure367(){
+ const p=profile367();
+ if(!p)return null;
+ p.bondChemistry367=p.bondChemistry367||{};
+ p.bondChemistry367.history=p.bondChemistry367.history||[];
+ if(p.bondChemistry367.dopamine==null)p.bondChemistry367.dopamine=50;
+ if(p.bondChemistry367.activation==null)p.bondChemistry367.activation=5;
+ if(p.bondChemistry367.afterglow==null)p.bondChemistry367.afterglow=5;
+ return p;
+}
+function current367(p){
+ p=p||ensure367();
+ const b=p?.bondChemistry367||{};
+ const dopamine=clamp367(b.dopamine??50);
+ return {
+  dopamine,
+  oxytocin:100-dopamine,
+  activation:Number(b.activation??5),
+  afterglow:Number(b.afterglow??5)
+ };
+}
+function summary367(v){
+ if(v.dopamine>=65)return 'Mostly dopamine: novelty, pursuit, uncertainty, sexual charge, chemistry, or elevated heart-rate energy dominated.';
+ if(v.oxytocin>=65)return 'Mostly oxytocin: calm bonding, touch, safety, warmth, trust, or settled afterglow dominated.';
+ return 'Mixed bond chemistry: the interaction carried both activation and bonding energy.';
+}
+function slider367(id,label,value,help,min,max){
+ return '<label style="grid-column:1/-1">'+esc367(label)+' <span id="'+id+'_val">'+esc367(value)+'</span>'+
+  '<div class="sliderWizardExplain">'+esc367(help)+'</div>'+
+  '<input id="'+id+'" type="range" min="'+min+'" max="'+max+'" value="'+esc367(value)+'"></label>';
+}
+function openBond367(){
+ const p=ensure367(),body=b367('bondChemistryWizardBody367');
+ if(!p||!body)return;
+ const v=current367(p);
+ body.innerHTML=[
+  '<div class="issueWizardGrid bondWizard367">',
+  '<div class="bondExplainer367" style="grid-column:1/-1">',
+  '<b>Dopamine vs oxytocin</b>',
+  '<p>Dopamine means activation: pursuit, novelty, anticipation, risk, excitement, chemistry, and heart-rate energy. Oxytocin means bonding: calm after touch, safety, warmth, trust, cuddling, and the settled feeling after closeness.</p>',
+  '</div>',
+  '<label style="grid-column:1/-1">Dopamine percent <span id="bondDopamineVal367">'+v.dopamine+'</span>% / Oxytocin <span id="bondOxytocinVal367">'+v.oxytocin+'</span>%<input id="bondDopamineInput367" type="range" min="0" max="100" value="'+v.dopamine+'"></label>',
+  slider367('bondActivationInput367','Heart-rate activation',v.activation,'Thrill, anticipation, chase, sexual charge, novelty, or nervous-system activation.',0,10),
+  slider367('bondAfterglowInput367','Bonding afterglow',v.afterglow,'Calm, warmth, safety, cuddling, trust, and feeling better after contact.',0,10),
+  '<label style="grid-column:1/-1">Interaction note<textarea id="bondNoteInput367" placeholder="Example: exciting date, calm hug after conflict, anxious chemistry, settled morning together..."></textarea></label>',
+  '</div>'
+ ].join('');
+ const d=b367('bondDopamineInput367'),a=b367('bondActivationInput367'),o=b367('bondAfterglowInput367');
+ function sync(){
+  const dv=clamp367(d?.value??50);
+  b367('bondDopamineVal367').textContent=dv;
+  b367('bondOxytocinVal367').textContent=100-dv;
+  if(a)b367('bondActivationInput367_val').textContent=a.value;
+  if(o)b367('bondAfterglowInput367_val').textContent=o.value;
+ }
+ [d,a,o].forEach(x=>x&&(x.oninput=sync));
+ b367('bondChemistryOverlay367')?.classList.remove('hidden');
+}
+function saveBond367(){
+ const p=ensure367();
+ if(!p)return;
+ const dopamine=clamp367(b367('bondDopamineInput367')?.value??50);
+ const activation=Number(b367('bondActivationInput367')?.value??5);
+ const afterglow=Number(b367('bondAfterglowInput367')?.value??5);
+ const note=String(b367('bondNoteInput367')?.value||'').trim();
+ const entry={created:new Date().toISOString(),dopamine,oxytocin:100-dopamine,activation,afterglow,note};
+ p.bondChemistry367={...(p.bondChemistry367||{}),dopamine,activation,afterglow};
+ p.bondChemistry367.history=[...(p.bondChemistry367.history||[]),entry];
+ if(typeof saveState==='function')saveState();
+ b367('bondChemistryOverlay367')?.classList.add('hidden');
+ renderAll367();
+}
+function drawBond367(){
+ const p=ensure367(),c=b367('bondChemistryCanvas367'),txt=b367('bondChemistryText367');
+ if(!p||!c)return;
+ const v=current367(p),ctx=c.getContext('2d'),w=c.width,h=c.height;
+ ctx.clearRect(0,0,w,h);ctx.fillStyle='#fbfcfc';ctx.fillRect(0,0,w,h);
+ ctx.fillStyle='#173f46';ctx.font='700 16px sans-serif';ctx.fillText('Dopamine / Oxytocin balance',22,30);
+ const x=28,y=72,bw=w-56,bh=34,split=bw*v.dopamine/100;
+ ctx.fillStyle='#e7eef0';ctx.fillRect(x,y,bw,bh);
+ ctx.fillStyle='#b85b4d';ctx.fillRect(x,y,split,bh);
+ ctx.fillStyle='#26737a';ctx.fillRect(x+split,y,bw-split,bh);
+ ctx.fillStyle='#fff';ctx.font='800 14px sans-serif';ctx.fillText(v.dopamine+'% dopamine',x+12,y+22);
+ ctx.textAlign='right';ctx.fillText(v.oxytocin+'% oxytocin',x+bw-12,y+22);ctx.textAlign='left';
+ ctx.fillStyle='#31454a';ctx.font='12px sans-serif';ctx.fillText('Activation '+v.activation+'/10',28,134);
+ ctx.fillText('Bonding afterglow '+v.afterglow+'/10',28,154);
+ ctx.fillStyle='#66757a';ctx.fillText('Early relationships may need more dopamine; durable relationships usually need more oxytocin.',28,186);
+ if(txt)txt.innerHTML='<b>'+v.dopamine+'% dopamine / '+v.oxytocin+'% oxytocin.</b> '+esc367(summary367(v));
+}
+function admirationNow367(p){
+ if(typeof rcAdmirationValues==='function'){
+  const a=rcAdmirationValues(p);
+  return Math.round((a.userToThem+a.themToUser)/2);
+ }
+ const c=p?.coupleQualities||{},g=p?.green||{},r=p?.respect||{};
+ return clamp367((Number(c.admirationSymmetry??7)*10+Number(g.respect??5)*10+Number(r.appreciation??5)*10)/3);
+}
+function chart367(id,series,empty){
+ const c=b367(id);if(!c)return;
+ const ctx=c.getContext('2d'),w=c.width,h=c.height,pad=50;
+ ctx.clearRect(0,0,w,h);ctx.fillStyle='#fff';ctx.fillRect(0,0,w,h);ctx.strokeStyle='#d7e1e5';
+ for(let v=0;v<=100;v+=25){const y=h-pad-(v/100)*(h-2*pad);ctx.beginPath();ctx.moveTo(pad,y);ctx.lineTo(w-pad,y);ctx.stroke();ctx.fillStyle='#64748b';ctx.font='10px sans-serif';ctx.fillText(String(v),18,y+3);}
+ if(series.every(s=>!s.data.length)){ctx.fillStyle='#475569';ctx.font='14px sans-serif';ctx.fillText(empty,pad,h/2);return;}
+ const colors=['#b85b4d','#26737a','#6d5bd'];
+ series.forEach((s,si)=>{ctx.beginPath();s.data.forEach((v,i)=>{const x=pad+(i/Math.max(1,s.data.length-1))*(w-2*pad),yy=h-pad-(clamp367(v)/100)*(h-2*pad);i?ctx.lineTo(x,yy):ctx.moveTo(x,yy);});ctx.strokeStyle=colors[si%colors.length];ctx.lineWidth=2.5;ctx.stroke();ctx.fillStyle=colors[si%colors.length];ctx.font='12px sans-serif';ctx.fillText(s.name,pad+si*122,22);});
+ ctx.fillStyle='#1f2933';ctx.font='12px sans-serif';ctx.fillText('Time / saved snapshots ->',w/2-70,h-16);
+}
+function drawTrends367(){
+ const p=ensure367();if(!p)return;
+ const hist=p.bondChemistry367.history||[];
+ chart367('bondChemistryTrajectoryCanvas367',[{name:'Dopamine',data:hist.map(x=>x.dopamine)},{name:'Oxytocin',data:hist.map(x=>x.oxytocin)}],'No bond chemistry snapshots yet. Use Relationship Measures -> Bond Chemistry.');
+ const snaps=p.snapshots||[];
+ const adm=snaps.map(s=>s.admiration??s.admirationSymmetry??Math.round((Number(s.respect||50)+Number(s.reciprocity||50)+Number(s.repair||50))/3));
+ if(!adm.length)adm.push(admirationNow367(p));
+ chart367('admirationTrajectoryCanvas367',[{name:'Admiration',data:adm}],'No admiration history yet. Add snapshots to trend admiration over time.');
+}
+function annotateAdmiration367(){
+ const txt=b367('repairCockpitAdmirationText');
+ if(!txt||txt.dataset.explained367)return;
+ txt.dataset.explained367='1';
+ txt.insertAdjacentHTML('beforeend','<br><b>Inputs:</b> your admiration uses attraction, pride, curiosity, and respect/opinion. Their admiration uses appreciation, reciprocity, investment, and effort. The trajectory estimates movement from saved relationship snapshots.');
+}
+function renderAll367(){
+ drawBond367();drawTrends367();
+ if(typeof drawRcAdmiration==='function')try{drawRcAdmiration();}catch(e){}
+ const txt=b367('repairCockpitAdmirationText');
+ if(txt)delete txt.dataset.explained367;
+ annotateAdmiration367();
+}
+function bind367(){
+ const open=b367('openBondChemistryWizardBtn'),close=b367('closeBondChemistryWizardBtn367'),save=b367('saveBondChemistryWizardBtn367');
+ if(open)open.onclick=openBond367;
+ if(close)close.onclick=()=>b367('bondChemistryOverlay367')?.classList.add('hidden');
+ if(save)save.onclick=saveBond367;
+ renderAll367();
+}
+document.addEventListener('DOMContentLoaded',()=>setTimeout(bind367,2300));
+setTimeout(bind367,2600);
+document.addEventListener('change',e=>{if(e.target?.id==='repairCockpitProfileSelect')setTimeout(renderAll367,150);});
 })();
