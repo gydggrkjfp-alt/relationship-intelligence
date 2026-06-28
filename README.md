@@ -1,4 +1,8 @@
-# Relationship Intelligence v3.7.0
+# Relationship Intelligence v3.7.1
+
+v3.7.1:
+- Softens glossary term styling so defined relationship/therapy words are available without visually dominating the expert text.
+- Replaces the old click-created definition panel with a small hover/focus/click tooltip that stays clamped inside the visible screen, including inside popouts.
 
 v3.7.0:
 - Moves Issue / Event Translation and Expert Interpretation into focused popout modules instead of showing both full panels at the top of the Workspace.

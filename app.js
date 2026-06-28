@@ -6038,3 +6038,45 @@ function bind370(){
 document.addEventListener('DOMContentLoaded',()=>setTimeout(ensure370,2800));
 setTimeout(ensure370,3300);
 })();
+
+/* v3.7.1 clamped glossary tooltips */
+(()=>{
+let tip371=null,active371=null;
+function ensureTip371(){
+ if(tip371)return tip371;
+ tip371=document.createElement('div');
+ tip371.className='termTooltip371';
+ tip371.setAttribute('role','tooltip');
+ document.body.appendChild(tip371);
+ return tip371;
+}
+function place371(term){
+ const tip=ensureTip371(),r=term.getBoundingClientRect(),pad=12;
+ tip.innerHTML='<b>'+String(term.textContent||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))+'</b><span>'+String(term.dataset.definition||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))+'</span>';
+ tip.classList.add('visible');
+ const tw=tip.offsetWidth,th=tip.offsetHeight;
+ let left=r.left+(r.width/2)-(tw/2);
+ left=Math.max(pad,Math.min(window.innerWidth-tw-pad,left));
+ let top=r.top-th-8;
+ if(top<pad)top=Math.min(window.innerHeight-th-pad,r.bottom+8);
+ tip.style.left=left+'px';
+ tip.style.top=top+'px';
+ active371=term;
+ document.querySelectorAll('.therapyTerm360.active').forEach(x=>{if(x!==term)x.classList.remove('active');});
+ term.classList.add('active');
+}
+function hide371(term){
+ if(term&&active371&&term!==active371)return;
+ if(tip371)tip371.classList.remove('visible');
+ if(active371)active371.classList.remove('active');
+ active371=null;
+}
+document.addEventListener('mouseover',e=>{const term=e.target?.closest?.('.therapyTerm360');if(term)place371(term);},true);
+document.addEventListener('focusin',e=>{const term=e.target?.closest?.('.therapyTerm360');if(term)place371(term);},true);
+document.addEventListener('mouseout',e=>{const term=e.target?.closest?.('.therapyTerm360');if(term&&!term.contains(e.relatedTarget))hide371(term);},true);
+document.addEventListener('focusout',e=>{const term=e.target?.closest?.('.therapyTerm360');if(term)hide371(term);},true);
+document.addEventListener('click',e=>{const term=e.target?.closest?.('.therapyTerm360');if(!term)return;e.preventDefault();e.stopImmediatePropagation();place371(term);},true);
+document.addEventListener('keydown',e=>{if(e.key==='Escape')hide371();});
+document.addEventListener('scroll',()=>hide371(),true);
+window.addEventListener('resize',()=>hide371());
+})();
