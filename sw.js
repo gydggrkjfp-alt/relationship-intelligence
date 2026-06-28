@@ -1,10 +1,10 @@
-const CACHE='relationship-intelligence-v371-glossary-tooltips';
+const CACHE='relationship-intelligence-v380-coach-layer';
 const ASSETS=[
   './',
   './index.html',
-  './styles.css?v=371-glossary-tooltips',
-  './expert-engine.js?v=371-glossary-tooltips',
-  './app.js?v=371-glossary-tooltips',
+  './styles.css?v=380-coach-layer',
+  './expert-engine.js?v=380-coach-layer',
+  './app.js?v=380-coach-layer',
   './manifest.json'
 ];
 
@@ -24,7 +24,7 @@ self.addEventListener('activate',event=>{
 self.addEventListener('fetch',event=>{
   const requestUrl=new URL(event.request.url);
   if(requestUrl.pathname.endsWith('/app.js')){
-    event.respondWith(fetch(event.request).catch(()=>caches.match('./app.js?v=371-glossary-tooltips')));
+    event.respondWith(fetch(event.request).catch(()=>caches.match('./app.js?v=380-coach-layer')));
     return;
   }
   event.respondWith(caches.match(event.request).then(response=>response||fetch(event.request)));

@@ -1,4 +1,10 @@
-# Relationship Intelligence v3.7.1
+# Relationship Intelligence v3.8.0
+
+v3.8.0:
+- Reframes the top Workspace modules from issue/expert diagnosis into a coach-first flow: Tell the coach what is going on and Talk with the coach.
+- Adds a freeform coach intake for normal-language situations, goals, relationship stage, grounding style, evidence, worries, and questions.
+- Adds a stage-aware coach response for early dating, committed/mid-stage, and mature/married relationships with a read, reasons, pitfalls, adopt/eliminate behaviors, scripts, and grounding principle.
+- Keeps the existing issue tracker and expert lens panel available underneath the coach layer for structured follow-up and deeper framework analysis.
 
 v3.7.1:
 - Softens glossary term styling so defined relationship/therapy words are available without visually dominating the expert text.
