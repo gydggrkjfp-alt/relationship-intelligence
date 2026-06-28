@@ -1,4 +1,21 @@
-# Relationship Intelligence v3.9.0
+# Relationship Intelligence v3.9.3
+
+v3.9.3:
+- Makes the coach the main expert surface by adding an "Ask the geniuses" chat-style panel inside the coach response.
+- Adds a direct "Ask the geniuses" question box in the coach popout for standalone panel questions.
+- Rephrases the user context into a simplified question bubble, then lets the most relevant expert voices give short discussion-style comments.
+- Keeps the full expert-card panel hidden unless there is a saved issue/event, where it opens as the deeper panel for that issue.
+- Fictionalizes modern expert display names and bios while preserving historical/literary figure names and the internal routing logic.
+
+v3.9.2:
+- Adds explicit coach role inference for early dating, including "I am a man asking a girl/woman out" and "I am a woman asking a guy/man out."
+- Changes early-stage coach copy, field guide, and issue analysis when the user is a man asking a woman out, so the advice no longer flips the roles.
+- Adjusts database ranking so masculine-direction cards do not dominate female prompts and women/serious-boyfriend-selection cards do not appear as top matches for male-to-female asking-out prompts.
+
+v3.9.1:
+- Fixes coach stage inference so "moving too fast," pace, and rushing language defaults to early-stage pacing unless the user clearly names marriage/spouse/kids/years together.
+- Integrates the old issue/event tracker under the coach intake as an optional collapsed structured tracker instead of showing two unrelated input/result systems in the same visible module.
+- Adds a dedicated coach database card for early-stage pacing so "moving too fast" gets specific guidance, scripts, selection signals, and stop points.
 
 v3.9.0:
 - Adds a dedicated `coach-database.js` knowledge base with structured coaching cards across early dating, texting, safety, repair, behavior change, values, desire, sex/intimacy, money, children, family boundaries, modern dating advice, and long-term marriage routines.
