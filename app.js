@@ -6009,6 +6009,7 @@ function ensure370(){
 }
 function open370(id){
  refresh370();
+ window.__lastPopoutTrigger370=document.activeElement;
  document.querySelectorAll('.workspacePopout370:not(.hidden)').forEach(x=>{if(x.id!==id)x.classList.add('hidden');});
  $370(id)?.classList.remove('hidden');
  document.body.classList.add('workspacePopoutOpen370');
@@ -6018,6 +6019,8 @@ function open370(id){
 function close370(id){
  $370(id)?.classList.add('hidden');
  if(!document.querySelector('.workspacePopout370:not(.hidden)'))document.body.classList.remove('workspacePopoutOpen370');
+ const trigger=window.__lastPopoutTrigger370;
+ if(trigger&&typeof trigger.focus==='function')setTimeout(()=>trigger.focus(),20);
 }
 function refresh370(){
  const p=profile370(),i=issue370(p),s=status370(p,i);
@@ -6153,6 +6156,7 @@ function advice380(stage,crux,goal,raw){
 function coachHTML380(p){
  const c=p?.coach380||{},raw=text380(p),stage=inferStage380(raw,c.stage,p),crux=inferCrux380(raw,stage),goal=c.goal||'Get grounded and choose the next move',a=advice380(stage,crux,goal,raw);
  if(!raw.trim())return '<div class="coachEmpty380"><b>Tell the coach what is going on.</b><p>Use the first button to describe the situation in normal language. The coach will turn it into a stage-aware read, next move, pitfalls, and a script.</p></div>';
+ const field=fieldGuide380(stage,crux,raw),qs=questions380(stage,crux,raw),analysis=issueAnalysis380(stage,crux,raw),kids=childrenQuestions380(stage,raw),db=coachDatabaseCards390({stage,crux,goal,raw,profile:p});
  return `<div class="coachResponse380">
   <div class="coachHead380"><span>Relationship coach</span><h3>${esc380(stageName380[stage])}</h3><p>${esc380(stageFrame380(stage,crux))}</p></div>
   <div class="coachSection380 coachMirror380"><b>What I hear</b><p>${esc380(reflection380(raw,stage,crux,goal))}</p></div>
@@ -6164,6 +6168,15 @@ function coachHTML380(p){
    <div class="coachSection380"><b>Behaviors to eliminate</b><ul>${a.eliminate.map(x=>`<li>${esc380(x)}</li>`).join('')}</ul></div>
    <div class="coachSection380"><b>Try saying</b><p>${esc380(a.script)}</p></div>
   </div>
+  <div class="coachGrid380">
+   <div class="coachSection380 coachDad380"><b>${esc380(field.title)}</b><ul>${field.rules.map(x=>`<li>${esc380(x)}</li>`).join('')}</ul></div>
+   <div class="coachSection380"><b>What to select for</b><ul>${field.selectFor.map(x=>`<li>${esc380(x)}</li>`).join('')}</ul></div>
+   <div class="coachSection380"><b>What to avoid feeding</b><ul>${field.avoidFeeding.map(x=>`<li>${esc380(x)}</li>`).join('')}</ul></div>
+   <div class="coachSection380"><b>Good questions</b><ul>${qs.ask.map(x=>`<li>${esc380(x)}</li>`).join('')}</ul></div>
+  </div>
+  <details class="coachDeepDive380"><summary>Issue analysis mode</summary><div class="coachGrid380"><div class="coachSection380"><b>Facts vs story</b><p>${esc380(analysis.facts)}</p></div><div class="coachSection380"><b>Pattern to watch</b><p>${esc380(analysis.pattern)}</p></div><div class="coachSection380"><b>Evidence that would change the read</b><p>${esc380(analysis.evidence)}</p></div><div class="coachSection380"><b>Stop coaching and decide</b><p>${esc380(analysis.stop)}</p></div></div></details>
+  ${db.length?`<details class="coachDeepDive380 coachDatabase390" open><summary>Coach database matches</summary>${db.map(card=>coachDatabaseCardHTML390(card)).join('')}</details>`:''}
+  ${kids?`<details class="coachDeepDive380"><summary>Children / family-life questions</summary><div class="coachSection380"><b>Questions to ask before the next season gets harder</b><ul>${kids.map(x=>`<li>${esc380(x)}</li>`).join('')}</ul></div></details>`:''}
   <div class="coachSection380 coachGround380"><b>Grounding principle</b><p>${esc380(grounding380(stage,crux,c.grounding))}</p></div>
   <div class="coachSources380">Coach model: reflective listening, stage-sensitive discernment, gentle startup/repair, attachment-cycle awareness, healthy boundaries, and behavior design.</div>
  </div>`;
@@ -6182,6 +6195,48 @@ function grounding380(stage,crux,mode){
  if(mode==='body')return 'Regulate before you interpret. If your body is flooded, delay the big conclusion and choose one small action that restores steadiness.';
  return stage==='early'?'Your job is not to secure the person today. Your job is to remain grounded enough that the right person can recognize you and the wrong fit can reveal itself.':'Kindness without self-abandonment is the center: be generous, be clear, and require reality to answer.';
 }
+function coachDatabaseCards390(ctx){
+ const db=window.RelationshipCoachDatabase390;
+ if(!db||typeof db.query!=='function')return[];
+ try{return db.query({stage:ctx.stage,crux:ctx.crux,goal:ctx.goal,raw:ctx.raw,profileType:ctx.profile?.rtype},4)||[];}catch(e){return[];}
+}
+function coachList390(items){return (items||[]).slice(0,4).map(x=>`<li>${esc380(x)}</li>`).join('');}
+function coachDatabaseCardHTML390(card){
+ return `<article class="coachDbCard390">
+  <div class="coachDbHead390"><span>${esc380((card.stage||[]).join(' / '))}</span><h4>${esc380(card.title)}</h4></div>
+  <p>${esc380(card.read)}</p>
+  <div class="coachDbColumns390">
+   <div><b>Why it matters</b><p>${esc380(card.why)}</p></div>
+   <div><b>Next moves</b><ul>${coachList390(card.nextMoves)}</ul></div>
+   <div><b>Watch for</b><ul>${coachList390(card.evidence)}</ul></div>
+   <div><b>Try saying</b><p>${esc380((card.scripts||[])[0]||'')}</p></div>
+  </div>
+  <details class="coachDbMore390"><summary>More from this card</summary><div class="coachDbColumns390"><div><b>Pitfalls</b><ul>${coachList390(card.pitfalls)}</ul></div><div><b>Select for</b><ul>${coachList390(card.selectFor)}</ul></div><div><b>Avoid feeding</b><ul>${coachList390(card.avoidFeeding)}</ul></div><div><b>Stop point</b><p>${esc380(card.stop)}</p></div></div></details>
+ </article>`;
+}
+function fieldGuide380(stage,crux,raw){
+ if(crux==='safety')return{title:'Safety rules',rules:['Do not trade privacy, friends, money, or movement for temporary reassurance.','If refusal would trigger punishment, treat that as important evidence.','Use outside support; do not make the unsafe person the only witness.'],selectFor:['Respects a no without punishment.','Can tolerate privacy and outside relationships.','Repairs without demanding control.'],avoidFeeding:['Surveillance as proof of love.','Isolation framed as loyalty.','Threats, intimidation, or sexual pressure.']};
+ if(stage==='early')return{title:'Dad advice for early dating',rules:['Be respectful, playful, and clean. Do not be crude, bitter, sexually pushy, or overly confessional.','Ask real questions, but do not interrogate. Let the date breathe.','End the date on time while the energy is still good. Leave her with warmth, not exhaustion.','Show interest through a specific invitation and calm follow-through, not a giant emotional download.','Keep your standards. Attraction rises when kindness and self-respect are both present.'],selectFor:['Warmth and reciprocal effort.','Respect for boundaries, time, service staff, friends, and family.','Curiosity about your real life, not just attention.','Values that can survive inconvenience.','A nervous system that leaves you more peaceful, not addicted to uncertainty.'],avoidFeeding:['Anxious over-texting.','Performing a persona instead of being grounded.','Crude jokes, gossip, contempt for exes, or sexual pressure.','Trying to win by ceding all direction.','Calling chemistry compatibility before behavior proves it.']};
+ if(stage==='mid')return{title:'Committed-relationship coaching rules',rules:['Turn vague disappointment into one concrete behavior request.','Do not make every need a giant emotional summit; make some changes behavioral and repeatable.','Reward what you want more of quickly and specifically.','Ask whether the pattern is a skill gap, values gap, incentive gap, or willingness gap.'],selectFor:['Follow-through after clarity.','Repair that changes the next instance.','Shared standards around money, sex, friends, family, and time.','The ability to be influenced without collapse or contempt.'],avoidFeeding:['Temporary compliance with no routine.','Endless processing without changed behavior.','Scorekeeping as the only memory.','Therapy language used as a weapon.']};
+ return{title:'Mature bond rules',rules:['Protect admiration on purpose; familiarity will not do it for you.','Make ordinary kindness easier through routines, not heroic speeches.','Keep sex, affection, gratitude, responsibility, and repair in the calendar of the relationship.','When children or stress arrive, the couple needs a system, not just good intentions.'],selectFor:['Shared stewardship of home, money, children, faith/values, and repair.','A partner who can stay kind under fatigue.','Daily bids for affection and appreciation.','Willingness to revisit roles as life changes.'],avoidFeeding:['Autopilot roommate energy.','Correction attached to every contribution.','One parent becoming project manager of the whole family.','Letting resentment become the main form of communication.']};
+}
+function questions380(stage,crux,raw){
+ if(stage==='early')return{ask:['What has been the best part of your week?','What kind of life are you trying to build right now?','What do your friends appreciate about you?','What is something you are excited to learn or get better at?','How do you usually spend a Sunday when life is going well?'],avoid:['Do you like me enough?','Where is this going? before there is enough shared evidence.','Sexual history, crude jokes, ex-interrogations, or trauma excavation too early.']};
+ if(stage==='mid')return{ask:['What pattern are we accidentally training each other to repeat?','What is one behavior that would make you feel more respected this week?','Where do we need a clearer agreement instead of another argument?','What should I stop doing because it makes repair harder?'],avoid:['Global character verdicts.','Why are you always like this?','Requests so vague nobody could prove they happened.']};
+ return{ask:['What ordinary routine is quietly making us less kind?','Where do you feel unseen or overburdened lately?','What do the children see us practice when we are tired?','What ritual would help us stay lovers and not only managers?','What value do we want the family to feel this season?'],avoid:['Using the children as the only reason to stay connected.','Discussing logistics only.','Waiting until resentment is mature before naming a need.']};
+}
+function issueAnalysis380(stage,crux,raw){
+ if(crux==='early_signal')return{facts:'Separate observed behavior from anxious meaning: what she did, what she said, whether she reciprocated, and whether the interaction was easier or more strained after your move.',pattern:'Watch whether interest grows through mutual effort or only through your pursuit.',evidence:'A clearer read comes from reciprocal initiation, warmth after the date, reliability, and her making it easier to see her again.',stop:'Stop optimizing if you see disrespect, dread, chronic ambiguity, or no reciprocal effort after a clear low-pressure bid.'};
+ if(crux==='behavior_change')return{facts:'Name the specific behavior, the cue, what it costs you, and what would count as changed behavior.',pattern:'Watch whether the person changes when it is inconvenient, not only right after you are upset.',evidence:'The evidence is repeated follow-through without reminders, resentment, or bargaining.',stop:'Stop coaching if clarity has been given and the person repeatedly benefits from not changing.'};
+ if(crux==='desire_admiration')return{facts:'Separate desire, admiration, resentment, stress, health, pressure, and routine. Do not collapse all of it into attractiveness.',pattern:'Watch whether affection increases when pressure decreases and admiration becomes specific.',evidence:'Look for more bids, warmth, play, voluntary touch, gratitude, and less defensiveness.',stop:'Stop using attraction coaching if there is contempt, coercion, or a refusal to treat the relationship with dignity.'};
+ if(crux==='safety')return{facts:'List what happened, who had choice, what refusal cost, and whether privacy or outside support was punished.',pattern:'Control usually shows up as a pattern of narrowed freedom, not just one intense conversation.',evidence:'The read changes only if boundaries can be set without retaliation and access can be revoked freely.',stop:'Stop couples-coaching and prioritize safety if there is intimidation, surveillance, isolation, or sexual pressure.'};
+ return{facts:'Write the event in plain facts, then write the meaning you attached to it. Keep those separate.',pattern:'Watch whether this is a one-off stress response or the relationship training a recurring role.',evidence:'The next similar moment matters more than the explanation after this one.',stop:'Stop trying to solve it with another conversation if the same issue repeats with no ownership, repair, or changed behavior.'};
+}
+function childrenQuestions380(stage,raw){
+ const t=raw.toLowerCase();
+ if(stage!=='mature'&&!/child|children|kid|baby|parent|pregnan|father|mother/.test(t))return null;
+ return ['Who owns which recurring child/home responsibilities, including the invisible planning?','How do we protect couple time when the children consume the obvious time?','What do we want our children to learn by watching us disagree?','Where does each parent feel unappreciated or alone?','What family value are we practicing this month: peace, service, faith, gratitude, courage, responsibility, or play?','What is one small daily action that would make romance, friendship, or appreciation easier?'];
+}
 function renderCoach380(){
  const p=profile380(),out=$380('coachOutput380');if(out)out.innerHTML=coachHTML380(p);
  const summary=$380('coachIntakeSummary380');if(summary){const raw=text380(p);summary.textContent=raw?raw.slice(0,180)+(raw.length>180?'...':''):'No coach context entered yet.';}
@@ -6196,7 +6251,7 @@ function ensureCoachUI380(){
  const hubTitle=document.querySelector('#workspaceFocusHub370 h3');if(hubTitle)hubTitle.textContent='Start with the coach';
  const issueLead=document.querySelector('#issuePopout370 .workspacePopoutHeader370 p');if(issueLead)issueLead.textContent='Say it in normal language: what happened, what you want, what you fear, and what you are considering. The structured tracker remains below.';
  const expertLead=document.querySelector('#expertPopout370 .workspacePopoutHeader370 p');if(expertLead)expertLead.textContent='Get stage-aware coaching first, then open expert lenses underneath when you want a sharper framework.';
- issueBody.insertAdjacentHTML('afterbegin',`<div id="coachIntake380" class="coachIntake380"><div><span>Coach intake</span><h3>What is going on?</h3><p>Write like you would to a smart friend who knows relationships. Early flirting, securing commitment, marriage routines, desire, faith, anxiety, values, repair, and behavior change all count.</p></div><label>Situation<textarea id="coachSituation380" placeholder="Example: I am flirting with this girl and I think it is going well, but I care enough that I am getting anxious. Here is what happened..."></textarea></label><div class="coachMiniGrid380"><label>Stage<select id="coachStage380"><option value="auto">Infer from what I write</option><option value="early">Early dating / flirting</option><option value="mid">Committed / mid-stage</option><option value="mature">Mature / married</option></select></label><label>What do you want?<select id="coachGoal380"><option>Get grounded and choose the next move</option><option>Maximize attraction without losing dignity</option><option>Secure commitment / evaluate seriousness</option><option>Repair conflict or resentment</option><option>Change a recurring behavior pattern</option><option>Live from values or faith instead of anxiety</option></select></label><label>Grounding style<select id="coachGrounding380"><option value="auto">Best fit</option><option value="faith">Faith / surrender / service</option><option value="values">Values and character</option><option value="body">Nervous-system regulation</option></select></label></div><label>Evidence, worries, or question<textarea id="coachQuestion380" placeholder="What makes you think it is working or not working? What are you tempted to do? What advice do you want?"></textarea></label><div class="coachIntakeActions380"><button id="saveCoachIntake380" type="button">Update coach read</button><span id="coachIntakeSummary380">No coach context entered yet.</span></div></div>`);
+ issueBody.insertAdjacentHTML('afterbegin',`<div id="coachIntake380" class="coachIntake380" aria-describedby="coachIntro380"><div><span>Coach intake</span><h3>What is going on?</h3><p id="coachIntro380">Write like you would to a smart friend who knows relationships. Early flirting, securing commitment, marriage routines, desire, faith, anxiety, values, repair, and behavior change all count.</p></div><label for="coachSituation380">Situation</label><textarea id="coachSituation380" aria-describedby="coachIntro380" placeholder="Example: I am flirting with this girl and I think it is going well, but I care enough that I am getting anxious. Here is what happened..."></textarea><div class="coachMiniGrid380"><label for="coachStage380">Stage<select id="coachStage380"><option value="auto">Infer from what I write</option><option value="early">Early dating / flirting</option><option value="mid">Committed / mid-stage</option><option value="mature">Mature / married</option></select></label><label for="coachGoal380">What do you want?<select id="coachGoal380"><option>Get grounded and choose the next move</option><option>Maximize attraction without losing dignity</option><option>Secure commitment / evaluate seriousness</option><option>Repair conflict or resentment</option><option>Change a recurring behavior pattern</option><option>Live from values or faith instead of anxiety</option></select></label><label for="coachGrounding380">Grounding style<select id="coachGrounding380"><option value="auto">Best fit</option><option value="faith">Faith / surrender / service</option><option value="values">Values and character</option><option value="body">Nervous-system regulation</option></select></label></div><label for="coachQuestion380">Evidence, worries, or question</label><textarea id="coachQuestion380" aria-describedby="coachQuestionHelp380" placeholder="What makes you think it is working or not working? What are you tempted to do? What advice do you want?"></textarea><p id="coachQuestionHelp380" class="coachAssistive380">Include observable evidence, what you are tempted to do, and the kind of advice you want.</p><div class="coachIntakeActions380"><button id="saveCoachIntake380" type="button">Update coach read</button><span id="coachIntakeSummary380" role="status" aria-live="polite">No coach context entered yet.</span></div></div>`);
  expertBody.insertAdjacentHTML('afterbegin','<div id="coachOutput380" class="coachOutputWrap380"></div><details class="legacyExpertDetails380"><summary>Open expert lens panel</summary></details>');
  const legacy=expertBody.querySelector('.legacyExpertDetails380');const expertPanel=$380('expertThinkPanel339');if(legacy&&expertPanel)legacy.appendChild(expertPanel);
  bindCoach380();fillCoach380();renderCoach380();

@@ -1,4 +1,14 @@
-# Relationship Intelligence v3.8.0
+# Relationship Intelligence v3.9.0
+
+v3.9.0:
+- Adds a dedicated `coach-database.js` knowledge base with structured coaching cards across early dating, texting, safety, repair, behavior change, values, desire, sex/intimacy, money, children, family boundaries, modern dating advice, and long-term marriage routines.
+- Wires the coach response to rank and render relevant database matches from the user’s situation, relationship stage, inferred crux, and goal.
+- Adds compact database cards with rationale, next moves, evidence to watch, scripts, pitfalls, selection signals, and stop points so coach answers become less generic and easier to expand.
+
+v3.8.1:
+- Deepens the coach layer with stage-specific playbooks for early dating, committed relationships, mature bonds, safety, desire/admiration, behavior change, and grounding values.
+- Adds practical "dad advice" for early dating, what to select for, what not to feed, good questions, and behaviors to adopt or eliminate.
+- Adds expandable Issue analysis mode and Children / family-life questions while preserving the old expert lens panel for structured analysis.
 
 v3.8.0:
 - Reframes the top Workspace modules from issue/expert diagnosis into a coach-first flow: Tell the coach what is going on and Talk with the coach.

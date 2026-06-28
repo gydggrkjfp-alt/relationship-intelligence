@@ -1,10 +1,11 @@
-const CACHE='relationship-intelligence-v380-coach-layer';
+const CACHE='relationship-intelligence-v390-coach-database';
 const ASSETS=[
   './',
   './index.html',
-  './styles.css?v=380-coach-layer',
-  './expert-engine.js?v=380-coach-layer',
-  './app.js?v=380-coach-layer',
+  './styles.css?v=390-coach-database',
+  './expert-engine.js?v=390-coach-database',
+  './coach-database.js?v=390-coach-database',
+  './app.js?v=390-coach-database',
   './manifest.json'
 ];
 
@@ -24,7 +25,7 @@ self.addEventListener('activate',event=>{
 self.addEventListener('fetch',event=>{
   const requestUrl=new URL(event.request.url);
   if(requestUrl.pathname.endsWith('/app.js')){
-    event.respondWith(fetch(event.request).catch(()=>caches.match('./app.js?v=380-coach-layer')));
+    event.respondWith(fetch(event.request).catch(()=>caches.match('./app.js?v=390-coach-database')));
     return;
   }
   event.respondWith(caches.match(event.request).then(response=>response||fetch(event.request)));
