@@ -4989,25 +4989,51 @@ function contextHTML343(ctx){
 
 function expertDisplay343(name){
  const map={
-  'Sue Johnson / EFT lens':'Dr. Mira Stone attachment lens',
-  'Gottman stability lens':'Dr. Grant Hale stability lens',
-  'Esther Perel desire/security lens':'Dr. Celeste Varon desire/security lens',
-  'Orion Taraban incentive/respect lens':'Dr. Rowan Vale incentive/respect lens',
+  'Sue Johnson / EFT lens':'Mira Stone, attachment clinician',
+  'Gottman stability lens':'Grant Hale, relationship scientist',
+  'Esther Perel desire/security lens':'Celeste Varon, intimacy therapist',
+  'Orion Taraban incentive/respect lens':'Rowan Vale, strategy psychologist',
   'Alison Armstrong usefulness/polarity lens':'Mara Ellison polarity lens',
-  'Louise Perry modern dating culture lens':'Culture expert Lydia Hart',
-  'Logan Ury behavioral dating lens':'Dr. Nora Finch dating behavior lens',
-  'Eli Finkel online dating lens':'Dr. Elias Mercer online dating lens',
-  'David Buss mating strategy lens':'Dr. Damon Cross mating strategy lens',
-  'Scott Stanley commitment clarity lens':'Dr. Samuel Lane commitment clarity lens',
-  'Gabor Mate trauma-pattern lens':'Dr. Gabriel Sato trauma-pattern lens',
-  'Brene Brown shame/vulnerability lens':'Dr. Brenna Reed shame/vulnerability lens',
-  'Evan Stark coercive-control lens':'Dr. Everett Shaw coercive-control lens',
+  'Louise Perry modern dating culture lens':'Lydia Hart, culture analyst',
+  'Logan Ury behavioral dating lens':'Nora Finch, dating behavior coach',
+  'Eli Finkel online dating lens':'Elias Mercer, relationship scientist',
+  'David Buss mating strategy lens':'Damon Cross, evolutionary psychologist',
+  'Scott Stanley commitment clarity lens':'Samuel Lane, commitment researcher',
+  'Gabor Mate trauma-pattern lens':'Gabriel Sato, trauma-informed physician',
+  'Brene Brown shame/vulnerability lens':'Brenna Reed, vulnerability researcher',
+  'Evan Stark coercive-control lens':'Everett Shaw, coercive-control researcher',
   'Call Her Daddy-style pop-culture lens':'Culture expert Casey Vale',
   'Red-pill internet rhetoric lens':'Internet rhetoric analyst Rex Ward'
  };
  return map[name]||name;
 }
 window.relationshipExpertDisplayName343=expertDisplay343;
+function expertProfile343(name,row={}){
+ const profiles={
+  'Sue Johnson / EFT lens':{avatar:'MS',kind:'Clinical / research-informed',lineage:'Emotionally Focused Therapy and attachment-bond repair work.',bio:'Best for moments where the real issue may be threat, protest, reassurance, bonding cycles, or emotional accessibility.'},
+  'Gottman stability lens':{avatar:'GH',kind:'Couples research',lineage:'Longitudinal couples research, repair attempts, contempt, influence, and conflict process.',bio:'Best for diagnosing whether a conflict pattern is becoming stable, corrosive, repairable, or contempt-driven.'},
+  'Esther Perel desire/security lens':{avatar:'CV',kind:'Therapy / culture',lineage:'Desire, autonomy, erotic aliveness, security, betrayal, and modern couple identity.',bio:'Best when the issue is not only communication but the tension between closeness, freedom, desire, and resentment.'},
+  'Orion Taraban incentive/respect lens':{avatar:'RV',kind:'Psychology / dating strategy',lineage:'Modern dating strategy, incentives, investment, mate choice, respect, and selection behavior.',bio:'Best for early dating, male/female pursuit dynamics, ambiguity, overinvestment, and whether effort is being rewarded.'},
+  'Alison Armstrong usefulness/polarity lens':{avatar:'ME',kind:'Relationship educator',lineage:'Popular relationship education around appreciation, usefulness, polarity, and translation errors.',bio:'Best when one partner experiences help, correction, appreciation, or contribution very differently from the other.'},
+  'Louise Perry modern dating culture lens':{avatar:'LH',kind:'Culture analysis',lineage:'Modern sexual norms, commitment ambiguity, feminism, incentives, status, and public/private dignity.',bio:'Best for questions where current dating culture, apps, sexual norms, or unclear commitment scripts are shaping behavior.'},
+  'Marcus Aurelius stoic lens':{avatar:'MA',kind:'Historical philosophy',lineage:'Roman Stoicism, self-command, judgment, duty, discipline, and accepting what is outside control.',bio:'Best for grounding, composure, restraint, courage, and deciding what honorable action remains yours.'},
+  'Aristotle virtue/friendship lens':{avatar:'AR',kind:'Historical philosophy',lineage:'Virtue ethics, friendship, habit formation, justice, practical wisdom, and shared flourishing.',bio:'Best for asking what repeated conduct is training each person to become and whether the relationship serves a shared good.'},
+  'Bell Hooks love ethic lens':{avatar:'BH',kind:'Cultural / moral philosophy',lineage:'Love ethic: care, respect, knowledge, responsibility, trust, commitment, and anti-domination.',bio:'Best when attachment is intense but the question is whether the behavior actually practices love.'},
+  'Jane Austen character lens':{avatar:'JA',kind:'Literary / cultural',lineage:'Courtship, manners, pride, class/status pressure, restraint, irony, and evidence of character.',bio:'Best for early dating and character reads: what someone does when pride, inconvenience, or ambiguity enters.'},
+  'Logan Ury behavioral dating lens':{avatar:'NF',kind:'Dating behavior / applied psychology',lineage:'Behavioral dating advice, app habits, slow-burn potential, post-date review, and choice overload.',bio:'Best for translating early dating anxiety into small experiments and better evidence.'},
+  'Eli Finkel online dating lens':{avatar:'EM',kind:'Relationship science',lineage:'Relationship science, online dating, choice architecture, expectations, and modern compatibility decisions.',bio:'Best for app-era comparison, option churn, unrealistic standards, and whether real interaction is beating fantasy.'},
+  'David Buss mating strategy lens':{avatar:'DC',kind:'Evolutionary psychology',lineage:'Mate preferences, jealousy, investment, time horizons, strategy conflict, and sex-difference hypotheses.',bio:'Best as a hypothesis generator, not a stereotype machine; individual behavior should override population-level assumptions.'},
+  'Scott Stanley commitment clarity lens':{avatar:'SL',kind:'Commitment research',lineage:'Dedication, constraints, sliding versus deciding, cohabitation risk, and explicit commitment decisions.',bio:'Best when a relationship is accumulating obligations, intimacy, or benefits without a clear mutual choice.'},
+  'Gabor Mate trauma-pattern lens':{avatar:'GS',kind:'Trauma-informed medicine',lineage:'Stress physiology, attachment wounds, compulsive coping, early pain, and present-trigger distinction.',bio:'Best when intensity, shutdown, or reactivity may contain both current evidence and older survival patterns.'},
+  'Brene Brown shame/vulnerability lens':{avatar:'BR',kind:'Shame / vulnerability research',lineage:'Shame, vulnerability, courage, trust, defensiveness, and story-making under threat.',bio:'Best when blame, withdrawal, perfectionism, or defensiveness may be protecting a more vulnerable fear.'},
+  'Call Her Daddy-style pop-culture lens':{avatar:'CV',kind:'Popular-media contrast',lineage:'Podcast-era dating entertainment: leverage, standards, desirability, audience approval, and power moves.',bio:'Useful mainly as contrast. It can protect against overinvestment, but can also reward testing, distrust, and performance.'},
+  'Red-pill internet rhetoric lens':{avatar:'RW',kind:'Cautionary internet contrast',lineage:'Gender-war internet scripts about status, dominance, sexual-market value, and adversarial bargaining.',bio:'Useful mainly to show the cost of bad advice. Discard it when it increases contempt, coercion, or stereotypes.'},
+  'Evan Stark coercive-control lens':{avatar:'ES',kind:'Safety / coercive-control research',lineage:'Coercive control, surveillance, isolation, intimidation, autonomy restriction, and safety-first analysis.',bio:'Best when privacy, phone monitoring, threats, isolation, or punishment for refusal may be present.'}
+ };
+ const fallback=row.avatar||name.split(/\s+/).slice(0,2).map(x=>x[0]).join('').toUpperCase();
+ return profiles[name]||{avatar:fallback,kind:row.sourceClass||'Modeled perspective',lineage:'Modeled interpretive lens inside the app.',bio:'Review its provenance and limitations before applying it.'};
+}
+window.relationshipExpertProfile343=expertProfile343;
 
 function philosopherIssue356(who,ctx,type,event){
  const text=`${type} ${event}`.toLowerCase(),positive=!!ctx.isPositive;
@@ -5082,29 +5108,8 @@ function expertDepth347(row,ctx){
 }
 
 function expertIdentity350(name,row={}){
- const identities={
-  'Sue Johnson / EFT lens':['MS','Fictionalized attachment clinician profile focused on bonding cycles, reassurance, and emotional accessibility.'],
-  'Gottman stability lens':['GH','Fictionalized couples-research profile focused on conflict process, contempt, repair, and accepted influence.'],
-  'Esther Perel desire/security lens':['CV','Fictionalized intimacy specialist profile focused on desire, autonomy, security, aliveness, and resentment.'],
-  'Orion Taraban incentive/respect lens':['RV','Fictionalized strategy psychologist profile focused on incentives, investment, respect, and selection.'],
-  'Alison Armstrong usefulness/polarity lens':['ME','Fictionalized relationship educator profile focused on appreciation, usefulness, polarity, comfort, and partnership roles.'],
-  'Louise Perry modern dating culture lens':['LH','Fictionalized culture analyst profile focused on sexual norms, commitment ambiguity, public dignity, and modern dating incentives.'],
-  'Marcus Aurelius stoic lens':['MA','Roman Stoic philosopher used here for questions of control, judgment, discipline, and character.'],
-  'Aristotle virtue/friendship lens':['AR','Ancient Greek philosopher used here for virtue, habit, flourishing, fairness, and practical friendship.'],
-  'Bell Hooks love ethic lens':['BH','Cultural critic and author who framed love as an active practice of care, respect, trust, and responsibility.'],
-  'Jane Austen character lens':['JA','Novelist used here as a literary lens on courtship, manners, pride, consistency, and evidence of character.'],
-  'Logan Ury behavioral dating lens':['NF','Fictionalized behavioral dating scientist profile focused on dating habits, spark, slow-burn potential, and post-date reflection.'],
-  'Eli Finkel online dating lens':['EM','Fictionalized relationship-science profile focused on app abundance, option churn, attraction, and expectation management.'],
-  'David Buss mating strategy lens':['DC','Fictionalized evolutionary relationship scientist profile focused on jealousy, mate preferences, horizon mismatch, and strategy conflicts.'],
-  'Scott Stanley commitment clarity lens':['SL','Fictionalized commitment researcher profile focused on dedication, constraints, cohabitation, and sliding versus deciding.'],
-  'Gabor Mate trauma-pattern lens':['GS','Fictionalized trauma-informed physician profile focused on stress, attachment, survival meanings, and compulsive coping.'],
-  'Brene Brown shame/vulnerability lens':['BR','Fictionalized vulnerability researcher profile focused on shame, courage, trust, and defensiveness.'],
-  'Call Her Daddy-style pop-culture lens':['CV','Fictionalized pop-culture dating commentator used for contrast, leverage scripts, and entertainment-style advice.'],
-  'Red-pill internet rhetoric lens':['RW','Fictionalized internet rhetoric analyst used for critical contrast around status, dominance, and gender-war scripts.']
-  ,'Evan Stark coercive-control lens':['ES','Fictionalized safety researcher profile focused on autonomy restriction, surveillance, intimidation, and coercive control patterns.']
- };
- const found=identities[name]||[row.avatar||name.split(/\s+/).slice(0,2).map(x=>x[0]).join('').toUpperCase(),'A modeled interpretive lens. Review its provenance and limitations before applying it.'];
- return {avatar:row.avatar||found[0],description:found[1]};
+ const profile=expertProfile343(name,row);
+ return {avatar:row.avatar||profile.avatar,description:`${profile.kind}. ${profile.bio}`};
 }
 
 function renderExpertAbout350(){
@@ -6114,13 +6119,20 @@ const $380=id=>document.getElementById(id);
 const esc380=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 function profile380(){try{return typeof rcCurrentProfile==='function'?rcCurrentProfile():(typeof currentProfile==='function'?currentProfile():state?.profiles?.[0]);}catch(e){return null;}}
 function issue380(p){const selected=$380('issueCardSelector')?.value,issues=p?.issues||[];return issues.find(x=>x.id===selected)||issues[issues.length-1]||null;}
-function text380(p){const c=p?.coach380||{},i=issue380(p)||{};return [c.geniusAsk,c.situation,c.question,c.evidence,c.worries,i.title,i.event,i.story,p?.evidence,p?.notes].filter(Boolean).join(' ');}
+function coachFreshText380(p){const c=p?.coach380||{};return [c.geniusAsk,c.situation,c.question,c.evidence,c.worries].filter(Boolean).join(' ').trim();}
+function text380(p){
+ const fresh=coachFreshText380(p);
+ if(fresh)return fresh;
+ const i=issue380(p)||{};
+ return [i.title,i.event,i.story,p?.evidence,p?.notes].filter(Boolean).join(' ');
+}
 function inferStage380(raw,chosen,profile){
  const rawT=String(raw||'').toLowerCase(),profileT=String(profile?.rtype||'').toLowerCase(),t=`${rawT} ${profileT}`;
  if(chosen&&chosen!=='auto')return chosen;
- if(/married|wife|husband|spouse|marriage|kids|children|mortgage|years together|decades/.test(rawT)||/married|spouse|wife|husband/.test(profileT))return'mature';
+ if(/just met|met (her|him|them)|girl i (just )?met|woman i (just )?met|guy i (just )?met|man i (just )?met|first date|second date|asking (her|him|them) out|ask (her|him|them) out|flirting|talking stage|crush|matched with|dating app/.test(rawT))return'early';
  if(/moving too fast|too fast|rushing|rush|slow down|pace|pacing|getting serious fast|intense too soon/.test(rawT))return'early';
- if(/partner|boyfriend|girlfriend|exclusive|committed|living together|fianc|long[- ]term/.test(t))return'mid';
+ if(/married|wife|husband|spouse|marriage|kids|children|mortgage|years together|decades/.test(rawT)||/married|spouse|wife|husband/.test(profileT))return'mature';
+ if(/partner|boyfriend|girlfriend|exclusive|committed|living together|fianc|long[- ]term/.test(rawT))return'mid';
  if(/flirt|girl|guy|crush|texting|date|first date|second date|talking stage|situationship|early/.test(t))return'early';
  return'early';
 }
@@ -6215,7 +6227,7 @@ function coachHTML380(p){
    <div class="coachSection380"><b>Good questions</b><ul>${qs.ask.map(x=>`<li>${esc380(x)}</li>`).join('')}</ul></div>
   </div>
   <details class="coachDeepDive380"><summary>Issue analysis mode</summary><div class="coachGrid380"><div class="coachSection380"><b>Facts vs story</b><p>${esc380(analysis.facts)}</p></div><div class="coachSection380"><b>Pattern to watch</b><p>${esc380(analysis.pattern)}</p></div><div class="coachSection380"><b>Evidence that would change the read</b><p>${esc380(analysis.evidence)}</p></div><div class="coachSection380"><b>Stop coaching and decide</b><p>${esc380(analysis.stop)}</p></div></div></details>
-  ${db.length?`<details class="coachDeepDive380 coachDatabase390" open><summary>Coach database matches</summary>${db.map(card=>coachDatabaseCardHTML390(card)).join('')}</details>`:''}
+  ${db.length?`<details class="coachDeepDive380 coachDatabase390"><summary>Optional: why this advice</summary><p class="coachDbIntro390">For later: the matched playbooks behind the coach read.</p><div class="coachDbChips390">${db.map((card,index)=>`<span>${index+1}. ${esc380(card.title)}</span>`).join('')}</div><div class="coachDbCards390">${db.map((card,index)=>coachDatabaseCardHTML390(card,index)).join('')}</div></details>`:''}
   ${geniusChatHTML380(p,stage,crux,raw,people)}
   ${kids?`<details class="coachDeepDive380"><summary>Children / family-life questions</summary><div class="coachSection380"><b>Questions to ask before the next season gets harder</b><ul>${kids.map(x=>`<li>${esc380(x)}</li>`).join('')}</ul></div></details>`:''}
   <div class="coachSection380 coachGround380"><b>Grounding principle</b><p>${esc380(grounding380(stage,crux,c.grounding))}</p></div>
@@ -6242,18 +6254,21 @@ function coachDatabaseCards390(ctx){
  try{return db.query({stage:ctx.stage,crux:ctx.crux,goal:ctx.goal,raw:ctx.raw,profileType:ctx.profile?.rtype,people:ctx.people},4)||[];}catch(e){return[];}
 }
 function coachList390(items){return (items||[]).slice(0,4).map(x=>`<li>${esc380(x)}</li>`).join('');}
-function coachDatabaseCardHTML390(card){
- return `<article class="coachDbCard390">
+function coachDatabaseCardHTML390(card,index=0){
+ return `<details class="coachDbCard390">
+  <summary><span>Playbook ${index+1}</span><b>${esc380(card.title)}</b></summary>
+  <div class="coachDbInner390">
   <div class="coachDbHead390"><span>${esc380((card.stage||[]).join(' / '))}</span><h4>${esc380(card.title)}</h4></div>
   <p>${esc380(card.read)}</p>
   <div class="coachDbColumns390">
-   <div><b>Why it matters</b><p>${esc380(card.why)}</p></div>
-   <div><b>Next moves</b><ul>${coachList390(card.nextMoves)}</ul></div>
-   <div><b>Watch for</b><ul>${coachList390(card.evidence)}</ul></div>
-   <div><b>Try saying</b><p>${esc380((card.scripts||[])[0]||'')}</p></div>
+   <div><b>Why this matched</b><p>${esc380(card.why)}</p></div>
+   <div><b>Extra next moves</b><ul>${coachList390(card.nextMoves)}</ul></div>
+   <div><b>Evidence to watch</b><ul>${coachList390(card.evidence)}</ul></div>
+   <div><b>Optional script</b><p>${esc380((card.scripts||[])[0]||'')}</p></div>
   </div>
-  <details class="coachDbMore390"><summary>More from this card</summary><div class="coachDbColumns390"><div><b>Pitfalls</b><ul>${coachList390(card.pitfalls)}</ul></div><div><b>Select for</b><ul>${coachList390(card.selectFor)}</ul></div><div><b>Avoid feeding</b><ul>${coachList390(card.avoidFeeding)}</ul></div><div><b>Stop point</b><p>${esc380(card.stop)}</p></div></div></details>
- </article>`;
+  <details class="coachDbMore390"><summary>More guidance</summary><div class="coachDbColumns390"><div><b>Pitfalls</b><ul>${coachList390(card.pitfalls)}</ul></div><div><b>Select for</b><ul>${coachList390(card.selectFor)}</ul></div><div><b>Avoid feeding</b><ul>${coachList390(card.avoidFeeding)}</ul></div><div><b>Where this advice stops</b><p>${esc380(card.stop)}</p></div></div></details>
+  </div>
+ </details>`;
 }
 function hasIssue380(p){
  const i=issue380(p);
@@ -6267,25 +6282,89 @@ function geniusQuestion380(raw,stage,crux,people){
  if(crux==='behavior_change')return 'What concrete behavior should change, and how would I know it is actually sticking?';
  return stage==='early'?'What is the cleanest next move in this early romantic situation?':'What is the crux of this relationship issue and what should change next?';
 }
-function geniusLine380(row,ctx){
- const name=(window.relationshipExpertDisplayName343?.(row.name))||row.name;
+function geniusComment380(row,ctx,stage,crux,raw,people){
+ const n=String(row?.name||''),t=String(raw||'').toLowerCase(),early=stage==='early'||/just met|first date|asking .* out|girl i .*met|talking stage|flirt/.test(t),pacing=/moving too fast|too fast|rushing|pace|slow down/.test(t);
+ if(crux==='early_signal'&&people?.user==='man'&&people?.target==='woman'){
+  if(n.includes('Orion'))return pacing?'Do not solve the pace problem by dumping your anxiety on her. Give one warm, specific invitation, then let her effort and comfort tell you whether to continue.':'Your move is a clean bid, not a campaign. Ask her out clearly, keep it light, and stop talking once the invitation is understandable.';
+  if(n.includes('Jane Austen'))return 'Her response is evidence of character and interest: warmth, an alternate time, curiosity, and ease matter more than your analysis of every micro-signal.';
+  if(n.includes('Logan Ury'))return 'Because you just met, keep the experiment small. One low-pressure date gives better data than a long text thread about what this could become.';
+  if(n.includes('Scott Stanley'))return pacing?'Slow the slide. Do not act like a couple faster than you are actually choosing each other; make the next step a date, not an implied commitment.':'Do not let ambiguity accumulate benefits and expectations. Make one clear next-step invitation and watch whether she chooses into it.';
+  if(n.includes('Eli Finkel'))return 'Do not compare her to an imaginary perfect option or turn one spark into a whole relationship. Get one real interaction and judge actual behavior.';
+  if(n.includes('Esther'))return 'Keep aliveness by leaving room. Too much certainty-seeking can make the interaction feel managed instead of exciting.';
+  if(n.includes('Marcus'))return 'You control the invitation, your tone, and your composure. You do not control whether she likes you back, so do the honorable thing plainly.';
+  if(n.includes('Aristotle'))return 'Act like the kind of man you would respect: clear, moderate, courteous, and steady. The habit you practice here matters even if she says no.';
+ }
+ if(early){
+  if(n.includes('Logan Ury'))return 'This is early data, not a verdict. Choose one next interaction and review what actually happens, not the fantasy or fear around it.';
+  if(n.includes('Jane Austen'))return 'Courtship is character evidence under small pressure. Notice manners, consistency, humility, and whether interest becomes action.';
+  if(n.includes('Scott Stanley'))return 'Keep the relationship from sliding ahead of choice. Name only the next step you actually mean.';
+  if(n.includes('Orion'))return 'Watch incentives: are you rewarding reciprocity or rewarding ambiguity by doing all the work?';
+ }
+ if(crux==='safety')return n.includes('Evan')?'Before advice, ask what refusal costs. If privacy or a no creates punishment, treat safety and outside support as the first intervention.':'Do not optimize attraction or communication while safety is unclear; the first question is whether autonomy is protected.';
+ if(crux==='behavior_change')return 'Make the request behavioral enough to pass or fail: one cue, one action, one review point. Sincerity is not the same as changed routine.';
+ if(crux==='repair')return 'Shrink the issue to the first repairable moment. What exactly happened, what did it mean, and what would a better next instance look like?';
  const d=window.RelationshipExpertEngine359?.compose?.(row,ctx);
- const q=d?.question||row.exercise||row.advice||'Test the idea against the next observable behavior.';
- const frame=d?.frame||row.lens||row.advice||'Look for the pattern that best explains the repeated behavior.';
+ return d?.experiment||row.advice||row.lens||'Test the idea against the next observable behavior.';
+}
+function expertProfileHTML380(row){
+ const name=row?.name||'Relationship coach';
+ const profile=window.relationshipExpertProfile343?.(name,row)||{avatar:row?.avatar||'RI',kind:row?.sourceClass||'Modeled perspective',lineage:'Modeled interpretive lens inside the app.',bio:'Review its provenance and limitations before applying it.'};
+ const display=window.relationshipExpertDisplayName343?.(name)||name;
+ const tags=(row?.tags||[]).slice(0,5).map(t=>`<span>${esc380(t)}</span>`).join('');
+ return `<div class="expertProfileHero380"><span class="expertProfileAvatar380">${esc380(profile.avatar)}</span><div><b>${esc380(display)}</b><p>${esc380(profile.kind)}</p></div></div>
+ <div class="expertProfileBody380">
+  <div><b>Source lineage</b><p>${esc380(profile.lineage)}</p></div>
+  <div><b>Best used for</b><p>${esc380(profile.bio)}</p></div>
+  <div><b>Authority check</b><p>This is a modeled app voice, not a direct quote or a claim that the real-world source personally endorsed this advice.</p></div>
+  ${tags?`<div><b>Tags</b><p class="expertProfileTags380">${tags}</p></div>`:''}
+ </div>`;
+}
+function showExpertProfile380(key){
+ const rows=typeof window.relationshipExpertRows343==='function'?window.relationshipExpertRows343():[];
+ const row=rows.find(r=>r.name===key)||{name:key};
+ let modal=$380('expertProfileModal380');
+ if(!modal){
+  modal=document.createElement('div');
+  modal.id='expertProfileModal380';
+  modal.className='expertProfileModal380 hidden';
+  modal.innerHTML='<div class="expertProfileCard380" role="dialog" aria-modal="true" aria-labelledby="expertProfileTitle380"><button type="button" class="expertProfileClose380" aria-label="Close expert profile">x</button><h3 id="expertProfileTitle380">Voice profile</h3><div id="expertProfileContent380"></div></div>';
+  document.body.appendChild(modal);
+ }
+ const content=$380('expertProfileContent380');
+ if(content)content.innerHTML=expertProfileHTML380(row);
+ modal.classList.remove('hidden');
+ document.body.classList.add('workspacePopoutOpen370');
+}
+function closeExpertProfile380(){
+ const modal=$380('expertProfileModal380');
+ if(modal)modal.classList.add('hidden');
+ if(!$380('issuePopout370')?.classList.contains('hidden')||!$380('expertPopout370')?.classList.contains('hidden'))return;
+ document.body.classList.remove('workspacePopoutOpen370');
+}
+function geniusLine380(row,ctx,stage,crux,raw,people){
+ const name=(window.relationshipExpertDisplayName343?.(row.name))||row.name;
+ const profile=window.relationshipExpertProfile343?.(row.name,row)||{avatar:row.avatar||'RI',kind:row.sourceClass||'Modeled perspective'};
+ const frame=geniusComment380(row,ctx,stage,crux,raw,people);
+ const q=(crux==='early_signal'&&people?.user==='man'&&people?.target==='woman')?'What did she do after your clear, low-pressure bid?':(row.exercise||'What observable behavior would change the read?');
  const sentence=s=>String(s||'').replace(/\s+/g,' ').trim().replace(/^(.{170}).+$/,'$1...');
- return `<div class="geniusBubble380 geniusVoice380"><b>${esc380(name)}</b><p>${esc380(sentence(frame))}</p><span>${esc380(sentence(q))}</span></div>`;
+ return `<div class="geniusBubble380 geniusVoice380"><div class="geniusVoiceHead380"><button type="button" class="geniusProfileBtn380" data-expert-profile380="${esc380(row.name)}" title="Open voice profile">${esc380(profile.avatar)}</button><div><b>${esc380(name)}</b><em>${esc380(profile.kind)}</em></div></div><p>${esc380(sentence(frame))}</p><span>${esc380(sentence(q))}</span></div>`;
 }
 function geniusChatHTML380(p,stage,crux,raw,people){
- const ctx=typeof window.relationshipContext343==='function'?window.relationshipContext343():{profile:p,issue:issue380(p),text:raw};
- ctx.text=[ctx.text,raw].filter(Boolean).join(' ');
+ const fresh=coachFreshText380(p);
+ const ctx=fresh?{profile:p,issue:null,latestSnapshot:null,metrics:{},text:raw,isPositive:false,safetyFlags:[]}:(typeof window.relationshipContext343==='function'?window.relationshipContext343():{profile:p,issue:issue380(p),text:raw});
+ ctx.text=fresh?raw:[ctx.text,raw].filter(Boolean).join(' ');
  const rows=typeof window.relationshipExpertRows343==='function'?window.relationshipExpertRows343():[];
  let ranked=[];
  if(rows.length&&window.RelationshipExpertEngine359?.rank)ranked=window.RelationshipExpertEngine359.rank(rows,ctx).slice(0,4);
  else ranked=rows.slice(0,4);
+ if(rows.length&&stage==='early'&&people?.user==='man'&&people?.target==='woman'){
+  const wanted=['Orion Taraban incentive/respect lens','Jane Austen character lens','Logan Ury behavioral dating lens','Marcus Aurelius stoic lens','Scott Stanley commitment clarity lens'];
+  ranked=wanted.map(name=>rows.find(r=>r.name===name)).filter(Boolean);
+ }
  return `<section class="geniusChat380" aria-label="Ask the geniuses">
   <div class="geniusChatHead380"><span>Ask the geniuses</span><h4>Short panel read</h4></div>
   <div class="geniusBubble380 geniusUser380"><b>Simplified question</b><p>${esc380(geniusQuestion380(raw,stage,crux,people))}</p></div>
-  <div class="geniusThread380">${ranked.map(row=>geniusLine380(row,ctx)).join('')||'<div class="geniusBubble380 geniusVoice380"><b>Coach</b><p>Add an issue or more context and the panel will weigh in.</p></div>'}</div>
+  <div class="geniusThread380">${ranked.map(row=>geniusLine380(row,ctx,stage,crux,raw,people)).join('')||'<div class="geniusBubble380 geniusVoice380"><b>Coach</b><p>Add an issue or more context and the panel will weigh in.</p></div>'}</div>
  </section>`;
 }
 function fieldGuide380(stage,crux,raw,people){
@@ -6324,22 +6403,22 @@ function ensureCoachUI380(){
  if(window.__coachUI380)return;
  const issueBody=$380('issuePopoutBody370'),expertBody=$380('expertPopoutBody370');if(!issueBody||!expertBody)return;
  window.__coachUI380=true;
- const oldIssueTitle=$380('issuePopoutTitle370');if(oldIssueTitle)oldIssueTitle.textContent='Tell the coach what is going on';
+ const oldIssueTitle=$380('issuePopoutTitle370');if(oldIssueTitle)oldIssueTitle.textContent='Counselor office';
  const oldExpertTitle=$380('expertPopoutTitle370');if(oldExpertTitle)oldExpertTitle.textContent='Relationship Coach';
- const openIssue=$380('openIssuePopout370'),openExpert=$380('openExpertPopout370');if(openIssue)openIssue.textContent='Tell the coach what is going on';if(openExpert)openExpert.textContent='Talk with the coach';
+ const openIssue=$380('openIssuePopout370'),openExpert=$380('openExpertPopout370');if(openIssue)openIssue.textContent='Counselor office';if(openExpert)openExpert.textContent='Talk with the coach';
  const hubTitle=document.querySelector('#workspaceFocusHub370 h3');if(hubTitle)hubTitle.textContent='Start with the coach';
- const issueLead=document.querySelector('#issuePopout370 .workspacePopoutHeader370 p');if(issueLead)issueLead.textContent='Say it in normal language: what happened, what you want, what you fear, and what you are considering. The coach uses the selected event as context when one exists.';
- const expertLead=document.querySelector('#expertPopout370 .workspacePopoutHeader370 p');if(expertLead)expertLead.textContent='Get stage-aware coaching first, then open expert lenses underneath when you want a sharper framework.';
+ const issueLead=document.querySelector('#issuePopout370 .workspacePopoutHeader370 p');if(issueLead)issueLead.textContent='Use this only when there is a concrete problem, rupture, conflict, or important event you want to save, translate, and repair.';
+ const expertLead=document.querySelector('#expertPopout370 .workspacePopoutHeader370 p');if(expertLead)expertLead.textContent='Start here for normal advice, grounding, next moves, and genius-panel perspective. Use the counselor office only when there is a specific issue to work through.';
  issueBody.insertAdjacentHTML('afterbegin',`<div id="coachIntake380" class="coachIntake380" aria-describedby="coachIntro380"><div><span>Coach intake</span><h3>What is going on?</h3><p id="coachIntro380">Write like you would to a smart friend who knows relationships. Early flirting, securing commitment, marriage routines, desire, faith, anxiety, values, repair, and behavior change all count.</p></div><label for="coachSituation380">Situation</label><textarea id="coachSituation380" aria-describedby="coachIntro380" placeholder="Example: I am flirting with this girl and I think it is going well, but I care enough that I am getting anxious. Here is what happened..."></textarea><div class="coachMiniGrid380"><label for="coachStage380">Stage<select id="coachStage380"><option value="auto">Infer from what I write</option><option value="early">Early dating / flirting</option><option value="mid">Committed / mid-stage</option><option value="mature">Mature / married</option></select></label><label for="coachGoal380">What do you want?<select id="coachGoal380"><option>Get grounded and choose the next move</option><option>Maximize attraction without losing dignity</option><option>Secure commitment / evaluate seriousness</option><option>Repair conflict or resentment</option><option>Change a recurring behavior pattern</option><option>Live from values or faith instead of anxiety</option></select></label><label for="coachGrounding380">Grounding style<select id="coachGrounding380"><option value="auto">Best fit</option><option value="faith">Faith / surrender / service</option><option value="values">Values and character</option><option value="body">Nervous-system regulation</option></select></label></div><label for="coachQuestion380">Evidence, worries, or question</label><textarea id="coachQuestion380" aria-describedby="coachQuestionHelp380" placeholder="What makes you think it is working or not working? What are you tempted to do? What advice do you want?"></textarea><p id="coachQuestionHelp380" class="coachAssistive380">Include observable evidence, what you are tempted to do, and the kind of advice you want.</p><div class="coachIntakeActions380"><button id="saveCoachIntake380" type="button">Update coach read</button><span id="coachIntakeSummary380" role="status" aria-live="polite">No coach context entered yet.</span></div></div>`);
  const issuePanel=$380('issueTranslationPanel335');
  if(issuePanel&&!issuePanel.closest('.coachStructuredIssue380')){
   const wrap=document.createElement('details');
   wrap.className='coachStructuredIssue380';
-  wrap.innerHTML='<summary>Structured issue / event tracker</summary><p>Optional: use this when you want to save a specific event, mark resolution, or feed structured evidence into the coach.</p>';
+  wrap.innerHTML='<summary>Only if there is a problem or event to repair</summary><p>This is the structured counselor space: save the event, translate what it may mean, mark whether it resolved, and feed evidence into deeper repair analysis.</p>';
   issuePanel.parentNode.insertBefore(wrap,issuePanel);
   wrap.appendChild(issuePanel);
  }
- expertBody.insertAdjacentHTML('afterbegin','<div class="geniusAskBox380"><label for="geniusAskInput380">Ask the geniuses</label><textarea id="geniusAskInput380" placeholder="Ask a direct question, or leave this blank and the panel will use your coach intake/current issue."></textarea><button id="askGeniusesBtn380" type="button" class="secondary">Ask panel</button></div><div id="coachOutput380" class="coachOutputWrap380"></div><details class="legacyExpertDetails380"><summary>Full expert panel for the saved issue</summary></details>');
+ expertBody.insertAdjacentHTML('afterbegin','<div class="coachCounselorNook380"><div><span>If there is a real issue</span><b>Counselor office</b><p>Open this only for a specific problem, rupture, conflict, or event you want to save and repair.</p></div><button id="openCounselorOffice380" type="button" class="secondary">Open issue room</button></div><div class="geniusAskBox380"><label for="geniusAskInput380">Ask the geniuses</label><textarea id="geniusAskInput380" placeholder="Ask a direct question, or leave this blank and the panel will use your coach intake/current issue."></textarea><button id="askGeniusesBtn380" type="button" class="secondary">Ask panel</button></div><div id="coachOutput380" class="coachOutputWrap380"></div><details class="legacyExpertDetails380"><summary>Saved-issue expert panel</summary></details>');
  const legacy=expertBody.querySelector('.legacyExpertDetails380');const expertPanel=$380('expertThinkPanel339');if(legacy&&expertPanel)legacy.appendChild(expertPanel);
  bindCoach380();fillCoach380();renderCoach380();
 }
@@ -6357,9 +6436,16 @@ function bindCoach380(){
  const save=$380('saveCoachIntake380');if(save)save.onclick=saveCoach380;
  const ask=$380('askGeniusesBtn380');if(ask)ask.onclick=()=>{const p=profile380();if(!p)return;p.coach380={...(p.coach380||{}),geniusAsk:$380('geniusAskInput380')?.value||''};if(typeof saveState==='function')saveState();renderCoach380();};
  const askInput=$380('geniusAskInput380');if(askInput)askInput.addEventListener('input',()=>{const p=profile380();if(!p)return;p.coach380={...(p.coach380||{}),geniusAsk:askInput.value||''};renderCoach380();});
+ const office=$380('openCounselorOffice380');if(office)office.onclick=()=>{$380('expertPopout370')?.classList.add('hidden');$380('issuePopout370')?.classList.remove('hidden');document.body.classList.add('workspacePopoutOpen370');};
  ['coachSituation380','coachQuestion380','coachStage380','coachGoal380','coachGrounding380'].forEach(id=>{const el=$380(id);if(el)el.addEventListener('input',()=>{const p=profile380();if(!p)return;p.coach380={...(p.coach380||{}),situation:$380('coachSituation380')?.value||'',question:$380('coachQuestion380')?.value||'',stage:$380('coachStage380')?.value||'auto',goal:$380('coachGoal380')?.value||'',grounding:$380('coachGrounding380')?.value||'auto'};renderCoach380();});});
  document.addEventListener('click',e=>{if(e.target?.id==='openIssuePopout370')setTimeout(()=>{ensureCoachUI380();fillCoach380();},80);if(e.target?.id==='openExpertPopout370')setTimeout(renderCoach380,120);});
 }
+document.addEventListener('click',e=>{
+ const profileBtn=e.target?.closest?.('[data-expert-profile380]');
+ if(profileBtn){e.preventDefault();showExpertProfile380(profileBtn.dataset.expertProfile380);return;}
+ if(e.target?.closest?.('.expertProfileClose380')||e.target?.id==='expertProfileModal380')closeExpertProfile380();
+});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeExpertProfile380();});
 document.addEventListener('DOMContentLoaded',()=>setTimeout(ensureCoachUI380,3600));
 setTimeout(ensureCoachUI380,4100);
 document.addEventListener('change',e=>{if(['repairCockpitProfileSelect','issueCardSelector'].includes(e.target?.id))setTimeout(()=>{fillCoach380();renderCoach380();},120);});

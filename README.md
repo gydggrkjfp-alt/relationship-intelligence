@@ -1,4 +1,26 @@
-# Relationship Intelligence v3.9.3
+# Relationship Intelligence v3.9.7
+
+v3.9.7:
+- Reframes structured issue/event repair as a small "Counselor office" inside the main coach flow.
+- Makes it clearer that the issue room is only for a concrete problem, rupture, conflict, or event that needs saving and repair.
+- Renames the saved-issue expert panel so it reads as issue-specific support instead of the default coach experience.
+
+v3.9.6:
+- Renames and clarifies the coach database section as matched playbooks behind the coach answer.
+- Adds an explanation that those playbooks are supporting rationale, scripts, evidence, pitfalls, and stop points rather than a separate second answer.
+- Shrinks the playbook section into a collapsed optional reference with compact chips and expandable rows.
+- Adds tappable genius voice profiles with authority/source lineage, bio, tags, and modeled-voice disclosure.
+- Rebalances modern voice labels so not every expert is presented as a doctor, and restores visible cultural/historical voice types.
+
+v3.9.5:
+- Replaces generic "Ask the geniuses" lens blurbs with situation-specific short comments.
+- Curates the genius panel for early male-to-female dating prompts so it gives clean next-step advice instead of long-term relationship analysis.
+- Keeps fresh coach questions isolated from stale issue context and bumps the cache key so Safari/GitHub Pages load the new panel logic.
+
+v3.9.4:
+- Stops fresh coach/genius questions from being polluted by older selected issues, profile notes, or long-term relationship context.
+- Makes explicit early-dating language such as "girl I just met," "first date," "asking her out," and "talking stage" override stale mature/long-term profile signals.
+- Penalizes non-early database cards when the prompt clearly describes a new early dating situation.
 
 v3.9.3:
 - Makes the coach the main expert surface by adding an "Ask the geniuses" chat-style panel inside the coach response.
