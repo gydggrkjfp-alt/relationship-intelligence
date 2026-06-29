@@ -1,4 +1,14 @@
-# Relationship Intelligence v3.9.7
+# Relationship Intelligence v3.9.9
+
+v3.9.9:
+- Separates Coach office and Counselor office: coach intake and normal coaching live in the Coach office; issue repair and saved-issue experts live in the Counselor office.
+- Makes the counselor an explicit moderator in the genius chat who tracks goodwill, mediation, safety, and next-step synthesis.
+- Moves the Coach office launcher to the primary/first button and upgrades both room buttons with clearer visual hierarchy.
+
+v3.9.8:
+- Rebuilds the "Ask the geniuses" output as a panel conversation with position, pushback, agreement, practical test, grounding, and synthesis turns.
+- Adds a user "Your turn" box so the user can weigh in, update what happened next, or challenge the panel.
+- Rewrites early-dating panel responses to be more concrete and interactive instead of isolated generic expert blurbs.
 
 v3.9.7:
 - Reframes structured issue/event repair as a small "Counselor office" inside the main coach flow.

@@ -6027,7 +6027,7 @@ function ensure370(){
  const hub=document.createElement('div');
  hub.id='workspaceFocusHub370';
  hub.className='workspaceFocusHub370 workspaceSection';
- hub.innerHTML=`<div class="focusIntro370"><span class="focusKicker370">Relationship workspace</span><h3>Start with one clear read</h3><p id="focusSummary370">Choose an issue or event, then open only the module you need.</p></div><div class="focusActions370"><button id="openIssuePopout370" type="button">Translate issue or event</button><button id="openExpertPopout370" type="button" class="secondary">Ask expert lenses</button></div><div class="focusStatus370"><div><b>Current profile</b><span id="focusProfile370">Relationship</span></div><div><b>Current event</b><span id="focusIssue370">No event selected</span></div><div><b>Status</b><span id="focusState370">Active</span></div></div>`;
+	 hub.innerHTML=`<div class="focusIntro370"><span class="focusKicker370">Relationship workspace</span><h3>Start with the coach</h3><p id="focusSummary370">Use the coach for normal advice and the counselor office when there is a concrete issue to repair.</p></div><div class="focusActions370"><button id="openExpertPopout370" type="button" class="focusCoachBtn380"><span>Coach office</span><b>Talk it through</b><small>Advice, grounding, genius chat</small></button><button id="openIssuePopout370" type="button" class="secondary focusCounselorBtn380"><span>Counselor office</span><b>Work a real issue</b><small>Saved event, repair, expert panel</small></button></div><div class="focusStatus370"><div><b>Current profile</b><span id="focusProfile370">Relationship</span></div><div><b>Current event</b><span id="focusIssue370">No event selected</span></div><div><b>Status</b><span id="focusState370">Active</span></div></div>`;
  left.insertBefore(hub,issue);
  document.body.insertAdjacentHTML('beforeend',`<div id="issuePopout370" class="workspacePopout370 hidden" role="dialog" aria-modal="true" aria-labelledby="issuePopoutTitle370"><div class="workspacePopoutCard370"><div class="workspacePopoutHeader370"><div><span>Module 1</span><h2 id="issuePopoutTitle370">Issue / Event Translation</h2><p>Use this when you want to understand what the event may mean, whether it is resolved, and what pattern it belongs to.</p></div><button type="button" class="secondary closePopout370" data-close370="issuePopout370">Close</button></div><div id="issuePopoutBody370"></div></div></div><div id="expertPopout370" class="workspacePopout370 hidden" role="dialog" aria-modal="true" aria-labelledby="expertPopoutTitle370"><div class="workspacePopoutCard370"><div class="workspacePopoutHeader370"><div><span>Module 2</span><h2 id="expertPopoutTitle370">Expert Interpretation</h2><p>Use this after choosing an event when you want a best-fit lens, a challenge view, or a cultural contrast.</p></div><button type="button" class="secondary closePopout370" data-close370="expertPopout370">Close</button></div><div id="expertPopoutBody370"></div></div></div>`);
  $370('issuePopoutBody370')?.appendChild(issue);
@@ -6119,7 +6119,7 @@ const $380=id=>document.getElementById(id);
 const esc380=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 function profile380(){try{return typeof rcCurrentProfile==='function'?rcCurrentProfile():(typeof currentProfile==='function'?currentProfile():state?.profiles?.[0]);}catch(e){return null;}}
 function issue380(p){const selected=$380('issueCardSelector')?.value,issues=p?.issues||[];return issues.find(x=>x.id===selected)||issues[issues.length-1]||null;}
-function coachFreshText380(p){const c=p?.coach380||{};return [c.geniusAsk,c.situation,c.question,c.evidence,c.worries].filter(Boolean).join(' ').trim();}
+function coachFreshText380(p){const c=p?.coach380||{};return [c.geniusAsk,c.situation,c.question,c.evidence,c.worries,c.geniusTake].filter(Boolean).join(' ').trim();}
 function text380(p){
  const fresh=coachFreshText380(p);
  if(fresh)return fresh;
@@ -6306,6 +6306,60 @@ function geniusComment380(row,ctx,stage,crux,raw,people){
  const d=window.RelationshipExpertEngine359?.compose?.(row,ctx);
  return d?.experiment||row.advice||row.lens||'Test the idea against the next observable behavior.';
 }
+function geniusPosition380(row,stage,crux,raw,people,slot){
+ const n=String(row?.name||''),t=String(raw||'').toLowerCase(),pacing=/moving too fast|too fast|rushing|pace|pacing|slow down/.test(t);
+ const earlyMan=stage==='early'&&crux==='early_signal'&&people?.user==='man'&&people?.target==='woman';
+ if(earlyMan){
+  if(n.includes('Orion'))return{stance:'Position',text:pacing?'Do not turn pacing anxiety into a heavy talk. Make one calm, specific invitation or pacing statement, then stop trying to manage her reaction.':'Make one clean invitation. Not a vibe check, not a paragraph, not a disguised request for reassurance: a simple plan she can accept, counter, or decline.'};
+  if(n.includes('Jane Austen'))return{stance:'Pushback',text:'I agree with the clean invitation, but I would not call her answer only an attraction signal. It is character evidence: does she respond with warmth, clarity, courtesy, or convenient fog?'};
+  if(n.includes('Logan Ury'))return{stance:'Practical test',text:'Both of you are making this too abstract. One real date or one real follow-up gives better data than rereading messages. Run a small experiment and review behavior afterward.'};
+  if(n.includes('Marcus'))return{stance:'Grounding',text:'You may prefer a certain answer, but you do not own it. Own your tone, restraint, courage, and timing; let the outcome be information rather than a verdict on your worth.'};
+  if(n.includes('Scott Stanley'))return{stance:'Boundary',text:'Do not slide into relationship behavior before there is a decision. Keep the next step modest: one date, one plan, one observed response.'};
+ }
+ if(crux==='safety'){
+  if(n.includes('Evan'))return{stance:'Override',text:'I am going to interrupt the normal dating advice. If refusal, privacy, or independence produces punishment, this is not a communication puzzle; it is a safety and autonomy question.'};
+  return{stance:slot?'Agreement':'Position',text:'I agree safety changes the whole frame. Do not optimize chemistry, reassurance, or repair while someone is being monitored, threatened, isolated, or punished for saying no.'};
+ }
+ if(crux==='behavior_change'){
+  if(n.includes('Gottman')||n.includes('Scott'))return{stance:'Position',text:'The useful question is not whether the promise sounds sincere. The useful question is whether the cue, routine, reward, and review point have changed.'};
+  if(n.includes('Aristotle'))return{stance:'Deeper layer',text:'I agree, but habit needs a reason to become stable. If the behavior is not tied to fairness, gratitude, duty, or a shared good, it may fade when pressure fades.'};
+  return{stance:'Practical test',text:'Make the change small enough to observe this week: one cue, one behavior, one proof point. Anything vaguer becomes another emotional conversation with no scoreboard.'};
+ }
+ if(crux==='repair'){
+  if(n.includes('Gottman'))return{stance:'Position',text:'Start with the first repairable moment. Name the event, the impact, and the next behavior. Do not prosecute the whole personality.'};
+  if(n.includes('Bell Hooks'))return{stance:'Challenge',text:'Repair is not only smoother wording. Ask whether care, respect, responsibility, and trust are actually being practiced after the apology.'};
+  return{stance:'Refinement',text:'I agree with narrowing the repair, but evidence matters: the next similar moment should look different, or the repair was mostly relief.'};
+ }
+ if(crux==='commitment'){
+  if(n.includes('Scott'))return{stance:'Position',text:'The danger is sliding into benefits, intimacy, or constraints without a clear decision. Ask what has actually been chosen.'};
+  if(n.includes('Louise'))return{stance:'Culture read',text:'I agree, and modern dating often rewards ambiguity. Private affection without public or practical clarity can keep one person investing while the rules stay undefined.'};
+  return{stance:'Test',text:'Do not ask for a speech. Ask for the next concrete commitment behavior, then watch whether the answer becomes action.'};
+ }
+ const generic=[
+  {stance:'Position',text:geniusComment380(row,{},stage,crux,raw,people)},
+  {stance:'Agreement',text:'I agree with the main read, but the advice should be tested against behavior, not how convincing it feels in the moment.'},
+  {stance:'Pushback',text:'I would be careful about overfitting the story. Ask what observable evidence would change your mind.'},
+  {stance:'Synthesis',text:'The next move should be small, dignified, and measurable: one action, one response to observe, one boundary if the pattern repeats.'}
+ ];
+ return generic[slot%generic.length];
+}
+function geniusCoachReply380(userTake,stage,crux,people){
+ const t=String(userTake||'').toLowerCase();
+ if(!t.trim())return '';
+ if(/she said yes|she agreed|she wants|date set|we have plans/.test(t))return 'That changes the read in a good way: stop seeking more proof for now. Make the plan clean, show up composed, and let the date create the next evidence.';
+ if(/no|declined|busy|ignored|left me on read|didn.?t respond|ghost/.test(t))return 'Then the panel should tighten: do not bargain against weak reciprocity. One graceful follow-up is fine if there is ambiguity; repeated pursuit after nonresponse is self-abandonment.';
+ if(/i already texted|sent a long|overexplained|too much/.test(t))return 'Then repair by becoming simple again. No apology spiral. Send one calm reset only if needed, then let space and behavior do more than another explanation.';
+ if(stage==='early'&&people?.user==='man'&&people?.target==='woman')return 'Your update matters. The next move is still warm clarity plus restraint: do the one clean thing, then watch whether she helps the connection move.';
+ if(crux==='safety')return 'Your update should be judged by safety, not persuasion. Ask what happens when you say no, preserve support, and do not make the unsafe person the only witness.';
+ return 'Good, that is the kind of context the panel needs. Convert it into one observable next test: what action will you take, what response would reassure you, and what response would make you stop?';
+}
+function counselorComment380(stage,crux,people){
+ if(crux==='safety')return 'I am going to mediate this around your safety first. The experts can disagree about interpretation, but nobody gets to optimize a relationship at the cost of your autonomy, privacy, or support.';
+ if(stage==='early'&&people?.user==='man'&&people?.target==='woman')return 'I am listening for what protects your goodwill and your dignity. The panel should help you make one clear, respectful move without turning anxiety into pressure or self-abandonment.';
+ if(crux==='behavior_change')return 'I am going to keep the panel honest: advice only matters if it becomes a behavior you can observe, repeat, and stop requesting once the evidence is clear.';
+ if(crux==='repair')return 'I am here to keep this repair-focused instead of blame-focused. The question is what happened, what it meant, what changes next time, and whether the repair protects both people.';
+ return 'I am here as the neutral third party on your side: I will track the question, keep the advice practical, and pull the experts back when they drift into abstraction.';
+}
 function expertProfileHTML380(row){
  const name=row?.name||'Relationship coach';
  const profile=window.relationshipExpertProfile343?.(name,row)||{avatar:row?.avatar||'RI',kind:row?.sourceClass||'Modeled perspective',lineage:'Modeled interpretive lens inside the app.',bio:'Review its provenance and limitations before applying it.'};
@@ -6341,15 +6395,15 @@ function closeExpertProfile380(){
  if(!$380('issuePopout370')?.classList.contains('hidden')||!$380('expertPopout370')?.classList.contains('hidden'))return;
  document.body.classList.remove('workspacePopoutOpen370');
 }
-function geniusLine380(row,ctx,stage,crux,raw,people){
+function geniusLine380(row,ctx,stage,crux,raw,people,slot=0){
  const name=(window.relationshipExpertDisplayName343?.(row.name))||row.name;
  const profile=window.relationshipExpertProfile343?.(row.name,row)||{avatar:row.avatar||'RI',kind:row.sourceClass||'Modeled perspective'};
- const frame=geniusComment380(row,ctx,stage,crux,raw,people);
- const q=(crux==='early_signal'&&people?.user==='man'&&people?.target==='woman')?'What did she do after your clear, low-pressure bid?':(row.exercise||'What observable behavior would change the read?');
+ const turn=geniusPosition380(row,stage,crux,raw,people,slot);
  const sentence=s=>String(s||'').replace(/\s+/g,' ').trim().replace(/^(.{170}).+$/,'$1...');
- return `<div class="geniusBubble380 geniusVoice380"><div class="geniusVoiceHead380"><button type="button" class="geniusProfileBtn380" data-expert-profile380="${esc380(row.name)}" title="Open voice profile">${esc380(profile.avatar)}</button><div><b>${esc380(name)}</b><em>${esc380(profile.kind)}</em></div></div><p>${esc380(sentence(frame))}</p><span>${esc380(sentence(q))}</span></div>`;
+ return `<div class="geniusBubble380 geniusVoice380"><div class="geniusVoiceHead380"><button type="button" class="geniusProfileBtn380" data-expert-profile380="${esc380(row.name)}" title="Open voice profile">${esc380(profile.avatar)}</button><div><b>${esc380(name)}</b><em>${esc380(profile.kind)}</em></div></div><p>${esc380(sentence(turn.text))}</p><span>${esc380(turn.stance)}</span></div>`;
 }
 function geniusChatHTML380(p,stage,crux,raw,people){
+ const userTake=String(p?.coach380?.geniusTake||'').trim();
  const fresh=coachFreshText380(p);
  const ctx=fresh?{profile:p,issue:null,latestSnapshot:null,metrics:{},text:raw,isPositive:false,safetyFlags:[]}:(typeof window.relationshipContext343==='function'?window.relationshipContext343():{profile:p,issue:issue380(p),text:raw});
  ctx.text=fresh?raw:[ctx.text,raw].filter(Boolean).join(' ');
@@ -6361,11 +6415,18 @@ function geniusChatHTML380(p,stage,crux,raw,people){
   const wanted=['Orion Taraban incentive/respect lens','Jane Austen character lens','Logan Ury behavioral dating lens','Marcus Aurelius stoic lens','Scott Stanley commitment clarity lens'];
   ranked=wanted.map(name=>rows.find(r=>r.name===name)).filter(Boolean);
  }
- return `<section class="geniusChat380" aria-label="Ask the geniuses">
-  <div class="geniusChatHead380"><span>Ask the geniuses</span><h4>Short panel read</h4></div>
-  <div class="geniusBubble380 geniusUser380"><b>Simplified question</b><p>${esc380(geniusQuestion380(raw,stage,crux,people))}</p></div>
-  <div class="geniusThread380">${ranked.map(row=>geniusLine380(row,ctx,stage,crux,raw,people)).join('')||'<div class="geniusBubble380 geniusVoice380"><b>Coach</b><p>Add an issue or more context and the panel will weigh in.</p></div>'}</div>
- </section>`;
+	 return `<section class="geniusChat380" aria-label="Ask the geniuses">
+	  <div class="geniusChatHead380"><span>Ask the geniuses</span><h4>Panel conversation</h4></div>
+	  <div class="geniusBubble380 geniusUser380"><b>Simplified question</b><p>${esc380(geniusQuestion380(raw,stage,crux,people))}</p></div>
+	  <div class="geniusThread380"><div class="geniusBubble380 geniusCounselor380"><b>Counselor</b><p>${esc380(counselorComment380(stage,crux,people))}</p><span>Moderator</span></div>${ranked.map((row,index)=>geniusLine380(row,ctx,stage,crux,raw,people,index)).join('')||'<div class="geniusBubble380 geniusVoice380"><b>Coach</b><p>Add an issue or more context and the panel will weigh in.</p></div>'}${userTake?`<div class="geniusBubble380 geniusUser380"><b>Your weigh-in</b><p>${esc380(userTake)}</p></div><div class="geniusBubble380 geniusCoach380"><b>Counselor synthesis</b><p>${esc380(geniusCoachReply380(userTake,stage,crux,people))}</p><span>Next step</span></div>`:''}</div>
+	  <div class="geniusWeighIn380"><label for="geniusTakeInput380"><span>Your turn</span><textarea id="geniusTakeInput380" placeholder="Weigh in: add what happened next, what you disagree with, or what the panel missed.">${esc380(userTake)}</textarea></label><button id="saveGeniusTake380" type="button" class="secondary">Update conversation</button></div>
+	 </section>`;
+}
+function counselorOfficeHTML380(p){
+ const i=issue380(p),raw=[i?.title,i?.event,i?.story].filter(Boolean).join(' ').trim();
+ const status=i?(i.status==='resolved'||i.resolved?'Resolved':'Open issue'):'No saved issue selected';
+ const read=raw?`I am treating this as a concrete problem-solving file, not ordinary coaching. We will preserve the facts, separate meaning from evidence, ask the experts for sharper reads, and keep track of whether repair actually changes the next similar moment.`:'Use this room when there is a specific rupture, conflict, pattern, or event worth saving. The counselor organizes the case and the expert panel weighs in underneath.';
+ return `<section class="counselorOffice380"><div class="counselorHead380"><span>Unbiased third party</span><h3>Counselor's read</h3><p>${esc380(read)}</p></div><div class="counselorMeta380"><span>${esc380(status)}</span><span>${esc380(i?.title||i?.type||'No event selected')}</span></div></section>`;
 }
 function fieldGuide380(stage,crux,raw,people){
  if(crux==='safety')return{title:'Safety rules',rules:['Do not trade privacy, friends, money, or movement for temporary reassurance.','If refusal would trigger punishment, treat that as important evidence.','Use outside support; do not make the unsafe person the only witness.'],selectFor:['Respects a no without punishment.','Can tolerate privacy and outside relationships.','Repairs without demanding control.'],avoidFeeding:['Surveillance as proof of love.','Isolation framed as loyalty.','Threats, intimidation, or sexual pressure.']};
@@ -6394,8 +6455,9 @@ function childrenQuestions380(stage,raw){
 }
 function renderCoach380(){
  const p=profile380(),out=$380('coachOutput380');if(out)out.innerHTML=coachHTML380(p);
- const legacy=document.querySelector('#expertPopoutBody370 .legacyExpertDetails380');
+ const legacy=document.querySelector('#issuePopoutBody370 .legacyExpertDetails380');
  if(legacy){const show=hasIssue380(p);legacy.hidden=!show;if(show)legacy.open=true;}
+ const counselor=$380('counselorRead380');if(counselor)counselor.innerHTML=counselorOfficeHTML380(p);
  const summary=$380('coachIntakeSummary380');if(summary){const raw=text380(p);summary.textContent=raw?raw.slice(0,180)+(raw.length>180?'...':''):'No coach context entered yet.';}
  const ask=$380('geniusAskInput380');if(ask&&p?.coach380&&!ask.value)ask.value=p.coach380.geniusAsk||'';
 }
@@ -6404,12 +6466,16 @@ function ensureCoachUI380(){
  const issueBody=$380('issuePopoutBody370'),expertBody=$380('expertPopoutBody370');if(!issueBody||!expertBody)return;
  window.__coachUI380=true;
  const oldIssueTitle=$380('issuePopoutTitle370');if(oldIssueTitle)oldIssueTitle.textContent='Counselor office';
- const oldExpertTitle=$380('expertPopoutTitle370');if(oldExpertTitle)oldExpertTitle.textContent='Relationship Coach';
- const openIssue=$380('openIssuePopout370'),openExpert=$380('openExpertPopout370');if(openIssue)openIssue.textContent='Counselor office';if(openExpert)openExpert.textContent='Talk with the coach';
+ const oldExpertTitle=$380('expertPopoutTitle370');if(oldExpertTitle)oldExpertTitle.textContent='Coach office';
+	 const openIssue=$380('openIssuePopout370'),openExpert=$380('openExpertPopout370');
+	 if(openIssue){openIssue.classList.add('focusCounselorBtn380');openIssue.innerHTML='<span>Counselor office</span><b>Work a real issue</b><small>Saved event, repair, expert panel</small>';}
+	 if(openExpert){openExpert.classList.add('focusCoachBtn380');openExpert.innerHTML='<span>Coach office</span><b>Talk it through</b><small>Advice, grounding, genius chat</small>';}
+	 if(openIssue&&openExpert&&openIssue.parentElement===openExpert.parentElement)openIssue.parentElement.insertBefore(openExpert,openIssue);
  const hubTitle=document.querySelector('#workspaceFocusHub370 h3');if(hubTitle)hubTitle.textContent='Start with the coach';
  const issueLead=document.querySelector('#issuePopout370 .workspacePopoutHeader370 p');if(issueLead)issueLead.textContent='Use this only when there is a concrete problem, rupture, conflict, or important event you want to save, translate, and repair.';
- const expertLead=document.querySelector('#expertPopout370 .workspacePopoutHeader370 p');if(expertLead)expertLead.textContent='Start here for normal advice, grounding, next moves, and genius-panel perspective. Use the counselor office only when there is a specific issue to work through.';
- issueBody.insertAdjacentHTML('afterbegin',`<div id="coachIntake380" class="coachIntake380" aria-describedby="coachIntro380"><div><span>Coach intake</span><h3>What is going on?</h3><p id="coachIntro380">Write like you would to a smart friend who knows relationships. Early flirting, securing commitment, marriage routines, desire, faith, anxiety, values, repair, and behavior change all count.</p></div><label for="coachSituation380">Situation</label><textarea id="coachSituation380" aria-describedby="coachIntro380" placeholder="Example: I am flirting with this girl and I think it is going well, but I care enough that I am getting anxious. Here is what happened..."></textarea><div class="coachMiniGrid380"><label for="coachStage380">Stage<select id="coachStage380"><option value="auto">Infer from what I write</option><option value="early">Early dating / flirting</option><option value="mid">Committed / mid-stage</option><option value="mature">Mature / married</option></select></label><label for="coachGoal380">What do you want?<select id="coachGoal380"><option>Get grounded and choose the next move</option><option>Maximize attraction without losing dignity</option><option>Secure commitment / evaluate seriousness</option><option>Repair conflict or resentment</option><option>Change a recurring behavior pattern</option><option>Live from values or faith instead of anxiety</option></select></label><label for="coachGrounding380">Grounding style<select id="coachGrounding380"><option value="auto">Best fit</option><option value="faith">Faith / surrender / service</option><option value="values">Values and character</option><option value="body">Nervous-system regulation</option></select></label></div><label for="coachQuestion380">Evidence, worries, or question</label><textarea id="coachQuestion380" aria-describedby="coachQuestionHelp380" placeholder="What makes you think it is working or not working? What are you tempted to do? What advice do you want?"></textarea><p id="coachQuestionHelp380" class="coachAssistive380">Include observable evidence, what you are tempted to do, and the kind of advice you want.</p><div class="coachIntakeActions380"><button id="saveCoachIntake380" type="button">Update coach read</button><span id="coachIntakeSummary380" role="status" aria-live="polite">No coach context entered yet.</span></div></div>`);
+ const expertLead=document.querySelector('#expertPopout370 .workspacePopoutHeader370 p');if(expertLead)expertLead.textContent='Use this for normal advice, grounding, next moves, and the genius-panel conversation. If there is a specific conflict or rupture, take it to the Counselor office.';
+ expertBody.insertAdjacentHTML('afterbegin',`<div id="coachIntake380" class="coachIntake380" aria-describedby="coachIntro380"><div><span>Coach intake</span><h3>What is going on?</h3><p id="coachIntro380">Write like you would to a smart friend who knows relationships. Early flirting, securing commitment, marriage routines, desire, faith, anxiety, values, repair, and behavior change all count.</p></div><label for="coachSituation380">Situation</label><textarea id="coachSituation380" aria-describedby="coachIntro380" placeholder="Example: I am flirting with this girl and I think it is going well, but I care enough that I am getting anxious. Here is what happened..."></textarea><div class="coachMiniGrid380"><label for="coachStage380">Stage<select id="coachStage380"><option value="auto">Infer from what I write</option><option value="early">Early dating / flirting</option><option value="mid">Committed / mid-stage</option><option value="mature">Mature / married</option></select></label><label for="coachGoal380">What do you want?<select id="coachGoal380"><option>Get grounded and choose the next move</option><option>Maximize attraction without losing dignity</option><option>Secure commitment / evaluate seriousness</option><option>Repair conflict or resentment</option><option>Change a recurring behavior pattern</option><option>Live from values or faith instead of anxiety</option></select></label><label for="coachGrounding380">Grounding style<select id="coachGrounding380"><option value="auto">Best fit</option><option value="faith">Faith / surrender / service</option><option value="values">Values and character</option><option value="body">Nervous-system regulation</option></select></label></div><label for="coachQuestion380">Evidence, worries, or question</label><textarea id="coachQuestion380" aria-describedby="coachQuestionHelp380" placeholder="What makes you think it is working or not working? What are you tempted to do? What advice do you want?"></textarea><p id="coachQuestionHelp380" class="coachAssistive380">Include observable evidence, what you are tempted to do, and the kind of advice you want.</p><div class="coachIntakeActions380"><button id="saveCoachIntake380" type="button">Update coach read</button><span id="coachIntakeSummary380" role="status" aria-live="polite">No coach context entered yet.</span></div></div>`);
+ issueBody.insertAdjacentHTML('afterbegin','<div id="counselorRead380"></div>');
  const issuePanel=$380('issueTranslationPanel335');
  if(issuePanel&&!issuePanel.closest('.coachStructuredIssue380')){
   const wrap=document.createElement('details');
@@ -6418,8 +6484,9 @@ function ensureCoachUI380(){
   issuePanel.parentNode.insertBefore(wrap,issuePanel);
   wrap.appendChild(issuePanel);
  }
- expertBody.insertAdjacentHTML('afterbegin','<div class="coachCounselorNook380"><div><span>If there is a real issue</span><b>Counselor office</b><p>Open this only for a specific problem, rupture, conflict, or event you want to save and repair.</p></div><button id="openCounselorOffice380" type="button" class="secondary">Open issue room</button></div><div class="geniusAskBox380"><label for="geniusAskInput380">Ask the geniuses</label><textarea id="geniusAskInput380" placeholder="Ask a direct question, or leave this blank and the panel will use your coach intake/current issue."></textarea><button id="askGeniusesBtn380" type="button" class="secondary">Ask panel</button></div><div id="coachOutput380" class="coachOutputWrap380"></div><details class="legacyExpertDetails380"><summary>Saved-issue expert panel</summary></details>');
- const legacy=expertBody.querySelector('.legacyExpertDetails380');const expertPanel=$380('expertThinkPanel339');if(legacy&&expertPanel)legacy.appendChild(expertPanel);
+	 expertBody.insertAdjacentHTML('beforeend','<div id="coachOutput380" class="coachOutputWrap380"></div><div class="geniusAskBox380"><label for="geniusAskInput380">Ask the geniuses</label><textarea id="geniusAskInput380" placeholder="Ask a direct question, or leave this blank and the panel will use your coach intake/current issue."></textarea><button id="askGeniusesBtn380" type="button" class="secondary">Ask panel</button></div><div class="coachCounselorNook380"><div><span>If there is a real issue</span><b>Counselor office</b><p>Open this for a specific rupture, conflict, or event that needs repair and expert problem-solving.</p></div><button id="openCounselorOffice380" type="button" class="secondary">Open counselor office</button></div>');
+ issueBody.insertAdjacentHTML('beforeend','<details class="legacyExpertDetails380"><summary>Saved-issue expert panel</summary></details>');
+ const legacy=issueBody.querySelector('.legacyExpertDetails380');const expertPanel=$380('expertThinkPanel339');if(legacy&&expertPanel)legacy.appendChild(expertPanel);
  bindCoach380();fillCoach380();renderCoach380();
 }
 function fillCoach380(){
@@ -6441,6 +6508,7 @@ function bindCoach380(){
  document.addEventListener('click',e=>{if(e.target?.id==='openIssuePopout370')setTimeout(()=>{ensureCoachUI380();fillCoach380();},80);if(e.target?.id==='openExpertPopout370')setTimeout(renderCoach380,120);});
 }
 document.addEventListener('click',e=>{
+ if(e.target?.id==='saveGeniusTake380'){const p=profile380();if(!p)return;p.coach380={...(p.coach380||{}),geniusTake:$380('geniusTakeInput380')?.value||''};if(typeof saveState==='function')saveState();renderCoach380();return;}
  const profileBtn=e.target?.closest?.('[data-expert-profile380]');
  if(profileBtn){e.preventDefault();showExpertProfile380(profileBtn.dataset.expertProfile380);return;}
  if(e.target?.closest?.('.expertProfileClose380')||e.target?.id==='expertProfileModal380')closeExpertProfile380();
