@@ -1,4 +1,9 @@
-# Relationship Intelligence v3.9.9
+# Relationship Intelligence v3.9.10
+
+v3.9.10:
+- Fixes the Coach office update button so it uses a delegated click handler and cannot silently lose its binding after workspace re-renders.
+- Makes coach profile lookup create/use the active profile more reliably before saving the intake.
+- Adds visible status feedback and scrolls to the coach read after updating.
 
 v3.9.9:
 - Separates Coach office and Counselor office: coach intake and normal coaching live in the Coach office; issue repair and saved-issue experts live in the Counselor office.

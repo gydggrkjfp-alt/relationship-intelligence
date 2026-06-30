@@ -6117,7 +6117,7 @@ window.addEventListener('resize',()=>hide371());
 (()=>{
 const $380=id=>document.getElementById(id);
 const esc380=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
-function profile380(){try{return typeof rcCurrentProfile==='function'?rcCurrentProfile():(typeof currentProfile==='function'?currentProfile():state?.profiles?.[0]);}catch(e){return null;}}
+function profile380(){try{return typeof profile343==='function'?(profile343({ensureProfile:true})||null):(typeof rcCurrentProfile==='function'?rcCurrentProfile():(typeof currentProfile==='function'?currentProfile():state?.profiles?.[0]));}catch(e){return null;}}
 function issue380(p){const selected=$380('issueCardSelector')?.value,issues=p?.issues||[];return issues.find(x=>x.id===selected)||issues[issues.length-1]||null;}
 function coachFreshText380(p){const c=p?.coach380||{};return [c.geniusAsk,c.situation,c.question,c.evidence,c.worries,c.geniusTake].filter(Boolean).join(' ').trim();}
 function text380(p){
@@ -6493,9 +6493,12 @@ function fillCoach380(){
  const p=profile380(),c=p?.coach380||{};if($380('coachSituation380'))$380('coachSituation380').value=c.situation||'';if($380('coachQuestion380'))$380('coachQuestion380').value=c.question||'';if($380('coachStage380'))$380('coachStage380').value=c.stage||'auto';if($380('coachGoal380'))$380('coachGoal380').value=c.goal||'Get grounded and choose the next move';if($380('coachGrounding380'))$380('coachGrounding380').value=c.grounding||'auto';
 }
 function saveCoach380(){
- const p=profile380();if(!p)return;p.coach380={...(p.coach380||{}),situation:$380('coachSituation380')?.value||'',question:$380('coachQuestion380')?.value||'',stage:$380('coachStage380')?.value||'auto',goal:$380('coachGoal380')?.value||'',grounding:$380('coachGrounding380')?.value||'auto',updated:new Date().toISOString()};
+ const p=profile380(),status=$380('coachIntakeSummary380');if(!p){if(status)status.textContent='Could not find a profile for this coach read.';return;}
+ p.coach380={...(p.coach380||{}),situation:$380('coachSituation380')?.value||'',question:$380('coachQuestion380')?.value||'',stage:$380('coachStage380')?.value||'auto',goal:$380('coachGoal380')?.value||'',grounding:$380('coachGrounding380')?.value||'auto',updated:new Date().toISOString()};
  if(typeof saveState==='function')saveState();
  renderCoach380();
+ const out=$380('coachOutput380');if(out)out.scrollIntoView({behavior:'smooth',block:'start'});
+ const freshStatus=$380('coachIntakeSummary380');if(freshStatus)freshStatus.textContent='Coach read updated.';
  $380('issuePopout370')?.classList.add('hidden');
  $380('expertPopout370')?.classList.remove('hidden');document.body.classList.add('workspacePopoutOpen370');
 }
@@ -6508,6 +6511,7 @@ function bindCoach380(){
  document.addEventListener('click',e=>{if(e.target?.id==='openIssuePopout370')setTimeout(()=>{ensureCoachUI380();fillCoach380();},80);if(e.target?.id==='openExpertPopout370')setTimeout(renderCoach380,120);});
 }
 document.addEventListener('click',e=>{
+ if(e.target?.closest?.('#saveCoachIntake380')){e.preventDefault();saveCoach380();return;}
  if(e.target?.id==='saveGeniusTake380'){const p=profile380();if(!p)return;p.coach380={...(p.coach380||{}),geniusTake:$380('geniusTakeInput380')?.value||''};if(typeof saveState==='function')saveState();renderCoach380();return;}
  const profileBtn=e.target?.closest?.('[data-expert-profile380]');
  if(profileBtn){e.preventDefault();showExpertProfile380(profileBtn.dataset.expertProfile380);return;}
