@@ -1,4 +1,19 @@
-# Relationship Intelligence v3.9.10
+# Relationship Intelligence v3.9.13
+
+v3.9.13:
+- Starts the long-term coach intelligence fix by adding a standalone weighted coach router.
+- Replaces first-match coach inference with scored stage/crux classification, suppressions, confidence, and reasons.
+- Adds coach-router regression tests for early dating, pacing, safety, dating-market discouragement, and mature/kids prompts.
+
+v3.9.12:
+- Fixes dating-market frustration prompts so phrases like "doesn't have kids" no longer misclassify the coach read as mature/married.
+- Routes Hinge/Instagram dating discouragement, access frustration, and generalized resentment into the self-orientation/life-reset branch instead of recycling flirtation tactics.
+- Labels the coach output as self-orientation / life reset when the real issue is getting out of the dating loop.
+
+v3.9.11:
+- Adds a first-class self-orientation/life-reset coaching branch for prompts about finding yourself, rumination, family, friends, faith, dogs/routines, location changes, and achievable goals.
+- Prevents those prompts from being treated like another early flirtation scenario.
+- Adds a matched playbook for making life bigger than the romantic loop.
 
 v3.9.10:
 - Fixes the Coach office update button so it uses a delegated click handler and cannot silently lose its binding after workspace re-renders.
