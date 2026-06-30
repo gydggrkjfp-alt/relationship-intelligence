@@ -1,4 +1,8 @@
-# Relationship Intelligence v3.9.13
+# Relationship Intelligence v3.9.14
+
+v3.9.14:
+- Adds an emergency top-tab navigation handler directly in the HTML so Workspace/Snapshot/Self/Diagnostics buttons still switch views even if a later module throws during startup.
+- Keeps the normal app renderers layered on top when they load successfully.
 
 v3.9.13:
 - Starts the long-term coach intelligence fix by adding a standalone weighted coach router.
