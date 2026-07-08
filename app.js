@@ -6554,4 +6554,3 @@ document.addEventListener('DOMContentLoaded',()=>setTimeout(ensureCoachUI380,360
 setTimeout(ensureCoachUI380,4100);
 document.addEventListener('change',e=>{if(['repairCockpitProfileSelect','issueCardSelector'].includes(e.target?.id))setTimeout(()=>{fillCoach380();renderCoach380();},120);});
 })();
- if(crux==='grounding_values')return 'I am going to protect you from turning this into another dating autopsy. The question is how to make your life larger, steadier, and more connected so the romantic question stops occupying the whole room.';

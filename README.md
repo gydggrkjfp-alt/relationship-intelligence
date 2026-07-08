@@ -1,4 +1,8 @@
-# Relationship Intelligence v3.9.16
+# Relationship Intelligence v3.9.17
+
+v3.9.17:
+- Removes a dangling top-level coach return statement that blocked Safari from parsing `app.js`.
+- Bumps the cache and asset query string so Safari/GitHub Pages fetch the corrected app script.
 
 v3.9.16:
 - Fixes an ambiguous decimal ternary in the expert engine that could parse badly in Safari and block startup.
