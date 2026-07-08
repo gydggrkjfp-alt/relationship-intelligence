@@ -1,4 +1,15 @@
-# Relationship Intelligence v3.9.17
+# Relationship Intelligence v3.9.19
+
+v3.9.19:
+- Starts the Modern Wisdom source-bedrock layer with Alison Armstrong and Suzanne Venker playbooks distilled into the coach database.
+- Boosts retrieval so Modern Wisdom, Alison/truth/appreciation/usefulness, and Suzanne/family/marriage/provider prompts pull those cards into the coach read.
+- Shows source labels inside the optional coach database section and adds a Suzanne family/purpose lens to the expert roster.
+
+v3.9.18:
+- Makes expert display names recognizable during development with pseudonym + "based on ..." labels.
+- Adds deeper Orion/Taraban-inspired coach playbooks for sex pacing, useful contribution, and avoiding one-way overinvestment.
+- Fixes early-stage routing for prompts like "dating a girl for a month or two" so they do not get treated as mature/married relationship cases.
+- Makes the genius panel ask and answer sex-pacing/contribution questions with a sharper incentive/respect lens.
 
 v3.9.17:
 - Removes a dangling top-level coach return statement that blocked Safari from parsing `app.js`.

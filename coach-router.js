@@ -5,11 +5,11 @@ function add(scores,key,n,why){scores[key]=(scores[key]||0)+n;if(why)scores.reas
 function best(scores,keys,fallback){return keys.map(k=>[k,scores[k]||0]).sort((a,b)=>b[1]-a[1])[0]?.[0]||fallback;}
 function classify(input={}){
  const raw=norm(input.raw),chosen=input.chosenStage,profile=norm(input.profileType||input.profile?.rtype),scores={early:0,mid:0,mature:0,safety:0,grounding_values:0,early_signal:0,commitment:0,desire_admiration:0,behavior_change:0,repair:0,reasons:[]};
- const explicitEarly=/just met|met (her|him|them)|first date|second date|asking (her|him|them) out|ask (her|him|them) out|flirting|talking stage|crush|matched with|dating app|hinge|instagram|lots of dates|dating market/.test(raw);
+ const explicitEarly=/just met|met (her|him|them)|first date|second date|asking (her|him|them) out|ask (her|him|them) out|flirting|talking stage|crush|matched with|dating app|hinge|instagram|lots of dates|dating market|dating (a )?(girl|woman|guy|man)|seeing (a )?(girl|woman|guy|man)|month or two|couple months|early relationship/.test(raw);
  const datingMarket=/lots of dates|hinge|instagram|dating market|do not have access|don't have access|dont have access|can't find (women|men|people)|cant find (women|men|people)|hate men|hate women|too many sexual partners|many sexual partners|millennial/.test(raw);
  const lifeReset=/find myself|finding myself|lost|stuck in my head|in my head|ruminat|spiral|life reset|reset my life|focus on myself|family|friends|dog|church|religio|faith|god|bigger than myself|purpose|meaning|move away|move to|different location|new city|achievable goals|small goals|workout|exercise|walk|service|volunteer|gratitude|grounded|anxious|anxiety|values|kind/.test(raw);
  if(chosen&&chosen!=='auto')add(scores,chosen,100,'manual stage');
- if(explicitEarly)add(scores,'early',32,'explicit early/dating-market language');
+ if(explicitEarly){add(scores,'early',44,'explicit early/dating-market language');add(scores,'mature',-36,'early dating language overrides mature profile defaults');}
  if(/moving too fast|too fast|rushing|rush|slow down|pace|pacing|get serious fast|intense too soon/.test(raw))add(scores,'early',24,'pacing language usually starts early unless marriage is explicit');
  if(/married|wife|husband|spouse|marriage|mortgage|years together|decades|\bour (kids|children)\b|\bmy (kids|children)\b|\bwe have (kids|children)\b|\braising (kids|children)\b/.test(raw)||/married|spouse|wife|husband/.test(profile))add(scores,'mature',32,'explicit mature-bond language');
  if(/partner|boyfriend|girlfriend|exclusive|committed|living together|fianc|long[- ]term/.test(raw))add(scores,'mid',20,'committed relationship language');

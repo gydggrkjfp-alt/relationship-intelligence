@@ -4793,6 +4793,7 @@ const advisorModes343={
 "Masculine / Feminine Dynamics":{
 "Orion Taraban incentive/respect lens":{tags:["respect","incentive","usefulness","admiration","selection"],bestFor:["Appreciation / usefulness","Respect / public image","Social media / outside validation","Commitment / future direction"],lens:"Reads the event through incentives: what behavior is rewarded, ignored, punished, or demanded.",advice:"Notice whether effort produces appreciation, cooperation, and desire, or teaches one person that investment does not pay off.",exercise:"Incentive audit: list what each person rewards, punishes, ignores, and demands.",miss:"Can underweight attachment panic, tenderness, or trauma history."},
 "Alison Armstrong usefulness/polarity lens":{tags:["appreciation","provision","usefulness","comfort","correction"],bestFor:["Appreciation / usefulness","Criticism / correction","Household labor","Planning / logistics"],lens:"Reads correction, appreciation, and comfort as translation problems between intention and impact.",advice:"Make appreciation visible before improvement requests. Translate criticism into the comfort or support being requested.",exercise:"Rewrite: You did this wrong -> It helps me feel ___ when ___.",miss:"Can sound too gendered if the actual roles do not match the pattern."},
+"Suzanne Venker family/purpose lens":{tags:["family","marriage","motherhood","provider","purpose","roles","career"],bestFor:["Commitment / future direction","Dating / early relationship","Planning / logistics","Appreciation / usefulness"],lens:"Reads dating, marriage, work, children, provision, and home life as one connected life-design problem rather than separate preference checkboxes.",advice:"Clarify the life you are selecting for before chemistry and inertia make the decision for you.",exercise:"Life-design audit: desired marriage/family timeline, work priorities, children, money, home, sacrifice, and where each partner wants to be useful.",miss:"Can sound too prescriptive if the person has explicitly chosen a different life path."},
 "Louise Perry modern dating culture lens":{tags:["social media","commitment","ambiguity","sexual","outside validation"],bestFor:["Social media / outside validation","Commitment / future direction","Trust / honesty","Passion / sexual disconnect"],lens:"Reads the event through modern dating incentives: options, ambiguity, outside validation, weak norms, and unclear commitment.",advice:"Clarify whether the relationship is moving toward stability or being pulled into ambiguity and audience approval.",exercise:"Norms agreement: exclusivity, public respect, social media boundaries, sexual expectations, and commitment.",miss:"Can be less useful when the couple already has strong norms and mainly needs emotional repair."}
 },
 "Philosophical Lenses":{
@@ -4989,46 +4990,48 @@ function contextHTML343(ctx){
 
 function expertDisplay343(name){
  const map={
-  'Sue Johnson / EFT lens':'Mira Stone, attachment clinician',
-  'Gottman stability lens':'Grant Hale, relationship scientist',
-  'Esther Perel desire/security lens':'Celeste Varon, intimacy therapist',
-  'Orion Taraban incentive/respect lens':'Rowan Vale, strategy psychologist',
-  'Alison Armstrong usefulness/polarity lens':'Mara Ellison polarity lens',
-  'Louise Perry modern dating culture lens':'Lydia Hart, culture analyst',
-  'Logan Ury behavioral dating lens':'Nora Finch, dating behavior coach',
-  'Eli Finkel online dating lens':'Elias Mercer, relationship scientist',
-  'David Buss mating strategy lens':'Damon Cross, evolutionary psychologist',
-  'Scott Stanley commitment clarity lens':'Samuel Lane, commitment researcher',
-  'Gabor Mate trauma-pattern lens':'Gabriel Sato, trauma-informed physician',
-  'Brene Brown shame/vulnerability lens':'Brenna Reed, vulnerability researcher',
-  'Evan Stark coercive-control lens':'Everett Shaw, coercive-control researcher',
-  'Call Her Daddy-style pop-culture lens':'Culture expert Casey Vale',
-  'Red-pill internet rhetoric lens':'Internet rhetoric analyst Rex Ward'
+  'Sue Johnson / EFT lens':'Mira Johnson-Stone (based on Sue Johnson)',
+  'Gottman stability lens':'Grant Gottman-Hale (based on Gottman research)',
+  'Esther Perel desire/security lens':'Celeste Perel-Varon (based on Esther Perel)',
+  'Orion Taraban incentive/respect lens':'Oren Taravan (based on Orion Taraban)',
+  'Alison Armstrong usefulness/polarity lens':'Mara Armstrong-Ellison (based on Alison Armstrong)',
+  'Suzanne Venker family/purpose lens':'Susanne Venkor (based on Suzanne Venker)',
+  'Louise Perry modern dating culture lens':'Lydia Perry-Hart (based on Louise Perry)',
+  'Logan Ury behavioral dating lens':'Nora Ury-Finch (based on Logan Ury)',
+  'Eli Finkel online dating lens':'Elias Finkel-Mercer (based on Eli Finkel)',
+  'David Buss mating strategy lens':'Damon Buss-Cross (based on David Buss)',
+  'Scott Stanley commitment clarity lens':'Samuel Stanley-Lane (based on Scott Stanley)',
+  'Gabor Mate trauma-pattern lens':'Gabriel Mate-Sato (based on Gabor Mate)',
+  'Brene Brown shame/vulnerability lens':'Brenna Brown-Reed (based on Brene Brown)',
+  'Evan Stark coercive-control lens':'Everett Stark-Shaw (based on Evan Stark)',
+  'Call Her Daddy-style pop-culture lens':'Culture expert Casey Cooper (based on Call Her Daddy-style advice)',
+  'Red-pill internet rhetoric lens':'Internet rhetoric analyst Rex Redward (based on red-pill rhetoric)'
  };
  return map[name]||name;
 }
 window.relationshipExpertDisplayName343=expertDisplay343;
 function expertProfile343(name,row={}){
  const profiles={
-  'Sue Johnson / EFT lens':{avatar:'MS',kind:'Clinical / research-informed',lineage:'Emotionally Focused Therapy and attachment-bond repair work.',bio:'Best for moments where the real issue may be threat, protest, reassurance, bonding cycles, or emotional accessibility.'},
-  'Gottman stability lens':{avatar:'GH',kind:'Couples research',lineage:'Longitudinal couples research, repair attempts, contempt, influence, and conflict process.',bio:'Best for diagnosing whether a conflict pattern is becoming stable, corrosive, repairable, or contempt-driven.'},
-  'Esther Perel desire/security lens':{avatar:'CV',kind:'Therapy / culture',lineage:'Desire, autonomy, erotic aliveness, security, betrayal, and modern couple identity.',bio:'Best when the issue is not only communication but the tension between closeness, freedom, desire, and resentment.'},
-  'Orion Taraban incentive/respect lens':{avatar:'RV',kind:'Psychology / dating strategy',lineage:'Modern dating strategy, incentives, investment, mate choice, respect, and selection behavior.',bio:'Best for early dating, male/female pursuit dynamics, ambiguity, overinvestment, and whether effort is being rewarded.'},
-  'Alison Armstrong usefulness/polarity lens':{avatar:'ME',kind:'Relationship educator',lineage:'Popular relationship education around appreciation, usefulness, polarity, and translation errors.',bio:'Best when one partner experiences help, correction, appreciation, or contribution very differently from the other.'},
-  'Louise Perry modern dating culture lens':{avatar:'LH',kind:'Culture analysis',lineage:'Modern sexual norms, commitment ambiguity, feminism, incentives, status, and public/private dignity.',bio:'Best for questions where current dating culture, apps, sexual norms, or unclear commitment scripts are shaping behavior.'},
+  'Sue Johnson / EFT lens':{avatar:'SJ',kind:'Clinical / research-informed',lineage:'Modeled voice based on Sue Johnson: Emotionally Focused Therapy and attachment-bond repair work.',bio:'Best for moments where the real issue may be threat, protest, reassurance, bonding cycles, or emotional accessibility.'},
+  'Gottman stability lens':{avatar:'JG',kind:'Couples research',lineage:'Modeled voice based on John and Julie Gottman: longitudinal couples research, repair attempts, contempt, influence, and conflict process.',bio:'Best for diagnosing whether a conflict pattern is becoming stable, corrosive, repairable, or contempt-driven.'},
+  'Esther Perel desire/security lens':{avatar:'EP',kind:'Therapy / culture',lineage:'Modeled voice based on Esther Perel: desire, autonomy, erotic aliveness, security, betrayal, and modern couple identity.',bio:'Best when the issue is not only communication but the tension between closeness, freedom, desire, and resentment.'},
+  'Orion Taraban incentive/respect lens':{avatar:'OT',kind:'Psychology / dating strategy',lineage:'Modeled voice based on Orion Taraban / PsycHacks themes: incentives, investment, mate choice, respect, selection behavior, and not overproviding before reciprocity.',bio:'Best for early dating, male/female pursuit dynamics, ambiguity, overinvestment, sexual pacing, and whether effort is being rewarded.'},
+  'Alison Armstrong usefulness/polarity lens':{avatar:'AA',kind:'Relationship educator',lineage:'Modeled voice based on Alison Armstrong: appreciation, usefulness, polarity, and translation errors.',bio:'Best when one partner experiences help, correction, appreciation, or contribution very differently from the other.'},
+  'Suzanne Venker family/purpose lens':{avatar:'SV',kind:'Culture / family-life commentary',lineage:'Modeled voice based on Suzanne Venker and Modern Wisdom themes: family, marriage, motherhood, provision, work, roles, and dating with purpose.',bio:'Best when attraction has to be tested against the actual life someone wants: children, marriage, career, money, home, sacrifice, and usefulness.'},
+  'Louise Perry modern dating culture lens':{avatar:'LP',kind:'Culture analysis',lineage:'Modeled voice based on Louise Perry: modern sexual norms, commitment ambiguity, feminism, incentives, status, and public/private dignity.',bio:'Best for questions where current dating culture, apps, sexual norms, or unclear commitment scripts are shaping behavior.'},
   'Marcus Aurelius stoic lens':{avatar:'MA',kind:'Historical philosophy',lineage:'Roman Stoicism, self-command, judgment, duty, discipline, and accepting what is outside control.',bio:'Best for grounding, composure, restraint, courage, and deciding what honorable action remains yours.'},
   'Aristotle virtue/friendship lens':{avatar:'AR',kind:'Historical philosophy',lineage:'Virtue ethics, friendship, habit formation, justice, practical wisdom, and shared flourishing.',bio:'Best for asking what repeated conduct is training each person to become and whether the relationship serves a shared good.'},
   'Bell Hooks love ethic lens':{avatar:'BH',kind:'Cultural / moral philosophy',lineage:'Love ethic: care, respect, knowledge, responsibility, trust, commitment, and anti-domination.',bio:'Best when attachment is intense but the question is whether the behavior actually practices love.'},
   'Jane Austen character lens':{avatar:'JA',kind:'Literary / cultural',lineage:'Courtship, manners, pride, class/status pressure, restraint, irony, and evidence of character.',bio:'Best for early dating and character reads: what someone does when pride, inconvenience, or ambiguity enters.'},
-  'Logan Ury behavioral dating lens':{avatar:'NF',kind:'Dating behavior / applied psychology',lineage:'Behavioral dating advice, app habits, slow-burn potential, post-date review, and choice overload.',bio:'Best for translating early dating anxiety into small experiments and better evidence.'},
-  'Eli Finkel online dating lens':{avatar:'EM',kind:'Relationship science',lineage:'Relationship science, online dating, choice architecture, expectations, and modern compatibility decisions.',bio:'Best for app-era comparison, option churn, unrealistic standards, and whether real interaction is beating fantasy.'},
-  'David Buss mating strategy lens':{avatar:'DC',kind:'Evolutionary psychology',lineage:'Mate preferences, jealousy, investment, time horizons, strategy conflict, and sex-difference hypotheses.',bio:'Best as a hypothesis generator, not a stereotype machine; individual behavior should override population-level assumptions.'},
-  'Scott Stanley commitment clarity lens':{avatar:'SL',kind:'Commitment research',lineage:'Dedication, constraints, sliding versus deciding, cohabitation risk, and explicit commitment decisions.',bio:'Best when a relationship is accumulating obligations, intimacy, or benefits without a clear mutual choice.'},
-  'Gabor Mate trauma-pattern lens':{avatar:'GS',kind:'Trauma-informed medicine',lineage:'Stress physiology, attachment wounds, compulsive coping, early pain, and present-trigger distinction.',bio:'Best when intensity, shutdown, or reactivity may contain both current evidence and older survival patterns.'},
-  'Brene Brown shame/vulnerability lens':{avatar:'BR',kind:'Shame / vulnerability research',lineage:'Shame, vulnerability, courage, trust, defensiveness, and story-making under threat.',bio:'Best when blame, withdrawal, perfectionism, or defensiveness may be protecting a more vulnerable fear.'},
-  'Call Her Daddy-style pop-culture lens':{avatar:'CV',kind:'Popular-media contrast',lineage:'Podcast-era dating entertainment: leverage, standards, desirability, audience approval, and power moves.',bio:'Useful mainly as contrast. It can protect against overinvestment, but can also reward testing, distrust, and performance.'},
-  'Red-pill internet rhetoric lens':{avatar:'RW',kind:'Cautionary internet contrast',lineage:'Gender-war internet scripts about status, dominance, sexual-market value, and adversarial bargaining.',bio:'Useful mainly to show the cost of bad advice. Discard it when it increases contempt, coercion, or stereotypes.'},
-  'Evan Stark coercive-control lens':{avatar:'ES',kind:'Safety / coercive-control research',lineage:'Coercive control, surveillance, isolation, intimidation, autonomy restriction, and safety-first analysis.',bio:'Best when privacy, phone monitoring, threats, isolation, or punishment for refusal may be present.'}
+  'Logan Ury behavioral dating lens':{avatar:'LU',kind:'Dating behavior / applied psychology',lineage:'Modeled voice based on Logan Ury: behavioral dating advice, app habits, slow-burn potential, post-date review, and choice overload.',bio:'Best for translating early dating anxiety into small experiments and better evidence.'},
+  'Eli Finkel online dating lens':{avatar:'EF',kind:'Relationship science',lineage:'Modeled voice based on Eli Finkel: relationship science, online dating, choice architecture, expectations, and modern compatibility decisions.',bio:'Best for app-era comparison, option churn, unrealistic standards, and whether real interaction is beating fantasy.'},
+  'David Buss mating strategy lens':{avatar:'DB',kind:'Evolutionary psychology',lineage:'Modeled voice based on David Buss: mate preferences, jealousy, investment, time horizons, strategy conflict, and sex-difference hypotheses.',bio:'Best as a hypothesis generator, not a stereotype machine; individual behavior should override population-level assumptions.'},
+  'Scott Stanley commitment clarity lens':{avatar:'SS',kind:'Commitment research',lineage:'Modeled voice based on Scott Stanley: dedication, constraints, sliding versus deciding, cohabitation risk, and explicit commitment decisions.',bio:'Best when a relationship is accumulating obligations, intimacy, or benefits without a clear mutual choice.'},
+  'Gabor Mate trauma-pattern lens':{avatar:'GM',kind:'Trauma-informed medicine',lineage:'Modeled voice based on Gabor Mate: stress physiology, attachment wounds, compulsive coping, early pain, and present-trigger distinction.',bio:'Best when intensity, shutdown, or reactivity may contain both current evidence and older survival patterns.'},
+  'Brene Brown shame/vulnerability lens':{avatar:'BB',kind:'Shame / vulnerability research',lineage:'Modeled voice based on Brene Brown: shame, vulnerability, courage, trust, defensiveness, and story-making under threat.',bio:'Best when blame, withdrawal, perfectionism, or defensiveness may be protecting a more vulnerable fear.'},
+  'Call Her Daddy-style pop-culture lens':{avatar:'CHD',kind:'Popular-media contrast',lineage:'Modeled contrast based on Call Her Daddy-style podcast dating entertainment: leverage, standards, desirability, audience approval, and power moves.',bio:'Useful mainly as contrast. It can protect against overinvestment, but can also reward testing, distrust, and performance.'},
+  'Red-pill internet rhetoric lens':{avatar:'RP',kind:'Cautionary internet contrast',lineage:'Modeled contrast based on red-pill internet scripts about status, dominance, sexual-market value, and adversarial bargaining.',bio:'Useful mainly to show the cost of bad advice. Discard it when it increases contempt, coercion, or stereotypes.'},
+  'Evan Stark coercive-control lens':{avatar:'ES',kind:'Safety / coercive-control research',lineage:'Modeled voice based on Evan Stark: coercive control, surveillance, isolation, intimidation, autonomy restriction, and safety-first analysis.',bio:'Best when privacy, phone monitoring, threats, isolation, or punishment for refusal may be present.'}
  };
  const fallback=row.avatar||name.split(/\s+/).slice(0,2).map(x=>x[0]).join('').toUpperCase();
  return profiles[name]||{avatar:fallback,kind:row.sourceClass||'Modeled perspective',lineage:'Modeled interpretive lens inside the app.',bio:'Review its provenance and limitations before applying it.'};
@@ -6132,7 +6135,7 @@ function inferStage380(raw,chosen,profile){
  const rawT=String(raw||'').toLowerCase(),profileT=String(profile?.rtype||'').toLowerCase(),t=`${rawT} ${profileT}`;
  if(chosen&&chosen!=='auto')return chosen;
  if(/lots of dates|hinge|instagram|dating app|dating market|do not have access|don't have access|dont have access|can't find (women|men|people)|cant find (women|men|people)|hate men|hate women/.test(rawT))return'early';
- if(/just met|met (her|him|them)|girl i (just )?met|woman i (just )?met|guy i (just )?met|man i (just )?met|first date|second date|asking (her|him|them) out|ask (her|him|them) out|flirting|talking stage|crush|matched with|dating app/.test(rawT))return'early';
+ if(/just met|met (her|him|them)|girl i (just )?met|woman i (just )?met|guy i (just )?met|man i (just )?met|dating (a )?(girl|woman|guy|man)|seeing (a )?(girl|woman|guy|man)|month or two|couple months|early relationship|first date|second date|asking (her|him|them) out|ask (her|him|them) out|flirting|talking stage|crush|matched with|dating app/.test(rawT))return'early';
  if(/moving too fast|too fast|rushing|rush|slow down|pace|pacing|getting serious fast|intense too soon/.test(rawT))return'early';
  if(/married|wife|husband|spouse|marriage|mortgage|years together|decades|\bour (kids|children)\b|\bmy (kids|children)\b|\bwe have (kids|children)\b|\braising (kids|children)\b/.test(rawT)||/married|spouse|wife|husband/.test(profileT))return'mature';
  if(/partner|boyfriend|girlfriend|exclusive|committed|living together|fianc|long[- ]term/.test(rawT))return'mid';
@@ -6189,14 +6192,16 @@ function reflection380(raw,stage,crux,goal,people){
  return 'You are asking for a grounded read and a next move, not a courtroom diagnosis. The goal is to turn the mess into one honest interpretation and one doable behavior.';
 }
 function advice380(stage,crux,goal,raw,people){
- const early={
+	 const early={
   next:'Stay warm and lightly directional. Make one clear bid, then give space for reciprocal effort. If she invests back, continue. If she does not, do not compensate by explaining harder.',
   pitfalls:['Over-communicating interest before mutual investment is visible.','Trying to remove all uncertainty, which often removes tension and self-respect.','Confusing anxiety with intuition or chemistry with compatibility.'],
   adopt:['Keep your life visibly intact while showing interest.','Use specific invitations instead of vague emotional processing.','Watch consistency, responsiveness, warmth, values, and whether you like who you become around her.'],
   eliminate:['Long anxious texts.','Testing, sulking, or trying to manufacture jealousy.','Treating one promising sign as a relationship.'],
   script:'“I like talking with you. Let’s do something simple this week: coffee or a walk Thursday?”'
- };
- if(stage==='early'&&crux==='early_signal'&&people?.user==='man'&&people?.target==='woman')return{...early,next:'Ask her out with warm, specific direction, then stop trying to earn certainty through extra explanation. Your job is to be respectful, clear, playful, and composed enough that she can feel both your interest and her freedom to respond.',pitfalls:['Over-texting to manage your anxiety.','Making the date emotionally heavy before she has chosen into more investment.','Ceding all direction because you are afraid of seeming pushy.','Mistaking her politeness for commitment or her slower pace for rejection.'],adopt:['Offer a simple plan with a time, place, and graceful out.','Keep the tone light, respectful, and clean.','Watch whether she helps make the next interaction happen.','End strong instead of lingering until the energy thins.'],eliminate:['Long anxious explanations.','Sexual pressure, crude jokes, or premature confession.','Testing her interest instead of making one clean bid.'],script:'“I like talking with you. I’d like to take you out this week. Coffee or a walk Thursday?”'};
+	 };
+	 const rawT=String(raw||'').toLowerCase();
+	 if(stage==='early'&&crux==='early_signal'&&people?.user==='man'&&people?.target==='woman'&&/sex|sleep together|sleep with|intimacy|too soon|lose interest|lost interest/.test(rawT))return{...early,next:'Do not make sex the only escalator. Keep attraction alive, but let the relationship earn more access through shared context, respect, and reciprocal contribution. Before you accelerate sexually, see whether she can enter the actual economy of your life: small help, reliable plans, care for what matters to you, and appreciation for your effort.',pitfalls:['Overproviding romance, dates, reassurance, and attention while asking for no investment back.','Using sex as a test, reward, or moral referendum.','Letting anxiety turn into a heavy disclosure that makes her manage your interest.','Mistaking sexual chemistry for a relationship that has proven contribution.'],adopt:['Pace sexual escalation with dignity rather than panic.','Ask for one small, appropriate contribution: help choose a plan, bring something, care for a shared problem, or support a real responsibility.','Maintain your own goals, friends, faith/values, work, and routines so she is joining a life, not becoming the whole life.','Watch whether ordinary cooperation increases your respect and attraction.'],eliminate:['The ferryboatman pattern: carrying her with effort while hoping reciprocity appears later.','Performing indifference or withholding affection as a tactic.','Crude sexual pressure or making her feel punished for pace.'],script:'“I like where this is going. I want us to let it build in a way that keeps respect and interest strong, not rush past the part where we learn how we actually work together.”'};
+	 if(stage==='early'&&crux==='early_signal'&&people?.user==='man'&&people?.target==='woman')return{...early,next:'Ask her out with warm, specific direction, then stop trying to earn certainty through extra explanation. Your job is to be respectful, clear, playful, and composed enough that she can feel both your interest and her freedom to respond.',pitfalls:['Over-texting to manage your anxiety.','Making the date emotionally heavy before she has chosen into more investment.','Ceding all direction because you are afraid of seeming pushy.','Mistaking her politeness for commitment or her slower pace for rejection.'],adopt:['Offer a simple plan with a time, place, and graceful out.','Keep the tone light, respectful, and clean.','Watch whether she helps make the next interaction happen.','End strong instead of lingering until the energy thins.'],eliminate:['Long anxious explanations.','Sexual pressure, crude jokes, or premature confession.','Testing her interest instead of making one clean bid.'],script:'“I like talking with you. I’d like to take you out this week. Coffee or a walk Thursday?”'};
  if(stage==='early'&&crux==='early_signal'&&people?.user==='woman'&&people?.target==='man')return{...early,next:'Stay warm and receptive without doing all the pursuing for him. Give him enough signal to act, then watch whether he shows clear initiative, respect for your pace, and follow-through.',script:'“I’d enjoy seeing you again. If you want to plan something, I’m open this week.”'};
  const mid={
   next:'Name the pattern and ask for one behavior, not a personality transplant. Then watch whether the next two ordinary opportunities look different.',
@@ -6252,7 +6257,7 @@ function coachHTML380(p){
   ${geniusChatHTML380(p,stage,crux,raw,people)}
   ${kids?`<details class="coachDeepDive380"><summary>Children / family-life questions</summary><div class="coachSection380"><b>Questions to ask before the next season gets harder</b><ul>${kids.map(x=>`<li>${esc380(x)}</li>`).join('')}</ul></div></details>`:''}
   <div class="coachSection380 coachGround380"><b>Grounding principle</b><p>${esc380(grounding380(stage,crux,c.grounding))}</p></div>
-  <div class="coachSources380">Coach model: reflective listening, stage-sensitive discernment, gentle startup/repair, attachment-cycle awareness, healthy boundaries, and behavior design.</div>
+  <div class="coachSources380">Coach model: reflective listening, stage-sensitive discernment, Modern Wisdom/source playbooks, gentle startup/repair, attachment-cycle awareness, healthy boundaries, and behavior design.</div>
  </div>`;
 }
 function reason380(stage,crux){
@@ -6281,6 +6286,7 @@ function coachDatabaseCardHTML390(card,index=0){
   <summary><span>Playbook ${index+1}</span><b>${esc380(card.title)}</b></summary>
   <div class="coachDbInner390">
   <div class="coachDbHead390"><span>${esc380((card.stage||[]).join(' / '))}</span><h4>${esc380(card.title)}</h4></div>
+  ${card.source?`<p class="coachDbSource390"><b>Source:</b> ${esc380(card.source)}</p>`:''}
   <p>${esc380(card.read)}</p>
   <div class="coachDbColumns390">
    <div><b>Why this matched</b><p>${esc380(card.why)}</p></div>
@@ -6297,17 +6303,29 @@ function hasIssue380(p){
  return !!(i&&(i.title||i.event||i.story||i.type));
 }
 function geniusQuestion380(raw,stage,crux,people){
- if(!raw.trim())return 'What should I do next?';
- if(crux==='early_signal'&&people?.user==='man'&&people?.target==='woman')return 'How do I ask her out or pace this without over-pursuing, over-explaining, or losing self-respect?';
+	 if(!raw.trim())return 'What should I do next?';
+	 if(stage==='early'&&people?.user==='man'&&people?.target==='woman'&&/sex|sleep together|sleep with|too soon|lose interest|lost interest/i.test(raw))return 'How do I pace sex so attraction grows through contribution, respect, and real connection instead of burning off too early?';
+	 if(crux==='early_signal'&&people?.user==='man'&&people?.target==='woman')return 'How do I ask her out or pace this without over-pursuing, over-explaining, or losing self-respect?';
  if(/moving too fast|too fast|rushing|pace|pacing|slow down/i.test(raw))return 'How do we slow the pace without killing the connection or turning anxiety into pressure?';
  if(crux==='safety')return 'Is this a safety or control problem, and what should be protected first?';
  if(crux==='behavior_change')return 'What concrete behavior should change, and how would I know it is actually sticking?';
- return stage==='early'?'What is the cleanest next move in this early romantic situation?':'What is the crux of this relationship issue and what should change next?';
-}
-function geniusComment380(row,ctx,stage,crux,raw,people){
- const n=String(row?.name||''),t=String(raw||'').toLowerCase(),early=stage==='early'||/just met|first date|asking .* out|girl i .*met|talking stage|flirt/.test(t),pacing=/moving too fast|too fast|rushing|pace|slow down/.test(t);
- if(crux==='early_signal'&&people?.user==='man'&&people?.target==='woman'){
-  if(n.includes('Orion'))return pacing?'Do not solve the pace problem by dumping your anxiety on her. Give one warm, specific invitation, then let her effort and comfort tell you whether to continue.':'Your move is a clean bid, not a campaign. Ask her out clearly, keep it light, and stop talking once the invitation is understandable.';
+	 return stage==='early'?'What is the cleanest next move in this early romantic situation?':'What is the crux of this relationship issue and what should change next?';
+	}
+	function orionTurn380(raw,stage,crux,people,slot=0){
+	 const t=String(raw||'').toLowerCase();
+	 const earlyMan=stage==='early'&&people?.user==='man'&&people?.target==='woman';
+	 const sex=/sex|sleep together|sleep with|too soon|lose interest|lost interest|intimacy/.test(t);
+	 const work=/put her to work|help|responsib|contribution|care for|lunch|animal|dog|contractor|shared problem|ferryboat|economy of your life|overinvest|over-invest/.test(t);
+	 if(earlyMan&&sex)return{stance:slot?'Refinement':'Incentive read',text:'Do not make sex the only gate. Before you escalate, ask whether she is entering your life as a contributor: helping with small problems, respecting your time, caring about your goals, and appreciating what you provide.'};
+	 if(earlyMan&&work)return{stance:slot?'Practical test':'Contribution test',text:'Give her a dignified route to invest. Ask for one small useful contribution, not as a trap, but to see whether she wants to participate in your life rather than only receive your effort.'};
+	 if(earlyMan)return{stance:slot?'Refinement':'Position',text:'Your leverage is not pretending not to care. It is having a life she can enter, making a clear bid, and then letting her reciprocal effort matter.'};
+	 if(crux==='commitment')return{stance:'Incentive read',text:'Commitment should become more attractive because both people contribute to a shared life. If one person receives benefits without investment, ambiguity becomes rewarding.'};
+	 return{stance:'Incentive read',text:'Ask what this pattern trains. Which behavior gets rewarded: reciprocity, useful care, respect, withdrawal, testing, or one-way consumption?'};
+	}
+	function geniusComment380(row,ctx,stage,crux,raw,people){
+	 const n=String(row?.name||''),t=String(raw||'').toLowerCase(),early=stage==='early'||/just met|first date|asking .* out|girl i .*met|talking stage|flirt/.test(t),pacing=/moving too fast|too fast|rushing|pace|slow down/.test(t);
+	 if(crux==='early_signal'&&people?.user==='man'&&people?.target==='woman'){
+	  if(n.includes('Orion'))return orionTurn380(raw,stage,crux,people).text;
   if(n.includes('Jane Austen'))return 'Her response is evidence of character and interest: warmth, an alternate time, curiosity, and ease matter more than your analysis of every micro-signal.';
   if(n.includes('Logan Ury'))return 'Because you just met, keep the experiment small. One low-pressure date gives better data than a long text thread about what this could become.';
   if(n.includes('Scott Stanley'))return pacing?'Slow the slide. Do not act like a couple faster than you are actually choosing each other; make the next step a date, not an implied commitment.':'Do not let ambiguity accumulate benefits and expectations. Make one clear next-step invitation and watch whether she chooses into it.';
@@ -6316,11 +6334,11 @@ function geniusComment380(row,ctx,stage,crux,raw,people){
   if(n.includes('Marcus'))return 'You control the invitation, your tone, and your composure. You do not control whether she likes you back, so do the honorable thing plainly.';
   if(n.includes('Aristotle'))return 'Act like the kind of man you would respect: clear, moderate, courteous, and steady. The habit you practice here matters even if she says no.';
  }
- if(early){
+	 if(early){
   if(n.includes('Logan Ury'))return 'This is early data, not a verdict. Choose one next interaction and review what actually happens, not the fantasy or fear around it.';
   if(n.includes('Jane Austen'))return 'Courtship is character evidence under small pressure. Notice manners, consistency, humility, and whether interest becomes action.';
   if(n.includes('Scott Stanley'))return 'Keep the relationship from sliding ahead of choice. Name only the next step you actually mean.';
-  if(n.includes('Orion'))return 'Watch incentives: are you rewarding reciprocity or rewarding ambiguity by doing all the work?';
+	  if(n.includes('Orion'))return orionTurn380(raw,stage,crux,people).text;
  }
  if(crux==='safety')return n.includes('Evan')?'Before advice, ask what refusal costs. If privacy or a no creates punishment, treat safety and outside support as the first intervention.':'Do not optimize attraction or communication while safety is unclear; the first question is whether autonomy is protected.';
  if(crux==='behavior_change')return 'Make the request behavioral enough to pass or fail: one cue, one action, one review point. Sincerity is not the same as changed routine.';
@@ -6329,10 +6347,10 @@ function geniusComment380(row,ctx,stage,crux,raw,people){
  return d?.experiment||row.advice||row.lens||'Test the idea against the next observable behavior.';
 }
 function geniusPosition380(row,stage,crux,raw,people,slot){
- const n=String(row?.name||''),t=String(raw||'').toLowerCase(),pacing=/moving too fast|too fast|rushing|pace|pacing|slow down/.test(t);
- const earlyMan=stage==='early'&&crux==='early_signal'&&people?.user==='man'&&people?.target==='woman';
- if(earlyMan){
-  if(n.includes('Orion'))return{stance:'Position',text:pacing?'Do not turn pacing anxiety into a heavy talk. Make one calm, specific invitation or pacing statement, then stop trying to manage her reaction.':'Make one clean invitation. Not a vibe check, not a paragraph, not a disguised request for reassurance: a simple plan she can accept, counter, or decline.'};
+	 const n=String(row?.name||''),t=String(raw||'').toLowerCase(),pacing=/moving too fast|too fast|rushing|pace|pacing|slow down/.test(t);
+	 const earlyMan=stage==='early'&&crux==='early_signal'&&people?.user==='man'&&people?.target==='woman';
+	 if(earlyMan){
+	  if(n.includes('Orion'))return orionTurn380(raw,stage,crux,people,slot);
   if(n.includes('Jane Austen'))return{stance:'Pushback',text:'I agree with the clean invitation, but I would not call her answer only an attraction signal. It is character evidence: does she respond with warmth, clarity, courtesy, or convenient fog?'};
   if(n.includes('Logan Ury'))return{stance:'Practical test',text:'Both of you are making this too abstract. One real date or one real follow-up gives better data than rereading messages. Run a small experiment and review behavior afterward.'};
   if(n.includes('Marcus'))return{stance:'Grounding',text:'You may prefer a certain answer, but you do not own it. Own your tone, restraint, courage, and timing; let the outcome be information rather than a verdict on your worth.'};
