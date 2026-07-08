@@ -88,7 +88,7 @@ function analyze(ctx){
  }
  if(pol==='positive'&&ranked[0].score<=.8)id='positive_repair';
  const secondary=ranked.find(x=>x.id!==id&&x.score>0)?.id||null,detail=String(issue.event||issue.story||issue.title||issue.type||'No detailed event was entered.').trim();
- return{crux:id,secondary,stage:classifyStage(ctx?.profile),recurrence:classifyRecurrence(issue.recurrence),polarity:pol,safetyLevel:id==='safety_control'?'acute':id==='boundary_autonomy'?'caution':'none',detail,text,confidence:Math.min(1,.25+ranked[0].score*.16+(detail.length>45?.16:0)+(issue.type?.length?.08:0)),scores,label:crux[id].label};
+ return{crux:id,secondary,stage:classifyStage(ctx?.profile),recurrence:classifyRecurrence(issue.recurrence),polarity:pol,safetyLevel:id==='safety_control'?'acute':id==='boundary_autonomy'?'caution':'none',detail,text,confidence:Math.min(1,.25+ranked[0].score*.16+(detail.length>45 ? 0.16 : 0)+(issue.type?.length ? 0.08 : 0)),scores,label:crux[id].label};
 }
 function score(row,ctx){const a=analyze(ctx),e=expertFor(row?.name);if(!e)return 0;if(e.contrast)return-1000;let n=45*(e.cap[a.crux]||0)+15*(e.cap[a.secondary]||0)+8*(a.polarity==='positive'?(e.cap.positive_repair||.2):.5)+8*(/recurring|core/.test(a.recurrence)?1:.5);if(a.stage==='married'&&/Logan Ury|Eli Finkel/.test(row.name))n-=50;if(a.safetyLevel!=='none'&&!/Evan Stark|Bell Hooks/.test(row.name))n-=35;return n;}
 function rank(rows,ctx){return rows.filter(r=>!expertFor(r.name)?.contrast).slice().sort((a,b)=>score(b,ctx)-score(a,ctx)||String(a.name).localeCompare(String(b.name)));}

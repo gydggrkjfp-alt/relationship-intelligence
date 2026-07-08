@@ -1,4 +1,9 @@
-# Relationship Intelligence v3.9.15
+# Relationship Intelligence v3.9.16
+
+v3.9.16:
+- Fixes an ambiguous decimal ternary in the expert engine that could parse badly in Safari and block startup.
+- Adds early startup error reporting so the header shows script/load failures instead of staying stuck on "Loading app...".
+- Bumps the service-worker cache and asset query string again for Safari/GitHub Pages.
 
 v3.9.15:
 - Hydrates Workspace and Self / Galaxy when their top tabs are clicked, so the emergency nav guard opens the view and runs the matching render functions instead of revealing empty panels.

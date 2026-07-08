@@ -1,14 +1,40 @@
 <!doctype html><html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Relationship Intelligence v3.9.15</title>
-<link rel="manifest" href="manifest.json"><link rel="stylesheet" href="styles.css?v=3915-view-hydrate">
+<title>Relationship Intelligence v3.9.16</title>
+<link rel="manifest" href="manifest.json"><link rel="stylesheet" href="styles.css?v=3916-startup-report">
 <meta name="theme-color" content="#815b33"></head>
 <body>
-<header><h1>Relationship Intelligence <span>v3.9.15</span></h1>
+<header><h1>Relationship Intelligence <span>v3.9.16</span></h1>
 <div class="sub">Relational Dynamics Engine: trajectory, repair, reciprocity, embeddedness, loops, archetypes, and vector alignment.</div>
 <div id="status">Loading app…</div></header>
 <nav class="tabs"><button id="tabSnapshot" class="tab active">New Snapshot</button><button id="tabRepairCockpit" class="tab">Workspace</button><button id="tabMe" class="tab">Self / Galaxy</button><button id="tabDiagnostics" class="tab">Diagnostics</button><button id="tabCards" class="tab hidden" type="button">Cards</button><button id="tabDashboard" class="tab hidden" type="button">Dashboard</button><button id="tabEcosystem" class="tab hidden" type="button">Ecosystem</button><button id="tabPerson" class="tab hidden" type="button">Card Detail</button></nav>
 <script>
+(function(){
+  window.__riBootErrors=[];
+  window.addEventListener('error',function(event){
+    var target=event&&event.target;
+    var src=target&&(target.src||target.href);
+    var msg=src?('Could not load '+src):((event&&event.message)||'Unknown script error');
+    window.__riBootErrors.push(msg);
+    var status=document.getElementById('status');
+    if(status)status.textContent='Startup script error: '+msg;
+  },true);
+  window.addEventListener('unhandledrejection',function(event){
+    var reason=event&&event.reason;
+    var msg=(reason&&reason.message)||String(reason||'Unhandled startup promise error');
+    window.__riBootErrors.push(msg);
+    var status=document.getElementById('status');
+    if(status)status.textContent='Startup promise error: '+msg;
+  });
+  window.addEventListener('load',function(){
+    setTimeout(function(){
+      var status=document.getElementById('status');
+      if(status&&/Loading app/.test(status.textContent||'')){
+        status.textContent=window.__riBootErrors.length?'Startup blocked: '+window.__riBootErrors[0]:'Startup blocked before app renderer completed. Try hard refresh after this update.';
+      }
+    },2200);
+  });
+})();
 document.addEventListener('click',function(e){
   var map={tabSnapshot:'snapshotView',tabRepairCockpit:'repairCockpitView',tabMe:'meView',tabDiagnostics:'diagnosticsView',tabCards:'cardsView',tabDashboard:'dashboardView',tabEcosystem:'ecosystemView',tabPerson:'personView'};
   var btn=e.target&&e.target.closest&&e.target.closest('.tabs button');
@@ -457,4 +483,4 @@ document.addEventListener('click',function(e){
 
 <div id="casualTrackerOverlay" class="issueWizardOverlay hidden"><div class="issueWizardCard"><div class="issueWizardHeader"><div><h2>Casual Relationship Tracker Wizard</h2><p class="small">Track impressions, gender-specific signals, and general relational fit. Use N/A when a dimension does not apply.</p></div><button id="closeCasualTrackerWizardBtn" type="button" class="secondary">Close</button></div><div id="casualTrackerWizardBody"></div><div class="wizardNav"><button id="saveCasualTrackerWizardBtn" type="button">Save tracker snapshot</button></div></div></div>
 <div id="bondChemistryOverlay367" class="issueWizardOverlay hidden"><div class="issueWizardCard"><div class="issueWizardHeader"><div><h2>Bond Chemistry</h2><p class="small">Estimate whether the latest interaction was driven more by dopamine-style activation or oxytocin-style bonding. This is a reflective relationship signal, not a medical measure.</p></div><button id="closeBondChemistryWizardBtn367" type="button" class="secondary">Close</button></div><div id="bondChemistryWizardBody367"></div><div class="wizardNav"><button id="saveBondChemistryWizardBtn367" type="button">Save bond snapshot</button></div></div></div>
-<script src="expert-engine.js?v=3915-view-hydrate"></script><script src="coach-router.js?v=3915-view-hydrate"></script><script src="coach-database.js?v=3915-view-hydrate"></script><script src="app.js?v=3915-view-hydrate"></script></body></html>
+<script src="expert-engine.js?v=3916-startup-report"></script><script src="coach-router.js?v=3916-startup-report"></script><script src="coach-database.js?v=3916-startup-report"></script><script src="app.js?v=3916-startup-report"></script></body></html>
