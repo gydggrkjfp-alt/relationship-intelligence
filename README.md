@@ -1,4 +1,9 @@
-# Relationship Intelligence v3.9.14
+# Relationship Intelligence v3.9.15
+
+v3.9.15:
+- Hydrates Workspace and Self / Galaxy when their top tabs are clicked, so the emergency nav guard opens the view and runs the matching render functions instead of revealing empty panels.
+- Restores the Workspace body state class during tab navigation so CSS does not suppress the page after the tab becomes active.
+- Bumps the service-worker cache and asset query string to force Safari/GitHub Pages to fetch the updated files.
 
 v3.9.14:
 - Adds an emergency top-tab navigation handler directly in the HTML so Workspace/Snapshot/Self/Diagnostics buttons still switch views even if a later module throws during startup.

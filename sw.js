@@ -1,12 +1,12 @@
-const CACHE='relationship-intelligence-v3914-nav-guard';
+const CACHE='relationship-intelligence-v3915-view-hydrate';
 const ASSETS=[
   './',
   './index.html',
-  './styles.css?v=3914-nav-guard',
-  './expert-engine.js?v=3914-nav-guard',
-  './coach-router.js?v=3914-nav-guard',
-  './coach-database.js?v=3914-nav-guard',
-  './app.js?v=3914-nav-guard',
+  './styles.css?v=3915-view-hydrate',
+  './expert-engine.js?v=3915-view-hydrate',
+  './coach-router.js?v=3915-view-hydrate',
+  './coach-database.js?v=3915-view-hydrate',
+  './app.js?v=3915-view-hydrate',
   './manifest.json'
 ];
 
@@ -26,7 +26,7 @@ self.addEventListener('activate',event=>{
 self.addEventListener('fetch',event=>{
   const requestUrl=new URL(event.request.url);
   if(requestUrl.pathname.endsWith('/app.js')){
-    event.respondWith(fetch(event.request).catch(()=>caches.match('./app.js?v=3914-nav-guard')));
+    event.respondWith(fetch(event.request).catch(()=>caches.match('./app.js?v=3915-view-hydrate')));
     return;
   }
   event.respondWith(caches.match(event.request).then(response=>response||fetch(event.request)));
