@@ -2,7 +2,10 @@
 function norm(value){return String(value||'').toLowerCase();}
 function has(text,re){return re.test(text);}
 function add(scores,key,n,why){scores[key]=(scores[key]||0)+n;if(why)scores.reasons.push(`${key}: ${why}`);}
-function best(scores,keys,fallback){return keys.map(k=>[k,scores[k]||0]).sort((a,b)=>b[1]-a[1])[0]?.[0]||fallback;}
+function best(scores,keys,fallback){
+ const top=keys.map(k=>[k,scores[k]||0]).sort((a,b)=>b[1]-a[1])[0];
+ return top&&top[1]>0?top[0]:fallback;
+}
 function classify(input={}){
  const raw=norm(input.raw),chosen=input.chosenStage,profile=norm(input.profileType||input.profile?.rtype),scores={early:0,mid:0,mature:0,safety:0,grounding_values:0,early_signal:0,commitment:0,desire_admiration:0,behavior_change:0,repair:0,reasons:[]};
  const explicitEarly=/just met|met (her|him|them)|first date|second date|asking (her|him|them) out|ask (her|him|them) out|flirting|talking stage|crush|matched with|dating app|hinge|instagram|lots of dates|dating market|dating (a )?(girl|woman|guy|man|person|someone)|seeing (a )?(girl|woman|guy|man|person|someone)|month or two|couple months|early relationship/.test(raw);
@@ -14,9 +17,11 @@ function classify(input={}){
  if(/\bmarried\b|\b(my|our|his|her|their)\s+(wife|husband|spouse)\b|\b(wife|husband|spouse)\s+and\s+i\b|\bour marriage\b|mortgage|years together|decades|\bour (kids|children)\b|\bmy (kids|children)\b|\bwe have (kids|children)\b|\braising (kids|children)\b/.test(raw)||/married|spouse|wife|husband/.test(profile))add(scores,'mature',32,'explicit mature-bond language');
  if(/partner|boyfriend|girlfriend|exclusive|committed|living together|fianc|long[- ]term/.test(raw))add(scores,'mid',20,'committed relationship language');
  if(/\b(no|not|without|do not|don't|dont)\s+(have\s+)?(kids|children)\b/.test(raw))add(scores,'mature',-28,'kids mentioned as exclusion, not shared family life');
- if(has(raw,/unsafe|afraid|coerc|force|threat|monitor|stalk|hit|abuse|retaliat|surveillance|password|location tracking/))add(scores,'safety',60,'safety/autonomy language');
+ if(has(raw,/unsafe|afraid (?:of|that).{0,40}(?:hurt|harm|retaliat|punish|explode|hit|threat|abuse)|coerc|force|threat|monitor|stalk|hit|abuse|retaliat|surveillance|password|location tracking/))add(scores,'safety',60,'safety/autonomy language');
  if(datingMarket){add(scores,'grounding_values',42,'dating-market discouragement needs life orientation');add(scores,'early_signal',-18,'not a single flirtation to optimize');}
  if(lifeReset)add(scores,'grounding_values',34,'life reset / values / rumination language');
+ if(has(raw,/contribut|reciprocat|reciprocal|provide value|useful role|relationship opportunity|small (favor|responsibility)|help (me|with)|care for me|show up|burden|self-sufficient|need anything|taken out|real-life responsibility|overinvest|over-invest|one-way/)){add(scores,'early_signal',24,'contribution/reciprocity dating signal');add(scores,'commitment',12,'contribution reveals relationship intent');}
+ if(has(raw,/(help|care|watch|walk|bring).{0,24}(dog|animal|pet)|small responsibility|small favor/)&&scores.grounding_values>0)add(scores,'grounding_values',-22,'dog/help language is contribution test, not life reset');
  if(has(raw,/flirt|date|text|girl|guy|crush|interest|likes me|spark|chase|moving too fast|too fast|rushing|slow down|pace|pacing|early/))add(scores,'early_signal',20,'courtship signal language');
  if(has(raw,/boyfriend|girlfriend|serious|exclusive|define|commit|secure|select for|wife material|husband material|marriage|life plan/))add(scores,'commitment',18,'commitment language');
  if(has(raw,/wife material|husband material|marriage,? (kids|children)|kids,? family|children,? family|same life plan|life plan|dating with purpose/))add(scores,'commitment',22,'life-selection commitment language');

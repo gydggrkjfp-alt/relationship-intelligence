@@ -6146,7 +6146,7 @@ function inferCrux380(raw,stage){
  const routed=window.RelationshipCoachRouter3913?.classify?.({raw,chosenStage:stage});
  if(routed?.crux)return routed.crux;
  const t=raw.toLowerCase();
- if(/unsafe|afraid|coerc|force|threat|monitor|stalk|hit|abuse|retaliat/.test(t))return'safety';
+ if(/unsafe|afraid (?:of|that).{0,40}(?:hurt|harm|retaliat|punish|explode|hit|threat|abuse)|coerc|force|threat|monitor|stalk|hit|abuse|retaliat/.test(t))return'safety';
  if(/lots of dates|hinge|instagram|dating market|do not have access|don't have access|dont have access|can't find (women|men|people)|cant find (women|men|people)|hate men|hate women|too many sexual partners|many sexual partners|women who don't|men who don't|millennial/.test(t))return'grounding_values';
  if(/find myself|finding myself|lost|stuck in my head|in my head|ruminat|spiral|life reset|reset my life|focus on myself|family|friends|dog|church|religio|faith|god|bigger than myself|purpose|meaning|move away|move to|different location|new city|achievable goals|small goals|routine|workout|exercise|walk|service|volunteer|gratitude|grounded|anxious|anxiety|values|kind/.test(t))return'grounding_values';
  if(/flirt|date|text|girl|guy|crush|interest|likes me|spark|chase|too much|too little|moving too fast|too fast|rushing|slow down|pace|pacing|early/.test(t))return'early_signal';
