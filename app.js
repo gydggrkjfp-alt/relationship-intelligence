@@ -6135,9 +6135,9 @@ function inferStage380(raw,chosen,profile){
  const rawT=String(raw||'').toLowerCase(),profileT=String(profile?.rtype||'').toLowerCase(),t=`${rawT} ${profileT}`;
  if(chosen&&chosen!=='auto')return chosen;
  if(/lots of dates|hinge|instagram|dating app|dating market|do not have access|don't have access|dont have access|can't find (women|men|people)|cant find (women|men|people)|hate men|hate women/.test(rawT))return'early';
- if(/just met|met (her|him|them)|girl i (just )?met|woman i (just )?met|guy i (just )?met|man i (just )?met|dating (a )?(girl|woman|guy|man)|seeing (a )?(girl|woman|guy|man)|month or two|couple months|early relationship|first date|second date|asking (her|him|them) out|ask (her|him|them) out|flirting|talking stage|crush|matched with|dating app/.test(rawT))return'early';
+ if(/just met|met (her|him|them)|girl i (just )?met|woman i (just )?met|guy i (just )?met|man i (just )?met|dating (a )?(girl|woman|guy|man|person|someone)|seeing (a )?(girl|woman|guy|man|person|someone)|month or two|couple months|early relationship|first date|second date|asking (her|him|them) out|ask (her|him|them) out|flirting|talking stage|crush|matched with|dating app/.test(rawT))return'early';
  if(/moving too fast|too fast|rushing|rush|slow down|pace|pacing|getting serious fast|intense too soon/.test(rawT))return'early';
- if(/married|wife|husband|spouse|marriage|mortgage|years together|decades|\bour (kids|children)\b|\bmy (kids|children)\b|\bwe have (kids|children)\b|\braising (kids|children)\b/.test(rawT)||/married|spouse|wife|husband/.test(profileT))return'mature';
+ if(/\bmarried\b|\b(my|our|his|her|their)\s+(wife|husband|spouse)\b|\b(wife|husband|spouse)\s+and\s+i\b|\bour marriage\b|mortgage|years together|decades|\bour (kids|children)\b|\bmy (kids|children)\b|\bwe have (kids|children)\b|\braising (kids|children)\b/.test(rawT)||/married|spouse|wife|husband/.test(profileT))return'mature';
  if(/partner|boyfriend|girlfriend|exclusive|committed|living together|fianc|long[- ]term/.test(rawT))return'mid';
  if(/flirt|girl|guy|crush|texting|date|first date|second date|talking stage|situationship|early/.test(t))return'early';
  return'early';
