@@ -1,7 +1,10 @@
-# Relationship Intelligence v3.9.20
+# Relationship Intelligence v3.9.21
 
-v3.9.20:
+v3.9.21:
 - Adds an Orion "what women want" understanding layer so men get possible female-side reasons for hesitation, indirectness, testing, passivity, or mixed signals.
+- Adds a Kait Willett capacity/status layer so male-to-female prompts are framed around demonstrated capacity, not only dates, attention, sex, or generic niceness.
+- Syncs the genius chat panel with the coach playbooks so "men asking about women" prompts pull Orion + Kait rather than generic repair experts.
+- Simplifies the coach intake: removes "what do you want" and "grounding style" selects, and adds explicit role selectors for "I am" and "I am asking about."
 - Adds a matched playbook from the Orion video "What women want: the answer to the question" and boosts retrieval for understand-women prompts.
 - Tightens ordinary dating fear versus safety language so "I am afraid she will lose attraction" does not route as a danger case.
 

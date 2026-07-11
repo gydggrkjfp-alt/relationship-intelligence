@@ -1,12 +1,12 @@
-const CACHE='relationship-intelligence-v3920-orion-women-want';
+const CACHE='relationship-intelligence-v3921-kait-chat-sync';
 const ASSETS=[
   './',
   './index.html',
-  './styles.css?v=3920-orion-women-want',
-  './expert-engine.js?v=3920-orion-women-want',
-  './coach-router.js?v=3920-orion-women-want',
-  './coach-database.js?v=3920-orion-women-want',
-  './app.js?v=3920-orion-women-want',
+  './styles.css?v=3921-kait-chat-sync',
+  './expert-engine.js?v=3921-kait-chat-sync',
+  './coach-router.js?v=3921-kait-chat-sync',
+  './coach-database.js?v=3921-kait-chat-sync',
+  './app.js?v=3921-kait-chat-sync',
   './manifest.json'
 ];
 
@@ -26,7 +26,7 @@ self.addEventListener('activate',event=>{
 self.addEventListener('fetch',event=>{
   const requestUrl=new URL(event.request.url);
   if(requestUrl.pathname.endsWith('/app.js')){
-    event.respondWith(fetch(event.request).catch(()=>caches.match('./app.js?v=3920-orion-women-want')));
+    event.respondWith(fetch(event.request).catch(()=>caches.match('./app.js?v=3921-kait-chat-sync')));
     return;
   }
   event.respondWith(caches.match(event.request).then(response=>response||fetch(event.request)));
