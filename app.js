@@ -6202,6 +6202,16 @@ function reflection380(raw,stage,crux,goal,people){
  if(crux==='safety')return 'The first coaching task is not persuasion or romance optimization. It is safety, autonomy, documentation, and support.';
  return 'You are asking for a grounded read and a next move, not a courtroom diagnosis. The goal is to turn the mess into one honest interpretation and one doable behavior.';
 }
+function panelReframe380(raw,stage,crux,people){
+ const t=String(raw||'').toLowerCase();
+ if(/texting other guys|dm|dms|message.*guys|other men/.test(t))return 'You are describing a digital-boundary and loyalty-signaling pattern: attention is leaving the relationship container, and the panel should focus on standards, trust, and what behavior would actually restore respect.';
+ if(/refut|correct.*public|public|in front of|embarrass|humiliat|mock|disrespect/.test(t))return 'You are describing a public-respect pattern: the issue is not just disagreement, but whether your partner protects your dignity when there is an audience.';
+ if(/posting herself|posting.*attention|instagram|social media|thirst|outside validation/.test(t))return 'You are describing an outside-validation pattern: the panel should separate harmless self-expression from attention-seeking that weakens trust, exclusivity, or respect.';
+ if(/toxic information|podcast|tiktok|red pill|feminism|content|information diet/.test(t))return 'You are describing an information-diet pattern: the concern is whether repeated content is training contempt, suspicion, entitlement, or gender-war scripts inside the relationship.';
+ if(crux==='behavior_change')return 'You are describing a repeated behavior that needs to become observable, changeable, and reviewable. The panel should focus on what behavior stops, what replaces it, and what evidence proves the change is real.';
+ if(crux==='repair')return 'You are describing a rupture or recurring event that needs repair through changed behavior, not just a better explanation. The panel should stay close to what happened, what it meant, and what would look different next time.';
+ return reflection380(raw,stage,crux,'',people);
+}
 function advice380(stage,crux,goal,raw,people){
 	 const early={
   next:'Stay warm and lightly directional. Make one clear bid, then give space for reciprocal effort. If she invests back, continue. If she does not, do not compensate by explaining harder.',
@@ -6465,12 +6475,13 @@ function geniusCoachReply380(userTake,stage,crux,people){
  if(crux==='safety')return 'Your update should be judged by safety, not persuasion. Ask what happens when you say no, preserve support, and do not make the unsafe person the only witness.';
  return 'Good, that is the kind of context the panel needs. Convert it into one observable next test: what action will you take, what response would reassure you, and what response would make you stop?';
 }
-function counselorComment380(stage,crux,people){
- if(crux==='safety')return 'I am going to mediate this around your safety first. The experts can disagree about interpretation, but nobody gets to optimize a relationship at the cost of your autonomy, privacy, or support.';
- if(stage==='early'&&people?.user==='man'&&people?.target==='woman')return 'I am listening for what protects your goodwill and your dignity. The panel should help you make one clear, respectful move without turning anxiety into pressure or self-abandonment.';
- if(crux==='behavior_change')return 'I am going to keep the panel honest: advice only matters if it becomes a behavior you can observe, repeat, and stop requesting once the evidence is clear.';
- if(crux==='repair')return 'I am here to keep this repair-focused instead of blame-focused. The question is what happened, what it meant, what changes next time, and whether the repair protects both people.';
- return 'I am here as the neutral third party on your side: I will track the question, keep the advice practical, and pull the experts back when they drift into abstraction.';
+function counselorComment380(stage,crux,people,raw=''){
+ const reframe=panelReframe380(raw,stage,crux,people);
+ if(crux==='safety')return `${reframe} I am going to mediate this around safety first; nobody gets to optimize a relationship at the cost of autonomy, privacy, or support.`;
+ if(stage==='early'&&people?.user==='man'&&people?.target==='woman')return `${reframe} I am listening for what protects your goodwill and dignity while still giving you a clean next move.`;
+ if(crux==='behavior_change')return `${reframe} I am going to keep the panel honest: advice only matters if it becomes a behavior you can observe, repeat, and stop requesting once the evidence is clear.`;
+ if(crux==='repair')return `${reframe} I am going to keep this repair-focused instead of blame-focused, and I will pull the panel back if it drifts into abstraction.`;
+ return `${reframe} I am here as the neutral third party on your side: I will keep the panel practical and tied to the situation you entered.`;
 }
 function expertProfileHTML380(row){
  const name=row?.name||'Relationship coach';
@@ -6550,7 +6561,7 @@ function geniusChatHTML380(p,stage,crux,raw,people){
  }
 	 return `<section class="geniusChat380" aria-label="Ask the geniuses">
 	  <div class="geniusChatHead380"><span>Ask the geniuses</span><h4>Panel conversation</h4></div>
-	  <div class="geniusThread380"><div class="geniusBubble380 geniusCounselor380"><b>Counselor</b><p>${esc380(counselorComment380(stage,crux,people))}</p><span>Moderator</span></div>${ranked.map((row,index)=>geniusLine380(row,ctx,stage,crux,raw,people,index)).join('')||'<div class="geniusBubble380 geniusVoice380"><b>Coach</b><p>Add an issue or more context and the panel will weigh in.</p></div>'}${userTake?`<div class="geniusBubble380 geniusUser380"><b>Your weigh-in</b><p>${esc380(userTake)}</p></div><div class="geniusBubble380 geniusCoach380"><b>Counselor synthesis</b><p>${esc380(geniusCoachReply380(userTake,stage,crux,people))}</p><span>Next step</span></div>`:''}</div>
+	  <div class="geniusThread380"><div class="geniusBubble380 geniusCounselor380"><b>Counselor</b><p>${esc380(counselorComment380(stage,crux,people,raw))}</p><span>Moderator</span></div>${ranked.map((row,index)=>geniusLine380(row,ctx,stage,crux,raw,people,index)).join('')||'<div class="geniusBubble380 geniusVoice380"><b>Coach</b><p>Add an issue or more context and the panel will weigh in.</p></div>'}${userTake?`<div class="geniusBubble380 geniusUser380"><b>Your weigh-in</b><p>${esc380(userTake)}</p></div><div class="geniusBubble380 geniusCoach380"><b>Counselor synthesis</b><p>${esc380(geniusCoachReply380(userTake,stage,crux,people))}</p><span>Next step</span></div>`:''}</div>
 	  <div class="geniusWeighIn380"><label for="geniusTakeInput380"><span>Your turn</span><textarea id="geniusTakeInput380" placeholder="Weigh in: add what happened next, what you disagree with, or what the panel missed.">${esc380(userTake)}</textarea></label><button id="saveGeniusTake380" type="button" class="secondary">Update conversation</button></div>
 	 </section>`;
 }

@@ -1,6 +1,6 @@
-# Relationship Intelligence v3.9.26
+# Relationship Intelligence v3.9.27
 
-v3.9.26:
+v3.9.27:
 - Makes Orion, Kait, and Alison the fixed big-three voices for early man-to-woman coach chat, with a fourth wildcard selected from the situation.
 - Adds expandable source cards inside each genius chat bubble so users can inspect which coach-database playbooks informed that voice.
 - Removes the obsolete "Assumed frame" card now that the user explicitly selects stage and roles.

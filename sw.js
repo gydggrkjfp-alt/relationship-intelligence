@@ -1,12 +1,12 @@
-const CACHE='relationship-intelligence-v3926-no-simplified-question';
+const CACHE='relationship-intelligence-v3927-panel-reframes-situation';
 const ASSETS=[
   './',
   './index.html',
-  './styles.css?v=3926-no-simplified-question',
-  './expert-engine.js?v=3926-no-simplified-question',
-  './coach-router.js?v=3926-no-simplified-question',
-  './coach-database.js?v=3926-no-simplified-question',
-  './app.js?v=3926-no-simplified-question',
+  './styles.css?v=3927-panel-reframes-situation',
+  './expert-engine.js?v=3927-panel-reframes-situation',
+  './coach-router.js?v=3927-panel-reframes-situation',
+  './coach-database.js?v=3927-panel-reframes-situation',
+  './app.js?v=3927-panel-reframes-situation',
   './manifest.json'
 ];
 
@@ -26,7 +26,7 @@ self.addEventListener('activate',event=>{
 self.addEventListener('fetch',event=>{
   const requestUrl=new URL(event.request.url);
   if(requestUrl.pathname.endsWith('/app.js')){
-    event.respondWith(fetch(event.request).catch(()=>caches.match('./app.js?v=3926-no-simplified-question')));
+    event.respondWith(fetch(event.request).catch(()=>caches.match('./app.js?v=3927-panel-reframes-situation')));
     return;
   }
   event.respondWith(caches.match(event.request).then(response=>response||fetch(event.request)));
