@@ -1,4 +1,11 @@
-# Relationship Intelligence v3.9.27
+# Relationship Intelligence v3.9.28
+
+v3.9.28:
+- Rebuilds the coach intake gate so it requires stage, speaker role, target role, and situation type before generating a coach read.
+- Adds situation types for public respect, digital boundaries, outside validation, information diet, contribution, hot-cold signals, sex pacing, behavior change, repair, grounding, and general advice.
+- Fixes the public-respect failure where "friends" could route a public dignity problem into self-orientation / life-reset advice.
+- Adds pattern-specific coach reads, next moves, pitfalls, and scripts for public refuting, texting other people, validation posting, and toxic information diet cases.
+- Removes a fallback recursion risk in the coach reframe path so the panel/coach cannot loop when no specific reframe matches.
 
 v3.9.27:
 - Makes Orion, Kait, and Alison the fixed big-three voices for early man-to-woman coach chat, with a fourth wildcard selected from the situation.
