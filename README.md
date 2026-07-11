@@ -1,6 +1,6 @@
-# Relationship Intelligence v3.9.21
+# Relationship Intelligence v3.9.22
 
-v3.9.21:
+v3.9.22:
 - Adds an Orion "what women want" understanding layer so men get possible female-side reasons for hesitation, indirectness, testing, passivity, or mixed signals.
 - Adds a Kait Willett capacity/status layer so male-to-female prompts are framed around demonstrated capacity, not only dates, attention, sex, or generic niceness.
 - Syncs the genius chat panel with the coach playbooks so "men asking about women" prompts pull Orion + Kait rather than generic repair experts.

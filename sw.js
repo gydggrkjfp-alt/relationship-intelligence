@@ -1,12 +1,12 @@
-const CACHE='relationship-intelligence-v3921-kait-chat-sync';
+const CACHE='relationship-intelligence-v3922-single-coach-intake';
 const ASSETS=[
   './',
   './index.html',
-  './styles.css?v=3921-kait-chat-sync',
-  './expert-engine.js?v=3921-kait-chat-sync',
-  './coach-router.js?v=3921-kait-chat-sync',
-  './coach-database.js?v=3921-kait-chat-sync',
-  './app.js?v=3921-kait-chat-sync',
+  './styles.css?v=3922-single-coach-intake',
+  './expert-engine.js?v=3922-single-coach-intake',
+  './coach-router.js?v=3922-single-coach-intake',
+  './coach-database.js?v=3922-single-coach-intake',
+  './app.js?v=3922-single-coach-intake',
   './manifest.json'
 ];
 
@@ -26,7 +26,7 @@ self.addEventListener('activate',event=>{
 self.addEventListener('fetch',event=>{
   const requestUrl=new URL(event.request.url);
   if(requestUrl.pathname.endsWith('/app.js')){
-    event.respondWith(fetch(event.request).catch(()=>caches.match('./app.js?v=3921-kait-chat-sync')));
+    event.respondWith(fetch(event.request).catch(()=>caches.match('./app.js?v=3922-single-coach-intake')));
     return;
   }
   event.respondWith(caches.match(event.request).then(response=>response||fetch(event.request)));
