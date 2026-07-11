@@ -1,12 +1,12 @@
-const CACHE='relationship-intelligence-v3922-single-coach-intake';
+const CACHE='relationship-intelligence-v3926-no-simplified-question';
 const ASSETS=[
   './',
   './index.html',
-  './styles.css?v=3922-single-coach-intake',
-  './expert-engine.js?v=3922-single-coach-intake',
-  './coach-router.js?v=3922-single-coach-intake',
-  './coach-database.js?v=3922-single-coach-intake',
-  './app.js?v=3922-single-coach-intake',
+  './styles.css?v=3926-no-simplified-question',
+  './expert-engine.js?v=3926-no-simplified-question',
+  './coach-router.js?v=3926-no-simplified-question',
+  './coach-database.js?v=3926-no-simplified-question',
+  './app.js?v=3926-no-simplified-question',
   './manifest.json'
 ];
 
@@ -26,7 +26,7 @@ self.addEventListener('activate',event=>{
 self.addEventListener('fetch',event=>{
   const requestUrl=new URL(event.request.url);
   if(requestUrl.pathname.endsWith('/app.js')){
-    event.respondWith(fetch(event.request).catch(()=>caches.match('./app.js?v=3922-single-coach-intake')));
+    event.respondWith(fetch(event.request).catch(()=>caches.match('./app.js?v=3926-no-simplified-question')));
     return;
   }
   event.respondWith(caches.match(event.request).then(response=>response||fetch(event.request)));

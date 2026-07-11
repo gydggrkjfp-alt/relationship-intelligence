@@ -6248,14 +6248,16 @@ function advice380(stage,crux,goal,raw,people){
  return stage==='early'?early:stage==='mid'?mid:mature;
 }
 function coachHTML380(p){
- const c=p?.coach380||{},raw=text380(p),stage=inferStage380(raw,c.stage,p),crux=inferCrux380(raw,stage),goal=c.goal||'Get grounded and choose the next move',people=inferPeople380(raw,p),a=advice380(stage,crux,goal,raw,people);
- window.__lastCoachRoute3913=window.RelationshipCoachRouter3913?.classify?.({raw,chosenStage:c.stage,profile:p});
+ const c=p?.coach380||{},raw=text380(p);
  if(!raw.trim())return '<div class="coachEmpty380"><b>Tell the coach what is going on.</b><p>Use the first button to describe the situation in normal language. The coach will turn it into a stage-aware read, next move, pitfalls, and a script.</p></div>';
+ const requiredStage=['early','mid','mature'].includes(c.stage),requiredUser=['man','woman','unknown'].includes(c.userRole),requiredTarget=['man','woman','unknown'].includes(c.targetRole);
+ if(!requiredStage||!requiredUser||!requiredTarget)return '<div class="coachEmpty380"><b>Choose the relationship frame first.</b><p>Select the stage, who you are, and who you are asking about. The coach will wait until those are explicit.</p></div>';
+ const stage=inferStage380(raw,c.stage,p),crux=inferCrux380(raw,stage),goal=c.goal||'Get grounded and choose the next move',people=inferPeople380(raw,p),a=advice380(stage,crux,goal,raw,people);
+ window.__lastCoachRoute3913=window.RelationshipCoachRouter3913?.classify?.({raw,chosenStage:c.stage,profile:p});
  const field=fieldGuide380(stage,crux,raw,people),qs=questions380(stage,crux,raw),analysis=issueAnalysis380(stage,crux,raw,people),kids=childrenQuestions380(stage,raw),db=coachDatabaseCards390({stage,crux,goal,raw,profile:p,people});
  return `<div class="coachResponse380">
-	  <div class="coachHead380"><span>Relationship coach</span><h3>${esc380(coachTitle380(stage,crux))}</h3><p>${esc380(stageFrame380(stage,crux,raw))}</p></div>
+  <div class="coachHead380"><span>Relationship coach</span><h3>${esc380(coachTitle380(stage,crux))}</h3><p>${esc380(stageFrame380(stage,crux,raw))}</p></div>
   <div class="coachSection380 coachMirror380"><b>What I hear</b><p>${esc380(reflection380(raw,stage,crux,goal,people))}</p></div>
-  <div class="coachSection380 coachPerspective380"><b>Assumed frame</b><p>${esc380(people.label)} ${people.user!=='unknown'?'If that is wrong, change the role selectors in the intake.':''}</p></div>
   <div class="coachGrid380">
    <div class="coachSection380"><b>Best next move</b><p>${esc380(a.next)}</p></div>
    <div class="coachSection380"><b>Why this makes sense</b><p>${esc380(reason380(stage,crux))}</p></div>
@@ -6293,10 +6295,10 @@ function grounding380(stage,crux,mode){
  if(crux==='grounding_values')return 'Do one thing today that proves your life is bigger than the relationship question: call family, see a friend, walk the dog, pray or practice gratitude, serve someone, clean one space, and finish one small goal.';
  return stage==='early'?'Your job is not to secure the person today. Your job is to remain grounded enough that the right person can recognize you and the wrong fit can reveal itself.':'Kindness without self-abandonment is the center: be generous, be clear, and require reality to answer.';
 }
-function coachDatabaseCards390(ctx){
+function coachDatabaseCards390(ctx,limit=4){
  const db=window.RelationshipCoachDatabase390;
  if(!db||typeof db.query!=='function')return[];
- try{return db.query({stage:ctx.stage,crux:ctx.crux,goal:ctx.goal,raw:ctx.raw,profileType:ctx.profile?.rtype,people:ctx.people},4)||[];}catch(e){return[];}
+ try{return db.query({stage:ctx.stage,crux:ctx.crux,goal:ctx.goal,raw:ctx.raw,profileType:ctx.profile?.rtype,people:ctx.people},limit)||[];}catch(e){return[];}
 }
 function coachList390(items){return (items||[]).slice(0,4).map(x=>`<li>${esc380(x)}</li>`).join('');}
 function coachDatabaseCardHTML390(card,index=0){
@@ -6328,33 +6330,33 @@ function geniusQuestion380(raw,stage,crux,people){
  if(/moving too fast|too fast|rushing|pace|pacing|slow down/i.test(raw))return 'How do we slow the pace without killing the connection or turning anxiety into pressure?';
  if(crux==='safety')return 'Is this a safety or control problem, and what should be protected first?';
  if(crux==='behavior_change')return 'What concrete behavior should change, and how would I know it is actually sticking?';
-	 return stage==='early'?'What is the cleanest next move in this early romantic situation?':'What is the crux of this relationship issue and what should change next?';
+	 return stage==='early'?'What is the cleanest next move in this early romantic situation?':'What should happen next?';
 	}
 	function isWomenWantPrompt380(raw){
 	 return /what (do )?women want|relationship opportunity|understand women|why women|why she|why girls|female behavior|from her side|hot and cold|mixed signals|hesitat|indirect|passive|test me|testing me|pull back|care for me|wants to care|taken out|contribution|contribute|useful role|put her to work|overinvest|over-invest|ferryboat|besides dates|besides attention|besides sex/i.test(String(raw||''));
 	}
 	function coachPlaybooksForChat380(p,stage,crux,raw,people){
 	 const goal=p?.coach380?.goal||'';
-	 return coachDatabaseCards390({stage,crux,goal,raw,profile:p,people});
+	 return coachDatabaseCards390({stage,crux,goal,raw,profile:p,people},10);
 	}
 	function rowsByName380(rows,names){
 	 return names.map(name=>rows.find(r=>r.name===name)).filter(Boolean);
 	}
+	function wildcardNameForCoach380(stage,crux,raw,playbooks=[]){
+	 const t=String(raw||'').toLowerCase(),ids=(playbooks||[]).map(x=>String(x.id||'')).join(' ');
+	 if(/toxic information|red pill|feminism|culture|social media|posting|instagram|attention online|outside validation/.test(t))return 'Louise Perry modern dating culture lens';
+	 if(/sex|sleep|desire|intimacy|attraction|chemistry/.test(t))return 'Esther Perel desire/security lens';
+	 if(/commit|relationship opportunity|serious|exclusive|future|define/.test(t)||/commitment|serious-boyfriend/.test(ids))return 'Scott Stanley commitment clarity lens';
+	 if(/ask|asking|date|first date|met her|clear bid|overpursu|pace|pacing/.test(t))return 'Jane Austen character lens';
+	 return 'Jane Austen character lens';
+	}
 	function panelNamesForCoach380(stage,crux,raw,people,playbooks=[]){
 	 const top=String(playbooks?.[0]?.id||''),orion=top.startsWith('orion')||top.startsWith('kait')||isWomenWantPrompt380(raw);
-	 if(stage==='early'&&people?.user==='man'&&people?.target==='woman'&&orion)return[
+	 if(stage==='early'&&people?.user==='man'&&people?.target==='woman')return[
 	  'Orion Taraban incentive/respect lens',
 	  'Kait Willett capacity/status lens',
 	  'Alison Armstrong usefulness/polarity lens',
-	  'Jane Austen character lens',
-	  'Scott Stanley commitment clarity lens'
-	 ];
-	 if(stage==='early'&&people?.user==='man'&&people?.target==='woman')return[
-	  'Orion Taraban incentive/respect lens',
-	  'Jane Austen character lens',
-	  'Logan Ury behavioral dating lens',
-	  'Marcus Aurelius stoic lens',
-	  'Scott Stanley commitment clarity lens'
+	  wildcardNameForCoach380(stage,crux,raw,playbooks)
 	 ];
 	 return null;
 	}
@@ -6406,16 +6408,18 @@ function geniusPosition380(row,stage,crux,raw,people,slot){
 	 const earlyMan=stage==='early'&&crux==='early_signal'&&people?.user==='man'&&people?.target==='woman';
 	 if(earlyMan){
 	  if(n.includes('Orion'))return orionTurn380(raw,stage,crux,people,slot);
-	  if(isWomenWantPrompt380(raw)&&n.includes('Kait'))return{stance:'Capacity read',text:'Do not compete only on dates, attention, and verbal reassurance. She is probably reading demonstrated capacity: can you plan, solve, regulate, protect your time, create value, and hold standards without making her feel controlled?'};
-	  if(isWomenWantPrompt380(raw)&&n.includes('Alison'))return{stance:'Translation',text:'A woman may not show care if the only role offered is to receive pursuit, manage desire, or be entertained. Invite useful participation and make appreciation obvious when she contributes.'};
-	  if(isWomenWantPrompt380(raw)&&n.includes('Jane Austen'))return{stance:'Character evidence',text:'Do not ask what women want in the abstract only. Watch whether she shows grace around inconvenience, accepts a useful role with good humor, and treats your ordinary life as something worth respecting.'};
-	  if(isWomenWantPrompt380(raw)&&n.includes('Scott Stanley'))return{stance:'Commitment test',text:'A relationship opportunity becomes real when benefits are joined to chosen participation. Keep the next step clear enough that she can opt into your life, not merely consume your attention.'};
-	  if(isWomenWantPrompt380(raw)&&n.includes('Esther'))return{stance:'Desire and space',text:'Attention and sex are not the whole erotic field. Desire often needs a man with his own life, enough restraint to create space, and enough warmth that entering that life feels welcome.'};
-	  if(isWomenWantPrompt380(raw)&&n.includes('Louise'))return{stance:'Culture read',text:'Modern dating can train consumption: entertainment, ambiguity, and sexual access without shared norms. A better frame is clear courtship with contribution, public dignity, and standards.'};
-  if(n.includes('Jane Austen'))return{stance:'Pushback',text:'I agree with the clean invitation, but I would not call her answer only an attraction signal. It is character evidence: does she respond with warmth, clarity, courtesy, or convenient fog?'};
-  if(n.includes('Logan Ury'))return{stance:'Practical test',text:'Both of you are making this too abstract. One real date or one real follow-up gives better data than rereading messages. Run a small experiment and review behavior afterward.'};
-  if(n.includes('Marcus'))return{stance:'Grounding',text:'You may prefer a certain answer, but you do not own it. Own your tone, restraint, courage, and timing; let the outcome be information rather than a verdict on your worth.'};
-  if(n.includes('Scott Stanley'))return{stance:'Boundary',text:'Do not slide into relationship behavior before there is a decision. Keep the next step modest: one date, one plan, one observed response.'};
+	  if(isWomenWantPrompt380(raw)&&n.includes('Kait'))return{stance:'Capacity read',text:'Do not compete only on dates, attention, and verbal reassurance. She is probably reading demonstrated capacity: can you plan, solve, regulate, protect your time, create value, and hold standards without making her feel controlled? Make one clear move that shows competence in the real world, then let her response tell you whether she relaxes and moves toward you.'};
+	  if(isWomenWantPrompt380(raw)&&n.includes('Alison'))return{stance:'Translation',text:'A woman may not show care if the only role offered is to receive pursuit, manage desire, or be entertained. Invite useful participation and make appreciation obvious when she contributes. The point is not to make her perform; it is to create a clean channel where care, usefulness, and respect can move both ways.'};
+	  if(isWomenWantPrompt380(raw)&&n.includes('Jane Austen'))return{stance:'Character evidence',text:'Do not ask what women want in the abstract only. Watch whether she shows grace around inconvenience, accepts a useful role with good humor, and treats your ordinary life as something worth respecting. Courtship is not just chemistry; it is early evidence of manners, judgment, and character under small pressure.'};
+	  if(isWomenWantPrompt380(raw)&&n.includes('Scott Stanley'))return{stance:'Commitment test',text:'A relationship opportunity becomes real when benefits are joined to chosen participation. Keep the next step clear enough that she can opt into your life, not merely consume your attention. If she repeatedly accepts benefits while avoiding choice or contribution, that is information about commitment, not a puzzle to solve with more effort.'};
+	  if(isWomenWantPrompt380(raw)&&n.includes('Esther'))return{stance:'Desire and space',text:'Attention and sex are not the whole erotic field. Desire often needs a man with his own life, enough restraint to create space, and enough warmth that entering that life feels welcome. If you overexplain desire, you can make the interaction feel managed rather than alive.'};
+	  if(isWomenWantPrompt380(raw)&&n.includes('Louise'))return{stance:'Culture read',text:'Modern dating can train consumption: entertainment, ambiguity, and sexual access without shared norms. A better frame is clear courtship with contribution, public dignity, and standards. You are trying to build a norm where both people know what kind of behavior earns more access.'};
+  if(n.includes('Kait'))return{stance:'Capacity read',text:'The clean invitation matters, but the deeper signal is demonstrated capacity. Ask in a way that shows direction, calm, and outcome power: you can choose a plan, handle a yes or no, and keep your life intact either way. That is more attractive than seeking reassurance through extra explanation.'};
+  if(n.includes('Alison'))return{stance:'Useful clarity',text:'Make it easy for her to receive your initiative without having to manage your uncertainty. Lead with a simple plan and a warm tone, then notice whether she appreciates the clarity or makes everything harder. If she does move toward you, receive that warmly so usefulness and appreciation start early.'};
+  if(n.includes('Jane Austen'))return{stance:'Pushback',text:'I agree with the clean invitation, but I would not call her answer only an attraction signal. It is character evidence: does she respond with warmth, clarity, courtesy, or convenient fog? The way someone handles a small bid often tells you more than a dramatic confession would.'};
+  if(n.includes('Logan Ury'))return{stance:'Practical test',text:'Both of you are making this too abstract. One real date or one real follow-up gives better data than rereading messages. Run a small experiment, review actual behavior afterward, and do not promote anxiety into a relationship theory.'};
+  if(n.includes('Marcus'))return{stance:'Grounding',text:'You may prefer a certain answer, but you do not own it. Own your tone, restraint, courage, and timing; let the outcome be information rather than a verdict on your worth. A composed no is better for your character than a needy yes extracted by pressure.'};
+  if(n.includes('Scott Stanley'))return{stance:'Boundary',text:'Do not slide into relationship behavior before there is a decision. Keep the next step modest: one date, one plan, one observed response. If she cannot choose that small step clearly, do not compensate by adding more benefits or emotional labor.'};
  }
  if(crux==='safety'){
   if(n.includes('Evan'))return{stance:'Override',text:'I am going to interrupt the normal dating advice. If refusal, privacy, or independence produces punishment, this is not a communication puzzle; it is a safety and autonomy question.'};
@@ -6445,9 +6449,9 @@ function geniusPosition380(row,stage,crux,raw,people,slot){
  }
  const generic=[
   {stance:'Position',text:geniusComment380(row,{},stage,crux,raw,people)},
-  {stance:'Agreement',text:'I agree with the main read, but the advice should be tested against behavior, not how convincing it feels in the moment.'},
-  {stance:'Pushback',text:'I would be careful about overfitting the story. Ask what observable evidence would change your mind.'},
-  {stance:'Synthesis',text:'The next move should be small, dignified, and measurable: one action, one response to observe, one boundary if the pattern repeats.'}
+  {stance:'Agreement',text:'I agree with the main read, but the advice should be tested against behavior, not how convincing it feels in the moment. Choose one action that creates better evidence and one response that would update the read. If nothing observable changes, do not let a beautiful explanation substitute for reality.'},
+  {stance:'Pushback',text:'I would be careful about overfitting the story. Ask what observable evidence would change your mind, and ask what evidence you are currently ignoring because it is inconvenient. The goal is not to win an interpretation; it is to make the next decision more honest.'},
+  {stance:'Synthesis',text:'The next move should be small, dignified, and measurable: one action, one response to observe, one boundary if the pattern repeats. Keep it simple enough that the other person can actually respond. Then let the response matter more than the theory.'}
  ];
  return generic[slot%generic.length];
 }
@@ -6503,12 +6507,31 @@ function closeExpertProfile380(){
  if(!$380('issuePopout370')?.classList.contains('hidden')||!$380('expertPopout370')?.classList.contains('hidden'))return;
  document.body.classList.remove('workspacePopoutOpen370');
 }
+function voiceCards380(row,cards=[]){
+ const n=String(row?.name||'');
+ const id=card=>String(card?.id||''),tags=card=>String([card?.title,card?.source,(card?.tags||[]).join(' '),(card?.topics||[]).join(' ')].join(' ')).toLowerCase();
+ let filtered=[];
+ if(n.includes('Orion'))filtered=cards.filter(c=>id(c).startsWith('orion')||id(c)==='masculine-direction');
+ else if(n.includes('Kait'))filtered=cards.filter(c=>id(c).startsWith('kait')||/capacity|status|confidence|direction|masculine/.test(tags(c)));
+ else if(n.includes('Alison'))filtered=cards.filter(c=>id(c).startsWith('mw-alison')||/alison|appreciation|usefulness|truth|paradigm/.test(tags(c)));
+ else if(n.includes('Jane Austen'))filtered=cards.filter(c=>/courtship|character|first-date|early-calm|post-date|manners/.test(tags(c)));
+ else if(n.includes('Scott Stanley'))filtered=cards.filter(c=>/commitment|serious|sliding|relationship opportunity|define/.test(tags(c)));
+ else if(n.includes('Esther'))filtered=cards.filter(c=>/desire|sex|chemistry|admiration|intimacy/.test(tags(c)));
+ else if(n.includes('Louise'))filtered=cards.filter(c=>/culture|modern|social-media|bad-advice|norms|ambiguity/.test(tags(c)));
+ if(!filtered.length)filtered=cards.slice(0,3);
+ return filtered.slice(0,3);
+}
+function sourceCardsHTML380(cards=[]){
+ if(!cards.length)return '';
+ return `<details class="geniusSourceCards380"><summary>Source cards</summary><div>${cards.map(card=>`<article><b>${esc380(card.title||card.id||'Coach card')}</b>${card.source?`<em>${esc380(card.source)}</em>`:''}<p>${esc380(card.read||card.why||'')}</p><small>${esc380((card.tags||[]).slice(0,5).join(' / '))}</small></article>`).join('')}</div></details>`;
+}
 function geniusLine380(row,ctx,stage,crux,raw,people,slot=0){
  const name=(window.relationshipExpertDisplayName343?.(row.name))||row.name;
  const profile=window.relationshipExpertProfile343?.(row.name,row)||{avatar:row.avatar||'RI',kind:row.sourceClass||'Modeled perspective'};
  const turn=geniusPosition380(row,stage,crux,raw,people,slot);
- const sentence=s=>String(s||'').replace(/\s+/g,' ').trim().replace(/^(.{170}).+$/,'$1...');
- return `<div class="geniusBubble380 geniusVoice380"><div class="geniusVoiceHead380"><button type="button" class="geniusProfileBtn380" data-expert-profile380="${esc380(row.name)}" title="Open voice profile">${esc380(profile.avatar)}</button><div><b>${esc380(name)}</b><em>${esc380(profile.kind)}</em></div></div><p>${esc380(sentence(turn.text))}</p><span>${esc380(turn.stance)}</span></div>`;
+ const sentence=s=>String(s||'').replace(/\s+/g,' ').trim();
+ const cards=voiceCards380(row,ctx.playbooks||[]);
+ return `<div class="geniusBubble380 geniusVoice380"><div class="geniusVoiceHead380"><button type="button" class="geniusProfileBtn380" data-expert-profile380="${esc380(row.name)}" title="Open voice profile">${esc380(profile.avatar)}</button><div><b>${esc380(name)}</b><em>${esc380(profile.kind)}</em></div></div><p>${esc380(sentence(turn.text))}</p>${sourceCardsHTML380(cards)}<span>${esc380(turn.stance)}</span></div>`;
 }
 function geniusChatHTML380(p,stage,crux,raw,people){
  const userTake=String(p?.coach380?.geniusTake||'').trim();
@@ -6517,6 +6540,7 @@ function geniusChatHTML380(p,stage,crux,raw,people){
  ctx.text=fresh?raw:[ctx.text,raw].filter(Boolean).join(' ');
  const rows=typeof window.relationshipExpertRows343==='function'?window.relationshipExpertRows343():[];
  const playbooks=coachPlaybooksForChat380(p,stage,crux,raw,people);
+ ctx.playbooks=playbooks;
  let ranked=[];
  if(rows.length&&window.RelationshipExpertEngine359?.rank)ranked=window.RelationshipExpertEngine359.rank(rows,ctx).slice(0,4);
  else ranked=rows.slice(0,4);
@@ -6526,7 +6550,6 @@ function geniusChatHTML380(p,stage,crux,raw,people){
  }
 	 return `<section class="geniusChat380" aria-label="Ask the geniuses">
 	  <div class="geniusChatHead380"><span>Ask the geniuses</span><h4>Panel conversation</h4></div>
-	  <div class="geniusBubble380 geniusUser380"><b>Simplified question</b><p>${esc380(geniusQuestion380(raw,stage,crux,people))}</p></div>
 	  <div class="geniusThread380"><div class="geniusBubble380 geniusCounselor380"><b>Counselor</b><p>${esc380(counselorComment380(stage,crux,people))}</p><span>Moderator</span></div>${ranked.map((row,index)=>geniusLine380(row,ctx,stage,crux,raw,people,index)).join('')||'<div class="geniusBubble380 geniusVoice380"><b>Coach</b><p>Add an issue or more context and the panel will weigh in.</p></div>'}${userTake?`<div class="geniusBubble380 geniusUser380"><b>Your weigh-in</b><p>${esc380(userTake)}</p></div><div class="geniusBubble380 geniusCoach380"><b>Counselor synthesis</b><p>${esc380(geniusCoachReply380(userTake,stage,crux,people))}</p><span>Next step</span></div>`:''}</div>
 	  <div class="geniusWeighIn380"><label for="geniusTakeInput380"><span>Your turn</span><textarea id="geniusTakeInput380" placeholder="Weigh in: add what happened next, what you disagree with, or what the panel missed.">${esc380(userTake)}</textarea></label><button id="saveGeniusTake380" type="button" class="secondary">Update conversation</button></div>
 	 </section>`;
@@ -6586,7 +6609,7 @@ function ensureCoachUI380(){
  const hubTitle=document.querySelector('#workspaceFocusHub370 h3');if(hubTitle)hubTitle.textContent='Start with the coach';
  const issueLead=document.querySelector('#issuePopout370 .workspacePopoutHeader370 p');if(issueLead)issueLead.textContent='Use this only when there is a concrete problem, rupture, conflict, or important event you want to save, translate, and repair.';
  const expertLead=document.querySelector('#expertPopout370 .workspacePopoutHeader370 p');if(expertLead)expertLead.textContent='Use this for normal advice, grounding, next moves, and the genius-panel conversation. If there is a specific conflict or rupture, take it to the Counselor office.';
- expertBody.insertAdjacentHTML('afterbegin',`<div id="coachIntake380" class="coachIntake380" aria-describedby="coachIntro380"><div><span>Coach intake</span><h3>What is going on?</h3><p id="coachIntro380">Put the whole event here: repeated behavior, context, your reaction, what you are tempted to do, and what you want help deciding.</p></div><label for="coachSituation380">Situation</label><textarea id="coachSituation380" aria-describedby="coachIntro380" placeholder="Example: My woman is constantly doing behavior X: texting other guys, refuting me in public, posting herself for attention, or consuming a toxic information diet. Here is what happened, how often it happens, what I am tempted to do, and what I want help deciding..."></textarea><div class="coachMiniGrid380"><label for="coachStage380">Stage<select id="coachStage380"><option value="auto">Infer from what I write</option><option value="early">Early dating / flirting</option><option value="mid">Committed / mid-stage</option><option value="mature">Mature / married</option></select></label><label for="coachUserRole380">I am<select id="coachUserRole380"><option value="auto">Infer from what I write</option><option value="man">A man</option><option value="woman">A woman</option><option value="unknown">Role-neutral</option></select></label><label for="coachTargetRole380">I am asking about<select id="coachTargetRole380"><option value="auto">Infer from what I write</option><option value="woman">A woman</option><option value="man">A man</option><option value="unknown">Role-neutral</option></select></label></div><div class="coachIntakeActions380"><button id="saveCoachIntake380" type="button">Update coach read</button><span id="coachIntakeSummary380" role="status" aria-live="polite">No coach context entered yet.</span></div></div>`);
+ expertBody.insertAdjacentHTML('afterbegin',`<div id="coachIntake380" class="coachIntake380" aria-describedby="coachIntro380"><div><span>Coach intake</span><h3>What is going on?</h3><p id="coachIntro380">Put the whole event here: repeated behavior, context, your reaction, what you are tempted to do, and what you want help deciding.</p></div><label for="coachSituation380">Situation</label><textarea id="coachSituation380" aria-describedby="coachIntro380" placeholder="Example: My woman is constantly doing behavior X: texting other guys, refuting me in public, posting herself for attention, or consuming a toxic information diet. Here is what happened, how often it happens, what I am tempted to do, and what I want help deciding..."></textarea><div class="coachMiniGrid380"><label for="coachStage380">Stage<select id="coachStage380" required><option value="">Choose stage</option><option value="early">Early dating / flirting</option><option value="mid">Committed / mid-stage</option><option value="mature">Mature / married</option></select></label><label for="coachUserRole380">I am<select id="coachUserRole380" required><option value="">Choose role</option><option value="man">A man</option><option value="woman">A woman</option><option value="unknown">Role-neutral</option></select></label><label for="coachTargetRole380">I am asking about<select id="coachTargetRole380" required><option value="">Choose subject</option><option value="woman">A woman</option><option value="man">A man</option><option value="unknown">Role-neutral</option></select></label></div><div class="coachIntakeActions380"><button id="saveCoachIntake380" type="button">Update coach read</button><span id="coachIntakeSummary380" role="status" aria-live="polite">No coach context entered yet.</span></div></div>`);
  issueBody.insertAdjacentHTML('afterbegin','<div id="counselorRead380"></div>');
  const issuePanel=$380('issueTranslationPanel335');
  if(issuePanel&&!issuePanel.closest('.coachStructuredIssue380')){
@@ -6602,11 +6625,11 @@ function ensureCoachUI380(){
  bindCoach380();fillCoach380();renderCoach380();
 }
 function fillCoach380(){
- const p=profile380(),c=p?.coach380||{};if($380('coachSituation380'))$380('coachSituation380').value=c.situation||'';if($380('coachStage380'))$380('coachStage380').value=c.stage||'auto';if($380('coachUserRole380'))$380('coachUserRole380').value=c.userRole||'auto';if($380('coachTargetRole380'))$380('coachTargetRole380').value=c.targetRole||'auto';
+ const p=profile380(),c=p?.coach380||{};if($380('coachSituation380'))$380('coachSituation380').value=c.situation||'';if($380('coachStage380'))$380('coachStage380').value=['early','mid','mature'].includes(c.stage)?c.stage:'';if($380('coachUserRole380'))$380('coachUserRole380').value=['man','woman','unknown'].includes(c.userRole)?c.userRole:'';if($380('coachTargetRole380'))$380('coachTargetRole380').value=['man','woman','unknown'].includes(c.targetRole)?c.targetRole:'';
 }
 function saveCoach380(){
  const p=profile380(),status=$380('coachIntakeSummary380');if(!p){if(status)status.textContent='Could not find a profile for this coach read.';return;}
- p.coach380={...(p.coach380||{}),situation:$380('coachSituation380')?.value||'',question:'',stage:$380('coachStage380')?.value||'auto',userRole:$380('coachUserRole380')?.value||'auto',targetRole:$380('coachTargetRole380')?.value||'auto',goal:'Get grounded and choose the next move',grounding:'auto',updated:new Date().toISOString()};
+ p.coach380={...(p.coach380||{}),situation:$380('coachSituation380')?.value||'',question:'',stage:$380('coachStage380')?.value||'',userRole:$380('coachUserRole380')?.value||'',targetRole:$380('coachTargetRole380')?.value||'',goal:'Get grounded and choose the next move',grounding:'auto',updated:new Date().toISOString()};
  if(typeof saveState==='function')saveState();
  renderCoach380();
  const out=$380('coachOutput380');if(out)out.scrollIntoView({behavior:'smooth',block:'start'});
@@ -6619,7 +6642,7 @@ function bindCoach380(){
  const ask=$380('askGeniusesBtn380');if(ask)ask.onclick=()=>{const p=profile380();if(!p)return;p.coach380={...(p.coach380||{}),geniusAsk:$380('geniusAskInput380')?.value||''};if(typeof saveState==='function')saveState();renderCoach380();};
  const askInput=$380('geniusAskInput380');if(askInput)askInput.addEventListener('input',()=>{const p=profile380();if(!p)return;p.coach380={...(p.coach380||{}),geniusAsk:askInput.value||''};renderCoach380();});
  const office=$380('openCounselorOffice380');if(office)office.onclick=()=>{$380('expertPopout370')?.classList.add('hidden');$380('issuePopout370')?.classList.remove('hidden');document.body.classList.add('workspacePopoutOpen370');};
- ['coachSituation380','coachStage380','coachUserRole380','coachTargetRole380'].forEach(id=>{const el=$380(id);if(el)el.addEventListener('input',()=>{const p=profile380();if(!p)return;p.coach380={...(p.coach380||{}),situation:$380('coachSituation380')?.value||'',question:'',stage:$380('coachStage380')?.value||'auto',userRole:$380('coachUserRole380')?.value||'auto',targetRole:$380('coachTargetRole380')?.value||'auto',goal:'Get grounded and choose the next move',grounding:'auto'};renderCoach380();});});
+ ['coachSituation380','coachStage380','coachUserRole380','coachTargetRole380'].forEach(id=>{const el=$380(id);if(el)el.addEventListener('input',()=>{const p=profile380();if(!p)return;p.coach380={...(p.coach380||{}),situation:$380('coachSituation380')?.value||'',question:'',stage:$380('coachStage380')?.value||'',userRole:$380('coachUserRole380')?.value||'',targetRole:$380('coachTargetRole380')?.value||'',goal:'Get grounded and choose the next move',grounding:'auto'};renderCoach380();});});
  document.addEventListener('click',e=>{if(e.target?.id==='openIssuePopout370')setTimeout(()=>{ensureCoachUI380();fillCoach380();},80);if(e.target?.id==='openExpertPopout370')setTimeout(renderCoach380,120);});
 }
 document.addEventListener('click',e=>{

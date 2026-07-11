@@ -1,6 +1,9 @@
-# Relationship Intelligence v3.9.22
+# Relationship Intelligence v3.9.26
 
-v3.9.22:
+v3.9.26:
+- Makes Orion, Kait, and Alison the fixed big-three voices for early man-to-woman coach chat, with a fourth wildcard selected from the situation.
+- Adds expandable source cards inside each genius chat bubble so users can inspect which coach-database playbooks informed that voice.
+- Removes the obsolete "Assumed frame" card now that the user explicitly selects stage and roles.
 - Adds an Orion "what women want" understanding layer so men get possible female-side reasons for hesitation, indirectness, testing, passivity, or mixed signals.
 - Adds a Kait Willett capacity/status layer so male-to-female prompts are framed around demonstrated capacity, not only dates, attention, sex, or generic niceness.
 - Syncs the genius chat panel with the coach playbooks so "men asking about women" prompts pull Orion + Kait rather than generic repair experts.
