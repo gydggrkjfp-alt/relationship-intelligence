@@ -1,4 +1,9 @@
-# Relationship Intelligence v3.9.19
+# Relationship Intelligence v3.9.20
+
+v3.9.20:
+- Adds an Orion "what women want" understanding layer so men get possible female-side reasons for hesitation, indirectness, testing, passivity, or mixed signals.
+- Adds a matched playbook from the Orion video "What women want: the answer to the question" and boosts retrieval for understand-women prompts.
+- Tightens ordinary dating fear versus safety language so "I am afraid she will lose attraction" does not route as a danger case.
 
 v3.9.19:
 - Starts the Modern Wisdom source-bedrock layer with Alison Armstrong and Suzanne Venker playbooks distilled into the coach database.
