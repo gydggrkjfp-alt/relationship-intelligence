@@ -1,12 +1,12 @@
-const CACHE='relationship-intelligence-v3933-chart-mismatch';
+const CACHE='relationship-intelligence-v3934-specific-field-guides';
 const ASSETS=[
   './',
   './index.html',
-  './styles.css?v=3933-chart-mismatch',
-  './expert-engine.js?v=3933-chart-mismatch',
-  './coach-router.js?v=3933-chart-mismatch',
-  './coach-database.js?v=3933-chart-mismatch',
-  './app.js?v=3933-chart-mismatch',
+  './styles.css?v=3934-specific-field-guides',
+  './expert-engine.js?v=3934-specific-field-guides',
+  './coach-router.js?v=3934-specific-field-guides',
+  './coach-database.js?v=3934-specific-field-guides',
+  './app.js?v=3934-specific-field-guides',
   './manifest.json'
 ];
 
@@ -26,7 +26,7 @@ self.addEventListener('activate',event=>{
 self.addEventListener('fetch',event=>{
   const requestUrl=new URL(event.request.url);
   if(requestUrl.pathname.endsWith('/app.js')){
-    event.respondWith(fetch(event.request).catch(()=>caches.match('./app.js?v=3933-chart-mismatch')));
+    event.respondWith(fetch(event.request).catch(()=>caches.match('./app.js?v=3934-specific-field-guides')));
     return;
   }
   event.respondWith(caches.match(event.request).then(response=>response||fetch(event.request)));

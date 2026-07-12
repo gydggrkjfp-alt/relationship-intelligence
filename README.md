@@ -1,4 +1,9 @@
-# Relationship Intelligence v3.9.33
+# Relationship Intelligence v3.9.34
+
+v3.9.34:
+- Makes the four coach field-guide boxes respond to the selected situation type instead of staying on generic early-dating advice.
+- Adds specific field guides and good questions for reciprocity, public respect, digital loyalty, outside validation, information diet, mixed signals, and sex/pacing.
+- Keeps the generic "man asking a woman out" guide only for ordinary early dating prompts without a more specific category.
 
 v3.9.33:
 - Clarifies the mini source-card bar charts as relative 0-100 evidence-weight visuals, not relationship scores.
