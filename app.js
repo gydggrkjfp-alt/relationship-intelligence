@@ -6744,7 +6744,7 @@ function geniusChatHTML380(p,stage,crux,raw,people){
  const turns=coachPanelTurns380(p,stage,crux,raw,people,playbooks);
 	 return `<section class="geniusChat380" aria-label="Ask the geniuses">
 	  <div class="geniusChatHead380"><span>Ask the geniuses</span><h4>Panel conversation</h4></div>
-	  <div class="geniusThread380"><div class="geniusBubble380 geniusCounselor380"><b>Counselor</b><p>${esc380(counselorComment380(stage,crux,people,raw,p?.coach380?.issueType||''))}</p><span>Moderator</span></div>${turns.map(turn=>geniusLine380(turn)).join('')}${userTake?`<div class="geniusBubble380 geniusUser380"><b>Your weigh-in</b><p>${esc380(userTake)}</p></div><div class="geniusBubble380 geniusCoach380"><b>Counselor synthesis</b><p>${esc380(geniusCoachReply380(userTake,stage,crux,people))}</p><span>Next step</span></div>`:''}</div>
+	  <div class="geniusThread380">${turns.map(turn=>geniusLine380(turn)).join('')}${userTake?`<div class="geniusBubble380 geniusUser380"><b>Your weigh-in</b><p>${esc380(userTake)}</p></div><div class="geniusBubble380 geniusCoach380"><b>Coach synthesis</b><p>${esc380(geniusCoachReply380(userTake,stage,crux,people))}</p><span>Next step</span></div>`:''}</div>
 	  <div class="geniusWeighIn380"><label for="geniusTakeInput380"><span>Your turn</span><textarea id="geniusTakeInput380" placeholder="Weigh in: add what happened next, what you disagree with, or what the panel missed.">${esc380(userTake)}</textarea></label><button id="saveGeniusTake380" type="button" class="secondary">Update conversation</button></div>
 	 </section>`;
 }

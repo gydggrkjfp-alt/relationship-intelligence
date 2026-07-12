@@ -1,4 +1,8 @@
-# Relationship Intelligence v3.9.29
+# Relationship Intelligence v3.9.30
+
+v3.9.30:
+- Removes the redundant Counselor bubble from the "Ask the geniuses" chat.
+- Renames the follow-up response from Counselor synthesis to Coach synthesis.
 
 v3.9.29:
 - Rebuilds the "Ask the geniuses" chat so it no longer falls through to repeated generic repair/refinement copy.
