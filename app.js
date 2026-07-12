@@ -4996,7 +4996,7 @@ function expertDisplay343(name){
   'Esther Perel desire/security lens':'Celeste Perel-Varon (based on Esther Perel)',
   'Orion Taraban incentive/respect lens':'Oren Taravan (based on Orion Taraban)',
   'Kait Willett capacity/status lens':'Kate Willet-Cross (based on Kait Willett)',
-  'Alison Armstrong usefulness/polarity lens':'Mara Armstrong-Ellison (based on Alison Armstrong)',
+  'Alison Armstrong usefulness/polarity lens':'Amy Armstrong-Ellison (based on Alison Armstrong)',
   'Suzanne Venker family/purpose lens':'Susanne Venkor (based on Suzanne Venker)',
   'Louise Perry modern dating culture lens':'Lydia Perry-Hart (based on Louise Perry)',
   'Logan Ury behavioral dating lens':'Nora Ury-Finch (based on Logan Ury)',
@@ -6535,7 +6535,10 @@ function geniusPosition380(row,stage,crux,raw,people,slot){
  if(crux==='repair'){
   if(n.includes('Gottman'))return{stance:'Position',text:'Start with the first repairable moment. Name the event, the impact, and the next behavior. Do not prosecute the whole personality.'};
   if(n.includes('Bell Hooks'))return{stance:'Challenge',text:'Repair is not only smoother wording. Ask whether care, respect, responsibility, and trust are actually being practiced after the apology.'};
-  return{stance:'Refinement',text:'I agree with narrowing the repair, but evidence matters: the next similar moment should look different, or the repair was mostly relief.'};
+  if(n.includes('Orion'))return{stance:'Incentive read',text:'Repair should change what gets rewarded next time. If the same behavior keeps access, sympathy, or control, the apology only resets the room; it does not change the pattern.'};
+  if(n.includes('Kait'))return{stance:'Capacity read',text:'A capable repair owns impact and then performs the better behavior under pressure. Watch the next similar moment, because that is where strength and sincerity become visible.'};
+  if(n.includes('Alison'))return{stance:'Translation',text:'Turn the hurt into one specific comfort, respect, truth, or contribution request. Appreciation can return after the new behavior gives the relationship something real to trust.'};
+  return{stance:'Repair test',text:'The useful question is what should be visibly different next time. Name the moment, the standard, and the evidence that would prove the repair is real.'};
  }
  if(crux==='commitment'){
   if(n.includes('Scott'))return{stance:'Position',text:'The danger is sliding into benefits, intimacy, or constraints without a clear decision. Ask what has actually been chosen.'};
@@ -6560,8 +6563,8 @@ function geniusCoachReply380(userTake,stage,crux,people){
  if(crux==='safety')return 'Your update should be judged by safety, not persuasion. Ask what happens when you say no, preserve support, and do not make the unsafe person the only witness.';
  return 'Good, that is the kind of context the panel needs. Convert it into one observable next test: what action will you take, what response would reassure you, and what response would make you stop?';
 }
-function counselorComment380(stage,crux,people,raw=''){
- const reframe=panelReframe380(raw,stage,crux,people);
+function counselorComment380(stage,crux,people,raw='',issueType=''){
+ const reframe=panelReframe380(raw,stage,crux,people,issueType);
  if(crux==='safety')return `${reframe} I am going to mediate this around safety first; nobody gets to optimize a relationship at the cost of autonomy, privacy, or support.`;
  if(stage==='early'&&people?.user==='man'&&people?.target==='woman')return `${reframe} I am listening for what protects your goodwill and dignity while still giving you a clean next move.`;
  if(crux==='behavior_change')return `${reframe} I am going to keep the panel honest: advice only matters if it becomes a behavior you can observe, repeat, and stop requesting once the evidence is clear.`;
@@ -6617,36 +6620,131 @@ function voiceCards380(row,cards=[]){
  if(!filtered.length)filtered=cards.slice(0,3);
  return filtered.slice(0,3);
 }
+function chatKind380(raw,issueType='',crux=''){
+ const t=String(raw||'').toLowerCase();
+ if(issueType==='digital_boundary'||/texting other guys|dm|dms|message.*guys|other men|other guys/.test(t))return'digital_boundary';
+ if(issueType==='public_respect'||/refut|correct.*public|public|in front of|embarrass|humiliat|mock|disrespect|look foolish|undermine/.test(t))return'public_respect';
+ if(issueType==='outside_validation'||/posting herself|posting.*attention|posting.*validation|social media.*validation|instagram.*attention|outside validation/.test(t))return'outside_validation';
+ if(issueType==='info_diet'||/toxic information|podcast|tiktok|red pill|feminism|content|information diet|gender war/.test(t))return'info_diet';
+ if(issueType==='contribution'||/what women want|relationship opportunity|put her to work|contribut|reciprocat|help me|care for me|useful role|overinvest|ferryboat|besides dates|besides attention|besides sex/.test(t))return'contribution';
+ if(issueType==='hot_cold'||/hot and cold|mixed signals|pull back|testing me|test me|indirect|passive|hesitat/.test(t))return'hot_cold';
+ if(issueType==='sex_pacing'||/sex|sleep together|sleep with|too soon|intimacy|lose interest/.test(t))return'sex_pacing';
+ if(issueType==='grounding'||crux==='grounding_values')return'grounding';
+ if(issueType==='behavior_change'||crux==='behavior_change')return'behavior_change';
+ if(issueType==='repair'||crux==='repair')return'repair';
+ return'general';
+}
+function chatTextForVoice380(voice,kind,raw,stage,crux,people){
+ const earlyMan=stage==='early'&&people?.user==='man'&&people?.target==='woman';
+ const v=voice;
+ const byKind={
+  digital_boundary:{
+   orion:'The issue is not whether she can ever speak to another man; the issue is what this private attention rewards. If she gets your commitment, access, and patience while another man gets flirtation, secrecy, or emotional availability, the incentive structure is bad. Set a clean standard, then watch whether she protects the relationship without needing to be policed.',
+   kait:'From an attraction and status angle, do not negotiate from panic. A man who has boundaries is calmer and more legible than a man who begs for reassurance while accepting a lower position. Say the standard plainly, give her room to choose it, and let her choice change your investment.',
+   amy:'I would translate this away from accusation and toward agreement. Tell her the behavior makes trust harder, not that she is automatically guilty, and ask what shared rule would make both of you feel respected. If honesty gets punished or boundaries stay vague, the relationship will train hiding instead of closeness.',
+   wild:'The practical test is simple: after the conversation, does the private attention become more transparent, less flirtatious, and less central? If nothing observable changes, the issue was not wording; it was willingness.'
+  },
+  public_respect:{
+   orion:'Public correction changes the reward system around respect. If she gets laughs, status, or control by making you look foolish, your quiet tolerance teaches the pattern to continue. Do not counter-humiliate her; set a private rule that disagreement stays respectful when there is an audience.',
+   kait:'A man loses ground when he lets public disrespect become normal, but he also loses ground if he reacts like he is begging for status back. Hold posture, stay calm, and make the standard behavioral: do not correct me publicly in a way that makes me look small. Her response tells you whether she can respect strength without needing to defeat it.',
+   amy:'The translation is: you need dignity protected in public, and she may need a way to disagree without feeling silenced. Put both needs into one rule: disagreement is allowed, humiliation is not. Then thank the respectful version when she does it, because appreciation helps the new behavior stick.',
+   wild:'The next public moment is the evidence. If she can catch herself, defer the correction, or speak with care, repair is working. If she mocks the boundary, you have a respect problem, not a communication problem.'
+  },
+  outside_validation:{
+   orion:'Posting for outside attention can become a parallel marketplace for validation. The question is not whether she is allowed to be seen; the question is whether she is feeding a signal that competes with the relationship. Ask what public behavior protects exclusivity, pride, and respect.',
+   kait:'Do not frame this as insecurity alone. A high-value relationship has public standards, and people read those standards. If her online presentation recruits attention that makes the bond feel cheap, ask for the standard calmly and see whether she cares about the cost to the relationship.',
+   amy:'Separate expression from impact. You can respect her autonomy and still say that some forms of attention-seeking make you feel less safe, less proud, or less chosen. The repair is a shared agreement, not a demand that she disappear.',
+   wild:'Look for whether she becomes more considerate without becoming resentful. Healthy adjustment feels like protection of the bond; grudging compliance feels like a future fight.'
+  },
+  info_diet:{
+   orion:'Content is not neutral if it changes what behavior gets rewarded. If podcasts or clips train contempt, suspicion, or gender-war reflexes, they become a third party in the relationship. Ask what the information diet is making easier: respect and cooperation, or resentment and scorekeeping.',
+   kait:'A capable person curates inputs because inputs shape standards. If her content diet makes her less respectful, less cooperative, or more contemptuous, the issue is not one opinion; it is repeated conditioning. Ask for a better input environment and watch whether her behavior changes.',
+   amy:'I would avoid attacking the creator or the whole ideology first. Start with impact: “When this content comes into us, I notice more contempt and less warmth.” Then ask for a relationship-protective boundary around what you both feed your minds.',
+   wild:'The evidence is tone. If the content boundary works, conversations should become kinder, more specific, and less scripted by internet conflict.'
+  },
+  contribution:{
+   orion:'Give her a dignified route to invest. If the only role available is being entertained, pursued, or sexually desired, you may train passive consumption and then resent it. Ask for one small useful contribution and watch whether she moves toward your life with goodwill.',
+   kait:'Women often respond to demonstrated capacity more than verbal claims. Show that you have direction, standards, and a real life, then invite her into a small role inside it. If she relaxes, contributes, and respects the structure, that is better data than another conversation about chemistry.',
+   amy:'Contribution works best when appreciation is visible. If she helps, receive it warmly instead of treating it like a test she barely passed. The goal is a loop where usefulness, gratitude, and care move both directions.',
+   wild:'The practical test is ordinary life. Can she help choose, bring, plan, remember, care, or solve something proportionate without turning it into oppression or debt?'
+  },
+  hot_cold:{
+   orion:'Hot-cold behavior may be calibration, uncertainty, or low investment. Do not chase every temperature change; that rewards instability. Make one clear plan, keep your life intact, and let her reciprocal effort tell you whether this is real.',
+   kait:'Your posture matters here. If warmth makes you over-invest and distance makes you plead, she learns that your center is outside you. Stay composed, make a clear bid, and do not promote mixed signals into a privileged position.',
+   amy:'Do not punish uncertainty, but do ask for enough consistency to feel respected. A gentle sentence works better than a prosecution: “I like this when it feels mutual; I do not do well with hot and cold.” Then observe whether she can meet you.',
+   wild:'The answer is in the pattern after clarity. If she becomes steadier, good. If ambiguity continues to buy your attention, step back.'
+  },
+  sex_pacing:{
+   orion:'Do not make sex the only gate. If sex outruns respect, contribution, and shared context, it can make the bond feel consumed rather than built. Keep desire alive while testing whether she can enter your actual life with care and reciprocity.',
+   kait:'Pacing is more attractive when it comes from standards, not fear. Be warm, direct, and unapologetic that you want the connection to build in a way that preserves respect. That communicates self-command, which is different from hesitation.',
+   amy:'Say the positive thing first: you like where it is going. Then name the container you want: enough trust, appreciation, and care that sex deepens the connection instead of becoming the whole question. That is clearer and kinder than acting distant.',
+   wild:'The test is whether slowing down increases respect or triggers pressure. Respectful pacing should make both people feel more chosen, not punished.'
+  },
+  grounding:{
+   orion:'This is not a situation to solve by extracting more certainty from her. Rebuild the larger context: friends, body, faith or values, work, and a life she could enter without becoming the center of gravity. Attraction is easier to handle when your life is not waiting for one person to validate it.',
+   kait:'Capacity starts with self-command. Set achievable goals, move your body, clean your environment, strengthen your network, and make your day bigger than the romantic question. That is not avoidance; it is becoming more stable and attractive.',
+   amy:'When anxiety is high, do not ask romance to carry every unmet need. Return to ordinary anchors: family, friends, service, prayer or values, sleep, food, and one completed task. A calmer nervous system makes better choices.',
+   wild:'Give it seventy-two hours of structure before making a big interpretation. If the question still matters after you are grounded, you will ask it more cleanly.'
+  },
+  behavior_change:{
+   orion:'Ask what the current system rewards. If the behavior keeps happening, some mix of access, relief, avoidance, attention, or lack of consequence is keeping it alive. Change one incentive and one boundary, then watch behavior rather than promises.',
+   kait:'The change has to show capacity, not just intention. Can this person notice the cue, regulate themselves, choose the better behavior, and repeat it when nobody is impressed? If not, you are dealing with a skill or willingness gap.',
+   amy:'Make the request small, specific, and appreciable. Name the behavior you want, explain the comfort or respect it creates, and notice it when it happens. People repeat what becomes clear and valued.',
+   wild:'If the same request has been made three times, stop making it bigger and make it more measurable. Cue, action, review point.'
+  },
+  repair:{
+   orion:'Repair should change the incentive structure, not just lower the emotional pressure for a night. Ask what behavior became more costly and what behavior became more rewarding after the repair. If nothing changes next time, the repair was relief, not learning.',
+   kait:'The repair has to restore position and trust through action. A person with capacity can own impact, make a clean adjustment, and not collapse into excuses. Watch whether the next similar moment looks stronger.',
+   amy:'Translate the hurt into a next-time behavior. “I need respect” is too vague; “do not keep private flirtatious DMs while asking me to trust the relationship” is usable. Appreciation can return after safety and clarity return.',
+   wild:'The best repair is boring evidence. Fewer speeches, cleaner behavior, easier trust.'
+  },
+  general:{
+   orion:'Ask what this situation rewards, punishes, ignores, and demands. The next move should change behavior, not merely create a more satisfying explanation.',
+   kait:'Turn the question into demonstrated capacity. What can you plan, solve, regulate, clarify, or stop doing today that makes the situation cleaner?',
+   amy:'Translate the emotional complaint into a comfort, respect, truth, or contribution request. Then ask for that in plain English.',
+   wild:'Make one move small enough to test this week. Let the response update the read.'
+  }
+ };
+ const pack=byKind[kind]||byKind.general;
+ return pack[v]||pack.wild;
+}
+function wildcardVoice380(kind,raw,stage,crux){
+ if(kind==='outside_validation'||kind==='info_diet')return{key:'Louise Perry modern dating culture lens',name:'Louise Perry culture lens',avatar:'LP',kind:'Culture / norms',voice:'wild'};
+ if(kind==='sex_pacing')return{key:'Esther Perel desire/security lens',name:'Esther Perel desire lens',avatar:'EP',kind:'Desire / security',voice:'wild'};
+ if(kind==='contribution'||kind==='hot_cold')return{key:'Jane Austen character lens',name:'Jane Austen character lens',avatar:'JA',kind:'Character / courtship',voice:'wild'};
+ return{key:'Scott Stanley commitment clarity lens',name:'Scott Stanley clarity lens',avatar:'SS',kind:'Commitment / evidence',voice:'wild'};
+}
+function coachPanelTurns380(p,stage,crux,raw,people,playbooks=[]){
+ const issueType=p?.coach380?.issueType||'',kind=chatKind380(raw,issueType,crux);
+ const base=[
+  {key:'Orion Taraban incentive/respect lens',name:'Oren Taravan (based on Orion Taraban)',avatar:'OT',kind:'Psychology / dating strategy',voice:'orion',stance:'Incentive read'},
+  {key:'Kait Willett capacity/status lens',name:'Kate Willet-Cross (based on Kait Willett)',avatar:'KW',kind:'Dating culture / attraction analysis',voice:'kait',stance:'Capacity read'},
+  {key:'Alison Armstrong usefulness/polarity lens',name:'Amy Armstrong-Ellison (based on Alison Armstrong)',avatar:'AA',kind:'Relationship educator',voice:'amy',stance:'Translation'}
+ ];
+ const wild=wildcardVoice380(kind,raw,stage,crux);
+ const turns=[...base,{...wild,stance:'Practical test'}];
+ return turns.map(turn=>({
+  ...turn,
+  text:chatTextForVoice380(turn.voice,kind,raw,stage,crux,people),
+  cards:voiceCards380({name:turn.key},playbooks)
+ }));
+}
 function sourceCardsHTML380(cards=[]){
  if(!cards.length)return '';
  return `<details class="geniusSourceCards380"><summary>Source cards</summary><div>${cards.map(card=>`<article><b>${esc380(card.title||card.id||'Coach card')}</b>${card.source?`<em>${esc380(card.source)}</em>`:''}<p>${esc380(card.read||card.why||'')}</p><small>${esc380((card.tags||[]).slice(0,5).join(' / '))}</small></article>`).join('')}</div></details>`;
 }
-function geniusLine380(row,ctx,stage,crux,raw,people,slot=0){
- const name=(window.relationshipExpertDisplayName343?.(row.name))||row.name;
- const profile=window.relationshipExpertProfile343?.(row.name,row)||{avatar:row.avatar||'RI',kind:row.sourceClass||'Modeled perspective'};
- const turn=geniusPosition380(row,stage,crux,raw,people,slot);
+function geniusLine380(turn){
  const sentence=s=>String(s||'').replace(/\s+/g,' ').trim();
- const cards=voiceCards380(row,ctx.playbooks||[]);
- return `<div class="geniusBubble380 geniusVoice380"><div class="geniusVoiceHead380"><button type="button" class="geniusProfileBtn380" data-expert-profile380="${esc380(row.name)}" title="Open voice profile">${esc380(profile.avatar)}</button><div><b>${esc380(name)}</b><em>${esc380(profile.kind)}</em></div></div><p>${esc380(sentence(turn.text))}</p>${sourceCardsHTML380(cards)}<span>${esc380(turn.stance)}</span></div>`;
+ return `<div class="geniusBubble380 geniusVoice380"><div class="geniusVoiceHead380"><button type="button" class="geniusProfileBtn380" data-expert-profile380="${esc380(turn.key)}" title="Open voice profile">${esc380(turn.avatar)}</button><div><b>${esc380(turn.name)}</b><em>${esc380(turn.kind)}</em></div></div><p>${esc380(sentence(turn.text))}</p>${sourceCardsHTML380(turn.cards)}<span>${esc380(turn.stance)}</span></div>`;
 }
 function geniusChatHTML380(p,stage,crux,raw,people){
  const userTake=String(p?.coach380?.geniusTake||'').trim();
  const fresh=coachFreshText380(p);
- const ctx=fresh?{profile:p,issue:null,latestSnapshot:null,metrics:{},text:raw,isPositive:false,safetyFlags:[]}:(typeof window.relationshipContext343==='function'?window.relationshipContext343():{profile:p,issue:issue380(p),text:raw});
- ctx.text=fresh?raw:[ctx.text,raw].filter(Boolean).join(' ');
- const rows=typeof window.relationshipExpertRows343==='function'?window.relationshipExpertRows343():[];
  const playbooks=coachPlaybooksForChat380(p,stage,crux,raw,people);
- ctx.playbooks=playbooks;
- let ranked=[];
- if(rows.length&&window.RelationshipExpertEngine359?.rank)ranked=window.RelationshipExpertEngine359.rank(rows,ctx).slice(0,4);
- else ranked=rows.slice(0,4);
- if(rows.length){
-  const wanted=panelNamesForCoach380(stage,crux,raw,people,playbooks);
-  if(wanted)ranked=rowsByName380(rows,wanted);
- }
+ const turns=coachPanelTurns380(p,stage,crux,raw,people,playbooks);
 	 return `<section class="geniusChat380" aria-label="Ask the geniuses">
 	  <div class="geniusChatHead380"><span>Ask the geniuses</span><h4>Panel conversation</h4></div>
-	  <div class="geniusThread380"><div class="geniusBubble380 geniusCounselor380"><b>Counselor</b><p>${esc380(counselorComment380(stage,crux,people,raw))}</p><span>Moderator</span></div>${ranked.map((row,index)=>geniusLine380(row,ctx,stage,crux,raw,people,index)).join('')||'<div class="geniusBubble380 geniusVoice380"><b>Coach</b><p>Add an issue or more context and the panel will weigh in.</p></div>'}${userTake?`<div class="geniusBubble380 geniusUser380"><b>Your weigh-in</b><p>${esc380(userTake)}</p></div><div class="geniusBubble380 geniusCoach380"><b>Counselor synthesis</b><p>${esc380(geniusCoachReply380(userTake,stage,crux,people))}</p><span>Next step</span></div>`:''}</div>
+	  <div class="geniusThread380"><div class="geniusBubble380 geniusCounselor380"><b>Counselor</b><p>${esc380(counselorComment380(stage,crux,people,raw,p?.coach380?.issueType||''))}</p><span>Moderator</span></div>${turns.map(turn=>geniusLine380(turn)).join('')}${userTake?`<div class="geniusBubble380 geniusUser380"><b>Your weigh-in</b><p>${esc380(userTake)}</p></div><div class="geniusBubble380 geniusCoach380"><b>Counselor synthesis</b><p>${esc380(geniusCoachReply380(userTake,stage,crux,people))}</p><span>Next step</span></div>`:''}</div>
 	  <div class="geniusWeighIn380"><label for="geniusTakeInput380"><span>Your turn</span><textarea id="geniusTakeInput380" placeholder="Weigh in: add what happened next, what you disagree with, or what the panel missed.">${esc380(userTake)}</textarea></label><button id="saveGeniusTake380" type="button" class="secondary">Update conversation</button></div>
 	 </section>`;
 }

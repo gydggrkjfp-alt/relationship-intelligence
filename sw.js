@@ -1,12 +1,12 @@
-const CACHE='relationship-intelligence-v3928-coach-situation-type';
+const CACHE='relationship-intelligence-v3929-chat-rebuild';
 const ASSETS=[
   './',
   './index.html',
-  './styles.css?v=3928-coach-situation-type',
-  './expert-engine.js?v=3928-coach-situation-type',
-  './coach-router.js?v=3928-coach-situation-type',
-  './coach-database.js?v=3928-coach-situation-type',
-  './app.js?v=3928-coach-situation-type',
+  './styles.css?v=3929-chat-rebuild',
+  './expert-engine.js?v=3929-chat-rebuild',
+  './coach-router.js?v=3929-chat-rebuild',
+  './coach-database.js?v=3929-chat-rebuild',
+  './app.js?v=3929-chat-rebuild',
   './manifest.json'
 ];
 
@@ -26,7 +26,7 @@ self.addEventListener('activate',event=>{
 self.addEventListener('fetch',event=>{
   const requestUrl=new URL(event.request.url);
   if(requestUrl.pathname.endsWith('/app.js')){
-    event.respondWith(fetch(event.request).catch(()=>caches.match('./app.js?v=3928-coach-situation-type')));
+    event.respondWith(fetch(event.request).catch(()=>caches.match('./app.js?v=3929-chat-rebuild')));
     return;
   }
   event.respondWith(caches.match(event.request).then(response=>response||fetch(event.request)));

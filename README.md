@@ -1,4 +1,11 @@
-# Relationship Intelligence v3.9.28
+# Relationship Intelligence v3.9.29
+
+v3.9.29:
+- Rebuilds the "Ask the geniuses" chat so it no longer falls through to repeated generic repair/refinement copy.
+- Makes the coach chat deterministic: Orion, Kait, Amy/Alison, and one wildcard each generate text directly from the situation type and prompt.
+- Adds situation-specific chat responses for digital boundaries, public respect, outside validation, information diet, contribution, hot-cold signals, sex pacing, grounding, behavior change, and repair.
+- Renames the third modern panel voice to Amy Armstrong-Ellison while keeping it backed by the Alison/relationship-translation playbooks.
+- Keeps source cards under each voice, but makes the visible answer full sentences instead of database boilerplate.
 
 v3.9.28:
 - Rebuilds the coach intake gate so it requires stage, speaker role, target role, and situation type before generating a coach read.
