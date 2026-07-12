@@ -1,12 +1,12 @@
-const CACHE='relationship-intelligence-v3930-chat-no-counselor';
+const CACHE='relationship-intelligence-v3932-rich-source-cards';
 const ASSETS=[
   './',
   './index.html',
-  './styles.css?v=3930-chat-no-counselor',
-  './expert-engine.js?v=3930-chat-no-counselor',
-  './coach-router.js?v=3930-chat-no-counselor',
-  './coach-database.js?v=3930-chat-no-counselor',
-  './app.js?v=3930-chat-no-counselor',
+  './styles.css?v=3932-rich-source-cards',
+  './expert-engine.js?v=3932-rich-source-cards',
+  './coach-router.js?v=3932-rich-source-cards',
+  './coach-database.js?v=3932-rich-source-cards',
+  './app.js?v=3932-rich-source-cards',
   './manifest.json'
 ];
 
@@ -26,7 +26,7 @@ self.addEventListener('activate',event=>{
 self.addEventListener('fetch',event=>{
   const requestUrl=new URL(event.request.url);
   if(requestUrl.pathname.endsWith('/app.js')){
-    event.respondWith(fetch(event.request).catch(()=>caches.match('./app.js?v=3930-chat-no-counselor')));
+    event.respondWith(fetch(event.request).catch(()=>caches.match('./app.js?v=3932-rich-source-cards')));
     return;
   }
   event.respondWith(caches.match(event.request).then(response=>response||fetch(event.request)));

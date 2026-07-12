@@ -6196,6 +6196,40 @@ function cruxForIssueType380(type,fallback){
   other:fallback
  })[type]||fallback;
 }
+const issueTypeLabels380={
+ public_respect:'Public respect / dignity',
+ digital_boundary:'Digital boundary / loyalty',
+ outside_validation:'Outside validation / social media',
+ info_diet:'Information diet / contempt risk',
+ contribution:'Contribution / reciprocity',
+ hot_cold:'Hot-cold / mixed signals',
+ sex_pacing:'Sex / pacing',
+ behavior_change:'Behavior change',
+ repair:'Repair / rupture',
+ grounding:'Life reset / grounding',
+ other:'Other / general advice'
+};
+function inferredIssueType380(raw,crux=''){
+ const t=String(raw||'').toLowerCase();
+ if(/texting other guys|dm|dms|message.*guys|other men|other guys|phone|snapchat/.test(t))return'digital_boundary';
+ if(/refut|correct.*public|public|in front of|embarrass|humiliat|mock|disrespect|look foolish|undermine/.test(t))return'public_respect';
+ if(/posting herself|posting.*attention|posting.*validation|social media.*validation|instagram.*attention|attention.*instagram|thirst|outside validation/.test(t))return'outside_validation';
+ if(/toxic information|podcast|tiktok|red pill|feminism|content|information diet|gender war/.test(t))return'info_diet';
+ if(/put her to work|contribut|reciprocat|provide value|useful role|help (me|with)|care for me|show up|burden|self-sufficient|need anything|taken out|real-life responsibility|overinvest|over-invest|one-way|relationship opportunity|besides dates|besides attention|besides sex/.test(t))return'contribution';
+ if(/hot and cold|mixed signals|pull back|testing me|test me|indirect|passive|hesitat/.test(t))return'hot_cold';
+ if(/sex|sleep together|sleep with|too soon|intimacy|lose interest/.test(t))return'sex_pacing';
+ if(/find myself|finding myself|lost|stuck in my head|in my head|ruminat|spiral|life reset|reset my life|focus on myself|church|religio|faith|god|bigger than myself|purpose|meaning|move away|move to|different location|new city|achievable goals|small goals|workout|exercise|walk|service|volunteer|gratitude|grounded|anxious|anxiety/.test(t)||crux==='grounding_values')return'grounding';
+ if(/do what i need|can't get|chores|money|help|change|behavior|appreciat|thank|routine|routines|ritual|system|schedule|division of labor/.test(t)||crux==='behavior_change')return'behavior_change';
+ if(/fight|argument|repair|communicat|overcommunicat|feelings|shutdown|defensive/.test(t)||crux==='repair')return'repair';
+ return'other';
+}
+function mismatchNoticeHTML380(raw,selected,inferredCrux){
+ const suggested=inferredIssueType380(raw,inferredCrux);
+ if(!selected||!suggested||suggested==='other'||selected===suggested)return'';
+ const weak=new Set(['repair','behavior_change']);
+ if(weak.has(suggested)&&!weak.has(selected))return'';
+ return `<div class="coachMismatch380" role="status"><div><b>Category check</b><p>You selected <strong>${esc380(issueTypeLabels380[selected]||selected)}</strong>, but the situation sounds more like <strong>${esc380(issueTypeLabels380[suggested]||suggested)}</strong>.</p></div><button type="button" class="secondary" data-switch-issue-type380="${esc380(suggested)}">Switch</button></div>`;
+}
 function situationTitle380(raw,stage,crux,issueType=''){
  const byType={
   public_respect:'public respect / dignity',
@@ -6347,10 +6381,11 @@ function coachHTML380(p){
  if(!raw.trim())return '<div class="coachEmpty380"><b>Tell the coach what is going on.</b><p>Use the first button to describe the situation in normal language. The coach will turn it into a stage-aware read, next move, pitfalls, and a script.</p></div>';
  const requiredStage=['early','mid','mature'].includes(c.stage),requiredUser=['man','woman','unknown'].includes(c.userRole),requiredTarget=['man','woman','unknown'].includes(c.targetRole),requiredIssue=['public_respect','digital_boundary','outside_validation','info_diet','contribution','hot_cold','sex_pacing','behavior_change','repair','grounding','other'].includes(c.issueType);
  if(!requiredStage||!requiredUser||!requiredTarget||!requiredIssue)return '<div class="coachEmpty380"><b>Choose the frame first.</b><p>Select the relationship stage, who you are, who you are asking about, and the situation type. The coach will wait instead of guessing from a few stray words.</p></div>';
- const stage=inferStage380(raw,c.stage,p),inferredCrux=inferCrux380(raw,stage),crux=cruxForIssueType380(c.issueType,inferredCrux),goal=c.goal||'Get grounded and choose the next move',people=inferPeople380(raw,p),a=advice380(stage,crux,goal,raw,people,c.issueType);
+ const stage=inferStage380(raw,c.stage,p),inferredCrux=inferCrux380(raw,stage),crux=cruxForIssueType380(c.issueType,inferredCrux),goal=c.goal||'Get grounded and choose the next move',people=inferPeople380(raw,p),a=advice380(stage,crux,goal,raw,people,c.issueType),mismatch=mismatchNoticeHTML380(raw,c.issueType,inferredCrux);
  window.__lastCoachRoute3913=window.RelationshipCoachRouter3913?.classify?.({raw,chosenStage:c.stage,profile:p});
  const field=fieldGuide380(stage,crux,raw,people),qs=questions380(stage,crux,raw),analysis=issueAnalysis380(stage,crux,raw,people),kids=childrenQuestions380(stage,raw),db=coachDatabaseCards390({stage,crux,goal,raw,profile:p,people});
  return `<div class="coachResponse380">
+  ${mismatch}
   <div class="coachHead380"><span>Relationship coach</span><h3>${esc380(coachTitle380(stage,crux,raw,c.issueType))}</h3><p>${esc380(stageFrame380(stage,crux,raw,c.issueType))}</p></div>
   <div class="coachSection380 coachMirror380"><b>What I hear</b><p>${esc380(reflection380(raw,stage,crux,goal,people,c.issueType))}</p></div>
   <div class="coachGrid380">
@@ -6393,9 +6428,17 @@ function grounding380(stage,crux,mode){
 function coachDatabaseCards390(ctx,limit=4){
  const db=window.RelationshipCoachDatabase390;
  if(!db||typeof db.query!=='function')return[];
- try{return db.query({stage:ctx.stage,crux:ctx.crux,goal:ctx.goal,raw:ctx.raw,profileType:ctx.profile?.rtype,people:ctx.people},limit)||[];}catch(e){return[];}
+ try{const cards=db.query({stage:ctx.stage,crux:ctx.crux,goal:ctx.goal,raw:ctx.raw,profileType:ctx.profile?.rtype,people:ctx.people},limit)||[];return cards.sort((a,b)=>((b.takeaways?.length||0)+(b.citations?.length||0)+(b.chart?2:0))-((a.takeaways?.length||0)+(a.citations?.length||0)+(a.chart?2:0)));}catch(e){return[];}
 }
 function coachList390(items){return (items||[]).slice(0,4).map(x=>`<li>${esc380(x)}</li>`).join('');}
+function coachCitationList390(items){return (items||[]).slice(0,5).map(c=>`<li><b>${esc380(c.title||c.source||'Source')}</b>${c.year?` <span>${esc380(c.year)}</span>`:''}${c.url?` <a href="${esc380(c.url)}" target="_blank" rel="noopener">source</a>`:''}${c.note?`<p>${esc380(c.note)}</p>`:''}</li>`).join('');}
+function coachChart390(chart){
+ if(!chart||!Array.isArray(chart.rows)||!chart.rows.length)return'';
+ return `<div class="coachCardChart390"><b>${esc380(chart.title||'Evidence snapshot')}</b>${chart.rows.slice(0,6).map(r=>{const v=Math.max(0,Math.min(100,Number(r.value)||0));return`<div class="coachChartRow390"><span>${esc380(r.label)}</span><div><i style="width:${v}%"></i></div><em>${esc380(r.note||String(r.value||''))}</em></div>`;}).join('')}</div>`;
+}
+function coachRichSections390(card){
+ return `${card.takeaways?.length?`<div class="coachCardTakeaways390"><b>Take-home messages</b><ul>${coachList390(card.takeaways)}</ul></div>`:''}${card.model?.length?`<div class="coachCardModel390"><b>Model</b><ol>${(card.model||[]).slice(0,5).map(x=>`<li>${esc380(x)}</li>`).join('')}</ol></div>`:''}${coachChart390(card.chart)}${card.citations?.length?`<div class="coachCardCitations390"><b>Citations / source trail</b><ul>${coachCitationList390(card.citations)}</ul></div>`:''}`;
+}
 function coachDatabaseCardHTML390(card,index=0){
  return `<details class="coachDbCard390">
   <summary><span>Playbook ${index+1}</span><b>${esc380(card.title)}</b></summary>
@@ -6403,6 +6446,7 @@ function coachDatabaseCardHTML390(card,index=0){
   <div class="coachDbHead390"><span>${esc380((card.stage||[]).join(' / '))}</span><h4>${esc380(card.title)}</h4></div>
   ${card.source?`<p class="coachDbSource390"><b>Source:</b> ${esc380(card.source)}</p>`:''}
   <p>${esc380(card.read)}</p>
+  ${coachRichSections390(card)}
   <div class="coachDbColumns390">
    <div><b>Why this matched</b><p>${esc380(card.why)}</p></div>
    <div><b>Extra next moves</b><ul>${coachList390(card.nextMoves)}</ul></div>
@@ -6609,16 +6653,19 @@ function closeExpertProfile380(){
 function voiceCards380(row,cards=[]){
  const n=String(row?.name||'');
  const id=card=>String(card?.id||''),tags=card=>String([card?.title,card?.source,(card?.tags||[]).join(' '),(card?.topics||[]).join(' ')].join(' ')).toLowerCase();
+ const all=window.RelationshipCoachDatabase390?.entries||[];
+ const pool=[...(cards||[]),...all.filter(card=>!(cards||[]).some(c=>id(c)===id(card)))];
  let filtered=[];
- if(n.includes('Orion'))filtered=cards.filter(c=>id(c).startsWith('orion')||id(c)==='masculine-direction');
- else if(n.includes('Kait'))filtered=cards.filter(c=>id(c).startsWith('kait')||/capacity|status|confidence|direction|masculine/.test(tags(c)));
- else if(n.includes('Alison'))filtered=cards.filter(c=>id(c).startsWith('mw-alison')||/alison|appreciation|usefulness|truth|paradigm/.test(tags(c)));
- else if(n.includes('Jane Austen'))filtered=cards.filter(c=>/courtship|character|first-date|early-calm|post-date|manners/.test(tags(c)));
- else if(n.includes('Scott Stanley'))filtered=cards.filter(c=>/commitment|serious|sliding|relationship opportunity|define/.test(tags(c)));
- else if(n.includes('Esther'))filtered=cards.filter(c=>/desire|sex|chemistry|admiration|intimacy/.test(tags(c)));
- else if(n.includes('Louise'))filtered=cards.filter(c=>/culture|modern|social-media|bad-advice|norms|ambiguity/.test(tags(c)));
- if(!filtered.length)filtered=cards.slice(0,3);
- return filtered.slice(0,3);
+ if(n.includes('Orion'))filtered=pool.filter(c=>id(c).startsWith('orion')||id(c)==='masculine-direction');
+ else if(n.includes('Kait'))filtered=pool.filter(c=>id(c).startsWith('kait')||/capacity|status|confidence|direction|masculine/.test(tags(c)));
+ else if(n.includes('Alison'))filtered=pool.filter(c=>id(c).startsWith('mw-alison')||/alison|appreciation|usefulness|truth|paradigm/.test(tags(c)));
+ else if(n.includes('Jane Austen'))filtered=pool.filter(c=>/courtship|character|first-date|early-calm|post-date|manners/.test(tags(c)));
+ else if(n.includes('Scott Stanley'))filtered=pool.filter(c=>/commitment|serious|sliding|relationship opportunity|define/.test(tags(c)));
+ else if(n.includes('Esther'))filtered=pool.filter(c=>/desire|sex|chemistry|admiration|intimacy/.test(tags(c)));
+ else if(n.includes('Louise'))filtered=pool.filter(c=>/culture|modern|social-media|bad-advice|norms|ambiguity/.test(tags(c)));
+ if(!filtered.length)filtered=pool.slice(0,3);
+ filtered=filtered.sort((a,b)=>((b.takeaways?.length||0)+(b.citations?.length||0)+(b.chart?2:0))-((a.takeaways?.length||0)+(a.citations?.length||0)+(a.chart?2:0)));
+ return filtered.slice(0,4);
 }
 function chatKind380(raw,issueType='',crux=''){
  const t=String(raw||'').toLowerCase();
@@ -6731,7 +6778,7 @@ function coachPanelTurns380(p,stage,crux,raw,people,playbooks=[]){
 }
 function sourceCardsHTML380(cards=[]){
  if(!cards.length)return '';
- return `<details class="geniusSourceCards380"><summary>Source cards</summary><div>${cards.map(card=>`<article><b>${esc380(card.title||card.id||'Coach card')}</b>${card.source?`<em>${esc380(card.source)}</em>`:''}<p>${esc380(card.read||card.why||'')}</p><small>${esc380((card.tags||[]).slice(0,5).join(' / '))}</small></article>`).join('')}</div></details>`;
+ return `<details class="geniusSourceCards380"><summary>Source cards</summary><div>${cards.map(card=>`<article><b>${esc380(card.title||card.id||'Coach card')}</b>${card.source?`<em>${esc380(card.source)}</em>`:''}<p>${esc380(card.read||card.why||'')}</p>${coachRichSections390(card)}<small>${esc380((card.tags||[]).slice(0,7).join(' / '))}</small></article>`).join('')}</div></details>`;
 }
 function geniusLine380(turn){
  const sentence=s=>String(s||'').replace(/\s+/g,' ').trim();
@@ -6841,6 +6888,8 @@ function bindCoach380(){
 }
 document.addEventListener('click',e=>{
  if(e.target?.closest?.('#saveCoachIntake380')){e.preventDefault();saveCoach380();return;}
+ const switchIssue=e.target?.closest?.('[data-switch-issue-type380]');
+ if(switchIssue){e.preventDefault();const p=profile380();if(!p)return;p.coach380={...(p.coach380||{}),issueType:switchIssue.dataset.switchIssueType380||p.coach380?.issueType||''};if($380('coachIssueType380'))$380('coachIssueType380').value=p.coach380.issueType;if(typeof saveState==='function')saveState();renderCoach380();return;}
  if(e.target?.id==='saveGeniusTake380'){const p=profile380();if(!p)return;p.coach380={...(p.coach380||{}),geniusTake:$380('geniusTakeInput380')?.value||''};if(typeof saveState==='function')saveState();renderCoach380();return;}
  const profileBtn=e.target?.closest?.('[data-expert-profile380]');
  if(profileBtn){e.preventDefault();showExpertProfile380(profileBtn.dataset.expertProfile380);return;}

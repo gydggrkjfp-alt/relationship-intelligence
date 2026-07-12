@@ -1,4 +1,15 @@
-# Relationship Intelligence v3.9.30
+# Relationship Intelligence v3.9.32
+
+v3.9.32:
+- Dramatically expands the expandable chat source cards with take-home messages, model steps, mini evidence charts, and citation/source trails.
+- Adds deep Kait Willett cards from "The Only Thing Women Want From Men" covering stated-vs-revealed preference gaps, capacity/status signals, and kindness plus self-command.
+- Adds deeper Orion cards for incentive audits, relationship opportunity, contribution, and sex pacing.
+- Updates the source-card renderer used by the chat and optional coach database so cards can show structured evidence instead of one-sentence blurbs.
+
+v3.9.31:
+- Adds a category mismatch check in the coach response when the selected situation type conflicts with the text.
+- Keeps the selected category in control, but offers a one-click Switch button to move to the suggested category.
+- Adds a compact advisory style for mismatch warnings so wrong selections are visible without blocking the coach.
 
 v3.9.30:
 - Removes the redundant Counselor bubble from the "Ask the geniuses" chat.
