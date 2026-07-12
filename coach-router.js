@@ -15,6 +15,7 @@ function classify(input={}){
  const digitalBoundary=/texting other guys|dm|dms|message.*guys|other men|other guys|phone|snapchat/.test(raw);
  const outsideValidation=/posting herself|posting.*attention|posting.*validation|social media.*validation|instagram.*attention|attention.*instagram|thirst|outside validation/.test(raw);
  const infoDiet=/toxic information|podcast|tiktok|red pill|feminism|content|information diet|gender war/.test(raw);
+ const datingStrategy=/dont chase|don't chase|left on read|left on red|option|plan b|backup|job offer|beta corp|applicant|interview|overpursu|overcommit|happy hunting|hunter|hunt|fisherman|fishing|conditional yes|lazy dating|find a man|find men|get a boyfriend|get a husband|how do i date|how to date|meet men|women looking for men|woman looking for a man|female looking for a man|husband material|boyfriend material/.test(raw);
  if(chosen&&chosen!=='auto')add(scores,chosen,100,'manual stage');
  if(explicitEarly){add(scores,'early',44,'explicit early/dating-market language');add(scores,'mature',-36,'early dating language overrides mature profile defaults');}
  if(/moving too fast|too fast|rushing|rush|slow down|pace|pacing|get serious fast|intense too soon/.test(raw))add(scores,'early',24,'pacing language usually starts early unless marriage is explicit');
@@ -26,6 +27,7 @@ function classify(input={}){
  if(digitalBoundary){add(scores,'repair',46,'digital boundary / loyalty pattern');add(scores,'commitment',26,'digital behavior tests relationship norms');add(scores,'grounding_values',-60,'not a life-reset prompt');}
  if(outsideValidation){add(scores,'repair',42,'outside validation / social media pattern');add(scores,'commitment',22,'outside validation tests norms');add(scores,'grounding_values',-60,'not a life-reset prompt');}
  if(infoDiet){add(scores,'behavior_change',44,'information diet behavior pattern');add(scores,'repair',24,'information diet may train contempt');add(scores,'grounding_values',-60,'not a life-reset prompt');}
+ if(datingStrategy){add(scores,'early',36,'dating strategy / selection language');add(scores,'early_signal',34,'dating strategy belongs in early courtship signals');add(scores,'grounding_values',-28,'not primarily life-reset');}
  if(datingMarket){add(scores,'grounding_values',42,'dating-market discouragement needs life orientation');add(scores,'early_signal',-18,'not a single flirtation to optimize');}
  if(lifeReset)add(scores,'grounding_values',34,'life reset / values / rumination language');
  if(has(raw,/contribut|reciprocat|reciprocal|provide value|useful role|relationship opportunity|small (favor|responsibility)|help (me|with)|care for me|show up|burden|self-sufficient|need anything|taken out|real-life responsibility|overinvest|over-invest|one-way/)){add(scores,'early_signal',24,'contribution/reciprocity dating signal');add(scores,'commitment',12,'contribution reveals relationship intent');}

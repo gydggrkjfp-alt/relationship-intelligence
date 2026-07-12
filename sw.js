@@ -1,12 +1,12 @@
-const CACHE='relationship-intelligence-v3935-capacity-reciprocity';
+const CACHE='relationship-intelligence-v3937-happy-hunting-dont-chase';
 const ASSETS=[
   './',
   './index.html',
-  './styles.css?v=3935-capacity-reciprocity',
-  './expert-engine.js?v=3935-capacity-reciprocity',
-  './coach-router.js?v=3935-capacity-reciprocity',
-  './coach-database.js?v=3935-capacity-reciprocity',
-  './app.js?v=3935-capacity-reciprocity',
+  './styles.css?v=3937-happy-hunting-dont-chase',
+  './expert-engine.js?v=3937-happy-hunting-dont-chase',
+  './coach-router.js?v=3937-happy-hunting-dont-chase',
+  './coach-database.js?v=3937-happy-hunting-dont-chase',
+  './app.js?v=3937-happy-hunting-dont-chase',
   './manifest.json'
 ];
 
@@ -26,7 +26,7 @@ self.addEventListener('activate',event=>{
 self.addEventListener('fetch',event=>{
   const requestUrl=new URL(event.request.url);
   if(requestUrl.pathname.endsWith('/app.js')){
-    event.respondWith(fetch(event.request).catch(()=>caches.match('./app.js?v=3935-capacity-reciprocity')));
+    event.respondWith(fetch(event.request).catch(()=>caches.match('./app.js?v=3937-happy-hunting-dont-chase')));
     return;
   }
   event.respondWith(caches.match(event.request).then(response=>response||fetch(event.request)));

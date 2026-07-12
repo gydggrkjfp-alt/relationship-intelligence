@@ -1,4 +1,14 @@
-# Relationship Intelligence v3.9.35
+# Relationship Intelligence v3.9.37
+
+v3.9.37:
+- Adds a first-class "Find a man / dating strategy" coach category for early-stage women looking for men and broader dating-selection prompts.
+- Adds Orion source cards from "How women win: happy hunting" and "Don't be her option: why you get left on read," including the hunter/fisherman and job-offer analogy models.
+- Routes happy hunting, conditional yes, lazy dating, fisherman/hunter, don't chase, left-on-read, and job-offer prompts into bespoke coach/chat responses instead of generic reciprocity.
+
+v3.9.36:
+- Fixes source-card ownership in the chat so Kait evidence cards only appear under the Kait voice.
+- Prevents Amy/Alison cards from matching Kait cards through the generic word "truth."
+- Keeps Amy/Alison tied to appreciation, usefulness, comfort, correction, translation, and Alison/Modern Wisdom playbooks.
 
 v3.9.35:
 - Re-centers contribution/reciprocity coach answers on building demonstrated capacity instead of over-focusing on avoiding sex.
