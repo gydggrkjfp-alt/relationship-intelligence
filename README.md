@@ -1,4 +1,9 @@
-# Relationship Intelligence v3.9.32
+# Relationship Intelligence v3.9.33
+
+v3.9.33:
+- Clarifies the mini source-card bar charts as relative 0-100 evidence-weight visuals, not relationship scores.
+- Tightens the coach category mismatch check so specific wrong selections like digital boundary vs public respect now show a Category check banner.
+- Leaves broad repair/behavior-change mismatches quiet so the app does not nag when the selected frame is close enough.
 
 v3.9.32:
 - Dramatically expands the expandable chat source cards with take-home messages, model steps, mini evidence charts, and citation/source trails.

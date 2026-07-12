@@ -6226,8 +6226,8 @@ function inferredIssueType380(raw,crux=''){
 function mismatchNoticeHTML380(raw,selected,inferredCrux){
  const suggested=inferredIssueType380(raw,inferredCrux);
  if(!selected||!suggested||suggested==='other'||selected===suggested)return'';
- const weak=new Set(['repair','behavior_change']);
- if(weak.has(suggested)&&!weak.has(selected))return'';
+ const broad=new Set(['repair','behavior_change','other']);
+ if(broad.has(suggested)||broad.has(selected))return'';
  return `<div class="coachMismatch380" role="status"><div><b>Category check</b><p>You selected <strong>${esc380(issueTypeLabels380[selected]||selected)}</strong>, but the situation sounds more like <strong>${esc380(issueTypeLabels380[suggested]||suggested)}</strong>.</p></div><button type="button" class="secondary" data-switch-issue-type380="${esc380(suggested)}">Switch</button></div>`;
 }
 function situationTitle380(raw,stage,crux,issueType=''){
@@ -6434,7 +6434,7 @@ function coachList390(items){return (items||[]).slice(0,4).map(x=>`<li>${esc380(
 function coachCitationList390(items){return (items||[]).slice(0,5).map(c=>`<li><b>${esc380(c.title||c.source||'Source')}</b>${c.year?` <span>${esc380(c.year)}</span>`:''}${c.url?` <a href="${esc380(c.url)}" target="_blank" rel="noopener">source</a>`:''}${c.note?`<p>${esc380(c.note)}</p>`:''}</li>`).join('');}
 function coachChart390(chart){
  if(!chart||!Array.isArray(chart.rows)||!chart.rows.length)return'';
- return `<div class="coachCardChart390"><b>${esc380(chart.title||'Evidence snapshot')}</b>${chart.rows.slice(0,6).map(r=>{const v=Math.max(0,Math.min(100,Number(r.value)||0));return`<div class="coachChartRow390"><span>${esc380(r.label)}</span><div><i style="width:${v}%"></i></div><em>${esc380(r.note||String(r.value||''))}</em></div>`;}).join('')}</div>`;
+ return `<div class="coachCardChart390"><b>${esc380(chart.title||'Evidence snapshot')}</b><p class="coachChartHelp390">Relative evidence weight, 0-100: longer bars mean this source card treats that signal as more important for the read.</p>${chart.rows.slice(0,6).map(r=>{const v=Math.max(0,Math.min(100,Number(r.value)||0));return`<div class="coachChartRow390"><span>${esc380(r.label)}</span><div aria-label="${esc380(r.label)} ${v} out of 100"><i style="width:${v}%"></i></div><em>${esc380(r.note||String(r.value||''))}</em></div>`;}).join('')}</div>`;
 }
 function coachRichSections390(card){
  return `${card.takeaways?.length?`<div class="coachCardTakeaways390"><b>Take-home messages</b><ul>${coachList390(card.takeaways)}</ul></div>`:''}${card.model?.length?`<div class="coachCardModel390"><b>Model</b><ol>${(card.model||[]).slice(0,5).map(x=>`<li>${esc380(x)}</li>`).join('')}</ol></div>`:''}${coachChart390(card.chart)}${card.citations?.length?`<div class="coachCardCitations390"><b>Citations / source trail</b><ul>${coachCitationList390(card.citations)}</ul></div>`:''}`;
