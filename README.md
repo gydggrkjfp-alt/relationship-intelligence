@@ -1,4 +1,9 @@
-# Relationship Intelligence v3.9.34
+# Relationship Intelligence v3.9.35
+
+v3.9.35:
+- Re-centers contribution/reciprocity coach answers on building demonstrated capacity instead of over-focusing on avoiding sex.
+- Adds a contribution-specific opening frame, "What I hear," best next move, and rationale around direction, composure, standards, health, useful competence, and a real life she can enter.
+- Keeps sex/pacing advice for explicit sex-timing prompts, but prevents casual mentions of sex from hijacking capacity and relationship-opportunity questions.
 
 v3.9.34:
 - Makes the four coach field-guide boxes respond to the selected situation type instead of staying on generic early-dating advice.

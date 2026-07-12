@@ -1,12 +1,12 @@
-const CACHE='relationship-intelligence-v3934-specific-field-guides';
+const CACHE='relationship-intelligence-v3935-capacity-reciprocity';
 const ASSETS=[
   './',
   './index.html',
-  './styles.css?v=3934-specific-field-guides',
-  './expert-engine.js?v=3934-specific-field-guides',
-  './coach-router.js?v=3934-specific-field-guides',
-  './coach-database.js?v=3934-specific-field-guides',
-  './app.js?v=3934-specific-field-guides',
+  './styles.css?v=3935-capacity-reciprocity',
+  './expert-engine.js?v=3935-capacity-reciprocity',
+  './coach-router.js?v=3935-capacity-reciprocity',
+  './coach-database.js?v=3935-capacity-reciprocity',
+  './app.js?v=3935-capacity-reciprocity',
   './manifest.json'
 ];
 
@@ -26,7 +26,7 @@ self.addEventListener('activate',event=>{
 self.addEventListener('fetch',event=>{
   const requestUrl=new URL(event.request.url);
   if(requestUrl.pathname.endsWith('/app.js')){
-    event.respondWith(fetch(event.request).catch(()=>caches.match('./app.js?v=3934-specific-field-guides')));
+    event.respondWith(fetch(event.request).catch(()=>caches.match('./app.js?v=3935-capacity-reciprocity')));
     return;
   }
   event.respondWith(caches.match(event.request).then(response=>response||fetch(event.request)));
