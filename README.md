@@ -1,4 +1,8 @@
-# Relationship Intelligence v3.9.38
+# Relationship Intelligence v3.9.39
+
+v3.9.39:
+- Expands mixed-signal detection so plain-English prompts like "warm in person but inconsistent over text," "I do not want to chase," and "I do not want to miss a real opportunity" route to Hot-cold / mixed signals instead of Life reset / grounding.
+- Strengthens the category mismatch warning when the selected situation type disagrees with the written situation.
 
 v3.9.38:
 - Adds a "Social rivalry / reputation" situation type for female intrasexual competition, gossip, reputation pressure, friend pressure, and attractiveness policing.
