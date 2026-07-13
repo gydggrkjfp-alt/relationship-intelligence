@@ -1,12 +1,12 @@
-const CACHE='relationship-intelligence-v3939-mixed-signal-routing';
+const CACHE='relationship-intelligence-v3940-chat-pronouns';
 const ASSETS=[
   './',
   './index.html',
-  './styles.css?v=3939-mixed-signal-routing',
-  './expert-engine.js?v=3939-mixed-signal-routing',
-  './coach-router.js?v=3939-mixed-signal-routing',
-  './coach-database.js?v=3939-mixed-signal-routing',
-  './app.js?v=3939-mixed-signal-routing',
+  './styles.css?v=3940-chat-pronouns',
+  './expert-engine.js?v=3940-chat-pronouns',
+  './coach-router.js?v=3940-chat-pronouns',
+  './coach-database.js?v=3940-chat-pronouns',
+  './app.js?v=3940-chat-pronouns',
   './manifest.json'
 ];
 
@@ -26,7 +26,7 @@ self.addEventListener('activate',event=>{
 self.addEventListener('fetch',event=>{
   const requestUrl=new URL(event.request.url);
   if(requestUrl.pathname.endsWith('/app.js')){
-    event.respondWith(fetch(event.request).catch(()=>caches.match('./app.js?v=3939-mixed-signal-routing')));
+    event.respondWith(fetch(event.request).catch(()=>caches.match('./app.js?v=3940-chat-pronouns')));
     return;
   }
   event.respondWith(caches.match(event.request).then(response=>response||fetch(event.request)));

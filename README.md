@@ -1,4 +1,9 @@
-# Relationship Intelligence v3.9.39
+# Relationship Intelligence v3.9.40
+
+v3.9.40:
+- Fixes chat pronouns so women asking about men get "he/him" instead of hardcoded "she/her" in mixed-signal and grounding chat responses.
+- Expands the big-three dating-strategy chat responses, especially Amy/Alison and Kait, for women choosing men intentionally.
+- Adds intentional-dating language to category detection so prompts about choosing a man by character, direction, safety, attraction, and long-term fit flag as Dating strategy / selection when the wrong situation type is selected.
 
 v3.9.39:
 - Expands mixed-signal detection so plain-English prompts like "warm in person but inconsistent over text," "I do not want to chase," and "I do not want to miss a real opportunity" route to Hot-cold / mixed signals instead of Life reset / grounding.
