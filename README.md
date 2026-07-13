@@ -1,7 +1,12 @@
-# Relationship Intelligence v3.9.37
+# Relationship Intelligence v3.9.38
+
+v3.9.38:
+- Adds a "Social rivalry / reputation" situation type for female intrasexual competition, gossip, reputation pressure, friend pressure, and attractiveness policing.
+- Adds Modern Wisdom / Dr. Dani Sulikowski source cards, with a women-focused card on where pressure comes from and what the consequences can be.
+- Renames the prior "Find a man / dating strategy" label to the broader "Dating strategy / selection."
 
 v3.9.37:
-- Adds a first-class "Find a man / dating strategy" coach category for early-stage women looking for men and broader dating-selection prompts.
+- Adds a first-class "Dating strategy / selection" coach category for early-stage women looking for men and broader dating-selection prompts.
 - Adds Orion source cards from "How women win: happy hunting" and "Don't be her option: why you get left on read," including the hunter/fisherman and job-offer analogy models.
 - Routes happy hunting, conditional yes, lazy dating, fisherman/hunter, don't chase, left-on-read, and job-offer prompts into bespoke coach/chat responses instead of generic reciprocity.
 

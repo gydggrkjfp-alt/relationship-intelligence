@@ -1,12 +1,12 @@
-const CACHE='relationship-intelligence-v3937-happy-hunting-dont-chase';
+const CACHE='relationship-intelligence-v3938-social-rivalry';
 const ASSETS=[
   './',
   './index.html',
-  './styles.css?v=3937-happy-hunting-dont-chase',
-  './expert-engine.js?v=3937-happy-hunting-dont-chase',
-  './coach-router.js?v=3937-happy-hunting-dont-chase',
-  './coach-database.js?v=3937-happy-hunting-dont-chase',
-  './app.js?v=3937-happy-hunting-dont-chase',
+  './styles.css?v=3938-social-rivalry',
+  './expert-engine.js?v=3938-social-rivalry',
+  './coach-router.js?v=3938-social-rivalry',
+  './coach-database.js?v=3938-social-rivalry',
+  './app.js?v=3938-social-rivalry',
   './manifest.json'
 ];
 
@@ -26,7 +26,7 @@ self.addEventListener('activate',event=>{
 self.addEventListener('fetch',event=>{
   const requestUrl=new URL(event.request.url);
   if(requestUrl.pathname.endsWith('/app.js')){
-    event.respondWith(fetch(event.request).catch(()=>caches.match('./app.js?v=3937-happy-hunting-dont-chase')));
+    event.respondWith(fetch(event.request).catch(()=>caches.match('./app.js?v=3938-social-rivalry')));
     return;
   }
   event.respondWith(caches.match(event.request).then(response=>response||fetch(event.request)));
