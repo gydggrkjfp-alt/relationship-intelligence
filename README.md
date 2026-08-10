@@ -1,4 +1,10 @@
-# Relationship Intelligence v3.9.40
+# Relationship Intelligence v3.9.41
+
+v3.9.41:
+- Adds Vaillancourt-informed social-rivalry teaching for women: sexy-peer intolerance, indirect aggression, social comparison, jealousy/envy, gossip, exclusion, sexual reputation pressure, and attractiveness policing.
+- Adds a Tracy Vaillancourt dynamics voice as the fourth chat panel voice for Social rivalry / reputation.
+- Adds an Orion "what women really want" source card separating stated preference, attraction, benefit, fulfillment, social-media comparison, and life tradeoffs.
+- Adds citations/source trails for Vaillancourt/Sharma, Vaillancourt 2013, Arnocky et al., Fisher/Cambridge, Buss/Shackelford, and the two new transcripts.
 
 v3.9.40:
 - Fixes chat pronouns so women asking about men get "he/him" instead of hardcoded "she/her" in mixed-signal and grounding chat responses.
