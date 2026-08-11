@@ -3157,6 +3157,44 @@ function bindIssue331(){
   let s=$('saveIssueWizardBtn'); if(s)s.onclick=saveIssueWizard331;
   renderIssueSelector331(); renderTranslation331();
 }
+function openIssueWizardSafe392(){
+  try{
+    if(window.state){
+      state.profiles=state.profiles||[];
+      if(!state.profiles.length&&typeof currentProfile==='function')currentProfile();
+      if(!state.currentId&&state.profiles[0])state.currentId=state.profiles[0].id;
+    }
+    const details=$('newIssueCardBtn')?.closest?.('details');
+    if(details)details.open=true;
+    openIssueWizard331();
+  }catch(err){
+    console.warn('new issue wizard failed',err);
+    alert('Could not open the issue wizard. Try selecting a relationship profile first.');
+  }
+}
+document.addEventListener('click',e=>{
+  const btn=e.target?.closest?.('#newIssueCardBtn');
+  const close=e.target?.closest?.('#closeIssueWizardBtn');
+  const save=e.target?.closest?.('#saveIssueWizardBtn');
+  if(btn){
+    e.preventDefault();
+    e.stopPropagation();
+    openIssueWizardSafe392();
+    return;
+  }
+  if(close){
+    e.preventDefault();
+    e.stopPropagation();
+    closeIssueWizard331();
+    return;
+  }
+  if(save){
+    e.preventDefault();
+    e.stopPropagation();
+    saveIssueWizard331();
+    setTimeout(()=>{try{renderCoach380?.();}catch(err){}},80);
+  }
+},true);
 function drawTimeSeriesPeaceRespect331(){
   let p=profile331(), c=$('workspacePeaceRespectCanvas'); if(!p||!c)return;
   let pts=(p.snapshots||[]).map((s,i)=>({i,peace:Number(s.peace||50),respect:Number(s.respect||50)}));

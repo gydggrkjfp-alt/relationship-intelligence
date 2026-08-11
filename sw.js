@@ -1,12 +1,12 @@
-const CACHE='relationship-intelligence-v3942-followup-synthesis';
+const CACHE='relationship-intelligence-v3943-new-issue-button';
 const ASSETS=[
   './',
   './index.html',
-  './styles.css?v=3942-followup-synthesis',
-  './expert-engine.js?v=3942-followup-synthesis',
-  './coach-router.js?v=3942-followup-synthesis',
-  './coach-database.js?v=3942-followup-synthesis',
-  './app.js?v=3942-followup-synthesis',
+  './styles.css?v=3943-new-issue-button',
+  './expert-engine.js?v=3943-new-issue-button',
+  './coach-router.js?v=3943-new-issue-button',
+  './coach-database.js?v=3943-new-issue-button',
+  './app.js?v=3943-new-issue-button',
   './manifest.json'
 ];
 
@@ -26,7 +26,7 @@ self.addEventListener('activate',event=>{
 self.addEventListener('fetch',event=>{
   const requestUrl=new URL(event.request.url);
   if(requestUrl.pathname.endsWith('/app.js')){
-    event.respondWith(fetch(event.request).catch(()=>caches.match('./app.js?v=3942-followup-synthesis')));
+    event.respondWith(fetch(event.request).catch(()=>caches.match('./app.js?v=3943-new-issue-button')));
     return;
   }
   event.respondWith(caches.match(event.request).then(response=>response||fetch(event.request)));
