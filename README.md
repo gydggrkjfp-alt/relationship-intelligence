@@ -1,4 +1,9 @@
-# Relationship Intelligence v3.9.41
+# Relationship Intelligence v3.9.42
+
+v3.9.42:
+- Fixes the Ask the Geniuses follow-up synthesis so social-rivalry weigh-ins no longer fall through to unrelated weak-reciprocity dating advice.
+- Fixes the follow-up parser so the word "not" no longer triggers the generic "no / declined / ghosted" branch.
+- Adds category-aware follow-up replies for Social rivalry / reputation, Dating strategy / selection, Information diet, Behavior change, and Public respect.
 
 v3.9.41:
 - Adds Vaillancourt-informed social-rivalry teaching for women: sexy-peer intolerance, indirect aggression, social comparison, jealousy/envy, gossip, exclusion, sexual reputation pressure, and attractiveness policing.

@@ -1,12 +1,12 @@
-const CACHE='relationship-intelligence-v3941-vaillancourt-social-rivalry';
+const CACHE='relationship-intelligence-v3942-followup-synthesis';
 const ASSETS=[
   './',
   './index.html',
-  './styles.css?v=3941-vaillancourt-social-rivalry',
-  './expert-engine.js?v=3941-vaillancourt-social-rivalry',
-  './coach-router.js?v=3941-vaillancourt-social-rivalry',
-  './coach-database.js?v=3941-vaillancourt-social-rivalry',
-  './app.js?v=3941-vaillancourt-social-rivalry',
+  './styles.css?v=3942-followup-synthesis',
+  './expert-engine.js?v=3942-followup-synthesis',
+  './coach-router.js?v=3942-followup-synthesis',
+  './coach-database.js?v=3942-followup-synthesis',
+  './app.js?v=3942-followup-synthesis',
   './manifest.json'
 ];
 
@@ -26,7 +26,7 @@ self.addEventListener('activate',event=>{
 self.addEventListener('fetch',event=>{
   const requestUrl=new URL(event.request.url);
   if(requestUrl.pathname.endsWith('/app.js')){
-    event.respondWith(fetch(event.request).catch(()=>caches.match('./app.js?v=3941-vaillancourt-social-rivalry')));
+    event.respondWith(fetch(event.request).catch(()=>caches.match('./app.js?v=3942-followup-synthesis')));
     return;
   }
   event.respondWith(caches.match(event.request).then(response=>response||fetch(event.request)));

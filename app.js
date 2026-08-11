@@ -6647,8 +6647,19 @@ function geniusPosition380(row,stage,crux,raw,people,slot){
 function geniusCoachReply380(userTake,stage,crux,people){
  const t=String(userTake||'').toLowerCase();
  if(!t.trim())return '';
+ if(crux==='social_rivalry'){
+  if(/safe|safety|friends|friend|girls|group|belong|alone|excluded|exclusion|gossip|shame|jealous|envy|pressure/.test(t))return 'That is the actual fear underneath the social-rivalry issue: belonging can feel like safety, so group pressure can masquerade as wisdom. Do not rebel blindly, and do not obey blindly. Ask which friends give concrete protective evidence, which friends mainly create shame or conformity pressure, and what choice would still feel honorable if the group stopped watching.';
+  return 'Keep the panel on the social mechanism. The next question is not whether women are good or bad; it is whether this specific advice protects your safety, clarifies your values, or pressures you to stay acceptable to the group.';
+ }
+ if(crux==='dating_strategy'){
+  if(people?.user==='woman'&&people?.target==='man')return 'Make this a selection question, not an anxiety vote. Which man has character, direction, safety, attraction, and follow-through when your standards are visible? Let attention matter less than evidence of fit.';
+  return 'Make one clear move, then let reciprocity answer. Interest should become easier to read after a clean invitation, not after five more explanations.';
+ }
+ if(crux==='info_diet')return 'Keep the follow-up tied to behavioral output. The question is what this input trains: more contempt, suspicion, and gender-war reflexes, or more loyalty, gratitude, clarity, and repair.';
+ if(crux==='behavior_change')return 'Good follow-up. Convert it into a behavior contract: the cue, the replacement behavior, the next review point, and what you will do if the pattern repeats unchanged.';
+ if(crux==='public_respect')return 'That follow-up belongs on the respect standard. Ask for the next public moment to look different: disagreement can happen, but humiliation, correction-as-performance, or making you look foolish should not be the price of being together.';
  if(/she said yes|she agreed|she wants|date set|we have plans/.test(t))return 'That changes the read in a good way: stop seeking more proof for now. Make the plan clean, show up composed, and let the date create the next evidence.';
- if(/no|declined|busy|ignored|left me on read|didn.?t respond|ghost/.test(t))return 'Then the panel should tighten: do not bargain against weak reciprocity. One graceful follow-up is fine if there is ambiguity; repeated pursuit after nonresponse is self-abandonment.';
+ if(/\bno\b|declined|busy|ignored|left me on read|didn.?t respond|ghost/.test(t))return 'Then the panel should tighten: do not bargain against weak reciprocity. One graceful follow-up is fine if there is ambiguity; repeated pursuit after nonresponse is self-abandonment.';
  if(/i already texted|sent a long|overexplained|too much/.test(t))return 'Then repair by becoming simple again. No apology spiral. Send one calm reset only if needed, then let space and behavior do more than another explanation.';
  if(stage==='early'&&people?.user==='man'&&people?.target==='woman')return 'Your update matters. The next move is still warm clarity plus restraint: do the one clean thing, then watch whether she helps the connection move.';
  if(crux==='safety')return 'Your update should be judged by safety, not persuasion. Ask what happens when you say no, preserve support, and do not make the unsafe person the only witness.';
