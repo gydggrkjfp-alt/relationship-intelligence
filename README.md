@@ -3,6 +3,7 @@
 v3.9.43:
 - Fixes the Counselor office New issue card button by adding a delegated click handler that survives popout/wrapper DOM moves.
 - Ensures the issue wizard has a relationship profile before opening and opens the surrounding repair details panel when needed.
+- Adds `docs/master-guidebook-men-women-relationships.md`, a sourcebook for the coach engine covering sex differences, stated-vs-revealed preference, men’s respect/usefulness needs, casual-sex tradeoffs, female peer dynamics, social-rivalry pressure, and app category mapping.
 
 v3.9.42:
 - Fixes the Ask the Geniuses follow-up synthesis so social-rivalry weigh-ins no longer fall through to unrelated weak-reciprocity dating advice.
