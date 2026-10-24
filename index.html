@@ -1,13 +1,13 @@
 <!doctype html><html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Relationship Intelligence v3.9.43</title>
-<link rel="manifest" href="manifest.json"><link rel="stylesheet" href="styles.css?v=3943-new-issue-button">
+<title>Relationship Intelligence v3.10.0</title>
+<link rel="manifest" href="manifest.json"><link rel="stylesheet" href="styles.css?v=420-normal-date">
 <meta name="theme-color" content="#815b33"></head>
 <body>
-<header><h1>Relationship Intelligence <span>v3.9.43</span></h1>
+<header><h1>Relationship Intelligence <span>v3.10.0</span></h1>
 <div class="sub">Relational Dynamics Engine: trajectory, repair, reciprocity, embeddedness, loops, archetypes, and vector alignment.</div>
 <div id="status">Loading app…</div></header>
-<nav class="tabs"><button id="tabSnapshot" class="tab active">New Snapshot</button><button id="tabRepairCockpit" class="tab">Workspace</button><button id="tabMe" class="tab">Self / Galaxy</button><button id="tabDiagnostics" class="tab">Diagnostics</button><button id="tabCards" class="tab hidden" type="button">Cards</button><button id="tabDashboard" class="tab hidden" type="button">Dashboard</button><button id="tabEcosystem" class="tab hidden" type="button">Ecosystem</button><button id="tabPerson" class="tab hidden" type="button">Card Detail</button></nav>
+<nav class="tabs"><button id="tabSnapshot" class="tab active">Log Date / Event</button><button id="tabRepairCockpit" class="tab">Workspace</button><button id="tabMe" class="tab">Self / Galaxy</button><button id="tabDiagnostics" class="tab">Diagnostics</button><button id="tabCards" class="tab hidden" type="button">Cards</button><button id="tabDashboard" class="tab hidden" type="button">Dashboard</button><button id="tabEcosystem" class="tab hidden" type="button">Ecosystem</button><button id="tabPerson" class="tab hidden" type="button">Card Detail</button></nav>
 <script>
 (function(){
   window.__riBootErrors=[];
@@ -79,15 +79,11 @@ document.addEventListener('click',function(e){
 
 <main id="snapshotView" class="single">
 <section>
-  <h2>New Snapshot</h2>
+  <h2>Log a Date or Event</h2>
   <div id="frontWorkflow333" class="frontWorkflow">
-    <h3>Start here</h3>
-    <ol>
-      <li><b>Log a good or bad event</b> for a new or existing relationship.</li>
-      <li><b>Serious relationship?</b> Go to Workspace to interpret the issue, role pattern, repair path, and exercises.</li>
-      <li><b>Casual relationship?</b> Use Casual Relationship Tracker in Workspace to log impressions and watch graphs without over-problem-solving.</li>
-    </ol>
-    <button id="openRelationshipSnapshotBtn" type="button">New Relationship / Snapshot</button>
+    <h3>Keep a relationship record</h3>
+    <p>Log a normal date or a meaningful event. Your Workspace will show what changes over time.</p>
+    <button id="openRelationshipSnapshotBtn" type="button">Log a Date or Event</button>
   </div>
 </section>
 </main>
@@ -304,7 +300,7 @@ document.addEventListener('click',function(e){
       </div>
 
       <div class="workspaceSection" id="conversationBuilderPanel335">
-        <h3>He said / she heard repair builder</h3>
+        <h3>What was said / what was heard</h3>
         <label>What one person said or did</label>
         <textarea id="repairCockpitSaidInput" placeholder="Example: He said, 'You never appreciate what I do.'"></textarea>
         <label>What the other person heard / felt</label>
@@ -468,7 +464,7 @@ document.addEventListener('click',function(e){
 
 <div id="relationshipSnapshotOverlay" class="issueWizardOverlay hidden">
   <div class="issueWizardCard">
-    <div class="issueWizardHeader"><div><h2>New Relationship / Snapshot</h2><p class="small">Create one relationship card and one event. Workspace will use the same event for translation, expert lenses, role patterns, repair exercises, and graphs.</p></div><button id="closeRelationshipSnapshotBtn" type="button" class="secondary">Close</button></div>
+    <div class="issueWizardHeader"><div><h2>Log a Date or Event</h2><p class="small">Log a normal date or a meaningful event. Your measurements and notes will appear in the Workspace.</p></div><button id="closeRelationshipSnapshotBtn" type="button" class="secondary">Close</button></div>
     <div id="relationshipSnapshotBody"></div>
     <div class="wizardNav"><button id="saveRelationshipSnapshotBtn" type="button">Save and open Workspace</button></div>
   </div>
@@ -483,4 +479,4 @@ document.addEventListener('click',function(e){
 
 <div id="casualTrackerOverlay" class="issueWizardOverlay hidden"><div class="issueWizardCard"><div class="issueWizardHeader"><div><h2>Casual Relationship Tracker Wizard</h2><p class="small">Track impressions, gender-specific signals, and general relational fit. Use N/A when a dimension does not apply.</p></div><button id="closeCasualTrackerWizardBtn" type="button" class="secondary">Close</button></div><div id="casualTrackerWizardBody"></div><div class="wizardNav"><button id="saveCasualTrackerWizardBtn" type="button">Save tracker snapshot</button></div></div></div>
 <div id="bondChemistryOverlay367" class="issueWizardOverlay hidden"><div class="issueWizardCard"><div class="issueWizardHeader"><div><h2>Bond Chemistry</h2><p class="small">Estimate whether the latest interaction was driven more by dopamine-style activation or oxytocin-style bonding. This is a reflective relationship signal, not a medical measure.</p></div><button id="closeBondChemistryWizardBtn367" type="button" class="secondary">Close</button></div><div id="bondChemistryWizardBody367"></div><div class="wizardNav"><button id="saveBondChemistryWizardBtn367" type="button">Save bond snapshot</button></div></div></div>
-<script src="expert-engine.js?v=3943-new-issue-button"></script><script src="coach-router.js?v=3943-new-issue-button"></script><script src="coach-database.js?v=3943-new-issue-button"></script><script src="app.js?v=3943-new-issue-button"></script></body></html>
+<script src="expert-engine.js?v=420-normal-date"></script><script src="coach-router.js?v=420-normal-date"></script><script src="coach-database.js?v=420-normal-date"></script><script src="app.js?v=420-normal-date"></script><script src="normal-date.js?v=420-normal-date"></script></body></html>
