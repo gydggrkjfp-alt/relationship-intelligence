@@ -4539,28 +4539,30 @@ document.addEventListener('DOMContentLoaded',()=>setTimeout(()=>{cleanupSnapshot
  ];
  function prof(){return typeof rcCurrentProfile==='function'?rcCurrentProfile():(typeof currentProfile==='function'?currentProfile():state.profiles?.[0]);}
  function ensure(){state.profiles=state.profiles||[];if(!state.profiles.length){let p={id:typeof uid==='function'?uid():String(Date.now()),name:'New relationship',rtype:'Dating / early relationship',snapshots:[],issues:[],casual:{},casualHistory:[],profileSliders:{},coupleQualities:{}};state.profiles.push(p);state.currentId=p.id;if(typeof saveState==='function')saveState();}let p=prof()||state.profiles[0];p.casual=p.casual||{};p.casualHistory=p.casualHistory||[];p.coupleQualities=p.coupleQualities||{};p.profileSliders=p.profileSliders||{};return p;}
- function range(id,label,low,high,val,na){return `<label style="grid-column:1/-1">${esc(label)} <span id="${id}_val">${na?'N/A':(val??5)}</span><div class="casualSliderHelp337"><span>${esc(low)}</span><span>${esc(high)}</span></div><input id="${id}" type="range" min="0" max="10" value="${val??5}" ${na?'disabled':''}><span class="casualScaleNA"><input id="${id}_na" type="checkbox" ${na?'checked':''}> N/A</span></label>`;}
+ function legacyTemplate(p){return (p.casualHistory||[]).length>=12&&(p.casualHistory||[]).slice(0,12).every((row,i)=>row.created?.slice(0,10)===`2025-${String(i+1).padStart(2,'0')}-01`);}
+ function range(id,label,low,high,val,na){return `<label style="grid-column:1/-1">${esc(label)} <span id="${id}_val">${na?'N/A':(val??'Not rated')}</span><div class="casualSliderHelp337"><span>${esc(low)}</span><span>${esc(high)}</span></div><input id="${id}" type="range" min="0" max="10" value="${val??5}" ${na?'disabled':''}><span class="casualScaleNA"><input id="${id}_na" type="checkbox" ${na?'checked':''}> N/A</span></label>`;}
  function openCasual(){
   const p=ensure(), body=$id('casualTrackerWizardBody'); if(!body)return;
   body.innerHTML=`<div class="issueWizardGrid">
    <label style="grid-column:1/-1">Relationship<select id="casualProfileSelect">${state.profiles.map(x=>`<option value="${x.id}" ${x.id===state.currentId?'selected':''}>${esc(x.name||'Untitled')} — ${esc(x.rtype||'Relationship')}</option>`).join('')}</select></label>
    <div class="naToggleRow337" style="grid-column:1/-1"><button type="button" id="femaleNAAll338">Mark all female-specific N/A</button><button type="button" id="maleNAAll338">Mark all male-specific N/A</button><button type="button" id="clearNAAll338">Clear all N/A</button></div>
-   <div class="casualSection338" style="grid-column:1/-1"><h3>How you personally feel about the relationship</h3>${casualDims338.personal.map(([k,l,lo,hi])=>range('casual_'+k,l,lo,hi,p.casual[k],p.casual[k+'_na'])).join('')}</div>
-   <div class="casualSection338" style="grid-column:1/-1"><h3>General partner signals</h3><p class="small">These feed the warmth/respect/peace/reciprocity/attraction/clarity trajectory.</p>${casualDims338.general.map(([k,l,lo,hi])=>range('casual_'+k,l,lo,hi,p.casual[k],p.casual[k+'_na'])).join('')}</div>
-   <div class="casualSection338" style="grid-column:1/-1"><h3>Optional sex-specific / context signals</h3><div class="sliderGroupLabel338">Female-specific traits</div>${casualDims338.female.map(([k,l,lo,hi])=>range('casual_'+k,l,lo,hi,p.casual[k],p.casual[k+'_na'])).join('')}<div class="sliderGroupLabel338">Male-specific traits</div>${casualDims338.male.map(([k,l,lo,hi])=>range('casual_'+k,l,lo,hi,p.casual[k],p.casual[k+'_na'])).join('')}</div>
+   <div class="casualSection338" style="grid-column:1/-1"><h3>How you personally feel about the relationship</h3>${casualDims338.personal.map(([k,l,lo,hi])=>range('casual_'+k,l,lo,hi,legacyTemplate(p)?null:p.casual[k],p.casual[k+'_na'])).join('')}</div>
+   <div class="casualSection338" style="grid-column:1/-1"><h3>General partner signals</h3><p class="small">Move a slider to record a rating. Untouched signals stay unrated.</p>${casualDims338.general.map(([k,l,lo,hi])=>range('casual_'+k,l,lo,hi,legacyTemplate(p)?null:p.casual[k],p.casual[k+'_na'])).join('')}</div>
+   <div class="casualSection338" style="grid-column:1/-1"><h3>Optional sex-specific / context signals</h3><div class="sliderGroupLabel338">Female-specific traits</div>${casualDims338.female.map(([k,l,lo,hi])=>range('casual_'+k,l,lo,hi,legacyTemplate(p)?null:p.casual[k],p.casual[k+'_na'])).join('')}<div class="sliderGroupLabel338">Male-specific traits</div>${casualDims338.male.map(([k,l,lo,hi])=>range('casual_'+k,l,lo,hi,legacyTemplate(p)?null:p.casual[k],p.casual[k+'_na'])).join('')}</div>
   </div>`;
-  bindCasualInputs(); $id('casualTrackerOverlay')?.classList.remove('hidden');
+  bindCasualInputs(); const save=$id('saveCasualTrackerWizardBtn'); if(save)save.onclick=saveCasual; $id('casualTrackerOverlay')?.classList.remove('hidden');
  }
  function bindCasualInputs(){
   const all=[...casualDims338.general,...casualDims338.female,...casualDims338.male,...casualDims338.personal];
-  all.forEach(([k])=>{const input=$id('casual_'+k), val=$id('casual_'+k+'_val'), na=$id('casual_'+k+'_na'); if(input&&val)input.oninput=()=>val.textContent=input.value; if(na&&input&&val)na.onchange=()=>{input.disabled=na.checked;val.textContent=na.checked?'N/A':input.value;};});
-  const setGroup=(group,checked)=>casualDims338[group].forEach(([k])=>{const cb=$id('casual_'+k+'_na'), input=$id('casual_'+k), val=$id('casual_'+k+'_val'); if(cb)cb.checked=checked;if(input)input.disabled=checked;if(val)val.textContent=checked?'N/A':input?.value;});
+  all.forEach(([k])=>{const input=$id('casual_'+k), val=$id('casual_'+k+'_val'), na=$id('casual_'+k+'_na'); if(input&&val)input.oninput=()=>{input.dataset.touched='1';val.textContent=input.value;}; if(na&&input&&val)na.onchange=()=>{input.disabled=na.checked;val.textContent=na.checked?'N/A':(input.dataset.touched?input.value:(legacyTemplate(ensure())?'Not rated':(ensure().casual[k]??'Not rated')));};});
+  const setGroup=(group,checked)=>casualDims338[group].forEach(([k])=>{const cb=$id('casual_'+k+'_na'), input=$id('casual_'+k), val=$id('casual_'+k+'_val'); if(cb)cb.checked=checked;if(input)input.disabled=checked;if(val)val.textContent=checked?'N/A':(input?.dataset.touched?input.value:(legacyTemplate(ensure())?'Not rated':(ensure().casual[k]??'Not rated')));});
   const f=$id('femaleNAAll338'), m=$id('maleNAAll338'), c=$id('clearNAAll338'); if(f)f.onclick=()=>setGroup('female',true); if(m)m.onclick=()=>setGroup('male',true); if(c)c.onclick=()=>{setGroup('female',false);setGroup('male',false);};
  }
  function saveCasual(){
   let p=ensure(); const snap={created:new Date().toISOString()}, all=[...casualDims338.general,...casualDims338.female,...casualDims338.male,...casualDims338.personal];
-  all.forEach(([k])=>{const na=$id('casual_'+k+'_na')?.checked, input=$id('casual_'+k); p.casual[k+'_na']=!!na; if(!na&&input){p.casual[k]=Number(input.value);snap[k]=Number(input.value);}else snap[k]=null;});
-  p.casualHistory.push(snap); if(typeof saveState==='function')saveState(); $id('casualTrackerOverlay')?.classList.add('hidden'); renderCasualBars(); if(typeof drawCasualTrajectory==='function')drawCasualTrajectory(); if(typeof safeUpdate==='function')safeUpdate();
+  const wasTemplate=legacyTemplate(p);
+  all.forEach(([k])=>{const na=$id('casual_'+k+'_na')?.checked, input=$id('casual_'+k); p.casual[k+'_na']=!!na; const rated=!na&&input&&(input.dataset.touched==='1'||(!wasTemplate&&p.casual[k]!=null)); if(rated){p.casual[k]=Number(input.value);snap[k]=Number(input.value);}else snap[k]=null;});
+  if(all.some(([k])=>snap[k]!=null))p.casualHistory.push(snap); if(typeof saveState==='function')saveState(); $id('casualTrackerOverlay')?.classList.add('hidden'); renderCasualBars(); if(typeof drawCasualTrajectory==='function')drawCasualTrajectory(); if(typeof safeUpdate==='function')safeUpdate();
  }
  function renderCasualBars(){
   const el=$id('casualTrackerBars'), p=ensure(); if(!el)return;
@@ -4575,10 +4577,17 @@ document.addEventListener('DOMContentLoaded',()=>setTimeout(()=>{cleanupSnapshot
  }
  function openCouple(){
   const p=ensure(), body=$id('casualTrackerWizardBody'); if(!body)return;
-  body.innerHTML=`<div class="issueWizardGrid"><div class="casualSection338" style="grid-column:1/-1"><h3>Qualities as a Couple</h3><p class="small">Rate the pair, not just one person.</p>${coupleQualities338.map(([k,label,lo,hi])=>{const val=p.coupleQualities[k]??7;return `<label style="grid-column:1/-1">${esc(label)} <span id="couple_${k}_val">${val}</span><div class="casualSliderHelp337"><span>${esc(lo)}</span><span>${esc(hi)}</span></div><input id="couple_${k}" type="range" min="0" max="10" value="${val}"></label>`;}).join('')}</div></div>`;
-  coupleQualities338.forEach(([k])=>{const input=$id('couple_'+k), val=$id('couple_'+k+'_val'); if(input&&val)input.oninput=()=>val.textContent=input.value;});
-  const save=$id('saveCasualTrackerWizardBtn'); if(save)save.onclick=()=>{p.coupleQualities=p.coupleQualities||{};coupleQualities338.forEach(([k])=>{const input=$id('couple_'+k);if(input)p.coupleQualities[k]=Number(input.value);});if(typeof saveState==='function')saveState();$id('casualTrackerOverlay')?.classList.add('hidden');renderCoupleQualities();if(typeof safeUpdate==='function')safeUpdate();};
+  const prior=p.coupleQualitiesHistory?.at(-1)||{};
+  body.innerHTML=`<div class="issueWizardGrid"><div class="casualSection338" style="grid-column:1/-1"><h3>Qualities as a Couple</h3><p class="small">Rate the pair, not just one person. Move a slider to record a rating.</p>${coupleQualities338.map(([k,label,lo,hi])=>{const val=prior[k];return `<label style="grid-column:1/-1">${esc(label)} <span id="couple_${k}_val">${val??'Not rated'}</span><div class="casualSliderHelp337"><span>${esc(lo)}</span><span>${esc(hi)}</span></div><input id="couple_${k}" type="range" min="0" max="10" value="${val??5}"></label>`;}).join('')}</div></div>`;
+  coupleQualities338.forEach(([k])=>{const input=$id('couple_'+k), val=$id('couple_'+k+'_val'); if(input&&val)input.oninput=()=>{input.dataset.touched='1';val.textContent=input.value;};});
+  const save=$id('saveCasualTrackerWizardBtn'); if(save)save.onclick=saveCouple;
   $id('casualTrackerOverlay')?.classList.remove('hidden');
+ }
+ function saveCouple(){
+  const p=ensure(),prior=p.coupleQualitiesHistory?.at(-1)||{},snap={created:new Date().toISOString()};let rated=false;
+  coupleQualities338.forEach(([k])=>{const input=$id('couple_'+k);if(input&&(input.dataset.touched==='1'||prior[k]!=null)){const value=Number(input.value);p.coupleQualities[k]=value;snap[k]=value;rated=true;}});
+  if(rated){p.coupleQualitiesHistory=p.coupleQualitiesHistory||[];p.coupleQualitiesHistory.push(snap);}
+  if(typeof saveState==='function')saveState();$id('casualTrackerOverlay')?.classList.add('hidden');renderCoupleQualities();if(typeof safeUpdate==='function')safeUpdate();
  }
  function bind(){
   const casual=$id('openCasualTrackerWizardBtn'); if(casual){casual.onclick=openCasual; casual.textContent='Edit General Partner Signals';}
@@ -4588,6 +4597,7 @@ document.addEventListener('DOMContentLoaded',()=>setTimeout(()=>{cleanupSnapshot
  }
  const oldRender=window.renderRepairCockpit; if(oldRender&&!window.__render338){window.__render338=true;window.renderRepairCockpit=function(){const r=oldRender();setTimeout(bind,120);setTimeout(bind,450);return r;};}
  const oldSafe=window.safeUpdate; if(oldSafe&&!window.__safe338){window.__safe338=true;window.safeUpdate=function(){const r=oldSafe();setTimeout(bind,120);return r;};}
+ document.addEventListener('click',event=>{const button=event.target.closest?.('#openCasualTrackerWizardBtn,#openSliderWizardBtn,#saveCasualTrackerWizardBtn');if(!button)return;event.preventDefault();event.stopImmediatePropagation();if(button.id==='openSliderWizardBtn')openCouple();else if(button.id==='openCasualTrackerWizardBtn')openCasual();else if($id('couple_teamwork'))saveCouple();else saveCasual();},true);
  document.addEventListener('DOMContentLoaded',()=>setTimeout(bind,900));
 })();
 
@@ -4770,7 +4780,6 @@ function simplifyExperts340(){
 
 function refresh340(){
  updateHero340();
- simulate340();
  ensureTraj340();
  renderTraj340();
  simplifyExperts340();
@@ -4806,7 +4815,7 @@ function ensureTrajArea(){if($id('trajectoryCharts342'))return;let area=document
 function chart(id,series,scale10){let c=$id(id);if(!c)return;let ctx=c.getContext('2d'),w=c.width,h=c.height,pad=50;ctx.clearRect(0,0,w,h);ctx.fillStyle='#fff';ctx.fillRect(0,0,w,h);ctx.strokeStyle='#d7e1e5';for(let y=0;y<=100;y+=25){let py=h-pad-(y/100)*(h-2*pad);ctx.beginPath();ctx.moveTo(pad,py);ctx.lineTo(w-pad,py);ctx.stroke();ctx.fillStyle='#64748b';ctx.font='10px sans-serif';ctx.fillText(String(y),18,py+3);}let colors=['#256b72','#c2413a','#2f855a','#c88a1d','#6d5bd','#475569'];series.forEach((s,si)=>{let data=s.data||[];if(!data.length)return;ctx.beginPath();let started=false;data.forEach((v,i)=>{if(v==null)return;let vv=scale10?v*10:v,x=pad+(i/Math.max(1,data.length-1))*(w-2*pad),yy=h-pad-(Math.max(0,Math.min(100,vv))/100)*(h-2*pad);if(!started){ctx.moveTo(x,yy);started=true;}else ctx.lineTo(x,yy);});ctx.strokeStyle=colors[si%colors.length];ctx.lineWidth=2.5;ctx.stroke();ctx.fillStyle=colors[si%colors.length];ctx.font='11px sans-serif';ctx.fillText(s.name,pad+(si%3)*150,16+Math.floor(si/3)*14);});}
 function drawTraj(){let x=ensure();ensureTrajArea();let co=x.coupleTrajectory342||x.coupleTrajectory340||[],ca=x.casualHistory||[];chart('coupleTrajectoryCanvas342',[{name:'Peace',data:co.map(z=>z.peace)},{name:'Respect',data:co.map(z=>z.respect)},{name:'Teamwork',data:co.map(z=>z.teamwork)},{name:'Intimacy',data:co.map(z=>z.intimacy)}],false);chart('personalTrajectoryCanvas342',[{name:'Excitement',data:ca.map(z=>z.personalExcitement)},{name:'Peace',data:ca.map(z=>z.personalPeace)},{name:'Trust',data:ca.map(z=>z.personalTrust)},{name:'Energy',data:ca.map(z=>z.personalEnergyGain)}],true);chart('femaleTraitTrajectoryCanvas342',[{name:'Maturity',data:ca.map(z=>z.femaleEmotionalMaturity)},{name:'Builds up',data:ca.map(z=>z.femaleBuildsUp)},{name:'Gatekeeping',data:ca.map(z=>z.femaleGatekeeping)},{name:'Social media',data:ca.map(z=>z.femaleSocialMediaBehavior)}],true);chart('maleTraitTrajectoryCanvas342',[{name:'Plans',data:ca.map(z=>z.malePlansDates)},{name:'Motivation',data:ca.map(z=>z.maleMotivationPassion)},{name:'Safety',data:ca.map(z=>z.maleSafeEnvironment)},{name:'Commitment',data:ca.map(z=>z.maleCommitmentClarity)}],true);}
 function diag(){let out=$id('diagnosticsOutput');if(!out)return;['diagExtra333','diagExtra334','diagExtra335'].forEach(id=>{let e=$id(id);if(e)e.classList.add('diagnosticStale342');});let extra=$id('diagExtra342');if(!extra){out.insertAdjacentHTML('afterend','<div id="diagExtra342" class="analysisBox"></div>');extra=$id('diagExtra342');}let checks=[['issue banner present',!!$id('issueHero342')],['current issue selector present',!!$id('issueCardSelector')],['couple trajectory canvas present',!!$id('coupleTrajectoryCanvas342')],['personal trajectory canvas present',!!$id('personalTrajectoryCanvas342')],['female trait trajectory canvas present',!!$id('femaleTraitTrajectoryCanvas342')],['male trait trajectory canvas present',!!$id('maleTraitTrajectoryCanvas342')],['positive translation support active',true]];extra.innerHTML='<h3>Expanded diagnostics v3.4.2</h3>'+checks.map(([n,ok])=>`<div class="${ok?'diagnosticPass':'diagnosticFail'}"><b>${ok?'PASS':'FAIL'}:</b> ${esc(n)}</div>`).join('');}
-function refresh(){patchModal();updateHero();renderPositive();forceTraj();drawTraj();diag();}
+function refresh(){patchModal();updateHero();renderPositive();drawTraj();diag();}
 let oldR=window.renderRepairCockpit;if(oldR&&!window.__render342){window.__render342=true;window.renderRepairCockpit=function(){let r=oldR();setTimeout(refresh,120);setTimeout(refresh,500);return r;};}
 let oldS=window.safeUpdate;if(oldS&&!window.__safe342){window.__safe342=true;window.safeUpdate=function(){let r=oldS();setTimeout(refresh,120);return r;};}
 let oldT=window.renderTranslation331;if(oldT&&!window.__trans342){window.__trans342=true;window.renderTranslation331=function(){let r=oldT();setTimeout(refresh,80);return r;};}
@@ -5831,13 +5840,14 @@ function openBond367(){
  body.innerHTML=[
   '<div class="issueWizardGrid bondWizard367">',
   '<div class="bondExplainer367" style="grid-column:1/-1">',
-  '<b>Dopamine vs oxytocin</b>',
-  '<p>Dopamine means activation: pursuit, novelty, anticipation, risk, excitement, chemistry, and heart-rate energy. Oxytocin means bonding: calm after touch, safety, warmth, trust, cuddling, and the settled feeling after closeness.</p>',
+  '<b>Excitement vs settled warmth</b>',
+  '<p>Rate both feelings below to calculate a balance, or move the percentage slider to give your own estimate. These are subjective experiences, not measured hormone levels.</p>',
   '</div>',
-  '<label style="grid-column:1/-1">Dopamine percent <span id="bondDopamineVal367">'+v.dopamine+'</span>% / Oxytocin <span id="bondOxytocinVal367">'+v.oxytocin+'</span>%<input id="bondDopamineInput367" type="range" min="0" max="100" value="'+v.dopamine+'"></label>',
+  '<label style="grid-column:1/-1">Your estimate: excitement <span id="bondDopamineVal367">'+v.dopamine+'</span>% / settled warmth <span id="bondOxytocinVal367">'+v.oxytocin+'</span>%<input id="bondDopamineInput367" type="range" min="0" max="100" value="'+v.dopamine+'"></label>',
   slider367('bondActivationInput367','Heart-rate activation',v.activation,'Thrill, anticipation, chase, sexual charge, novelty, or nervous-system activation.',0,10),
   slider367('bondAfterglowInput367','Bonding afterglow',v.afterglow,'Calm, warmth, safety, cuddling, trust, and feeling better after contact.',0,10),
   '<label style="grid-column:1/-1">Interaction note<textarea id="bondNoteInput367" placeholder="Example: exciting date, calm hug after conflict, anxious chemistry, settled morning together..."></textarea></label>',
+  '<p id="bondInputStatus367" class="small" style="grid-column:1/-1">Move the percentage slider, or rate both feelings, before saving.</p>',
   '</div>'
  ].join('');
  const d=b367('bondDopamineInput367'),a=b367('bondActivationInput367'),o=b367('bondAfterglowInput367');
@@ -5848,15 +5858,18 @@ function openBond367(){
   if(a)b367('bondActivationInput367_val').textContent=a.value;
   if(o)b367('bondAfterglowInput367_val').textContent=o.value;
  }
- [d,a,o].forEach(x=>x&&(x.oninput=sync));
+ [d,a,o].forEach(x=>x&&(x.oninput=()=>{x.dataset.touched='1';sync();}));
  b367('bondChemistryOverlay367')?.classList.remove('hidden');
 }
 function saveBond367(){
  const p=ensure367();
  if(!p)return;
- const dopamine=clamp367(b367('bondDopamineInput367')?.value??50);
- const activation=Number(b367('bondActivationInput367')?.value??5);
- const afterglow=Number(b367('bondAfterglowInput367')?.value??5);
+ const manual=b367('bondDopamineInput367'),activationInput=b367('bondActivationInput367'),afterglowInput=b367('bondAfterglowInput367');
+ const manualRated=manual?.dataset.touched==='1',feelingsRated=activationInput?.dataset.touched==='1'&&afterglowInput?.dataset.touched==='1';
+ if(!manualRated&&!feelingsRated){const status=b367('bondInputStatus367');if(status)status.textContent='Rate both feelings or move your percentage estimate before saving.';return;}
+ const activation=activationInput?.dataset.touched==='1'?Number(activationInput.value):null;
+ const afterglow=afterglowInput?.dataset.touched==='1'?Number(afterglowInput.value):null;
+ const dopamine=manualRated?clamp367(manual.value):Math.round(activation/(activation+afterglow||1)*100);
  const note=String(b367('bondNoteInput367')?.value||'').trim();
  const entry={created:new Date().toISOString(),dopamine,oxytocin:100-dopamine,activation,afterglow,note};
  p.bondChemistry367={...(p.bondChemistry367||{}),dopamine,activation,afterglow};

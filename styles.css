@@ -1064,12 +1064,6 @@ input.meaningfulRange368.rangeRisk368{--track-a:var(--slider-risk)}input.meaning
 .dashboardHeading420 h2{margin:3px 0;font-size:22px;line-height:1.2;color:#17383d}
 .dashboardHeading420 p,.dashboardLongTerm420 p{margin:0;color:#617277;font-size:12px}
 .dashboardHeading420 button{white-space:nowrap}
-.stageLine420{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:#d7e4e3;border:1px solid #d7e4e3;border-radius:6px;overflow:hidden}
-.stageLine420>div{display:grid;grid-template-columns:30px 1fr;column-gap:8px;padding:10px;background:#fff}
-.stageLine420 span{grid-row:1/3;display:grid;place-items:center;width:29px;height:29px;border-radius:50%;background:#dff2ed;color:#075c52;font-size:11px;font-weight:850}
-.stageLine420 b{font-size:12px;color:#244449}
-.stageLine420 small{font-size:10px;color:#65787b}
-.stageLine420 .stageLater420 span{background:#eef2f2;color:#76898c}
 .dashboardSignals420{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
 .signalRead420{min-width:0;display:grid;gap:4px;border:1px solid #d8e4e3;border-left:4px solid #93abb0;border-radius:5px;background:#f9fbfb;padding:10px}
 .signalRead420.good{border-left-color:#15806b;background:#f2faf6}.signalRead420.concern{border-left-color:#c96557;background:#fff8f6}.signalRead420.unclear{border-left-color:#b89546;background:#fffcf5}
@@ -1107,4 +1101,43 @@ input.meaningfulRange368.rangeRisk368{--track-a:var(--slider-risk)}input.meaning
 .chartGalleryMain420 svg{display:block;width:100%;max-width:800px;height:auto}
 .chartGalleryMain420 p{font-size:11px;color:#697a7e}
 @media(max-width:760px){.dateSignalRow420{grid-template-columns:1fr}.datingDashboard420{padding:12px}.dashboardSignals420{grid-template-columns:1fr 1fr}.dashboardLongTerm420>div:nth-child(2){grid-template-columns:1fr 1fr}.chartGalleryBody420{grid-template-columns:1fr}.chartGalleryBody420 nav{display:flex;overflow:auto;border-right:0;border-bottom:1px solid #e0e9e8}.chartGalleryBody420 nav button{flex:0 0 auto}.chartGalleryMain420{padding:9px}}
-@media(max-width:480px){.dashboardHeading420{align-items:flex-start;flex-direction:column}.dashboardSignals420,.stageLine420,.dashboardLongTerm420>div:nth-child(2){grid-template-columns:1fr}.stageLine420>div{padding:8px}}
+@media(max-width:480px){.dashboardHeading420{align-items:flex-start;flex-direction:column}.dashboardSignals420,.dashboardLongTerm420>div:nth-child(2){grid-template-columns:1fr}}
+
+/* Live, input-backed relationship tracking. */
+.legacyGaugesHidden421{display:none!important}
+#relationshipTrends347{margin:10px 0 0!important;padding:15px!important;border-top:3px solid #247f78!important}
+#relationshipTrends347>h3{margin:0 0 10px;font-size:19px;color:#173b40}
+.liveTrendTabs421{display:flex;gap:5px;overflow-x:auto;padding:2px 0 10px;border-bottom:1px solid #dce7e6;scrollbar-width:thin}
+.liveTrendTabs421 button{flex:0 0 auto;min-height:35px;padding:7px 11px!important;border:1px solid #cbdcda!important;border-radius:5px!important;background:#f8fbfa!important;color:#446166!important;font-size:11px!important;font-weight:800!important}
+.liveTrendTabs421 button[aria-selected="true"]{background:#dff3ec!important;border-color:#73b6a6!important;color:#085c50!important}
+.liveTrendTools421{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:9px 0 3px}
+.liveTrendTools421 p{margin:0!important;color:#536b6f;font-size:11px;line-height:1.4}
+.liveTrendTools421 button{flex:0 0 auto;padding:7px 10px!important;font-size:11px!important}
+#liveTrendCount421{display:block;margin:1px 0 6px;color:#6b7b7e;font-size:10px}
+#relationshipTrends347 .trajectoryGroup347 .dualTrajectory342{display:block!important;margin:0!important}
+#relationshipTrends347 .outputCanvas{min-width:0;max-width:none!important;border:0!important;padding:4px 0!important;background:#fff!important}
+#relationshipTrends347 .outputCanvas[hidden],#relationshipTrends347 .trendDetails347[hidden],#liveDateChart421[hidden]{display:none!important}
+#relationshipTrends347 .outputCanvas h4{display:none!important}
+#relationshipTrends347 .outputCanvas canvas[hidden],#relationshipTrends347 .outputCanvas button[hidden]{display:none!important}
+#relationshipTrends347 .liveEmpty421{margin:4px 0 8px!important;padding:17px;border:1px dashed #bfd2d2;border-radius:5px;background:#f8fbfa;color:#536b6f;font-size:12px}
+#relationshipTrends347 canvas{display:block;width:100%!important;max-width:100%!important;height:auto!important;aspect-ratio:5/2;border:1px solid #e0e9e8;border-radius:5px}
+#liveDateChart421 svg{display:block;width:100%;max-height:340px}
+#liveDateChart421>button{margin-top:7px;padding:6px 9px!important;font-size:11px!important}
+#relationshipTrends347 #snapshotTimeline336{margin-top:10px}
+.dateFeelings420{margin-top:9px;border-top:1px solid #dbe7e5;padding-top:8px}
+.dateFeelings420 summary{color:#24575b;font-size:11px;font-weight:800;cursor:pointer}
+.dateFeelings420 p{margin:7px 0!important;line-height:1.4}
+.dateFeelings420>div{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+.dateFeelings420 label{font-size:11px;color:#35565a;font-weight:700}
+.dateFeelings420 select{width:100%;margin-top:3px!important;padding:6px!important;font-size:11px!important}
+.savedDates420{border-top:1px solid #e0e9e8;padding-top:8px}
+.savedDates420 summary{cursor:pointer;color:#24575b;font-size:12px;font-weight:800}
+.savedDates420>div{display:grid;gap:5px;margin-top:7px}
+.savedDates420>div>div{display:flex;justify-content:space-between;align-items:center;gap:9px;padding:6px 8px;border:1px solid #e0e9e8;border-radius:5px;background:#fafcfc}
+.savedDates420 span{min-width:0;display:grid;gap:2px}.savedDates420 b{font-size:11px;overflow-wrap:anywhere}.savedDates420 small{font-size:10px;color:#697a7e}
+.savedDates420 button{flex:0 0 auto;padding:5px 8px!important;font-size:10px!important}
+.liveBarGroup421{display:grid;gap:4px}.liveBarGroup421 h4{margin:0;font-size:12px;color:#244c53}.liveBarGroup421 p{margin:0 0 4px!important;font-size:10px;color:#65787b}
+.liveBar421{display:grid;grid-template-columns:minmax(125px,1fr) minmax(70px,2fr) 70px;align-items:center;gap:8px;padding:5px 0;border-top:1px solid #e4ebea}
+.liveBar421 b{font-size:10px;color:#405c60}.liveBar421>div{height:7px;border-radius:4px;background:#e4eceb;overflow:hidden}.liveBar421 i{display:block;height:100%;background:#28867b}
+.liveBar421 span,.liveBar421 strong{font-size:10px;color:#64787b;text-align:right}
+@media(max-width:620px){#relationshipTrends347{padding:10px!important}.liveTrendTools421{align-items:flex-start;flex-direction:column}.dateFeelings420>div{grid-template-columns:1fr}.liveBar421{grid-template-columns:minmax(90px,1fr) minmax(50px,1fr) 58px;gap:5px}}

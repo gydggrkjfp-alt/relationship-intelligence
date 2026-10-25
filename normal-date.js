@@ -26,6 +26,15 @@
   };
   let galleryItems = [];
   let galleryIndex = 0;
+  let editingDateId = null;
+  let legacyDateId = null;
+  const extraFields = [
+    ['attraction','Attraction / excitement'],
+    ['peace','Calm and trust'],
+    ['energy','Energy after contact'],
+    ['activation','Anticipation / activation'],
+    ['warmth','Warmth / settled connection']
+  ];
   const profile = () => {
     try {
       return typeof rcCurrentProfile === 'function' ? rcCurrentProfile() : currentProfile();
@@ -52,7 +61,12 @@
         [['good',field.good],['unclear',field.unclear],['concern',field.concern]].map(([value, text]) =>
           '<label><input type="radio" name="normalDate_' + field.key + '" value="' + value + '"' +
           (value === 'unclear' ? ' checked' : '') + '><span>' + text + '</span></label>').join('') +
-        '</div></div>').join('') + '</fieldset>');
+        '</div></div>').join('') +
+      '<details class="dateFeelings420"><summary>Optional: how you felt and bond chemistry</summary>' +
+      '<p>Rate only what you can judge. The first three feed Your Experience. The last two describe excitement versus calm connection; they are not hormone measurements.</p>' +
+      '<div>' + extraFields.map(([key,title]) => '<label>' + title + '<select id="dateExtra_' + key + '"><option value="">Not rated</option>' +
+        Array.from({length:11},(_,index) => '<option value="' + index + '">' + index + ' / 10</option>').join('') + '</select></label>').join('') +
+      '</div></details></fieldset>');
     const polarity = $('relSnapPolarity')?.closest('label');
     const aggrieved = $('relSnapAggrieved')?.closest('label');
     const recurrence = $('relSnapRecurrence')?.closest('label');
@@ -73,7 +87,7 @@
         story.closest('label').firstChild.textContent = normal ? 'How did it feel? ' : 'Story / interpretation ';
         story.placeholder = normal ? 'Optional: anything you want to remember before the next date.' : 'What did it seem to mean?';
       }
-      if (save) save.textContent = normal ? 'Save date and open Workspace' : 'Save event and open Workspace';
+      if (save) save.textContent = normal ? (editingDateId ? 'Update date and open Workspace' : 'Save date and open Workspace') : 'Save event and open Workspace';
     };
     category.addEventListener('change', update);
     $('relSnapProfile')?.addEventListener('change', () => {
@@ -96,15 +110,24 @@
     state.currentId = p.id;
     const signals = Object.fromEntries(fields.map(field =>
       [field.key, document.querySelector('input[name="normalDate_' + field.key + '"]:checked')?.value || 'unclear']));
+    const existing = editingDateId && (p.normalDates || []).find(item => item.id === editingDateId);
+    const ratings = Object.fromEntries(extraFields.map(([key]) => {
+      const raw = $('dateExtra_' + key)?.value;
+      return [key, raw === '' || raw == null ? null : Number(raw)];
+    }));
     const entry = {
-      id: typeof uid === 'function' ? uid() : String(Date.now()),
-      created: new Date().toISOString(),
+      id: existing?.id || (typeof uid === 'function' ? uid() : String(Date.now())),
+      created: existing?.created || (legacyDateId && p.snapshots?.find(item => item.id === legacyDateId)?.created) || new Date().toISOString(),
+      sourceSnapshotId: existing?.sourceSnapshotId || legacyDateId || null,
       event: $('relSnapEvent')?.value.trim() || '',
       story: $('relSnapStory')?.value.trim() || '',
-      ...signals
+      ...signals, ...ratings
     };
     p.normalDates ||= [];
-    p.normalDates.push(entry);
+    if (existing) p.normalDates[p.normalDates.indexOf(existing)] = entry;
+    else p.normalDates.push(entry);
+    editingDateId = null;
+    legacyDateId = null;
     persist();
     $('relationshipSnapshotOverlay')?.classList.add('hidden');
     if (typeof fillForm === 'function') fillForm();
@@ -122,6 +145,8 @@
     if (open) {
       event.preventDefault();
       event.stopImmediatePropagation();
+      editingDateId = null;
+      legacyDateId = null;
       openRelationshipSnapshot332();
       enhanceSnapshot();
       return;
@@ -132,6 +157,43 @@
       event.stopImmediatePropagation();
       saveNormalDate();
     }
+  }
+
+  function editNormalDate(id) {
+    const p = profile();
+    const entry = (p?.normalDates || []).find(item => item.id === id);
+    if (!entry) return;
+    editingDateId = id;
+    openRelationshipSnapshot332();
+    enhanceSnapshot();
+    $('relSnapProfile').value = p.id;
+    $('relSnapProfile').dispatchEvent(new Event('change'));
+    $('relSnapIssueType').value = 'Normal Date';
+    $('relSnapIssueType').dispatchEvent(new Event('change'));
+    $('relSnapEvent').value = entry.event || '';
+    $('relSnapStory').value = entry.story || '';
+    fields.forEach(field => {
+      const input = document.querySelector('input[name="normalDate_' + field.key + '"][value="' + (entry[field.key] || 'unclear') + '"]');
+      if (input) input.checked = true;
+    });
+    extraFields.forEach(([key]) => { $('dateExtra_' + key).value = entry[key] == null ? '' : String(entry[key]); });
+    $('saveRelationshipSnapshotBtn').textContent = 'Update date and open Workspace';
+  }
+
+  function rateLegacyDate(id) {
+    const p = profile();
+    const entry = (p?.snapshots || []).find(item => item.id === id);
+    if (!entry) return;
+    editingDateId = null;
+    legacyDateId = id;
+    openRelationshipSnapshot332();
+    enhanceSnapshot();
+    $('relSnapProfile').value = p.id;
+    $('relSnapProfile').dispatchEvent(new Event('change'));
+    $('relSnapIssueType').value = 'Normal Date';
+    $('relSnapIssueType').dispatchEvent(new Event('change'));
+    $('relSnapEvent').value = entry.note || entry.label || '';
+    $('relSnapStory').value = entry.story || '';
   }
 
   function signalRead(entry, field) {
@@ -169,7 +231,7 @@
   }
 
   function measure(p, key, title) {
-    const value = p?.coupleQualities?.[key];
+    const value = p?.coupleQualitiesHistory?.at(-1)?.[key];
     if (value == null) return '<div class="coupleMeasure420"><b>' + title + '</b><span>Not rated</span></div>';
     const percent = Math.max(0,Math.min(100,Number(value)*10));
     return '<div class="coupleMeasure420"><b>' + title + '</b><div class="coupleTrack420"><i style="width:' +
@@ -206,22 +268,29 @@
       state?.profiles?.find(item => item.id === state.currentId) || profile();
     const recent = latest(p);
     const count = p?.normalDates?.length || 0;
-    const hasCouple = !!(p?.coupleQualities && Object.keys(p.coupleQualities).length);
+    const earlierDates = (p?.snapshots || []).filter(item =>
+      /\bdate\b/i.test([item.label,item.note,item.domain].filter(Boolean).join(' ')) &&
+      !(p.normalDates || []).some(date => date.sourceSnapshotId === item.id));
+    const hasCouple = !!p?.coupleQualitiesHistory?.length;
     const summary = recent ? new Date(recent.created).toLocaleDateString(undefined,{month:'short',day:'numeric',year:'numeric'}) : 'No date logged yet';
     const compact = $('workspaceCompactSummary346')?.querySelector('span');
     const realIssue = (p?.issues || []).some(issue =>
-      issue.title !== 'Current relationship issue' || issue.event !== 'No event entered yet.');
+      !['Current relationship issue','Untitled issue'].includes(issue.title) &&
+      !!issue.event && issue.event !== 'No event entered yet.');
     if (compact && recent && !realIssue) compact.textContent = 'Latest date: ' + summary;
     target.innerHTML =
       '<div class="dashboardHeading420"><div><span>Relationship dashboard</span><h2>' + escape(p?.name || 'Your relationship') +
       '</h2><p>Latest date: ' + summary + ' · ' + count + ' check-in' + (count === 1 ? '' : 's') +
       '</p></div><button id="logNormalDate420" type="button">Log a date</button></div>' +
-      '<div class="stageLine420"><div class="stageCurrent420"><span>01</span><b>Getting to know each other</b><small>Dates, pacing, interest, conversation</small></div>' +
-      '<div class="' + (hasCouple ? 'stageCurrent420' : 'stageLater420') +
-      '"><span>02</span><b>Building a relationship</b><small>Peace, respect, repair, shared life</small></div></div>' +
       '<div class="dashboardSignals420">' + fields.map(field => signalRead(recent,field)).join('') + '</div>' +
-      '<div class="dashboardChart420"><div><h3>Normal Date trends</h3><button id="openDateChart420" type="button" class="secondary">Explore charts</button></div>' +
-      chartSvg(p) + '</div>' +
+      (count ? '<details class="savedDates420"><summary>Saved dates (' + count + ')</summary><div>' +
+        (p.normalDates || []).slice().reverse().map(entry => '<div><span><b>' + escape(entry.event || 'Normal Date') + '</b><small>' +
+          escape(new Date(entry.created).toLocaleDateString()) + '</small></span><button type="button" class="secondary" data-edit-date="' + escape(entry.id) + '">Edit</button></div>').join('') +
+        '</div></details>' : '') +
+      (earlierDates.length ? '<details class="savedDates420"><summary>Earlier date events (' + earlierDates.length + ') need ratings</summary><div>' +
+        earlierDates.map(entry => '<div><span><b>' + escape(entry.label || entry.note || 'Date') + '</b><small>' +
+          escape(new Date(entry.created).toLocaleDateString()) + '</small></span><button type="button" class="secondary" data-rate-date="' + escape(entry.id) + '">Rate this date</button></div>').join('') +
+        '</div></details>' : '') +
       '<div class="dashboardLongTerm420"><div><h3>Relationship measures</h3><p>' +
       (hasCouple ? 'Your current couple-level read.' : 'These become useful once you are building a shared life.') +
       '</p></div><div>' +
@@ -232,12 +301,19 @@
       '</div><button id="editCoupleFromDashboard420" type="button" class="secondary">' +
       (hasCouple ? 'Update couple measures' : 'Start couple measures') + '</button></div>';
     $('logNormalDate420').onclick = () => {
+      editingDateId = null;
+      legacyDateId = null;
       openRelationshipSnapshot332();
       enhanceSnapshot();
       $('relSnapIssueType').value = 'Normal Date';
       $('relSnapIssueType').dispatchEvent(new Event('change'));
     };
-    $('openDateChart420').onclick = () => openGallery('normal-date');
+    target.querySelectorAll('[data-edit-date]').forEach(button => {
+      button.onclick = () => editNormalDate(button.dataset.editDate);
+    });
+    target.querySelectorAll('[data-rate-date]').forEach(button => {
+      button.onclick = () => rateLegacyDate(button.dataset.rateDate);
+    });
     $('editCoupleFromDashboard420').onclick = () => $('openSliderWizardBtn')?.click();
   }
 
@@ -245,6 +321,7 @@
     const canvases = [...document.querySelectorAll('#repairCockpitView canvas, #meView canvas, #personView canvas')];
     const items = [{id:'normal-date',title:'Normal Date trends',kind:'svg'}];
     canvases.forEach(canvas => {
+      if (canvas.closest('.legacyGaugesHidden421')) return;
       if (!canvas.id || canvas.width < 150 || canvas.height < 100) return;
       const title = titles[canvas.id] || canvas.closest('.outputCanvas,.workspaceSection')?.querySelector('h3,h4')?.textContent?.trim() || 'Chart';
       items.push({id:canvas.id,title,kind:'canvas'});
@@ -311,6 +388,8 @@
   }
 
   function init() {
+    window.riDateChartSvg420 = chartSvg;
+    window.riOpenChartGallery420 = openGallery;
     document.addEventListener('click',captureSnapshotButtons,true);
     ensureDashboard();
     ensureGallery();

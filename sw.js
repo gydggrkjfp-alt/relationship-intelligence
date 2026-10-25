@@ -1,13 +1,14 @@
-const CACHE='relationship-intelligence-v420-normal-date';
+const CACHE='relationship-intelligence-v421-live-metrics';
 const ASSETS=[
   './',
   './index.html',
-  './styles.css?v=420-normal-date',
-  './expert-engine.js?v=420-normal-date',
-  './coach-router.js?v=420-normal-date',
-  './coach-database.js?v=420-normal-date',
-  './app.js?v=420-normal-date',
-  './normal-date.js?v=420-normal-date',
+  './styles.css?v=421-live-metrics',
+  './expert-engine.js?v=421-live-metrics',
+  './coach-router.js?v=421-live-metrics',
+  './coach-database.js?v=421-live-metrics',
+  './app.js?v=421-live-metrics',
+  './normal-date.js?v=421-live-metrics',
+  './live-metrics.js?v=421-live-metrics',
   './manifest.json'
 ];
 
@@ -27,7 +28,7 @@ self.addEventListener('activate',event=>{
 self.addEventListener('fetch',event=>{
   const requestUrl=new URL(event.request.url);
   if(requestUrl.pathname.endsWith('/app.js')){
-    event.respondWith(fetch(event.request).catch(()=>caches.match('./app.js?v=420-normal-date')));
+    event.respondWith(fetch(event.request).catch(()=>caches.match('./app.js?v=421-live-metrics')));
     return;
   }
   event.respondWith(caches.match(event.request).then(response=>response||fetch(event.request)));
