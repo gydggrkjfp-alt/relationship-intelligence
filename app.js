@@ -5492,12 +5492,40 @@ function adjustProfileSliders358(p,s,nextEffect){
 }
 function renderEventTimeline358(openIndex){
  const el=$358('snapshotTimelineBody336'),p=profile358();if(!el||!p)return;
- const snaps=(p.snapshots||[]).map((s,index)=>({s,index})).sort((a,b)=>new Date(b.s.created||0)-new Date(a.s.created||0));
- if(!snaps.length){el.innerHTML='<p class="small">No events recorded yet.</p>';return;}
- el.innerHTML=`<div class="eventEvidenceList358">${snaps.map(({s,index},order)=>{
+ const dates=p.normalDates||[],converted=new Set(dates.map(d=>d.sourceSnapshotId).filter(Boolean));
+ const entries=[
+  ...(p.snapshots||[]).map((s,index)=>({kind:String(s.label||'').trim().toLowerCase()==='date'?'legacy-date':'event',s,index})).filter(({s})=>!converted.has(s.id)),
+  ...dates.map((date,index)=>({kind:'date',date,index}))
+ ].sort((a,b)=>new Date((b.s||b.date).created||0)-new Date((a.s||a.date).created||0));
+ if(!entries.length){el.innerHTML='<p class="small">No events or dates recorded yet.</p>';return;}
+ const dateRead=value=>value==='good'?'Looking good':value==='concern'?'Needs attention':'Still learning';
+ const dateRating=(label,value)=>value==null?'':`<span>${esc358(label)} ${Math.round(Number(value))}/10</span>`;
+ el.innerHTML=`<div class="eventEvidenceList358">${entries.map((item,order)=>{
+  if(item.kind==='legacy-date'){
+   const s=item.s;
+   return `<details class="eventEvidence358 dateEvidence358" ${order===0?'open':''}>
+    <summary><span class="eventDot358"></span><span class="eventSummary358"><b>${esc358(s.note||'Date')}</b><span>${esc358(shortDate358(s.created))}</span></span><span class="eventState358">Date</span><span class="eventScores358">Not rated</span></summary>
+    <div class="eventDetails358"><div class="eventRecap358"><div><b>What happened</b><p>${esc358(s.note||'No recap recorded.')}</p></div>${s.story?`<div><b>How it felt</b><p>${esc358(s.story)}</p></div>`:''}</div>
+     <button type="button" class="secondary" data-rate-timeline-date358="${esc358(s.id)}">Add date ratings</button>
+    </div>
+   </details>`;
+  }
+  if(item.kind==='date'){
+   const d=item.date,signals=[['Pacing',d.pacing],['Mutual interest',d.interest],['Between-date conversation',d.betweenDates]];
+   const ratings=[['Attraction',d.attraction],['Calm / trust',d.peace],['Energy',d.energy],['Activation',d.activation],['Settled warmth',d.warmth]];
+   return `<details class="eventEvidence358 dateEvidence358" data-date-index358="${item.index}" ${order===0?'open':''}>
+    <summary><span class="eventDot358"></span><span class="eventSummary358"><b>${esc358(d.event||'Normal Date')}</b><span>${esc358(shortDate358(d.created))}</span></span><span class="eventState358">Date</span><span class="eventScores358">${esc358(dateRead(d.interest))}</span></summary>
+    <div class="eventDetails358"><div class="eventRecap358"><div><b>What happened</b><p>${esc358(d.event||'No recap recorded.')}</p></div>${d.story?`<div><b>How it felt</b><p>${esc358(d.story)}</p></div>`:''}</div>
+     <div class="dateEvidenceSignals358">${signals.map(([label,value])=>`<span><b>${esc358(label)}:</b> ${esc358(dateRead(value))}</span>`).join('')}</div>
+     ${ratings.some(([,value])=>value!=null)?`<div class="dateEvidenceRatings358">${ratings.map(([label,value])=>dateRating(label,value)).join('')}</div>`:''}
+     <button type="button" class="secondary" data-edit-timeline-date358="${esc358(d.id)}">Edit date check-in</button>
+    </div>
+   </details>`;
+  }
+  const {s,index}=item;
   const pol=polarity358(s),follow=s.followUp358||{},status=follow.status||(pol==='positive'?'unreviewed':'ongoing'),traits=s.traits358||[],recap=s.eventSummary||s.note||s.event||'No event recap was recorded.',context=s.story||'',resolution=follow.note||s.resolution||'';
   return `<details class="eventEvidence358 ${pol}" data-event-index358="${index}" ${(openIndex===index||openIndex===undefined&&order===0)?'open':''}>
-   <summary><span class="eventDot358"></span><span class="eventSummary358"><b>${esc358(s.title||s.domain||'Relationship event')}</b><span>${esc358(shortDate358(s.created,s.label))}</span></span><span class="eventState358 ${esc358(status)}">${esc358(statusLabel358(status))}</span><span class="eventScores358">P ${Math.round(Number(s.peace)||0)} · R ${Math.round(Number(s.respect)||0)}</span></summary>
+   <summary><span class="eventDot358"></span><span class="eventSummary358"><b>${esc358(s.title||s.label||s.domain||'Relationship event')}</b><span>${esc358(shortDate358(s.created))}</span></span><span class="eventState358 ${esc358(status)}">${esc358(statusLabel358(status))}</span><span class="eventScores358">P ${Math.round(Number(s.peace)||0)} · R ${Math.round(Number(s.respect)||0)}</span></summary>
    <div class="eventDetails358">
     <div class="eventRecap358"><div><b>Event recap</b><p>${esc358(recap)}</p></div>${context?`<div><b>Context recorded at the time</b><p>${esc358(context)}</p></div>`:''}${resolution?`<div><b>Follow-up evidence</b><p>${esc358(resolution)}</p></div>`:''}</div>
     <div class="eventReviewGrid358">
@@ -5522,6 +5550,8 @@ function saveFollowUp358(index){
  setTimeout(()=>{renderEventTimeline358(index);const statusEl=$358('status');if(statusEl)statusEl.textContent='Event follow-up saved. Relationship evidence updated.';},180);
 }
 document.addEventListener('click',e=>{const btn=e.target.closest?.('[data-save-event358]');if(btn)saveFollowUp358(Number(btn.dataset.saveEvent358));});
+document.addEventListener('click',e=>{const btn=e.target.closest?.('[data-edit-timeline-date358]');if(!btn)return;const match=[...document.querySelectorAll('#datingDashboard420 [data-edit-date]')].find(x=>x.dataset.editDate===btn.dataset.editTimelineDate358);match?.click();});
+document.addEventListener('click',e=>{const btn=e.target.closest?.('[data-rate-timeline-date358]');if(!btn)return;const match=[...document.querySelectorAll('#datingDashboard420 [data-rate-date]')].find(x=>x.dataset.rateDate===btn.dataset.rateTimelineDate358);match?.click();});
 if(typeof safeMetricSet==='function'&&!window.__eventMetrics358){window.__eventMetrics358=true;const oldSafe358=safeMetricSet;safeMetricSet=function(p){const m=oldSafe358(p),a=p?.eventAdjustment358||{};return {...m,peaceIndex:Math.max(0,Math.min(100,Math.round((m.peaceIndex||0)+(a.peace||0)))),respectIndex:Math.max(0,Math.min(100,Math.round((m.respectIndex||0)+(a.respect||0)))),repair:Math.max(0,Math.min(100,Math.round((m.repair||0)+(a.repair||0))))};};}
 if(typeof renderRcSourceStrip==='function'&&!window.__traits358){window.__traits358=true;const oldSource358=renderRcSourceStrip;renderRcSourceStrip=function(){const r=oldSource358();renderTraits358();return r;};}
 if(typeof renderRepairCockpit==='function'&&!window.__timeline358){window.__timeline358=true;const oldCockpit358=renderRepairCockpit;renderRepairCockpit=function(){const r=oldCockpit358();setTimeout(()=>renderEventTimeline358(),220);setTimeout(()=>renderEventTimeline358(),1050);return r;};}
